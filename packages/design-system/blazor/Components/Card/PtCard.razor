@@ -1,0 +1,91 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<div class="@GetCardClasses()" @attributes="AdditionalAttributes">
+    @if (Header != null)
+    {
+        <div class="card-header mb-4 pb-4 border-b border-neutral-200">
+            @Header
+        </div>
+    }
+    
+    <div class="card-body">
+        @ChildContent
+    </div>
+    
+    @if (Footer != null)
+    {
+        <div class="card-footer mt-4 pt-4 border-t border-neutral-200">
+            @Footer
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Card variant (visual style)
+    /// </summary>
+    [Parameter]
+    public CardVariant Variant { get; set; } = CardVariant.Default;
+
+    /// <summary>
+    /// Padding size
+    /// </summary>
+    [Parameter]
+    public CardPadding Padding { get; set; } = CardPadding.Medium;
+
+    /// <summary>
+    /// Header content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Header { get; set; }
+
+    /// <summary>
+    /// Body content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Footer content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetCardClasses()
+    {
+        var classes = new List<string>
+        {
+            "card",
+            "bg-neutral-0",
+            "rounded-lg"
+        };
+
+        // Variant styles
+        classes.Add(Variant switch
+        {
+            CardVariant.Default => "shadow-md",
+            CardVariant.Outlined => "border border-neutral-200",
+            CardVariant.Elevated => "shadow-xl",
+            _ => "shadow-md"
+        });
+
+        // Padding styles
+        classes.Add(Padding switch
+        {
+            CardPadding.None => "",
+            CardPadding.Small => "p-4",
+            CardPadding.Medium => "p-6",
+            CardPadding.Large => "p-8",
+            _ => "p-6"
+        });
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
+    }
+}

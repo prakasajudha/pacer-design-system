@@ -1,0 +1,13 @@
+{
+  "name": "blazor-build-tools",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./styles/input.css -o ./wwwroot/css/pertamina-design-system.css --minify",
+    "watch:css": "tailwindcss -i ./styles/input.css -o ./wwwroot/css/pertamina-design-system.css --watch"
+  },
+  "devDependencies": {
+    "@pacer-ui/tailwind-preset": "workspace:*",
+    "tailwindcss": "^3.4.0"
+  }
+}

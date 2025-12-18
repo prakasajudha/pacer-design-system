@@ -1,0 +1,21 @@
+packages:
+  # Design System Libraries
+  - 'packages/design-system/react'
+  - 'packages/design-system/vue'
+  - 'packages/design-system/tokens'
+  - 'packages/design-system/tailwind'
+  - 'packages/design-system/shared'
+  
+  # Storybook
+  - 'packages/storybook/react'
+  - 'packages/storybook/vue'
+  
+  # Web Documentation
+  - 'packages/web-docs/react-vue'
+  - 'packages/web-docs/blazor'
+  
+  # Templates
+  - 'packages/templates/react-vite'
+  - 'packages/templates/react-nextjs'
+  - 'packages/templates/vue-vite'
+  - 'packages/templates/vue-nuxt'

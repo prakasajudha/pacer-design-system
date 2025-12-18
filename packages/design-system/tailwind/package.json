@@ -1,0 +1,40 @@
+{
+  "name": "@pacer-ui/tailwind-preset",
+  "version": "1.0.0",
+  "description": "Shared Tailwind CSS preset for PACER (Pertamina Patra Niaga Components & Experience Resources)",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "tailwindcss",
+    "preset",
+    "design-system",
+    "pertamina"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@pacer-ui/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  }
+}

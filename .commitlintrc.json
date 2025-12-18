@@ -1,0 +1,36 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "chore",
+        "revert"
+      ]
+    ],
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "react",
+        "vue",
+        "blazor",
+        "tokens",
+        "tailwind",
+        "shared",
+        "storybook",
+        "docs",
+        "deps"
+      ]
+    ],
+    "subject-case": [2, "never", ["upper-case"]]
+  }
+}

@@ -1,0 +1,78 @@
+name: Deploy Documentation Sites
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Build Storybook React
+        run: pnpm --filter @pacer-ui/storybook-react build
+
+      - name: Build Storybook Vue
+        run: pnpm --filter @pacer-ui/storybook-vue build
+
+      - name: Build Web Docs React/Vue
+        run: pnpm --filter @pacer-ui/web-docs-react-vue build
+
+      - name: Build Web Docs Blazor
+        run: pnpm --filter @pacer-ui/web-docs-blazor build
+
+      - name: Organize output
+        run: |
+          mkdir -p dist
+          mkdir -p dist/storybook/react
+          mkdir -p dist/storybook/vue
+          mkdir -p dist/docs
+          mkdir -p dist/docs/blazor
+
+          cp -r packages/storybook/react/storybook-static/* dist/storybook/react/
+          cp -r packages/storybook/vue/storybook-static/* dist/storybook/vue/
+          cp -r packages/web-docs/react-vue/.vitepress/dist/* dist/docs/
+          cp -r packages/web-docs/blazor/.vitepress/dist/* dist/docs/blazor/
+
+          # Create index.html redirect
+          cat > dist/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>PACER Design System</title>
+            <meta http-equiv="refresh" content="0; url=/docs/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="/docs/">PACER Documentation</a>...</p>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          cname: pacer.yourdomain.com # Optional: Add custom domain

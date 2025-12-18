@@ -1,0 +1,145 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<button 
+    type="@Type"
+    class="@GetButtonClasses()"
+    disabled="@(Disabled || Loading)"
+    @onclick="OnClick"
+    @attributes="AdditionalAttributes">
+    
+    @if (Loading)
+    {
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    }
+    
+    @if (!Loading && StartIcon != null)
+    {
+        <span class="mr-2">@StartIcon</span>
+    }
+    
+    @ChildContent
+    
+    @if (!Loading && EndIcon != null)
+    {
+        <span class="ml-2">@EndIcon</span>
+    }
+</button>
+
+@code {
+    /// <summary>
+    /// Button variant (visual style)
+    /// </summary>
+    [Parameter]
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+
+    /// <summary>
+    /// Button size
+    /// </summary>
+    [Parameter]
+    public ButtonSize Size { get; set; } = ButtonSize.Medium;
+
+    /// <summary>
+    /// Full width button
+    /// </summary>
+    [Parameter]
+    public bool FullWidth { get; set; } = false;
+
+    /// <summary>
+    /// Loading state
+    /// </summary>
+    [Parameter]
+    public bool Loading { get; set; } = false;
+
+    /// <summary>
+    /// Disabled state
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    /// <summary>
+    /// Button type attribute
+    /// </summary>
+    [Parameter]
+    public string Type { get; set; } = "button";
+
+    /// <summary>
+    /// Icon before text
+    /// </summary>
+    [Parameter]
+    public RenderFragment? StartIcon { get; set; }
+
+    /// <summary>
+    /// Icon after text
+    /// </summary>
+    [Parameter]
+    public RenderFragment? EndIcon { get; set; }
+
+    /// <summary>
+    /// Button content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Click event callback
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string>
+        {
+            "btn",
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "font-medium",
+            "transition-all",
+            "focus:outline-none",
+            "focus:ring-2",
+            "focus:ring-offset-2",
+            "disabled:cursor-not-allowed",
+            "disabled:opacity-50"
+        };
+
+        // Variant styles
+        classes.Add(Variant switch
+        {
+            ButtonVariant.Primary => "bg-brand-primary-500 text-neutral-0 hover:bg-brand-primary-600 focus:ring-brand-primary-300",
+            ButtonVariant.Secondary => "bg-brand-secondary-500 text-neutral-900 hover:bg-brand-secondary-600 focus:ring-brand-secondary-300",
+            ButtonVariant.Success => "bg-success-500 text-neutral-0 hover:bg-success-600 focus:ring-success-300",
+            ButtonVariant.Warning => "bg-warning-500 text-neutral-900 hover:bg-warning-600 focus:ring-warning-300",
+            ButtonVariant.Error => "bg-error-500 text-neutral-0 hover:bg-error-600 focus:ring-error-300",
+            ButtonVariant.Ghost => "bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-300",
+            ButtonVariant.Link => "bg-transparent text-brand-primary-500 hover:text-brand-primary-600 hover:underline focus:ring-brand-primary-300",
+            _ => "bg-brand-primary-500 text-neutral-0 hover:bg-brand-primary-600 focus:ring-brand-primary-300"
+        });
+
+        // Size styles
+        classes.Add(Size switch
+        {
+            ButtonSize.Small => "text-sm px-3 py-1.5 rounded",
+            ButtonSize.Medium => "text-base px-4 py-2 rounded-md",
+            ButtonSize.Large => "text-lg px-6 py-3 rounded-lg",
+            _ => "text-base px-4 py-2 rounded-md"
+        });
+
+        if (FullWidth)
+        {
+            classes.Add("w-full");
+        }
+
+        return string.Join(" ", classes);
+    }
+}

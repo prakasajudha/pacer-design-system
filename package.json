@@ -1,0 +1,46 @@
+{
+  "name": "pertamina-design-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PACER — Pertamina Patra Niaga Components & Experience Resources - Enterprise-grade design system for React, Vue, and Blazor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pertamina/design-system.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Pertamina Patra Niaga | IT Division",
+  "workspaces": [
+    "packages/design-system/*",
+    "packages/storybook/*",
+    "packages/web-docs/*",
+    "packages/templates/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "changeset": "changeset",
+    "version:bump": "changeset version",
+    "release": "turbo run build && changeset publish",
+    "storybook:react": "pnpm --filter @pacer-ui/storybook-react storybook",
+    "storybook:vue": "pnpm --filter @pacer-ui/storybook-vue storybook",
+    "docs:react-vue": "pnpm --filter @pacer-ui/web-docs-react-vue dev",
+    "docs:blazor": "pnpm --filter @pacer-ui/web-docs-blazor dev"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.0",
+    "prettier": "^3.2.4",
+    "turbo": "^1.12.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}
