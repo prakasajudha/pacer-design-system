@@ -29,7 +29,7 @@ The primary color palette is based on Pertamina's brand blue.
 --primary-200: #bfdbfe;
 --primary-300: #93c5fd;
 --primary-400: #60a5fa;
---primary-500: #005BAA;  /* Brand Color */
+--primary-500: #005baa; /* Brand Color */
 --primary-600: #004d91;
 --primary-700: #003f78;
 --primary-800: #00315f;
@@ -164,16 +164,16 @@ Consistent spacing scale for margins, padding, and gaps.
 
 Typography tokens for consistent text styling.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `text-xs` | 0.75rem (12px) | Extra small |
-| `text-sm` | 0.875rem (14px) | Small |
-| `text-base` | 1rem (16px) | Body text |
-| `text-lg` | 1.125rem (18px) | Large text |
-| `text-xl` | 1.25rem (20px) | Heading 4 |
-| `text-2xl` | 1.5rem (24px) | Heading 3 |
-| `text-3xl` | 1.875rem (30px) | Heading 2 |
-| `text-4xl` | 2.25rem (36px) | Heading 1 |
+| Token       | Value           | Usage       |
+| ----------- | --------------- | ----------- |
+| `text-xs`   | 0.75rem (12px)  | Extra small |
+| `text-sm`   | 0.875rem (14px) | Small       |
+| `text-base` | 1rem (16px)     | Body text   |
+| `text-lg`   | 1.125rem (18px) | Large text  |
+| `text-xl`   | 1.25rem (20px)  | Heading 4   |
+| `text-2xl`  | 1.5rem (24px)   | Heading 3   |
+| `text-3xl`  | 1.875rem (30px) | Heading 2   |
+| `text-4xl`  | 2.25rem (36px)  | Heading 1   |
 
 ```razor
 <h1 class="text-4xl font-bold">Large Heading</h1>

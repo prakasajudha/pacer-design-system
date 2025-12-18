@@ -128,20 +128,20 @@ Buttons are available in different sizes.
 
 ### React
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | Button style variant |
-| `size` | `'sm' \| 'default' \| 'lg' \| 'icon'` | `'default'` | Button size |
-| `disabled` | `boolean` | `false` | Whether the button is disabled |
-| `onClick` | `(event: MouseEvent) => void` | - | Click event handler |
+| Prop       | Type                                            | Default     | Description                    |
+| ---------- | ----------------------------------------------- | ----------- | ------------------------------ |
+| `variant`  | `'default' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | Button style variant           |
+| `size`     | `'sm' \| 'default' \| 'lg' \| 'icon'`           | `'default'` | Button size                    |
+| `disabled` | `boolean`                                       | `false`     | Whether the button is disabled |
+| `onClick`  | `(event: MouseEvent) => void`                   | -           | Click event handler            |
 
 ### Vue
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary' \| 'secondary' \| 'success' \| 'danger' \| 'warning' \| 'info' \| 'text'` | `'primary'` | Button style variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
-| `disabled` | `boolean` | `false` | Whether the button is disabled |
+| Prop       | Type                                                                                 | Default     | Description                    |
+| ---------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------ |
+| `variant`  | `'primary' \| 'secondary' \| 'success' \| 'danger' \| 'warning' \| 'info' \| 'text'` | `'primary'` | Button style variant           |
+| `size`     | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Button size                    |
+| `disabled` | `boolean`                                                                            | `false`     | Whether the button is disabled |
 
 ## Accessibility
 

@@ -1,16 +1,19 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <div class="color-palette">
     <h3>Primary Colors (Pertamina Blue)</h3>
     <div class="color-grid">
-      <div class="color-card" v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]" :key="shade">
-        <div 
-          class="color-swatch" 
-          :style="{ 
+      <div
+        class="color-card"
+        v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]"
+        :key="shade"
+      >
+        <div
+          class="color-swatch"
+          :style="{
             background: getColor('primary', shade),
-            color: shade >= 500 ? 'white' : '#111827'
+            color: shade >= 500 ? 'white' : '#111827',
           }"
         >
           {{ shade === 500 ? '500 ★' : shade }}
@@ -24,19 +27,19 @@
     <h3>Semantic Colors</h3>
     <div class="semantic-colors">
       <div class="color-row">
-        <div class="color-swatch large" style="background: #10b981; color: white;">
+        <div class="color-swatch large" style="background: #10b981; color: white">
           <strong>Success</strong>
           <code>#10b981</code>
         </div>
-        <div class="color-swatch large" style="background: #f59e0b; color: white;">
+        <div class="color-swatch large" style="background: #f59e0b; color: white">
           <strong>Warning</strong>
           <code>#f59e0b</code>
         </div>
-        <div class="color-swatch large" style="background: #ef4444; color: white;">
+        <div class="color-swatch large" style="background: #ef4444; color: white">
           <strong>Danger</strong>
           <code>#ef4444</code>
         </div>
-        <div class="color-swatch large" style="background: #3b82f6; color: white;">
+        <div class="color-swatch large" style="background: #3b82f6; color: white">
           <strong>Info</strong>
           <code>#3b82f6</code>
         </div>
@@ -45,13 +48,17 @@
 
     <h3>Neutral Colors</h3>
     <div class="color-grid">
-      <div class="color-card" v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]" :key="'gray-' + shade">
-        <div 
-          class="color-swatch" 
-          :style="{ 
+      <div
+        class="color-card"
+        v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]"
+        :key="'gray-' + shade"
+      >
+        <div
+          class="color-swatch"
+          :style="{
             background: getGrayColor(shade),
             color: shade >= 500 ? 'white' : '#111827',
-            border: shade <= 100 ? '1px solid #e5e7eb' : 'none'
+            border: shade <= 100 ? '1px solid #e5e7eb' : 'none',
           }"
         >
           {{ shade }}
@@ -79,8 +86,8 @@ export default {
           600: '#004d91',
           700: '#003f78',
           800: '#00315f',
-          900: '#002346'
-        }
+          900: '#002346',
+        },
       };
       return colors[name][shade];
     },
@@ -95,11 +102,11 @@ export default {
         600: '#4b5563',
         700: '#374151',
         800: '#1f2937',
-        900: '#111827'
+        900: '#111827',
       };
       return grays[shade];
-    }
-  }
+    },
+  },
 };
 </script>
 

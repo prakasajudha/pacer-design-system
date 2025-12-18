@@ -11,9 +11,7 @@ const handleClick = () => {
   <div class="button-demo">
     <h3>Interactive Demo</h3>
     <div class="demo-section">
-      <button class="btn btn-primary" @click="handleClick">
-        Click me ({{ clickCount }})
-      </button>
+      <button class="btn btn-primary" @click="handleClick">Click me ({{ clickCount }})</button>
     </div>
 
     <h3>Variants</h3>
@@ -28,7 +26,7 @@ const handleClick = () => {
     </div>
 
     <h3>Sizes</h3>
-    <div class="demo-section" style="align-items: center;">
+    <div class="demo-section" style="align-items: center">
       <button class="btn btn-primary btn-sm">Small</button>
       <button class="btn btn-primary btn-md">Medium</button>
       <button class="btn btn-primary btn-lg">Large</button>
@@ -94,7 +92,7 @@ const handleClick = () => {
 }
 
 .btn-primary {
-  background: #005BAA;
+  background: #005baa;
   color: white;
 }
 
@@ -149,7 +147,7 @@ const handleClick = () => {
 
 .btn-text {
   background: transparent;
-  color: #005BAA;
+  color: #005baa;
   padding: 0.5rem 0.75rem;
 }
 

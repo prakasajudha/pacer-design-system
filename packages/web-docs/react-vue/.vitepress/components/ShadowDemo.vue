@@ -12,7 +12,7 @@ const shadowTokens = [
   <div class="shadow-demo">
     <h3>Shadow Scale</h3>
     <p class="description">Elevation system for depth and visual hierarchy.</p>
-    
+
     <div class="shadow-grid">
       <div class="shadow-item" v-for="token in shadowTokens" :key="token.name">
         <div class="shadow-label">
@@ -29,28 +29,28 @@ const shadowTokens = [
     <div class="examples">
       <div class="example-grid">
         <div class="example-card">
-          <div class="demo-card" style="box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+          <div class="demo-card" style="box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05)">
             <h4>shadow-sm</h4>
             <p>Subtle card</p>
           </div>
         </div>
 
         <div class="example-card">
-          <div class="demo-card" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          <div class="demo-card" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)">
             <h4>shadow-md</h4>
             <p>Standard card</p>
           </div>
         </div>
 
         <div class="example-card">
-          <div class="demo-card" style="box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
+          <div class="demo-card" style="box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1)">
             <h4>shadow-lg</h4>
             <p>Elevated card</p>
           </div>
         </div>
 
         <div class="example-card">
-          <div class="demo-card" style="box-shadow: 0 20px 25px rgba(0,0,0,0.15);">
+          <div class="demo-card" style="box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15)">
             <h4>shadow-xl</h4>
             <p>Modal card</p>
           </div>
@@ -171,7 +171,7 @@ const shadowTokens = [
 .demo-card h4 {
   margin: 0 0 0.5rem;
   font-size: 0.875rem;
-  color: #005BAA;
+  color: #005baa;
   font-weight: 600;
 }
 

@@ -87,17 +87,17 @@ Buttons are available in different sizes.
 
 ## Properties
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `Variant` | `ButtonVariant` | `Primary` | Button style variant |
-| `Size` | `ButtonSize` | `Medium` | Button size |
-| `Disabled` | `bool` | `false` | Whether the button is disabled |
-| `Loading` | `bool` | `false` | Shows loading state |
-| `FullWidth` | `bool` | `false` | Makes button full width |
-| `Type` | `string` | `"button"` | HTML button type |
-| `OnClick` | `EventCallback` | - | Click event handler |
-| `ChildContent` | `RenderFragment` | - | Button content |
-| `Class` | `string` | `""` | Additional CSS classes |
+| Property       | Type             | Default    | Description                    |
+| -------------- | ---------------- | ---------- | ------------------------------ |
+| `Variant`      | `ButtonVariant`  | `Primary`  | Button style variant           |
+| `Size`         | `ButtonSize`     | `Medium`   | Button size                    |
+| `Disabled`     | `bool`           | `false`    | Whether the button is disabled |
+| `Loading`      | `bool`           | `false`    | Shows loading state            |
+| `FullWidth`    | `bool`           | `false`    | Makes button full width        |
+| `Type`         | `string`         | `"button"` | HTML button type               |
+| `OnClick`      | `EventCallback`  | -          | Click event handler            |
+| `ChildContent` | `RenderFragment` | -          | Button content                 |
+| `Class`        | `string`         | `""`       | Additional CSS classes         |
 
 ## ButtonVariant Enum
 
@@ -132,9 +132,9 @@ public enum ButtonSize
 ```razor
 <EditForm Model="@model" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
-    
+
     <PtInput @bind-Value="model.Name" Label="Name" />
-    
+
     <PtButton Type="submit" Variant="ButtonVariant.Primary">
         Submit Form
     </PtButton>
@@ -142,7 +142,7 @@ public enum ButtonSize
 
 @code {
     private FormModel model = new();
-    
+
     private void HandleSubmit()
     {
         // Handle form submission

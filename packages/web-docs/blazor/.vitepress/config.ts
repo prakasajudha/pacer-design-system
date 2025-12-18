@@ -32,9 +32,7 @@ export default defineConfig({
       },
       {
         text: 'Design Tokens',
-        items: [
-          { text: 'Overview', link: '/tokens' },
-        ],
+        items: [{ text: 'Overview', link: '/tokens' }],
       },
       {
         text: 'Resources',

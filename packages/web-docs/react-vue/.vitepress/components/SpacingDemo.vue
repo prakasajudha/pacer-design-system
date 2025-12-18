@@ -17,7 +17,7 @@ const spacingTokens = [
   <div class="spacing-demo">
     <h3>Spacing Scale</h3>
     <p class="description">Consistent spacing tokens for margins, padding, and gaps.</p>
-    
+
     <div class="spacing-grid">
       <div class="spacing-item" v-for="token in spacingTokens" :key="token.name">
         <div class="spacing-label">
@@ -35,14 +35,14 @@ const spacingTokens = [
     <div class="examples">
       <div class="example-card">
         <div class="example-title">Card with spacing-4 padding</div>
-        <div class="example-content" style="padding: 16px; background: #f3f4f6; border-radius: 8px;">
-          <p style="margin: 0;">This card uses <code>spacing-4 (16px)</code> for padding</p>
+        <div class="example-content" style="padding: 16px; background: #f3f4f6; border-radius: 8px">
+          <p style="margin: 0">This card uses <code>spacing-4 (16px)</code> for padding</p>
         </div>
       </div>
 
       <div class="example-card">
         <div class="example-title">Buttons with spacing-3 gap</div>
-        <div class="example-content" style="display: flex; gap: 12px;">
+        <div class="example-content" style="display: flex; gap: 12px">
           <button class="demo-btn">Button 1</button>
           <button class="demo-btn">Button 2</button>
           <button class="demo-btn">Button 3</button>
@@ -121,7 +121,7 @@ const spacingTokens = [
 }
 
 .spacing-box {
-  background: #005BAA;
+  background: #005baa;
   border-radius: 4px;
   transition: transform 0.2s;
 }
@@ -168,7 +168,7 @@ const spacingTokens = [
 
 .demo-btn {
   padding: 0.5rem 1rem;
-  background: #005BAA;
+  background: #005baa;
   color: white;
   border: none;
   border-radius: 6px;

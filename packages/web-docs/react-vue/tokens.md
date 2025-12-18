@@ -19,7 +19,7 @@ The primary color palette is based on Pertamina's brand blue.
 --color-primary-200: #bfdbfe;
 --color-primary-300: #93c5fd;
 --color-primary-400: #60a5fa;
---color-primary-500: #005BAA;  /* Brand Blue */
+--color-primary-500: #005baa; /* Brand Blue */
 --color-primary-600: #004d91;
 --color-primary-700: #003f78;
 --color-primary-800: #00315f;
@@ -224,9 +224,7 @@ const primaryColor = tokens.colors.primary[500]; // '#005BAA'
 ### In Tailwind
 
 ```html
-<div class="bg-primary-500 text-white">
-  Pertamina Blue Background
-</div>
+<div class="bg-primary-500 text-white">Pertamina Blue Background</div>
 ```
 
 ## Spacing
@@ -237,18 +235,18 @@ const primaryColor = tokens.colors.primary[500]; // '#005BAA'
 
 Typography tokens for consistent text styling.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `font-sans` | Inter, sans-serif | Body text |
-| `font-mono` | 'Fira Code', monospace | Code blocks |
-| `text-xs` | 12px | Extra small text |
-| `text-sm` | 14px | Small text |
-| `text-base` | 16px | Body text |
-| `text-lg` | 18px | Large text |
-| `text-xl` | 20px | Heading 4 |
-| `text-2xl` | 24px | Heading 3 |
-| `text-3xl` | 30px | Heading 2 |
-| `text-4xl` | 36px | Heading 1 |
+| Token       | Value                  | Usage            |
+| ----------- | ---------------------- | ---------------- |
+| `font-sans` | Inter, sans-serif      | Body text        |
+| `font-mono` | 'Fira Code', monospace | Code blocks      |
+| `text-xs`   | 12px                   | Extra small text |
+| `text-sm`   | 14px                   | Small text       |
+| `text-base` | 16px                   | Body text        |
+| `text-lg`   | 18px                   | Large text       |
+| `text-xl`   | 20px                   | Heading 4        |
+| `text-2xl`  | 24px                   | Heading 3        |
+| `text-3xl`  | 30px                   | Heading 2        |
+| `text-4xl`  | 36px                   | Heading 1        |
 
 ## Border Radius
 

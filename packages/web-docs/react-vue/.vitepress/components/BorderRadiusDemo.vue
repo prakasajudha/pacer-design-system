@@ -15,7 +15,7 @@ const radiusTokens = [
   <div class="radius-demo">
     <h3>Border Radius Scale</h3>
     <p class="description">Consistent border radius tokens for rounded corners.</p>
-    
+
     <div class="radius-grid">
       <div class="radius-item" v-for="token in radiusTokens" :key="token.name">
         <div class="radius-label">
@@ -23,8 +23,8 @@ const radiusTokens = [
           <span class="value">{{ token.value }}</span>
         </div>
         <div class="radius-visual">
-          <div 
-            class="radius-box" 
+          <div
+            class="radius-box"
             :style="{ borderRadius: token.value }"
             :class="{ 'full-radius': token.name === 'radius-full' }"
           ></div>
@@ -36,12 +36,12 @@ const radiusTokens = [
     <h3>Usage Examples</h3>
     <div class="examples">
       <div class="example-row">
-        <div class="example-card" style="border-radius: 6px;">
+        <div class="example-card" style="border-radius: 6px">
           <div class="example-title">Button (radius-md)</div>
-          <button class="demo-btn" style="border-radius: 6px;">Click Me</button>
+          <button class="demo-btn" style="border-radius: 6px">Click Me</button>
         </div>
 
-        <div class="example-card" style="border-radius: 12px;">
+        <div class="example-card" style="border-radius: 12px">
           <div class="example-title">Card (radius-xl)</div>
           <div class="demo-card">
             <h4>Card Title</h4>
@@ -49,7 +49,7 @@ const radiusTokens = [
           </div>
         </div>
 
-        <div class="example-card" style="border-radius: 16px;">
+        <div class="example-card" style="border-radius: 16px">
           <div class="example-title">Modal (radius-2xl)</div>
           <div class="demo-modal">
             <p>Modal content with radius-2xl (16px)</p>
@@ -60,7 +60,7 @@ const radiusTokens = [
       <div class="example-row">
         <div class="example-card">
           <div class="example-title">Badge (radius-full)</div>
-          <div style="display: flex; gap: 8px;">
+          <div style="display: flex; gap: 8px">
             <span class="demo-badge">New</span>
             <span class="demo-badge">Hot</span>
             <span class="demo-badge">Popular</span>
@@ -69,7 +69,7 @@ const radiusTokens = [
 
         <div class="example-card">
           <div class="example-title">Avatar (radius-full)</div>
-          <div style="display: flex; gap: 12px; align-items: center;">
+          <div style="display: flex; gap: 12px; align-items: center">
             <div class="demo-avatar">JD</div>
             <div class="demo-avatar">AB</div>
             <div class="demo-avatar">XY</div>
@@ -150,7 +150,7 @@ const radiusTokens = [
 .radius-box {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #005BAA 0%, #60a5fa 100%);
+  background: linear-gradient(135deg, #005baa 0%, #60a5fa 100%);
   transition: transform 0.2s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -197,7 +197,7 @@ const radiusTokens = [
 
 .demo-btn {
   padding: 0.5rem 1.5rem;
-  background: #005BAA;
+  background: #005baa;
   color: white;
   border: none;
   font-size: 0.875rem;
@@ -242,7 +242,7 @@ const radiusTokens = [
 .demo-badge {
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  background: #005BAA;
+  background: #005baa;
   color: white;
   border-radius: 9999px;
   font-size: 0.75rem;
@@ -252,7 +252,7 @@ const radiusTokens = [
 .demo-avatar {
   width: 48px;
   height: 48px;
-  background: #005BAA;
+  background: #005baa;
   color: white;
   border-radius: 9999px;
   display: flex;
