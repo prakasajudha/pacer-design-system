@@ -48,148 +48,682 @@ yarn add @pacer-ui/tokens
 
 ## Color Tokens
 
-### Primary Colors
+### Brand Colors
 
-Pertamina's brand colors.
+Pertamina's primary brand colors - a deep, professional blue.
 
-```css
-/* Pertamina Teal */
---color-primary-50: #e6f7f7;
---color-primary-100: #ccefee;
---color-primary-200: #99dfdd;
---color-primary-300: #66cfcc;
---color-primary-400: #33bfbb;
---color-primary-500: #00a19b; /* Main brand color */
---color-primary-600: #008a85;
---color-primary-700: #007570;
---color-primary-800: #005f5a;
---color-primary-900: #004a45;
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #E6F0FE; height: 48px; border-radius: 8px; border: 1px solid #E2E8F0;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">50</div>
+    <div style="font-size: 10px; color: #64748B;">#E6F0FE</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #D9E9FE; height: 48px; border-radius: 8px; border: 1px solid #E2E8F0;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">100</div>
+    <div style="font-size: 10px; color: #64748B;">#D9E9FE</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #B0D1FD; height: 48px; border-radius: 8px; border: 1px solid #E2E8F0;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">200</div>
+    <div style="font-size: 10px; color: #64748B;">#B0D1FD</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #016BF8; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">300</div>
+    <div style="font-size: 10px; color: #64748B;">#016BF8</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #0160DF; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">400</div>
+    <div style="font-size: 10px; color: #64748B;">#0160DF</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #0156C6; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">500</div>
+    <div style="font-size: 10px; color: #64748B;">#0156C6</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #0150BA; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">600</div>
+    <div style="font-size: 10px; color: #64748B;">#0150BA</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #014095; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">700</div>
+    <div style="font-size: 10px; color: #64748B;">#014095</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #003070; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">800</div>
+    <div style="font-size: 10px; color: #64748B;">#003070</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #002557; height: 48px; border-radius: 8px;"></div>
+    <div style="font-size: 12px; margin-top: 4px; font-weight: 500;">900</div>
+    <div style="font-size: 10px; color: #64748B;">#002557</div>
+  </div>
+</div>
+
+```ts
+const brand = {
+  50: '#E6F0FE',
+  100: '#D9E9FE',
+  200: '#B0D1FD',
+  300: '#016BF8',
+  400: '#0160DF',
+  500: '#0156C6', // Primary
+  600: '#0150BA',
+  700: '#014095',
+  800: '#003070',
+  900: '#002557',
+};
 ```
 
-**Usage:**
-::: code-group
+### Pertamina Official Colors
 
-```tsx [React]
-import { colors } from '@pacer-ui/tokens';
+The three official Pertamina brand colors.
 
-const primary = colors.primary[500]; // #00A19B
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #ED1B2F; height: 64px; border-radius: 8px;"></div>
+    <div style="font-size: 14px; margin-top: 8px; font-weight: 600;">Pertamina Red</div>
+    <div style="font-size: 12px; color: #64748B;">#ED1B2F</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #006CB8; height: 64px; border-radius: 8px;"></div>
+    <div style="font-size: 14px; margin-top: 8px; font-weight: 600;">Pertamina Blue</div>
+    <div style="font-size: 12px; color: #64748B;">#006CB8</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #ACC42A; height: 64px; border-radius: 8px;"></div>
+    <div style="font-size: 14px; margin-top: 8px; font-weight: 600;">Pertamina Green</div>
+    <div style="font-size: 12px; color: #64748B;">#ACC42A</div>
+  </div>
+</div>
+
+```ts
+const pertamina = {
+  red: '#ED1B2F',
+  blue: '#006CB8',
+  green: '#ACC42A',
+};
 ```
 
-```vue [Vue]
-import { colors } from '@pacer-ui/tokens'; const primary = colors.primary[500]; // #00A19B
-```
+### Base Colors
 
-```razor [Blazor]
-// In CSS or Tailwind config
-.bg-primary {
-  background-color: var(--color-primary-500);
-}
-```
-
-:::
-
-### Neutral Colors
-
-Grays for text, backgrounds, and borders.
-
-```css
---color-gray-50: #f9fafb;
---color-gray-100: #f3f4f6;
---color-gray-200: #e5e7eb;
---color-gray-300: #d1d5db;
---color-gray-400: #9ca3af;
---color-gray-500: #6b7280;
---color-gray-600: #4b5563;
---color-gray-700: #374151;
---color-gray-800: #1f2937;
---color-gray-900: #111827;
-```
-
-### Semantic Colors
-
-#### Success (Green)
-
-```css
---color-success-50: #f0fdf4;
---color-success-500: #10b981;
---color-success-600: #059669;
---color-success-700: #047857;
-```
-
-#### Error (Red)
-
-```css
---color-error-50: #fef2f2;
---color-error-500: #ef4444;
---color-error-600: #dc2626;
---color-error-700: #b91c1c;
-```
-
-#### Warning (Amber)
-
-```css
---color-warning-50: #fffbeb;
---color-warning-500: #f59e0b;
---color-warning-600: #d97706;
---color-warning-700: #b45309;
-```
-
-#### Info (Blue)
-
-```css
---color-info-50: #eff6ff;
---color-info-500: #3b82f6;
---color-info-600: #2563eb;
---color-info-700: #1d4ed8;
-```
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #FFFFFF; height: 64px; border-radius: 8px; border: 1px solid #E2E8F0;"></div>
+    <div style="font-size: 14px; margin-top: 8px; font-weight: 600;">White</div>
+    <div style="font-size: 12px; color: #64748B;">#FFFFFF</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #000000; height: 64px; border-radius: 8px;"></div>
+    <div style="font-size: 14px; margin-top: 8px; font-weight: 600;">Black</div>
+    <div style="font-size: 12px; color: #64748B;">#000000</div>
+  </div>
+</div>
 
 ---
 
-## Spacing Tokens
+## Gray Color Scales
 
-Consistent spacing scale based on 4px grid.
+We provide multiple gray scales for different aesthetic needs.
 
-```css
---spacing-0: 0;
---spacing-1: 0.25rem; /* 4px */
---spacing-2: 0.5rem; /* 8px */
---spacing-3: 0.75rem; /* 12px */
---spacing-4: 1rem; /* 16px */
---spacing-5: 1.25rem; /* 20px */
---spacing-6: 1.5rem; /* 24px */
---spacing-8: 2rem; /* 32px */
---spacing-10: 2.5rem; /* 40px */
---spacing-12: 3rem; /* 48px */
---spacing-16: 4rem; /* 64px */
---spacing-20: 5rem; /* 80px */
---spacing-24: 6rem; /* 96px */
-```
+### Slate
 
-**Usage:**
-::: code-group
+Professional gray tones with cool undertones, ideal for modern interfaces.
 
-```tsx [React]
-import { spacing } from '@pacer-ui/tokens';
-
-// Component with spacing
-<div style={{ padding: spacing[4], margin: spacing[2] }}>Content</div>;
-```
-
-```vue [Vue]
-import { spacing } from '@pacer-ui/tokens'; // Component with spacing
-<div :style="{ padding: spacing[4], margin: spacing[2] }">
-  Content
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #F8FAFC; height: 40px; border-radius: 6px; border: 1px solid #E2E8F0;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#F8FAFC</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #F1F5F9; height: 40px; border-radius: 6px; border: 1px solid #E2E8F0;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#F1F5F9</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #E2E8F0; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#E2E8F0</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #CBD5E1; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#CBD5E1</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #94A3B8; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#94A3B8</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #64748B; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#64748B</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #475569; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#475569</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #334155; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#334155</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #1E293B; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#1E293B</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #0F172A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#0F172A</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #020617; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#020617</div>
+  </div>
 </div>
-```
 
-```css [CSS]
-.card {
-  padding: var(--spacing-6);
-  margin-bottom: var(--spacing-4);
-}
-```
+### Gray
 
-:::
+Pure gray, neutral balance - perfect for general-purpose UI.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #F9FAFB; height: 40px; border-radius: 6px; border: 1px solid #E5E7EB;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#F9FAFB</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #F3F4F6; height: 40px; border-radius: 6px; border: 1px solid #E5E7EB;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#F3F4F6</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #E5E7EB; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#E5E7EB</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #D1D5DB; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#D1D5DB</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #9CA3AF; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#9CA3AF</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #6B7280; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#6B7280</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #4B5563; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#4B5563</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #374151; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#374151</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #1F2937; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#1F2937</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #111827; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#111827</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #030712; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#030712</div>
+  </div>
+</div>
+
+### Zinc
+
+Slightly warm gray - great for dark mode interfaces.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #FAFAFA; height: 40px; border-radius: 6px; border: 1px solid #E4E4E7;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#FAFAFA</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #F4F4F5; height: 40px; border-radius: 6px; border: 1px solid #E4E4E7;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#F4F4F5</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #E4E4E7; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#E4E4E7</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #D4D4D8; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#D4D4D8</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #A1A1AA; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#A1A1AA</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #71717A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#71717A</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #52525B; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#52525B</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #3F3F46; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#3F3F46</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #27272A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#27272A</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #18181B; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#18181B</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #09090B; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#09090B</div>
+  </div>
+</div>
+
+### Neutral
+
+True neutral gray - the most balanced option.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #FAFAFA; height: 40px; border-radius: 6px; border: 1px solid #E5E5E5;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#FAFAFA</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #F5F5F5; height: 40px; border-radius: 6px; border: 1px solid #E5E5E5;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#F5F5F5</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #E5E5E5; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#E5E5E5</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #D4D4D4; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#D4D4D4</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #A3A3A3; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#A3A3A3</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #737373; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#737373</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #525252; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#525252</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #404040; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#404040</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #262626; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#262626</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #171717; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#171717</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #0A0A0A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#0A0A0A</div>
+  </div>
+</div>
+
+### Stone
+
+Warm gray with brown undertones - great for organic, natural designs.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #FAFAF9; height: 40px; border-radius: 6px; border: 1px solid #E7E5E4;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#FAFAF9</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #F5F5F4; height: 40px; border-radius: 6px; border: 1px solid #E7E5E4;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#F5F5F4</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #E7E5E4; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#E7E5E4</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #D6D3D1; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#D6D3D1</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #A8A29E; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#A8A29E</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #78716C; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#78716C</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #57534E; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#57534E</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #44403C; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#44403C</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #292524; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#292524</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #1C1917; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#1C1917</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #0C0A09; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#0C0A09</div>
+  </div>
+</div>
+
+---
+
+## Semantic Colors
+
+### Red (Error/Destructive)
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #FEF2F2; height: 40px; border-radius: 6px; border: 1px solid #FECACA;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#FEF2F2</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FEE2E2; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#FEE2E2</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FECACA; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#FECACA</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FCA5A5; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#FCA5A5</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #F87171; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#F87171</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #EF4444; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#EF4444</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #DC2626; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#DC2626</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #B91C1C; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#B91C1C</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #991B1B; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#991B1B</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #7F1D1D; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#7F1D1D</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #450A0A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#450A0A</div>
+  </div>
+</div>
+
+### Green (Success)
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #F0FDF4; height: 40px; border-radius: 6px; border: 1px solid #BBF7D0;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#F0FDF4</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #DCFCE7; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#DCFCE7</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #BBF7D0; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#BBF7D0</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #86EFAC; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#86EFAC</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #4ADE80; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#4ADE80</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #22C55E; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#22C55E</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #16A34A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#16A34A</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #15803D; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#15803D</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #166534; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#166534</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #14532D; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#14532D</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #052E16; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#052E16</div>
+  </div>
+</div>
+
+### Yellow (Warning)
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #FEFCE8; height: 40px; border-radius: 6px; border: 1px solid #FEF08A;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#FEFCE8</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FEF9C3; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#FEF9C3</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FEF08A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#FEF08A</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FDE047; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#FDE047</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #FACC15; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#FACC15</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #EAB308; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#EAB308</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #CA8A04; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#CA8A04</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #A16207; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#A16207</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #854D0E; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#854D0E</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #713F12; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#713F12</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #422006; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#422006</div>
+  </div>
+</div>
+
+### Blue (Info)
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; margin: 16px 0;">
+  <div style="text-align: center;">
+    <div style="background: #EFF6FF; height: 40px; border-radius: 6px; border: 1px solid #BFDBFE;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">50</div>
+    <div style="font-size: 9px; color: #64748B;">#EFF6FF</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #DBEAFE; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">100</div>
+    <div style="font-size: 9px; color: #64748B;">#DBEAFE</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #BFDBFE; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">200</div>
+    <div style="font-size: 9px; color: #64748B;">#BFDBFE</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #93C5FD; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">300</div>
+    <div style="font-size: 9px; color: #64748B;">#93C5FD</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #60A5FA; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">400</div>
+    <div style="font-size: 9px; color: #64748B;">#60A5FA</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #3B82F6; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">500</div>
+    <div style="font-size: 9px; color: #64748B;">#3B82F6</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #2563EB; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">600</div>
+    <div style="font-size: 9px; color: #64748B;">#2563EB</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #1D4ED8; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">700</div>
+    <div style="font-size: 9px; color: #64748B;">#1D4ED8</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #1E40AF; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">800</div>
+    <div style="font-size: 9px; color: #64748B;">#1E40AF</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #1E3A8A; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">900</div>
+    <div style="font-size: 9px; color: #64748B;">#1E3A8A</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="background: #172554; height: 40px; border-radius: 6px;"></div>
+    <div style="font-size: 11px; margin-top: 4px;">950</div>
+    <div style="font-size: 9px; color: #64748B;">#172554</div>
+  </div>
+</div>
 
 ---
 
@@ -197,282 +731,260 @@ import { spacing } from '@pacer-ui/tokens'; // Component with spacing
 
 ### Font Families
 
-```css
---font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
---font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-```
+| Token | Value |
+|-------|-------|
+| `font-sans` | Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif |
+| `font-serif` | Inter, Georgia, 'Times New Roman', serif |
+| `font-mono` | Manrope, 'Fira Code', Consolas, Monaco, monospace |
 
 ### Font Sizes
 
-```css
---font-size-xs: 0.75rem; /* 12px */
---font-size-sm: 0.875rem; /* 14px */
---font-size-base: 1rem; /* 16px */
---font-size-lg: 1.125rem; /* 18px */
---font-size-xl: 1.25rem; /* 20px */
---font-size-2xl: 1.5rem; /* 24px */
---font-size-3xl: 1.875rem; /* 30px */
---font-size-4xl: 2.25rem; /* 36px */
---font-size-5xl: 3rem; /* 48px */
-```
+| Token | Size | Pixels |
+|-------|------|--------|
+| `text-xs` | 0.75rem | 12px |
+| `text-sm` | 0.875rem | 14px |
+| `text-base` | 1rem | 16px |
+| `text-lg` | 1.125rem | 18px |
+| `text-xl` | 1.25rem | 20px |
+| `text-2xl` | 1.5rem | 24px |
+| `text-3xl` | 1.875rem | 30px |
+| `text-4xl` | 2.25rem | 36px |
+| `text-5xl` | 3rem | 48px |
+| `text-6xl` | 3.75rem | 60px |
+| `text-7xl` | 4.5rem | 72px |
+| `text-8xl` | 6rem | 96px |
+| `text-9xl` | 8rem | 128px |
 
 ### Font Weights
 
-```css
---font-weight-normal: 400;
---font-weight-medium: 500;
---font-weight-semibold: 600;
---font-weight-bold: 700;
-```
+| Token | Weight |
+|-------|--------|
+| `font-thin` | 100 |
+| `font-extralight` | 200 |
+| `font-light` | 300 |
+| `font-normal` | 400 |
+| `font-medium` | 500 |
+| `font-semibold` | 600 |
+| `font-bold` | 700 |
+| `font-extrabold` | 800 |
+| `font-black` | 900 |
 
 ### Line Heights
 
-```css
---line-height-tight: 1.25;
---line-height-normal: 1.5;
---line-height-relaxed: 1.75;
---line-height-loose: 2;
-```
-
-**Usage:**
-::: code-group
-
-```tsx [React]
-import { typography } from '@pacer-ui/tokens';
-
-<h1
-  style={{
-    fontSize: typography.fontSize['2xl'],
-    fontWeight: typography.fontWeight.bold,
-    lineHeight: typography.lineHeight.tight,
-  }}
->
-  Heading
-</h1>;
-```
-
-```vue [Vue]
-import { typography } from '@pacer-ui/tokens';
-
-<h1
-  :style="{
-    fontSize: typography.fontSize['2xl'],
-    fontWeight: typography.fontWeight.bold,
-    lineHeight: typography.lineHeight.tight,
-  }"
->
-  Heading
-</h1>
-```
-
-```css [CSS]
-h1 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-}
-```
-
-:::
+| Token | Size | Pixels |
+|-------|------|--------|
+| `leading-3` | 0.75rem | 12px |
+| `leading-4` | 1rem | 16px |
+| `leading-5` | 1.25rem | 20px |
+| `leading-6` | 1.5rem | 24px |
+| `leading-7` | 1.75rem | 28px |
+| `leading-8` | 2rem | 32px |
+| `leading-9` | 2.25rem | 36px |
+| `leading-10` | 2.5rem | 40px |
 
 ---
 
-## Border Radius Tokens
+## Layout Tokens
 
-```css
---radius-none: 0;
---radius-sm: 0.25rem; /* 4px */
---radius-md: 0.375rem; /* 6px */
---radius-lg: 0.5rem; /* 8px */
---radius-xl: 0.75rem; /* 12px */
---radius-2xl: 1rem; /* 16px */
---radius-full: 9999px; /* Fully rounded */
-```
+### Border Radius
+
+| Token | Size | Pixels |
+|-------|------|--------|
+| `rounded-none` | 0 | 0px |
+| `rounded-sm` | 0.125rem | 2px |
+| `rounded` | 0.25rem | 4px |
+| `rounded-md` | 0.375rem | 6px |
+| `rounded-lg` | 0.5rem | 8px |
+| `rounded-xl` | 0.75rem | 12px |
+| `rounded-2xl` | 1rem | 16px |
+| `rounded-3xl` | 1.5rem | 24px |
+| `rounded-full` | 9999px | Fully rounded |
+
+### Gap / Spacing
+
+| Token | Size | Pixels |
+|-------|------|--------|
+| `gap-0` | 0 | 0px |
+| `gap-px` | 1px | 1px |
+| `gap-0.5` | 0.125rem | 2px |
+| `gap-1` | 0.25rem | 4px |
+| `gap-1.5` | 0.375rem | 6px |
+| `gap-2` | 0.5rem | 8px |
+| `gap-3` | 0.75rem | 12px |
+| `gap-4` | 1rem | 16px |
+| `gap-5` | 1.25rem | 20px |
+| `gap-6` | 1.5rem | 24px |
+| `gap-7` | 1.75rem | 28px |
+| `gap-8` | 2rem | 32px |
+| `gap-9` | 2.25rem | 36px |
+| `gap-10` | 2.5rem | 40px |
+| `gap-11` | 2.75rem | 44px |
+| `gap-12` | 3rem | 48px |
+| `gap-14` | 3.5rem | 56px |
+| `gap-16` | 4rem | 64px |
+| `gap-18` | 4.5rem | 72px |
+| `gap-20` | 5rem | 80px |
+| `gap-24` | 6rem | 96px |
+| `gap-28` | 7rem | 112px |
+| `gap-32` | 8rem | 128px |
+| `gap-64` | 16rem | 256px |
+
+### Padding
+
+| Token | Size | Pixels |
+|-------|------|--------|
+| `p-0` | 0 | 0px |
+| `p-0.5` | 0.125rem | 2px |
+| `p-1` | 0.25rem | 4px |
+| `p-1.5` | 0.375rem | 6px |
+| `p-2` | 0.5rem | 8px |
+| `p-2.5` | 0.625rem | 10px |
+| `p-3` | 0.75rem | 12px |
+| `p-3.5` | 0.875rem | 14px |
+| `p-4` | 1rem | 16px |
+| `p-5` | 1.25rem | 20px |
+| `p-6` | 1.5rem | 24px |
+| `p-7` | 1.75rem | 28px |
+| `p-8` | 2rem | 32px |
+| `p-9` | 2.25rem | 36px |
+| `p-10` | 2.5rem | 40px |
+| `p-11` | 2.75rem | 44px |
+| `p-12` | 3rem | 48px |
+
+### Opacity
+
+| Token | Value |
+|-------|-------|
+| `opacity-0` | 0% |
+| `opacity-5` | 5% |
+| `opacity-10` | 10% |
+| `opacity-20` | 20% |
+| `opacity-25` | 25% |
+| `opacity-30` | 30% |
+| `opacity-40` | 40% |
+| `opacity-50` | 50% |
+| `opacity-60` | 60% |
+| `opacity-70` | 70% |
+| `opacity-80` | 80% |
+| `opacity-90` | 90% |
+| `opacity-95` | 95% |
+| `opacity-100` | 100% |
+
+### Max Width
+
+| Token | Size | Pixels |
+|-------|------|--------|
+| `max-w-xs` | 20rem | 320px |
+| `max-w-sm` | 24rem | 384px |
+| `max-w-md` | 28rem | 448px |
+| `max-w-lg` | 32rem | 512px |
+| `max-w-xl` | 36rem | 576px |
+| `max-w-2xl` | 42rem | 672px |
+| `max-w-3xl` | 48rem | 768px |
+| `max-w-4xl` | 56rem | 896px |
+| `max-w-5xl` | 64rem | 1024px |
+| `max-w-6xl` | 72rem | 1152px |
+| `max-w-7xl` | 80rem | 1280px |
+| `max-w-screen-sm` | 40rem | 640px |
+| `max-w-screen-md` | 48rem | 768px |
+| `max-w-screen-lg` | 64rem | 1024px |
+| `max-w-screen-xl` | 80rem | 1280px |
+| `max-w-screen-2xl` | 96rem | 1536px |
 
 ---
 
 ## Shadow Tokens
 
-```css
---shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
---shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
---shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
---shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
---shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-```
+<div style="display: grid; gap: 16px; margin: 16px 0;">
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow-sm</div>
+      <code style="font-size: 12px;">0 1px 2px 0 rgba(0, 0, 0, 0.05)</code>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow</div>
+      <code style="font-size: 12px;">0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10)</code>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.10), 0 2px 4px -2px rgba(0, 0, 0, 0.10);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow-md</div>
+      <code style="font-size: 12px;">0 4px 6px -1px rgba(0, 0, 0, 0.10), 0 2px 4px -2px rgba(0, 0, 0, 0.10)</code>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow-lg</div>
+      <code style="font-size: 12px;">0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10)</code>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow-xl</div>
+      <code style="font-size: 12px;">0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10)</code>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow-2xl</div>
+      <code style="font-size: 12px;">0 25px 50px -12px rgba(0, 0, 0, 0.25)</code>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
+    <div style="width: 80px; height: 48px; background: white; border-radius: 6px; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);"></div>
+    <div>
+      <div style="font-weight: 600;">shadow-inner</div>
+      <code style="font-size: 12px;">inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)</code>
+    </div>
+  </div>
+</div>
 
 ---
 
-## Transition Tokens
+## Using Tokens
 
-```css
---transition-fast: 150ms ease-in-out;
---transition-normal: 200ms ease-in-out;
---transition-slow: 300ms ease-in-out;
-```
-
----
-
-## Z-Index Tokens
-
-```css
---z-index-dropdown: 1000;
---z-index-sticky: 1020;
---z-index-fixed: 1030;
---z-index-modal-backdrop: 1040;
---z-index-modal: 1050;
---z-index-popover: 1060;
---z-index-tooltip: 1070;
-```
-
----
-
-## Using Tokens in Your Project
-
-### React & Vue (JavaScript/TypeScript)
+### JavaScript/TypeScript
 
 ```ts
 import { colors, spacing, typography, borderRadius, shadows } from '@pacer-ui/tokens';
 
-// Use in styled components
-const StyledButton = styled.button`
-  background-color: ${colors.primary[500]};
-  padding: ${spacing[4]};
-  border-radius: ${borderRadius.md};
-  font-size: ${typography.fontSize.base};
-  box-shadow: ${shadows.md};
-`;
+// Use colors
+const primaryColor = colors.brand[500]; // #0156C6
+const errorColor = colors.red[500]; // #EF4444
+
+// Use spacing
+const padding = spacing[4]; // 16px
+
+// Use typography
+const fontSize = typography.fontSize['2xl']; // 1.5rem
 ```
 
 ### Tailwind CSS
 
+Use the `@pacer-ui/tailwind-preset` for automatic integration:
+
 ```js
 // tailwind.config.js
-import { tokens } from '@pacer-ui/tokens';
-
-export default {
-  theme: {
-    extend: {
-      colors: tokens.colors,
-      spacing: tokens.spacing,
-      fontSize: tokens.typography.fontSize,
-      fontFamily: tokens.typography.fontFamily,
-      borderRadius: tokens.borderRadius,
-      boxShadow: tokens.shadows,
-    },
-  },
+module.exports = {
+  presets: [require('@pacer-ui/tailwind-preset').default],
+  content: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
 };
 ```
 
-### CSS Variables
+Then use in your components:
 
-```css
-/* Import tokens as CSS variables */
-@import '@pacer-ui/tokens/css';
-
-.my-component {
-  color: var(--color-primary-500);
-  padding: var(--spacing-4);
-  font-size: var(--font-size-base);
-  border-radius: var(--radius-md);
-}
-```
-
-### Blazor (CSS)
-
-```css
-/* In your Blazor app's CSS */
-:root {
-  /* Colors */
-  --primary-color: #00a19b;
-  --text-color: #374151;
-
-  /* Spacing */
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-}
-
-/* Use in components */
-.pt-button-primary {
-  background-color: var(--primary-color);
-  padding: var(--spacing-md);
-}
-```
-
----
-
-## Token Categories
-
-| Category      | Tokens Count | Description                       |
-| ------------- | ------------ | --------------------------------- |
-| Colors        | 60+          | Primary, neutral, semantic colors |
-| Spacing       | 13           | Consistent spacing scale          |
-| Typography    | 20+          | Font sizes, weights, line heights |
-| Border Radius | 7            | Rounded corners                   |
-| Shadows       | 5            | Elevation levels                  |
-| Transitions   | 3            | Animation timings                 |
-| Z-Index       | 7            | Layer management                  |
-
----
-
-## Token Naming Convention
-
-All tokens follow a consistent naming pattern:
-
-```
-{category}-{property}-{scale}
-```
-
-Examples:
-
-- `color-primary-500` - Primary color at 500 scale
-- `spacing-4` - Spacing at 4 scale (16px)
-- `font-size-lg` - Large font size
-- `radius-md` - Medium border radius
-
----
-
-## Semantic vs Raw Tokens
-
-### Raw Tokens
-
-Direct values (colors, sizes).
-
-```ts
-colors.primary[500]; // #00A19B
-spacing[4]; // 1rem (16px)
-```
-
-### Semantic Tokens
-
-Purpose-driven values.
-
-```ts
-colors.success[500]; // For success messages
-colors.error[600]; // For error states
-```
-
-Use semantic tokens when possible for better maintainability.
-
----
-
-## Dark Mode Support
-
-Tokens are designed to support dark mode:
-
-```css
-:root {
-  --bg-primary: #ffffff;
-  --text-primary: #111827;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary: #111827;
-    --text-primary: #f9fafb;
-  }
-}
+```html
+<button class="bg-brand-500 text-base-white hover:bg-brand-600 px-4 py-2 rounded-md">
+  Click me
+</button>
 ```
 
 ---
@@ -495,27 +1007,8 @@ Tokens are designed to support dark mode:
 
 ---
 
-## Token Updates
-
-Design tokens are versioned and published alongside the component libraries. When tokens are updated:
-
-1. **Patch version**: Bug fixes in token values
-2. **Minor version**: New tokens added
-3. **Major version**: Breaking changes to existing tokens
-
-Always check the [CHANGELOG](/CHANGELOG) when updating.
-
----
-
-## Contributing
-
-Want to propose new tokens or changes? See our [Contributing Guide](/CONTRIBUTING).
-
----
-
 ## Related
 
-- [Colors Deep Dive](/tokens/colors)
-- [Typography Guide](/tokens/typography)
-- [Spacing System](/tokens/spacing)
-- [Theming Guide](/theming)
+- [Getting Started](/getting-started)
+- [React Components](/frameworks/react)
+- [Vue Components](/frameworks/vue)

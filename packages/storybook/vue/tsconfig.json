@@ -10,15 +10,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@pacer-ui/react": ["../../design-system/react/src/index.ts"],
-      "@/*": ["../../design-system/react/src/*"]
+      "@pacer-ui/vue": ["../../design-system/vue/src/index.ts"],
+      "@/*": ["../../design-system/vue/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", ".storybook"]
 }

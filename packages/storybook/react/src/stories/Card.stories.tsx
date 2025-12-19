@@ -1,62 +1,117 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Card } from '@pacer-ui/react';
+import { Button, Card } from '@pacer-ui/react';
 
 const meta = {
   title: 'Components/Card',
   component: Card,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Container serbaguna dengan header, body, dan footer yang dapat dikonfigurasi sesuai Card di paket @pacer-ui/react.',
+      },
+    },
   },
   tags: ['autodocs'],
+  args: {
+    variant: 'default',
+    padding: 'md',
+    header: (
+      <div className="space-y-1">
+        <p className="text-sm font-medium text-neutral-500">Informasi</p>
+        <h3 className="text-lg font-semibold text-neutral-900">Card Title</h3>
+      </div>
+    ),
+    children: (
+      <div className="space-y-2 text-neutral-700">
+        <p>Konten card ditampilkan melalui children.</p>
+        <p className="text-sm text-neutral-500">
+          Gunakan komponen ini untuk mengelompokkan informasi terkait.
+        </p>
+      </div>
+    ),
+    footer: (
+      <div className="flex items-center gap-2">
+        <Button variant="secondary" size="sm">
+          Batal
+        </Button>
+        <Button size="sm">Simpan</Button>
+      </div>
+    ),
+  },
+  argTypes: {
+    variant: {
+      control: 'inline-radio',
+      options: ['default', 'outlined', 'elevated'],
+      description: 'Gaya visual card.',
+    },
+    padding: {
+      control: 'select',
+      options: ['none', 'sm', 'md', 'lg'],
+      description: 'Ukuran padding internal.',
+    },
+    header: {
+      control: false,
+      description: 'Konten header opsional.',
+    },
+    footer: {
+      control: false,
+      description: 'Konten footer opsional.',
+    },
+    children: {
+      control: false,
+      description: 'Konten utama card.',
+    },
+    className: {
+      control: false,
+    },
+  },
 } satisfies Meta<typeof Card>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: () => (
-    <Card className="w-[400px]">
-      <div className="p-6">
-        <h3 className="text-lg font-semibold mb-2">Card Title</h3>
-        <p className="text-gray-600 mb-4">
-          This is a basic card component with a title and description.
-        </p>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-white hover:bg-primary/90 h-10 px-4">
-          Learn More
-        </button>
-      </div>
-    </Card>
-  ),
+export const Playground: Story = {};
+
+export const Outlined: Story = {
+  args: {
+    variant: 'outlined',
+  },
 };
 
-export const WithHeader: Story = {
-  render: () => (
-    <Card className="w-[400px]">
-      <div className="border-b p-6">
-        <h3 className="text-lg font-semibold">Card Header</h3>
-      </div>
-      <div className="p-6">
-        <p className="text-gray-600">Card content goes here with a separated header section.</p>
-      </div>
-    </Card>
-  ),
+export const Elevated: Story = {
+  args: {
+    variant: 'elevated',
+  },
 };
 
-export const WithFooter: Story = {
-  render: () => (
-    <Card className="w-[400px]">
-      <div className="p-6">
-        <h3 className="text-lg font-semibold mb-2">Card with Footer</h3>
-        <p className="text-gray-600">This card has a footer section with actions.</p>
+export const CompactPadding: Story = {
+  args: {
+    padding: 'sm',
+  },
+};
+
+export const NoPadding: Story = {
+  args: {
+    padding: 'none',
+    children: (
+      <div className="text-neutral-700">
+        Konten penuh tanpa padding bawaan, cocok untuk layout custom.
       </div>
-      <div className="border-t p-6 flex gap-2">
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium border bg-white hover:bg-gray-50 h-10 px-4">
-          Cancel
-        </button>
-        <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-white hover:bg-primary/90 h-10 px-4">
-          Confirm
-        </button>
+    ),
+  },
+};
+
+export const WithoutHeaderFooter: Story = {
+  args: {
+    header: undefined,
+    footer: undefined,
+    children: (
+      <div className="space-y-2 text-neutral-700">
+        <h4 className="text-base font-semibold">Card Sederhana</h4>
+        <p>Gunakan ketika tidak memerlukan header maupun aksi di footer.</p>
       </div>
-    </Card>
-  ),
+    ),
+  },
 };

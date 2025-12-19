@@ -1,9 +1,13 @@
 :root {
-  --vp-c-brand: #00843d;
-  --vp-c-brand-light: #00a34d;
-  --vp-c-brand-lighter: #00c25d;
-  --vp-c-brand-dark: #006d32;
-  --vp-c-brand-darker: #005627;
+  /* Pertamina Brand Blue - matches @pacer-ui/tokens brand colors */
+  --vp-c-brand: #0156C6;
+  --vp-c-brand-light: #016BF8;
+  --vp-c-brand-lighter: #B0D1FD;
+  --vp-c-brand-dark: #014095;
+  --vp-c-brand-darker: #003070;
+  --vp-c-brand-1: #0156C6;
+  --vp-c-brand-2: #016BF8;
+  --vp-c-brand-3: #B0D1FD;
 }
 
 .component-demo {

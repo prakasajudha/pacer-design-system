@@ -40,13 +40,13 @@ const buttonClasses = computed(() => {
   const baseStyles = 'btn inline-flex items-center justify-center font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
   
   const variantStyles = {
-    primary: 'bg-brand-primary-500 text-neutral-0 hover:bg-brand-primary-600 focus:ring-brand-primary-300',
-    secondary: 'bg-brand-secondary-500 text-neutral-900 hover:bg-brand-secondary-600 focus:ring-brand-secondary-300',
-    success: 'bg-success-500 text-neutral-0 hover:bg-success-600 focus:ring-success-300',
-    warning: 'bg-warning-500 text-neutral-900 hover:bg-warning-600 focus:ring-warning-300',
-    error: 'bg-error-500 text-neutral-0 hover:bg-error-600 focus:ring-error-300',
-    ghost: 'bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-300',
-    link: 'bg-transparent text-brand-primary-500 hover:text-brand-primary-600 hover:underline focus:ring-brand-primary-300',
+    primary: 'bg-brand-500 text-base-white hover:bg-brand-600 focus:ring-brand-200',
+    secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200 focus:ring-slate-300 border border-slate-300',
+    success: 'bg-green-500 text-base-white hover:bg-green-600 focus:ring-green-200',
+    warning: 'bg-yellow-500 text-slate-900 hover:bg-yellow-600 focus:ring-yellow-200',
+    error: 'bg-red-500 text-base-white hover:bg-red-600 focus:ring-red-200',
+    ghost: 'bg-transparent text-slate-700 hover:bg-slate-100 focus:ring-slate-300',
+    link: 'bg-transparent text-brand-500 hover:text-brand-600 hover:underline focus:ring-brand-200',
   };
   
   const sizeStyles = {

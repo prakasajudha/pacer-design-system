@@ -245,7 +245,7 @@ Full IntelliSense support in Visual Studio:
 - 📦 [Browse Components](/components/)
 - 🎨 [Explore Design Tokens](/tokens)
 - 🎯 [Learn Best Practices](/design-principles)
-- 🔧 [Customize Your Theme](/tokens/colors)
+- 🔧 [Customize Your Theme](/tokens#using-tokens-in-your-project)
 
 ## Need Help?
 

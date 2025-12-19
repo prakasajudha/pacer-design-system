@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/vue3';
-// Temporarily disabled complex CSS import
-// import '../../../design-system/vue/src/styles.css';
+import '@pacer-ui/vue/styles.css';
 
 const preview: Preview = {
   parameters: {

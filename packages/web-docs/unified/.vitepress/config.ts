@@ -39,9 +39,9 @@ export default defineConfig({
         text: 'Design Tokens',
         items: [
           { text: 'Overview', link: '/tokens' },
-          { text: 'Colors', link: '/tokens/colors' },
-          { text: 'Typography', link: '/tokens/typography' },
-          { text: 'Spacing', link: '/tokens/spacing' },
+          { text: 'Colors', link: '/tokens#color-tokens' },
+          { text: 'Typography', link: '/tokens#typography-tokens' },
+          { text: 'Spacing', link: '/tokens#spacing-tokens' },
         ],
       },
       {

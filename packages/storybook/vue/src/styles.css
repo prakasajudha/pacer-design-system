@@ -1,0 +1,7 @@
+/* 
+ * Tailwind CSS directives for Storybook
+ * The actual component styles and CSS variables are imported from @pacer-ui/vue/styles.css
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

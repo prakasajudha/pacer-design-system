@@ -1,74 +1,124 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import { PtCard } from '@pacer-ui/vue';
+import { PtButton, PtCard } from '@pacer-ui/vue';
 
 const meta = {
   title: 'Components/Card',
   component: PtCard,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Kontainer konten dengan varian gaya dan slot header/footer sesuai implementasi PtCard di @pacer-ui/vue.',
+      },
+    },
   },
   tags: ['autodocs'],
+  args: {
+    variant: 'default',
+    padding: 'md',
+  },
+  argTypes: {
+    variant: {
+      control: 'inline-radio',
+      options: ['default', 'outlined', 'elevated'],
+      description: 'Gaya visual card.',
+    },
+    padding: {
+      control: 'select',
+      options: ['none', 'sm', 'md', 'lg'],
+      description: 'Ukuran padding internal.',
+    },
+  },
 } satisfies Meta<typeof PtCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: () => ({
-    components: { PtCard },
-    template: `
-      <PtCard class="w-[400px]">
-        <div class="p-6">
-          <h3 class="text-lg font-semibold mb-2">Card Title</h3>
-          <p class="text-gray-600 mb-4">
-            This is a basic card component with a title and description.
-          </p>
-          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-white hover:bg-primary/90 h-10 px-4">
-            Learn More
-          </button>
-        </div>
-      </PtCard>
-    `,
+const baseTemplate = `
+  <PtCard v-bind="args" class="max-w-md">
+    <template #header>
+      <div class="space-y-1">
+        <p class="text-sm font-medium text-neutral-500">Ringkasan</p>
+        <h3 class="text-lg font-semibold text-neutral-900">Status Project</h3>
+      </div>
+    </template>
+
+    <p class="text-neutral-700">
+      Gunakan Card untuk mengelompokkan informasi yang saling berkaitan dalam satu wadah.
+    </p>
+
+    <template #footer>
+      <div class="flex items-center gap-2">
+        <PtButton variant="secondary" size="sm">Batal</PtButton>
+        <PtButton size="sm">Lihat detail</PtButton>
+      </div>
+    </template>
+  </PtCard>
+`;
+
+export const Playground: Story = {
+  render: (args) => ({
+    components: { PtCard, PtButton },
+    setup() {
+      return { args };
+    },
+    template: baseTemplate,
   }),
 };
 
-export const WithHeader: Story = {
-  render: () => ({
+export const Outlined: Story = {
+  ...Playground,
+  args: {
+    variant: 'outlined',
+  },
+};
+
+export const Elevated: Story = {
+  ...Playground,
+  args: {
+    variant: 'elevated',
+  },
+};
+
+export const CompactPadding: Story = {
+  ...Playground,
+  args: {
+    padding: 'sm',
+  },
+};
+
+export const NoPadding: Story = {
+  render: (args) => ({
     components: { PtCard },
+    setup() {
+      return { args };
+    },
     template: `
-      <PtCard class="w-[400px]">
-        <div class="border-b p-6">
-          <h3 class="text-lg font-semibold">Card Header</h3>
-        </div>
-        <div class="p-6">
-          <p class="text-gray-600">
-            Card content goes here with a separated header section.
-          </p>
-        </div>
+      <PtCard v-bind="args" class="max-w-md">
+        <p class="text-neutral-700">
+          Card tanpa padding bawaan, cocok untuk layout custom atau konten penuh.
+        </p>
       </PtCard>
     `,
   }),
+  args: {
+    padding: 'none',
+  },
 };
 
-export const WithFooter: Story = {
-  render: () => ({
+export const WithoutHeaderFooter: Story = {
+  render: (args) => ({
     components: { PtCard },
+    setup() {
+      return { args };
+    },
     template: `
-      <PtCard class="w-[400px]">
-        <div class="p-6">
-          <h3 class="text-lg font-semibold mb-2">Card with Footer</h3>
-          <p class="text-gray-600">
-            This card has a footer section with actions.
-          </p>
-        </div>
-        <div class="border-t p-6 flex gap-2">
-          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium border bg-white hover:bg-gray-50 h-10 px-4">
-            Cancel
-          </button>
-          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-white hover:bg-primary/90 h-10 px-4">
-            Confirm
-          </button>
-        </div>
+      <PtCard v-bind="args" class="max-w-md space-y-2">
+        <h4 class="text-base font-semibold">Card sederhana</h4>
+        <p class="text-neutral-700">
+          Gunakan ketika tidak memerlukan header maupun aksi pada footer.
+        </p>
       </PtCard>
     `,
   }),

@@ -15,19 +15,19 @@
   },
   "devDependencies": {
     "@pacer-ui/tailwind-preset": "workspace:*",
-    "@storybook/addon-links": "^10.1.10",
-    "@storybook/blocks": "^7.6.7",
+    "@storybook/addon-links": "^8.6.15",
+    "@storybook/addon-essentials": "^8.6.15",
+    "@storybook/blocks": "^8.6.15",
     "@storybook/testing-library": "^0.2.2",
-    "@storybook/vue3": "^10.1.10",
-    "@storybook/vue3-vite": "^10.1.10",
+    "@storybook/vue3": "^8.6.15",
+    "@storybook/vue3-vite": "^8.6.15",
     "@vitejs/plugin-vue": "^5.0.3",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.0",
-    "storybook": "^10.1.10",
+    "storybook": "^8.6.15",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
-    "eslint-plugin-storybook": "10.1.10",
-    "@storybook/addon-docs": "^10.1.10"
+    "@storybook/addon-docs": "^8.6.15"
   }
 }

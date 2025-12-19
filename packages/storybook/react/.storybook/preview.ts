@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react';
-// Temporarily disabled complex CSS import
-// import '../../../design-system/react/src/styles.css';
+import '@pacer-ui/react/styles.css';
 
 const preview: Preview = {
   parameters: {

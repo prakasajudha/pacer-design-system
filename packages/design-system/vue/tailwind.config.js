@@ -1,5 +1,5 @@
 module.exports = {
-    presets: [require('@pacer-ui/tailwind-preset')],
+    presets: [require('@pacer-ui/tailwind-preset').default],
     darkMode: ['class'],
     content: [
         './src/**/*.{vue,js,ts,jsx,tsx}',
