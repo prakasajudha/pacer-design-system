@@ -5,15 +5,14 @@ packages:
   - 'packages/design-system/tokens'
   - 'packages/design-system/tailwind'
   - 'packages/design-system/shared'
-  
+
   # Storybook
   - 'packages/storybook/react'
   - 'packages/storybook/vue'
-  
+
   # Web Documentation
-  - 'packages/web-docs/react-vue'
-  - 'packages/web-docs/blazor'
-  
+  - 'packages/web-docs/unified'
+
   # Templates
   - 'packages/templates/react-vite'
   - 'packages/templates/react-nextjs'

@@ -1,0 +1,54 @@
+:root {
+  --vp-c-brand: #00843d;
+  --vp-c-brand-light: #00a34d;
+  --vp-c-brand-lighter: #00c25d;
+  --vp-c-brand-dark: #006d32;
+  --vp-c-brand-darker: #005627;
+}
+
+.component-demo {
+  margin: 2rem 0;
+}
+
+.demo-preview {
+  padding: 2rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: var(--vp-c-bg-soft);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.demo-tab {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.demo-tab:hover {
+  color: var(--vp-c-text-1);
+}
+
+.demo-tab.active {
+  color: var(--vp-c-brand);
+  border-bottom-color: var(--vp-c-brand);
+}
+
+.demo-code {
+  position: relative;
+}

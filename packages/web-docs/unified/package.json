@@ -1,0 +1,26 @@
+{
+  "name": "@pacer-ui/docs",
+  "version": "1.0.0",
+  "description": "Unified documentation for PACER Design System (React, Vue, Blazor)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev .",
+    "docs:dev": "vitepress dev .",
+    "docs:build": "vitepress build .",
+    "docs:preview": "vitepress preview .",
+    "build": "vitepress build ."
+  },
+  "dependencies": {
+    "@pacer-ui/vue": "workspace:*",
+    "@pacer-ui/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0",
+    "vue": "^3.4.0",
+    "@pacer-ui/tailwind-preset": "workspace:*",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  }
+}

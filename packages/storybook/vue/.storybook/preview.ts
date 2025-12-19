@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/vue3';
-import '@pacer-ui/vue/styles.css';
+// Temporarily disabled complex CSS import
+// import '../../../design-system/vue/src/styles.css';
 
 const preview: Preview = {
   parameters: {
@@ -11,21 +12,28 @@ const preview: Preview = {
       },
     },
     backgrounds: {
-      default: 'light',
-      values: [
-        {
+      options: {
+        light: {
           name: 'light',
           value: '#ffffff',
         },
-        {
+
+        dark: {
           name: 'dark',
           value: '#1a1a1a',
         },
-        {
+
+        pertamina: {
           name: 'pertamina',
           value: '#005BAA',
         },
-      ],
+      },
+    },
+  },
+
+  initialGlobals: {
+    backgrounds: {
+      value: 'light',
     },
   },
 };
