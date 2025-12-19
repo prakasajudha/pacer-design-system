@@ -24,6 +24,10 @@ out/
 # Vite
 .vite/
 
+# VitePress
+**/.vitepress/cache/
+**/.vitepress/dist/
+
 # Storybook
 storybook-static/
 
