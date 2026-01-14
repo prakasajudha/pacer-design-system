@@ -1,0 +1,365 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<div class="@GetInformationClasses()" style="@GetInformationStyles()" @attributes="AdditionalAttributes">
+    <div class="@GetIconClasses()" style="@GetIconStyles()">
+        @if (Icon != null)
+        {
+            @Icon
+        }
+        else
+        {
+            @GetDefaultIcon()
+        }
+    </div>
+    <div class="flex-1 min-w-0">
+        @if (HasChildren)
+        {
+            <div class="@GetContentClasses()">
+                @ChildContent
+            </div>
+        }
+        else
+        {
+            @if (!string.IsNullOrEmpty(Title))
+            {
+                <div class="@GetTitleClasses()">@Title</div>
+            }
+            @if (!string.IsNullOrEmpty(Description))
+            {
+                <div class="@GetDescriptionClasses()">@Description</div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Variant visual dari information
+    /// </summary>
+    [Parameter]
+    public InformationVariant Variant { get; set; } = InformationVariant.Info;
+
+    /// <summary>
+    /// Title information
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>
+    /// Description information (muncul di bawah title)
+    /// </summary>
+    [Parameter]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Icon override (jika tidak ada, akan menggunakan default icon sesuai variant)
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
+    /// <summary>
+    /// Custom className untuk icon container
+    /// </summary>
+    [Parameter]
+    public string? IconClassName { get; set; }
+
+    /// <summary>
+    /// Custom style untuk icon container
+    /// </summary>
+    [Parameter]
+    public string? IconStyle { get; set; }
+
+    /// <summary>
+    /// Size information
+    /// </summary>
+    [Parameter]
+    public InformationSize Size { get; set; } = InformationSize.Medium;
+
+    /// <summary>
+    /// Information content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool HasChildren => ChildContent != null;
+
+    private string GetInformationClasses()
+    {
+        var classes = new List<string>
+        {
+            "flex",
+            "items-start",
+            "rounded-md",
+        };
+
+        classes.Add(GetSizeContainerClasses());
+        classes.Add(GetVariantBackgroundClasses());
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInformationStyles()
+    {
+        // Style dari AdditionalAttributes jika ada
+        return "";
+    }
+
+    private string GetSizeContainerClasses()
+    {
+        return Size switch
+        {
+            InformationSize.Small => "py-2 px-3 gap-2",
+            InformationSize.Large => "p-4 gap-3",
+            _ => "p-4 gap-3", // Medium
+        };
+    }
+
+    private string GetVariantBackgroundClasses()
+    {
+        return Variant switch
+        {
+            InformationVariant.Info => "bg-brand-50",
+            InformationVariant.Slate => "bg-slate-50",
+            InformationVariant.Success => "bg-green-50",
+            InformationVariant.Warning => "bg-yellow-50",
+            InformationVariant.Danger => "bg-red-50",
+            _ => "bg-brand-50",
+        };
+    }
+
+    private string GetIconClasses()
+    {
+        var classes = new List<string>();
+
+        classes.Add(Size switch
+        {
+            InformationSize.Large => "w-5 h-5",
+            _ => "w-4 h-4",
+        });
+
+        classes.Add("shrink-0");
+        classes.Add("mt-[2.5px]");
+        classes.Add(GetIconColorClasses());
+
+        if (!string.IsNullOrEmpty(IconClassName))
+        {
+            classes.Add(IconClassName);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetIconColorClasses()
+    {
+        return Variant switch
+        {
+            InformationVariant.Info => "text-brand-300",
+            InformationVariant.Slate => "text-slate-900",
+            InformationVariant.Success => "text-green-600",
+            InformationVariant.Warning => "text-yellow-600",
+            InformationVariant.Danger => "text-red-600",
+            _ => "text-brand-300",
+        };
+    }
+
+    private string GetIconStyles()
+    {
+        return IconStyle ?? "";
+    }
+
+    private string GetTitleClasses()
+    {
+        var classes = new List<string>();
+        classes.Add(GetSizeTextClasses());
+        classes.Add("mb-1");
+        return string.Join(" ", classes);
+    }
+
+    private string GetDescriptionClasses()
+    {
+        var classes = new List<string>();
+        classes.Add(GetSizeTextClasses());
+        if (!string.IsNullOrEmpty(Title))
+        {
+            classes.Add("mb-1");
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetContentClasses()
+    {
+        return GetSizeTextClasses();
+    }
+
+    private string GetSizeTextClasses()
+    {
+        return Size switch
+        {
+            InformationSize.Small => "text-sm font-normal leading-5 text-slate-900",
+            InformationSize.Large => "text-base font-normal leading-6 text-slate-900",
+            _ => "text-sm font-normal leading-5 text-slate-900", // Medium
+        };
+    }
+
+    private RenderFragment GetDefaultIcon()
+    {
+        var iconSize = Size == InformationSize.Large ? 20 : 16;
+        var colorClass = GetIconColorClasses();
+
+        return Variant switch
+        {
+            InformationVariant.Info => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", iconSize);
+                builder.AddAttribute(3, "height", iconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "line");
+                builder.AddAttribute(16, "x1", "12");
+                builder.AddAttribute(17, "y1", "16");
+                builder.AddAttribute(18, "x2", "12");
+                builder.AddAttribute(19, "y2", "12");
+                builder.CloseElement();
+                builder.OpenElement(20, "line");
+                builder.AddAttribute(21, "x1", "12");
+                builder.AddAttribute(22, "y1", "8");
+                builder.AddAttribute(23, "x2", "12.01");
+                builder.AddAttribute(24, "y2", "8");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            InformationVariant.Slate => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", iconSize);
+                builder.AddAttribute(3, "height", iconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "line");
+                builder.AddAttribute(16, "x1", "12");
+                builder.AddAttribute(17, "y1", "16");
+                builder.AddAttribute(18, "x2", "12");
+                builder.AddAttribute(19, "y2", "12");
+                builder.CloseElement();
+                builder.OpenElement(20, "line");
+                builder.AddAttribute(21, "x1", "12");
+                builder.AddAttribute(22, "y1", "8");
+                builder.AddAttribute(23, "x2", "12.01");
+                builder.AddAttribute(24, "y2", "8");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            InformationVariant.Success => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", iconSize);
+                builder.AddAttribute(3, "height", iconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "path");
+                builder.AddAttribute(16, "d", "m9 12 2 2 4-4");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            InformationVariant.Warning => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", iconSize);
+                builder.AddAttribute(3, "height", iconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "path");
+                builder.AddAttribute(12, "d", "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z");
+                builder.CloseElement();
+                builder.OpenElement(13, "path");
+                builder.AddAttribute(14, "d", "M12 9v4");
+                builder.CloseElement();
+                builder.OpenElement(15, "path");
+                builder.AddAttribute(16, "d", "M12 17h.01");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            InformationVariant.Danger => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", iconSize);
+                builder.AddAttribute(3, "height", iconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "line");
+                builder.AddAttribute(16, "x1", "12");
+                builder.AddAttribute(17, "y1", "8");
+                builder.AddAttribute(18, "x2", "12");
+                builder.AddAttribute(19, "y2", "12");
+                builder.CloseElement();
+                builder.OpenElement(20, "line");
+                builder.AddAttribute(21, "x1", "12");
+                builder.AddAttribute(22, "y1", "16");
+                builder.AddAttribute(23, "x2", "12.01");
+                builder.AddAttribute(24, "y2", "16");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            _ => builder => { }
+        };
+    }
+}
+

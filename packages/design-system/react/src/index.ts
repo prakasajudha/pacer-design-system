@@ -16,5 +16,8 @@ export type { BadgeProps, BadgeVariant, BadgeType, BadgeColor } from './componen
 export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 
+export { Information } from './components/Information';
+export type { InformationProps, InformationVariant } from './components/Information';
+
 // Utilities
 export { cn } from './utils/cn';

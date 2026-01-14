@@ -7,9 +7,10 @@ import PtInput from './components/PtInput.vue';
 import PtCard from './components/PtCard.vue';
 import PtBadge from './components/PtBadge.vue';
 import PtSkeleton from './components/PtSkeleton.vue';
+import PtInformation from './components/PtInformation.vue';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation };
 
 // Plugin untuk install semua components
 export default {
@@ -20,6 +21,7 @@ export default {
     app.component('PtCard', PtCard);
     app.component('PtBadge', PtBadge);
     app.component('PtSkeleton', PtSkeleton);
+    app.component('PtInformation', PtInformation);
   },
 };
 
@@ -30,3 +32,4 @@ export type { InputProps } from './components/PtInput.vue';
 export type { CardProps } from './components/PtCard.vue';
 export type { BadgeProps } from './components/PtBadge.vue';
 export type { SkeletonProps } from './components/PtSkeleton.vue';
+export type { InformationProps } from './components/PtInformation.vue';
