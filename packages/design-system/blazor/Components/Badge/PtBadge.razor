@@ -1,0 +1,132 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<div class="@GetBadgeClasses()" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        @Label
+    }
+    else if (ChildContent != null)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Variant visual dari badge
+    /// </summary>
+    [Parameter]
+    public BadgeVariant Variant { get; set; } = BadgeVariant.Solid;
+
+    /// <summary>
+    /// Type badge (rounded atau square)
+    /// </summary>
+    [Parameter]
+    public BadgeType Type { get; set; } = BadgeType.Rounded;
+
+    /// <summary>
+    /// Color badge
+    /// </summary>
+    [Parameter]
+    public BadgeColor Color { get; set; } = BadgeColor.Slate;
+
+    /// <summary>
+    /// Label badge (jika ada, akan menggantikan children)
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    /// <summary>
+    /// Badge content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetBadgeClasses()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "gap-0.5",
+            "py-0.5",
+            "px-2.5",
+            "text-xs",
+            "font-semibold",
+        };
+
+        // Type styles
+        classes.Add(Type switch
+        {
+            BadgeType.Rounded => "rounded-full",
+            _ => "rounded-[4px]",
+        });
+
+        // Variant and color styles
+        classes.Add(GetVariantStyles());
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetVariantStyles()
+    {
+        if (Variant == BadgeVariant.Solid)
+        {
+            return Color switch
+            {
+                BadgeColor.Slate => "bg-slate-900 text-white",
+                BadgeColor.Primary => "bg-brand-300 text-white",
+                BadgeColor.Danger => "bg-red-600 text-white",
+                BadgeColor.Warning => "bg-yellow-500 text-slate-50",
+                BadgeColor.Success => "bg-green-600 text-white",
+                BadgeColor.Purple => "bg-purple-600 text-white",
+                BadgeColor.Pink => "bg-pink-600 text-white",
+                BadgeColor.Orange => "bg-orange-600 text-white",
+                _ => "bg-slate-900 text-white",
+            };
+        }
+
+        if (Variant == BadgeVariant.Secondary)
+        {
+            return Color switch
+            {
+                BadgeColor.Slate => "bg-slate-100 text-slate-900",
+                BadgeColor.Primary => "bg-brand-50 text-brand-300",
+                BadgeColor.Danger => "bg-red-50 text-red-600",
+                BadgeColor.Warning => "bg-yellow-50 text-yellow-700",
+                BadgeColor.Success => "bg-green-50 text-green-600",
+                BadgeColor.Purple => "bg-purple-50 text-purple-600",
+                BadgeColor.Pink => "bg-pink-50 text-pink-600",
+                BadgeColor.Orange => "bg-orange-50 text-orange-600",
+                _ => "bg-slate-100 text-slate-900",
+            };
+        }
+
+        if (Variant == BadgeVariant.Outline)
+        {
+            return Color switch
+            {
+                BadgeColor.Slate => "bg-white text-slate-900 border border-slate-300",
+                BadgeColor.Primary => "bg-white text-brand-300 border border-brand-300",
+                BadgeColor.Danger => "bg-white text-red-600 border border-red-600",
+                BadgeColor.Warning => "bg-white text-yellow-700 border border-yellow-500",
+                BadgeColor.Success => "bg-white text-green-600 border border-green-600",
+                BadgeColor.Purple => "bg-white text-purple-600 border border-purple-600",
+                BadgeColor.Pink => "bg-white text-pink-600 border border-pink-600",
+                BadgeColor.Orange => "bg-white text-orange-600 border border-orange-600",
+                _ => "bg-white text-slate-900 border border-slate-300",
+            };
+        }
+
+        return "";
+    }
+}
+
