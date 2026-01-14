@@ -13,5 +13,8 @@ export type { CardProps } from './components/Card';
 export { Badge } from './components/Badge';
 export type { BadgeProps, BadgeVariant, BadgeType, BadgeColor } from './components/Badge';
 
+export { Skeleton } from './components/Skeleton';
+export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
+
 // Utilities
 export { cn } from './utils/cn';

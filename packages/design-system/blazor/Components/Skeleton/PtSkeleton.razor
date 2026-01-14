@@ -1,0 +1,74 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<div class="@GetSkeletonClasses()" style="@GetSkeletonStyles()" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    /// <summary>
+    /// Variant visual dari skeleton
+    /// </summary>
+    [Parameter]
+    public SkeletonVariant Variant { get; set; } = SkeletonVariant.Square;
+
+    /// <summary>
+    /// Height skeleton (px, em, rem, %)
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    /// <summary>
+    /// Width skeleton (px, em, rem, %)
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
+    /// <summary>
+    /// Skeleton content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetSkeletonClasses()
+    {
+        var classes = new List<string>
+        {
+            "animate-pulse",
+            "bg-slate-200",
+        };
+
+        // Variant styles
+        classes.Add(Variant switch
+        {
+            SkeletonVariant.Square => "rounded-md",
+            _ => "rounded-full",
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSkeletonStyles()
+    {
+        var styles = new List<string>();
+
+        if (!string.IsNullOrEmpty(Height))
+        {
+            styles.Add($"height: {Height}");
+        }
+
+        if (!string.IsNullOrEmpty(Width))
+        {
+            styles.Add($"width: {Width}");
+        }
+
+        return string.Join("; ", styles);
+    }
+}
+
