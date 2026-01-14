@@ -9,6 +9,7 @@ export default defineConfig({
       { text: 'Guide', link: '/getting-started' },
       { text: 'Components', link: '/components/' },
       { text: 'Design Tokens', link: '/tokens' },
+      { text: 'Contributing', link: '/contributing' },
       {
         text: 'Frameworks',
         items: [
@@ -49,8 +50,16 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: '/components/' },
           { text: 'Button', link: '/components/button-new' },
+          { text: 'Icon Button', link: '/components/icon-button' },
           { text: 'Card', link: '/components/card-new' },
           { text: 'Input', link: '/components/input-new' },
+        ],
+      },
+      {
+        text: 'Contributing',
+        items: [
+          { text: 'Add Components & Styles', link: '/contributing' },
+          { text: 'Troubleshooting', link: '/troubleshooting' },
         ],
       },
     ],

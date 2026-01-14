@@ -1,5 +1,8 @@
 import type { Preview } from '@storybook/vue3';
+
+// Use packaged design-system CSS (aliased in main.ts) + local Tailwind utilities
 import '@pacer-ui/vue/styles.css';
+import '../src/styles.css';
 
 const preview: Preview = {
   parameters: {

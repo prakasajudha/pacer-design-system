@@ -18,14 +18,17 @@
     
     @if (!Loading && StartIcon != null)
     {
-        <span class="mr-2">@StartIcon</span>
+        <span class="shrink-0">@StartIcon</span>
     }
     
-    @ChildContent
+    @if (ChildContent != null)
+    {
+        <span class="px-1">@ChildContent</span>
+    }
     
     @if (!Loading && EndIcon != null)
     {
-        <span class="ml-2">@EndIcon</span>
+        <span class="shrink-0">@EndIcon</span>
     }
 </button>
 
@@ -53,6 +56,24 @@
     /// </summary>
     [Parameter]
     public bool Loading { get; set; } = false;
+
+    /// <summary>
+    /// Tone button (Primary (default) / Destructive)
+    /// </summary>
+    [Parameter]
+    public string Tone { get; set; } = "primary"; // primary | destructive
+
+    /// <summary>
+    /// @deprecated gunakan Tone="destructive"
+    /// </summary>
+    [Parameter]
+    public bool Destructive { get; set; } = false;
+
+    /// <summary>
+    /// Selected/toggled state
+    /// </summary>
+    [Parameter]
+    public bool Selected { get; set; } = false;
 
     /// <summary>
     /// Disabled state
@@ -100,40 +121,128 @@
     {
         var classes = new List<string>
         {
-            "btn",
             "inline-flex",
             "items-center",
             "justify-center",
+            "gap-1",
+            "text-sm",
+            "leading-6",
             "font-medium",
-            "transition-all",
-            "focus:outline-none",
-            "focus:ring-2",
-            "focus:ring-offset-2",
-            "disabled:cursor-not-allowed",
-            "disabled:opacity-50"
+            "transition-colors",
+            "select-none",
+            "disabled:pointer-events-none",
+            "disabled:opacity-50",
         };
 
-        // Variant styles
-        classes.Add(Variant switch
-        {
-            ButtonVariant.Primary => "bg-brand-primary-500 text-neutral-0 hover:bg-brand-primary-600 focus:ring-brand-primary-300",
-            ButtonVariant.Secondary => "bg-brand-secondary-500 text-neutral-900 hover:bg-brand-secondary-600 focus:ring-brand-secondary-300",
-            ButtonVariant.Success => "bg-success-500 text-neutral-0 hover:bg-success-600 focus:ring-success-300",
-            ButtonVariant.Warning => "bg-warning-500 text-neutral-900 hover:bg-warning-600 focus:ring-warning-300",
-            ButtonVariant.Error => "bg-error-500 text-neutral-0 hover:bg-error-600 focus:ring-error-300",
-            ButtonVariant.Ghost => "bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-300",
-            ButtonVariant.Link => "bg-transparent text-brand-primary-500 hover:text-brand-primary-600 hover:underline focus:ring-brand-primary-300",
-            _ => "bg-brand-primary-500 text-neutral-0 hover:bg-brand-primary-600 focus:ring-brand-primary-300"
-        });
+        var resolvedTone = Destructive ? "destructive" : (Tone ?? "primary");
 
-        // Size styles
+        // Link variants are special in Figma (24px height, no padding/bg).
+        if (Variant is ButtonVariant.Link or ButtonVariant.LinkPrimary or ButtonVariant.LinkSecondary)
+        {
+            classes.Add("h-6");
+            classes.Add("px-0");
+            classes.Add("py-0");
+            classes.Add("rounded-none");
+            classes.Add("underline-offset-4");
+            classes.Add("hover:underline");
+            classes.Add("focus-visible:outline-none");
+            classes.Add("focus-visible:ring-2");
+            classes.Add("focus-visible:ring-offset-2");
+            classes.Add("focus-visible:ring-offset-white");
+
+            if (resolvedTone == "destructive")
+            {
+                classes.Add("text-red-600");
+                classes.Add("focus-visible:ring-red-200");
+                if (Selected) classes.Add("underline");
+                return string.Join(" ", classes);
+            }
+
+            if (Variant == ButtonVariant.Link || Variant == ButtonVariant.LinkPrimary)
+            {
+                classes.Add("text-brand-300");
+                classes.Add("focus-visible:ring-brand-200");
+                if (Selected) classes.Add("underline");
+                return string.Join(" ", classes);
+            }
+
+            classes.Add("text-slate-900");
+            classes.Add("focus-visible:ring-slate-200");
+            if (Selected) classes.Add("underline");
+            return string.Join(" ", classes);
+        }
+
+        // Size styles (md/sm)
         classes.Add(Size switch
         {
-            ButtonSize.Small => "text-sm px-3 py-1.5 rounded",
-            ButtonSize.Medium => "text-base px-4 py-2 rounded-md",
-            ButtonSize.Large => "text-lg px-6 py-3 rounded-lg",
-            _ => "text-base px-4 py-2 rounded-md"
+            ButtonSize.Small => "h-9 px-3 py-1.5 rounded-[6px]",
+            _ => "h-10 px-3 py-2 rounded-[6px]",
         });
+
+        // Variant styles (non-link)
+        if (resolvedTone == "destructive")
+        {
+            classes.Add("focus-visible:outline-none");
+            classes.Add("focus-visible:ring-2");
+            classes.Add("focus-visible:ring-offset-2");
+            classes.Add("focus-visible:ring-offset-white");
+            classes.Add("focus-visible:ring-red-200");
+
+            classes.Add(Variant switch
+            {
+                ButtonVariant.Secondary => "bg-white text-red-600 border border-red-600 hover:bg-red-50",
+                ButtonVariant.Outline => "bg-white text-slate-900 border border-red-600 hover:bg-red-50",
+                ButtonVariant.Ghost => "bg-transparent text-red-600 hover:bg-red-50",
+                _ => "bg-red-600 text-white hover:bg-red-700"
+            });
+
+            if (Selected)
+            {
+                classes.Add(Variant switch
+                {
+                    ButtonVariant.Secondary => "bg-red-50",
+                    ButtonVariant.Outline => "bg-red-50",
+                    ButtonVariant.Ghost => "bg-red-50",
+                    _ => "bg-red-700",
+                });
+            }
+
+            if (Variant == ButtonVariant.Secondary || Variant == ButtonVariant.Outline)
+            {
+                classes.Add("border");
+            }
+        }
+        else
+        {
+            classes.Add("focus-visible:outline-none");
+            classes.Add("focus-visible:ring-2");
+            classes.Add("focus-visible:ring-offset-2");
+            classes.Add("focus-visible:ring-offset-white");
+
+            classes.Add(Variant switch
+            {
+                ButtonVariant.Primary => "bg-brand-300 text-white hover:bg-brand-400 focus-visible:ring-brand-200",
+                ButtonVariant.Secondary => "bg-white text-brand-300 border border-brand-300 hover:bg-brand-50 focus-visible:ring-brand-200",
+                ButtonVariant.Outline => "bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 focus-visible:ring-slate-200",
+                ButtonVariant.Ghost => "bg-transparent text-slate-900 hover:bg-slate-100 focus-visible:ring-slate-200",
+                ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-200",
+                ButtonVariant.Warning => "bg-yellow-500 text-slate-900 hover:bg-yellow-600 focus-visible:ring-yellow-200",
+                ButtonVariant.Error => "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-200",
+                _ => "bg-brand-300 text-white hover:bg-brand-400 focus-visible:ring-brand-200"
+            });
+
+            if (Selected)
+            {
+                classes.Add(Variant switch
+                {
+                    ButtonVariant.Primary => "bg-brand-400",
+                    ButtonVariant.Secondary => "bg-brand-50",
+                    ButtonVariant.Outline => "bg-slate-100",
+                    ButtonVariant.Ghost => "bg-slate-100",
+                    _ => ""
+                });
+            }
+        }
 
         if (FullWidth)
         {

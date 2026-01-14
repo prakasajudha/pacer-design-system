@@ -1,7 +1,7 @@
 module.exports = {
-    presets: [require('@pertamina/tailwind-preset')],
+    presets: [require('@pacer-ui/tailwind-preset')],
     content: [
-        './Components/**/*.{razor,html}',
+        './Components/**/*.{razor,html,cs}',
         './**/*.razor',
     ],
 };

@@ -1,5 +1,8 @@
 import type { Preview } from '@storybook/react';
+
+// Use packaged design-system CSS (aliased in main.ts) + local Tailwind utilities
 import '@pacer-ui/react/styles.css';
+import '../src/styles.css';
 
 const preview: Preview = {
   parameters: {

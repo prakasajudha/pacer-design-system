@@ -8,8 +8,17 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component:
-          'Komponen tombol untuk Vue dengan varian, ukuran, dan dukungan ikon mengacu pada implementasi @pacer-ui/vue.',
+        component: [
+          'Komponen tombol PACER sesuai guideline Figma.',
+          '',
+          'Ringkasan guideline:',
+          '- md: h-10 (40px), sm: h-9 (36px)',
+          '- gap antar item: 4px (gap-1)',
+          '- radius: 6px (rounded-[6px])',
+          '- typography: text-sm (14px) + leading-6 (24px)',
+          '',
+          'Untuk tombol ikon-only gunakan **PtIconButton** (wajib `ariaLabel`).',
+        ].join('\n'),
       },
     },
   },
@@ -20,17 +29,30 @@ const meta = {
     disabled: false,
     loading: false,
     fullWidth: false,
+    tone: 'primary',
+    selected: false,
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'success', 'warning', 'error', 'ghost', 'link'],
+      options: [
+        'primary',
+        'secondary',
+        'outline',
+        'ghost',
+        'link-primary',
+        'link-secondary',
+        // legacy
+        'success',
+        'warning',
+        'error',
+      ],
       description: 'Pilihan gaya visual tombol.',
     },
     size: {
       control: 'inline-radio',
-      options: ['sm', 'md', 'lg'],
-      description: 'Ukuran tombol.',
+      options: ['sm', 'md'],
+      description: 'Ukuran tombol (non-link).',
     },
     fullWidth: {
       control: 'boolean',
@@ -43,6 +65,27 @@ const meta = {
     disabled: {
       control: 'boolean',
       description: 'Nonaktifkan tombol.',
+    },
+    tone: {
+      control: 'inline-radio',
+      options: ['primary', 'destructive'],
+      description: 'Type button sesuai Figma: primary / destructive.',
+    },
+    selected: {
+      control: 'boolean',
+      description: 'Aktifkan selected/toggled state.',
+    },
+    destructive: {
+      table: { disable: true },
+      description: '@deprecated - gunakan prop `tone="destructive"` sebagai gantinya.',
+    },
+    startIcon: {
+      control: false,
+      description: 'Ikon sebelum label tombol.',
+    },
+    endIcon: {
+      control: false,
+      description: 'Ikon setelah label tombol.',
     },
   },
 } satisfies Meta<typeof PtButton>;
@@ -69,24 +112,10 @@ export const Secondary: Story = {
   },
 };
 
-export const Success: Story = {
-  render: renderButton('Success Action'),
+export const Outline: Story = {
+  render: renderButton('Outline Action'),
   args: {
-    variant: 'success',
-  },
-};
-
-export const Warning: Story = {
-  render: renderButton('Warning Action'),
-  args: {
-    variant: 'warning',
-  },
-};
-
-export const Error: Story = {
-  render: renderButton('Error Action'),
-  args: {
-    variant: 'error',
+    variant: 'outline',
   },
 };
 
@@ -100,7 +129,14 @@ export const Ghost: Story = {
 export const Link: Story = {
   render: renderButton('Link Button'),
   args: {
-    variant: 'link',
+    variant: 'link-primary',
+  },
+};
+
+export const LinkSecondary: Story = {
+  render: renderButton('Link Secondary'),
+  args: {
+    variant: 'link-secondary',
   },
 };
 
@@ -112,9 +148,9 @@ export const Small: Story = {
 };
 
 export const Large: Story = {
-  render: renderButton('Large Size'),
+  render: renderButton('Medium (md)'),
   args: {
-    size: 'lg',
+    size: 'md',
   },
 };
 
@@ -122,6 +158,20 @@ export const Loading: Story = {
   render: renderButton('Processing'),
   args: {
     loading: true,
+  },
+};
+
+export const Destructive: Story = {
+  render: renderButton('Delete'),
+  args: {
+    tone: 'destructive',
+  },
+};
+
+export const Selected: Story = {
+  render: renderButton('Selected'),
+  args: {
+    selected: true,
   },
 };
 

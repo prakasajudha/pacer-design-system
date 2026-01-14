@@ -1,122 +1,252 @@
 import React from 'react';
 import { cn } from '../utils/cn';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+// Type exports for IconButton
+export type ButtonVariant =
+  | 'default'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'link-primary'
+  | 'link-secondary';
+
+export type ButtonSize = 'sm' | 'md';
+
+export type ButtonColor = 'primary' | 'destructive';
+
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   /**
    * Variant visual dari button
+   * @type {ButtonVariant}
    */
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'ghost' | 'link';
-  
+  variant?: ButtonVariant;
+
   /**
-   * Ukuran button
+   * Ukuran button (non-link)
+   * @type {ButtonSize}
    */
-  size?: 'sm' | 'md' | 'lg';
-  
-  /**
-   * Full width button
-   */
-  fullWidth?: boolean;
-  
+  size?: ButtonSize;
+
   /**
    * Loading state
+   * @type {boolean}
    */
   loading?: boolean;
-  
+
   /**
-   * Icon sebelum text
+   * Color button (Primary (default) / Destructive)
+   * @type {ButtonColor}
    */
-  startIcon?: React.ReactNode;
-  
+  color?: ButtonColor;
+
   /**
-   * Icon setelah text
+   * Selected/toggled state
+   * @type {boolean}
    */
-  endIcon?: React.ReactNode;
+  selected?: boolean;
+
+  /**
+   * Icon sebelum label tombol
+   * @type {React.ReactNode}
+   */
+  leftIcon?: React.ReactNode;
+
+  /**
+   * Icon setelah label tombol
+   * @type {React.ReactNode}
+   */
+  rightIcon?: React.ReactNode;
+
+  /**
+   * Native HTML button type
+   * @type {'button' | 'submit' | 'reset'}
+   */
+  type?: 'button' | 'submit' | 'reset';
 }
 
-/**
- * Button Component
- * 
- * Komponen button yang accessible dan konsisten.
- * 
- * @example
- * ```tsx
- * <Button variant="primary" size="md">
- *   Click me
- * </Button>
- * ```
- */
+const Spinner = ({ className }: { className?: string }) => {
+  return (
+    <svg
+      aria-hidden="true"
+      className={cn('animate-spin h-4 w-4 mr-1', className)}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  );
+};
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = 'primary',
+      variant = 'default',
       size = 'md',
-      fullWidth = false,
       loading = false,
-      startIcon,
-      endIcon,
+      color = 'primary',
+      selected = false,
+      leftIcon,
+      rightIcon,
       children,
       className,
       disabled,
+      type = 'button',
       ...props
     },
     ref
   ) => {
-    const baseStyles = 'btn inline-flex items-center justify-center font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
-    
-    const variantStyles = {
-      primary: 'bg-brand-500 text-base-white hover:bg-brand-600 focus:ring-brand-200',
-      secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200 focus:ring-slate-300 border border-slate-300',
-      success: 'bg-green-500 text-base-white hover:bg-green-600 focus:ring-green-200',
-      warning: 'bg-yellow-500 text-slate-900 hover:bg-yellow-600 focus:ring-yellow-200',
-      error: 'bg-red-500 text-base-white hover:bg-red-600 focus:ring-red-200',
-      ghost: 'bg-transparent text-slate-700 hover:bg-slate-100 focus:ring-slate-300',
-      link: 'bg-transparent text-brand-500 hover:text-brand-600 hover:underline focus:ring-brand-200',
-    };
-    
+    const baseStyles =
+      'inline-flex items-center justify-center font-medium text-sm leading-6 transition-colors select-none disabled:pointer-events-none disabled:opacity-50';
+
+    const isLinkVariant = variant === 'link-primary' || variant === 'link-secondary';
+
+    // Link variants are special in Figma (24px height, no padding/bg).
+    if (isLinkVariant) {
+      const linkColor =
+        color === 'destructive'
+          ? 'text-red-600'
+          : variant === 'link-primary'
+            ? 'text-brand-300'
+            : 'text-slate-900';
+      const focusRing =
+        color === 'destructive'
+          ? 'focus-visible:ring-red-200'
+          : variant === 'link-primary'
+            ? 'focus-visible:ring-brand-200'
+            : 'focus-visible:ring-slate-200';
+
+      return (
+        <button
+          ref={ref}
+          type={type}
+          className={cn(
+            baseStyles,
+            'h-6 px-0 py-0 rounded-none underline-offset-4 hover:underline',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+            focusRing,
+            linkColor,
+            selected && 'underline',
+            className
+          )}
+          disabled={disabled || loading}
+          aria-pressed={selected || undefined}
+          {...props}
+        >
+          {loading && <Spinner />}
+          {!loading && leftIcon && <span className="shrink-0">{leftIcon}</span>}
+          {children && <span className="px-1">{children}</span>}
+          {!loading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
+        </button>
+      );
+    }
+
     const sizeStyles = {
-      sm: 'text-sm px-3 py-1.5 rounded',
-      md: 'text-base px-4 py-2 rounded-md',
-      lg: 'text-lg px-6 py-3 rounded-lg',
+      sm: 'min-w-[64px] py-1.5 px-2 gap-0 rounded-[6px]',
+      md: 'min-w-[80px] py-2 px-3 gap-1 rounded-[6px]',
+    } as const;
+
+    const getVariantStyles = () => {
+      if (color === 'destructive') {
+        if (variant === 'secondary') {
+          return cn(
+            'bg-white text-red-600 border border-red-600',
+            'hover:bg-red-50',
+            'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+            selected && 'bg-red-50'
+          );
+        }
+
+        if (variant === 'outline') {
+          return cn(
+            'bg-white text-slate-900 border border-red-600',
+            'hover:bg-red-50',
+            'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+            selected && 'bg-red-50'
+          );
+        }
+
+        if (variant === 'ghost') {
+          return cn(
+            'bg-transparent text-red-600',
+            'hover:bg-red-50',
+            'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+            selected && 'bg-red-50'
+          );
+        }
+
+        // default variant when destructive is true
+        return cn(
+          'bg-red-600 text-white',
+          'hover:bg-red-700',
+          'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          selected && 'bg-red-700'
+        );
+      }
+
+      if (variant === 'default') {
+        return cn(
+          'bg-brand-300 text-white',
+          'hover:bg-brand-400',
+          'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          selected && 'bg-brand-400'
+        );
+      }
+
+      if (variant === 'secondary') {
+        return cn(
+          'bg-white text-brand-300 border border-brand-300',
+          'hover:bg-brand-50',
+          'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          selected && 'bg-brand-50'
+        );
+      }
+
+      if (variant === 'outline') {
+        return cn(
+          'bg-white text-slate-900 border border-slate-300',
+          'hover:bg-slate-50',
+          'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          selected && 'bg-slate-100'
+        );
+      }
+
+      if (variant === 'ghost') {
+        return cn(
+          'bg-transparent text-slate-900',
+          'hover:bg-slate-100',
+          'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          selected && 'bg-slate-100'
+        );
+      }
+
+      // Fallback: default style
+      return cn(
+        'bg-brand-300 text-white',
+        'hover:bg-brand-400',
+        'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        selected && 'bg-brand-400'
+      );
     };
-    
+
     return (
       <button
         ref={ref}
-        className={cn(
-          baseStyles,
-          variantStyles[variant],
-          sizeStyles[size],
-          fullWidth && 'w-full',
-          className
-        )}
+        type={type}
+        className={cn(baseStyles, sizeStyles[size], getVariantStyles(), className)}
         disabled={disabled || loading}
+        aria-pressed={selected || undefined}
         {...props}
       >
-        {loading && (
-          <svg
-            className="animate-spin -ml-1 mr-2 h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
-        )}
-        {!loading && startIcon && <span className="mr-2">{startIcon}</span>}
-        {children}
-        {!loading && endIcon && <span className="ml-2">{endIcon}</span>}
+        {loading && <Spinner />}
+        {!loading && leftIcon && <span className="shrink-0">{leftIcon}</span>}
+        {children && <span className="px-1">{children}</span>}
+        {!loading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
       </button>
     );
   }

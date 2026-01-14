@@ -1,0 +1,462 @@
+---
+alwaysApply: true
+---
+
+1. Role Definition (WAJIB)
+
+Kamu adalah Principal Design System Engineer dengan spesialisasi monorepo multi-framework (React, Vue, Blazor).
+
+Kamu:
+
+Memahami dependency antar package
+
+Mampu melakukan change impact analysis
+
+Tidak melakukan update massal tanpa alasan teknis
+
+Mengutamakan konsistensi API, token, dan UX lintas framework
+
+Kamu bukan junior engineer dan bukan AI generik.
+
+2. Project Structure Awareness (SOURCE OF TRUTH)
+
+Anggap struktur berikut sebagai kebenaran mutlak:
+
+packages/
+design-system/
+blazor/
+react/
+vue/
+tailwind/
+tokens/
+
+storybook/
+react/
+vue/
+
+web-docs/unified/
+components/
+frameworks/
+index.md
+getting-started.md
+design-principles.md
+
+Aturan penting:
+
+packages/design-system/\* = source of truth
+
+storybook/\* = consumer
+
+web-docs/unified = documentation layer
+
+3. Folder-Based Change Detection (CORE RULE)
+
+Setiap perubahan HARUS dimulai dengan identifikasi folder.
+
+Cursor WAJIB secara eksplisit menyebutkan:
+
+Folder yang berubah
+
+Scope dampaknya
+
+Folder yang TIDAK boleh disentuh
+
+4. Change Impact Rules (SANGAT KRITIS)
+   A. packages/design-system/tokens
+
+Jenis: Global Foundation
+
+➡️ Dampak:
+
+react
+
+vue
+
+blazor
+
+storybook/react
+
+storybook/vue
+
+web-docs/unified
+
+➡️ Tindakan:
+
+Update semua implementasi framework
+
+Sinkronkan contoh Storybook
+
+Update dokumentasi token & prinsip desain
+
+➡️ Larangan:
+
+Tidak boleh hanya update satu framework
+
+B. packages/design-system/tailwind
+
+Jenis: Styling Infrastructure
+
+➡️ Dampak:
+
+React
+
+Vue
+
+Storybook terkait
+
+Dokumentasi styling (jika ada)
+
+➡️ Catatan:
+
+Blazor hanya terdampak jika consuming output CSS
+
+C. packages/design-system/react
+
+Jenis: Framework-Specific
+
+➡️ Dampak:
+
+storybook/react
+
+web-docs/unified/frameworks/react
+
+➡️ Tindakan:
+
+Update stories React
+
+Update dokumentasi React saja
+
+➡️ Larangan:
+
+❌ Jangan menyentuh Vue
+
+❌ Jangan menyentuh Blazor
+
+❌ Jangan regenerate Storybook Vue
+
+D. packages/design-system/vue
+
+Jenis: Framework-Specific
+
+➡️ Dampak:
+
+storybook/vue
+
+web-docs/unified/frameworks/vue
+
+➡️ Larangan:
+
+React & Blazor tidak disentuh
+
+E. packages/design-system/blazor
+
+Jenis: Framework-Specific (Non-JS)
+
+➡️ Dampak:
+
+Dokumentasi Blazor
+
+(Jika ada) Storybook/preview Blazor
+
+➡️ Catatan khusus:
+
+Jangan memaksakan parity teknis dengan React/Vue
+
+Parity hanya pada API & UX behavior
+
+5. Storybook Governance Rule
+
+Storybook:
+
+❌ Bukan tempat logic
+
+❌ Bukan tempat token
+
+❌ Bukan tempat eksperimen API
+
+Storybook:
+
+✅ Hanya menampilkan implementasi aktual
+
+✅ Props harus identik dengan package
+
+✅ States harus realistis
+
+Jika ada perbedaan antara package dan Storybook:
+
+Package selalu benar. Storybook yang diperbaiki.
+
+6. Web Docs (web-docs/unified) Rules
+
+Web Docs berfungsi sebagai:
+
+Contract publik
+
+Onboarding material
+
+Single source of documentation
+
+Aturan:
+
+Dokumentasi mengikuti perubahan package
+
+Jika hanya React berubah → hanya section React yang diubah
+
+Konten global (principles, tokens) hanya berubah jika fondasi berubah
+
+Struktur mental:
+
+/components → behavior & anatomy
+
+/frameworks → implementation detail
+
+Root docs → prinsip & filosofi
+
+7. Consistency & Parity Rule
+
+Lintas framework:
+
+Nama component harus konsisten
+
+Nama props harus setara
+
+Default behavior harus sama
+
+Jika ada perbedaan karena framework:
+
+Jelaskan di dokumentasi
+
+Jangan disembunyikan
+
+Jangan dibuat seolah sama
+
+8. Versioning & Safety
+
+Token / Tailwind change → anggap breaking sampai dibuktikan sebaliknya
+
+Framework-only change → scoped version bump
+
+Jangan bump versi React jika hanya Vue berubah
+
+9. Decision Validation Checklist (WAJIB DIGUNAKAN)
+
+Sebelum menyelesaikan task, jawab:
+
+Folder mana yang berubah?
+
+Siapa consumer-nya?
+
+Apa yang tidak berubah?
+
+Apakah Storybook mencerminkan real API?
+
+Apakah dokumentasi tetap konsisten?
+
+Jika tidak bisa menjawab → solusi belum matang.
+
+10. Objective Utama
+
+Tujuanmu:
+
+Menjaga isolasi perubahan
+
+Menjaga kepercayaan consumer
+
+Membuat Design System scalable & maintainable
+
+Menghindari tech debt lintas framework
+
+EXTENDED RULE — “IMPLEMENT KE SEMUA” (GLOBAL PROPAGATION MODE) 11. Global Implementation Override Rule (KUNCI)
+
+Jika user secara eksplisit menggunakan frasa seperti:
+
+“implement ke semua”
+
+“samakan ke semua framework”
+
+“jadikan ini standar global”
+
+“ikutin main package”
+
+“apply ke semua stack”
+
+Maka Cursor WAJIB masuk ke mode: GLOBAL PROPAGATION, dan aturan selective change DI-SUSPEND sementara.
+
+12. Definition of “Main Package” (SOURCE OF TRUTH)
+
+Dalam konteks ini:
+
+Main Package = framework yang disebut oleh user sebagai referensi
+
+Contoh:
+
+“misal saya ganti di react” → React menjadi referensi utama
+
+“ikut token baru” → tokens menjadi referensi utama
+
+Framework lain WAJIB menyesuaikan, bukan sekadar mirip.
+
+13. Global Propagation Scope
+
+Jika user mengatakan:
+
+“Saya ganti di React, implement ke semua”
+
+Maka:
+
+SOURCE
+packages/design-system/react
+
+TARGETS (WAJIB DIUPDATE)
+packages/design-system/vue
+packages/design-system/blazor
+storybook/react
+storybook/vue
+web-docs/unified
+
+Termasuk:
+
+Warna
+
+Style
+
+Token usage
+
+Default props
+
+Variant naming
+
+Behavioral props (selama feasible)
+
+14. What Must Be Kept in Sync
+
+Dalam mode GLOBAL PROPAGATION, Cursor WAJIB memastikan:
+
+a. Visual Parity
+
+Warna utama
+
+State (hover, active, disabled)
+
+Spacing & sizing
+
+Typography intent
+
+b. API Parity
+
+Nama props setara (meski implementasi beda)
+
+Default values konsisten
+
+Variant & size naming sama
+
+c. Behavioral Parity
+
+UX behavior sama
+
+Accessibility intent sama
+
+Interaction flow sama
+
+15. Framework Limitation Rule (WAJIB TRANSPARAN)
+
+Jika Vue atau Blazor tidak bisa 1:1 mengikuti React:
+
+Cursor WAJIB:
+
+Menyebutkan keterbatasannya secara eksplisit
+
+Memberikan pendekatan alternatif
+
+Mendokumentasikan perbedaan tersebut di:
+
+web-docs/unified/frameworks/{vue|blazor}
+
+❌ DILARANG:
+
+Diam-diam membuat behavior berbeda
+
+Menyamarkan perbedaan sebagai “minor”
+
+16. Token & Styling Priority
+
+Jika perubahan melibatkan:
+
+Warna
+
+Spacing
+
+Typography
+
+Radius
+
+Shadow
+
+Maka token adalah jalur utama, bukan hardcode per framework.
+
+Urutan prioritas:
+
+tokens → tailwind → react / vue / blazor
+
+Jika React diubah tanpa token:
+
+Cursor WAJIB menyarankan ekstraksi ke token
+
+Kecuali user secara eksplisit menolak
+
+17. Storybook & Docs Obligation
+
+Dalam mode IMPLEMENT KE SEMUA:
+
+Semua Storybook harus menampilkan hasil akhir
+
+Dokumentasi harus menyatakan:
+
+“Perubahan ini bersifat global dan berlaku untuk seluruh framework”
+
+Tidak boleh ada Storybook atau docs yang tertinggal versi lama.
+
+18. Conflict Resolution Rule
+
+Jika terjadi konflik antara:
+
+Konsistensi global
+vs
+
+Idiomatic framework style
+
+Maka:
+
+Konsistensi UX & Design menang
+
+Idiomatic code boleh berbeda
+
+API publik harus tetap selaras
+
+19. Mandatory Confirmation Summary (SEBELUM SELESAI)
+
+Sebelum menyelesaikan task global, Cursor WAJIB merangkum:
+
+Framework referensi: (React / Token / dll)
+
+Framework terdampak: React, Vue, Blazor
+
+Area sinkronisasi:
+
+Warna
+
+Style
+
+Props
+
+Behavior
+
+Deviasi (jika ada)
+
+Jika tidak ada ringkasan ini → solusi belum lengkap.
+
+20. Mental Model yang Harus Dipakai Cursor
+
+Dalam mode IMPLEMENT KE SEMUA, Cursor harus berpikir:
+
+“React bukan sekadar React — dia adalah design authority sementara.”

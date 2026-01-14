@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" fill="none">
+  <rect width="1200" height="420" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="64" y="88" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="48" font-weight="700" fill="#0F172A">
+    Layout &amp; spacing
+  </text>
+
+  <!-- Panel -->
+  <rect x="64" y="140" width="520" height="240" rx="8" fill="#F2F2F2"/>
+
+  <!-- Button (md) -->
+  <rect x="204" y="230" width="240" height="56" rx="8" fill="#016BF8"/>
+
+  <!-- Inner content (icon + label + icon) -->
+  <g transform="translate(228 246)">
+    <path d="M10 2v20M0 12h20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="262" y="264" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="600" fill="#FFFFFF">
+    Button
+  </text>
+  <g transform="translate(366 246)">
+    <path d="M10 2v20M0 12h20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Padding indicators -->
+  <g stroke="#007D00" stroke-width="2" fill="none">
+    <!-- left padding 12 -->
+    <line x1="204" y1="212" x2="228" y2="212"/>
+    <line x1="204" y1="206" x2="204" y2="218"/>
+    <line x1="228" y1="206" x2="228" y2="218"/>
+    <text x="216" y="200" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="700" fill="#007D00">12</text>
+
+    <!-- top padding 8 -->
+    <line x1="188" y1="230" x2="188" y2="246"/>
+    <line x1="182" y1="230" x2="194" y2="230"/>
+    <line x1="182" y1="246" x2="194" y2="246"/>
+    <text x="188" y="224" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="700" fill="#007D00">8</text>
+  </g>
+
+  <!-- Gap indicator (4) between icon and label -->
+  <g stroke="#C54600" stroke-width="2" fill="none">
+    <line x1="248" y1="306" x2="262" y2="306"/>
+    <line x1="248" y1="300" x2="248" y2="312"/>
+    <line x1="262" y1="300" x2="262" y2="312"/>
+    <text x="255" y="296" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="700" fill="#C54600">4</text>
+  </g>
+
+  <!-- Notes -->
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="#0F172A">
+    <text x="640" y="170" font-weight="600">Default (md)</text>
+    <text x="640" y="196">- Height: 40px (h-10)</text>
+    <text x="640" y="220">- Padding X: 12px (px-3)</text>
+    <text x="640" y="244">- Padding Y: 8px (py-2)</text>
+    <text x="640" y="268">- Gap: 4px (gap-1)</text>
+    <text x="640" y="292">- Radius: 6px (rounded-[6px])</text>
+    <text x="640" y="316">- Icon: 16px (h-4 w-4)</text>
+    <text x="640" y="340">- Text: 14px + line-height 24px (text-sm leading-6)</text>
+  </g>
+</svg>
+
+

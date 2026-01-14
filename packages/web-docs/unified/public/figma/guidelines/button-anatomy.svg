@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" fill="none">
+  <rect width="1200" height="360" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="64" y="88" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="48" font-weight="700" fill="#0F172A">
+    Anatomy
+  </text>
+
+  <!-- Exhibit background -->
+  <rect x="64" y="140" width="520" height="180" rx="8" fill="#F2F2F2"/>
+
+  <!-- Button -->
+  <rect x="234" y="208" width="180" height="56" rx="8" fill="#016BF8"/>
+
+  <!-- Icons + label (simplified) -->
+  <g transform="translate(258 224)">
+    <path d="M10 2v20M0 12h20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="292" y="242" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="18" font-weight="600" fill="#FFFFFF">
+    Button
+  </text>
+  <g transform="translate(382 224)">
+    <path d="M10 2v20M0 12h20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Callout dots -->
+  <g>
+    <!-- 1: icon (leading/trailing) -->
+    <circle cx="190" cy="236" r="14" fill="#BE123C"/>
+    <text x="190" y="241" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+    <line x1="204" y1="236" x2="258" y2="236" stroke="#BE123C" stroke-width="2"/>
+
+    <!-- 2: container -->
+    <circle cx="324" cy="292" r="14" fill="#BE123C"/>
+    <text x="324" y="297" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+    <line x1="324" y1="278" x2="324" y2="264" stroke="#BE123C" stroke-width="2"/>
+
+    <!-- 3: label -->
+    <circle cx="434" cy="186" r="14" fill="#BE123C"/>
+    <text x="434" y="191" text-anchor="middle" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+    <line x1="420" y1="200" x2="388" y2="224" stroke="#BE123C" stroke-width="2"/>
+  </g>
+
+  <!-- Explanation -->
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="#0F172A">
+    <text x="640" y="170" font-weight="600">1. Icons (leading / trailing)</text>
+    <text x="640" y="194">Icon yang bisa diposisikan sebelum atau setelah label.</text>
+
+    <text x="640" y="236" font-weight="600">2. Container</text>
+    <text x="640" y="260">Area klik yang membungkus icon dan label.</text>
+
+    <text x="640" y="302" font-weight="600">3. Text label</text>
+    <text x="640" y="326">Teks tombol yang menjelaskan aksi.</text>
+  </g>
+</svg>
+
+
