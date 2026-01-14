@@ -12,8 +12,8 @@ const meta = {
           'PtIconButton adalah komponen tombol **ikon-only** (tanpa label teks) sesuai PACER Figma.',
           '',
           '- Wajib isi `ariaLabel` untuk aksesibilitas.',
-          '- `tone`: `primary | destructive` (default: primary)',
-          '- `variant`: `primary | secondary | outline | ghost | link-primary | link-secondary`',
+          '- `color`: `primary | danger` (default: primary)',
+          '- `variant`: `solid | secondary | outline | ghost | link-primary | link-secondary`',
           '- `size`: `md | sm | xs | xss`',
         ].join('\n'),
       },
@@ -22,25 +22,69 @@ const meta = {
   tags: ['autodocs'],
   args: {
     ariaLabel: 'Close',
-    variant: 'primary',
+    variant: 'solid',
     size: 'md',
-    tone: 'primary',
+    color: 'primary',
     selected: false,
     loading: false,
-    disabled: false,
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'outline', 'ghost', 'link-primary', 'link-secondary'],
+      options: ['solid', 'secondary', 'outline', 'ghost', 'link-primary', 'link-secondary'],
+      description: 'Pilihan gaya visual IconButton.',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: "'solid'" },
+      },
     },
     size: {
       control: 'inline-radio',
       options: ['md', 'sm', 'xs', 'xss'],
+      description: 'Ukuran IconButton.',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: "'md'" },
+      },
     },
-    tone: {
-      control: 'inline-radio',
-      options: ['primary', 'destructive'],
+    color: {
+      control: 'select',
+      options: ['primary', 'danger'],
+      description: 'Color button: primary (default) / danger.',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: "'primary'" },
+      },
+    },
+    selected: {
+      control: 'boolean',
+      description: 'Aktifkan selected/toggled state.',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Tampilkan state loading.',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Nonaktifkan tombol.',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
+    icon: {
+      control: false,
+      description: 'Icon sebagai komponen Vue.',
+      table: {
+        type: { summary: 'Component' },
+      },
     },
   },
 } satisfies Meta<typeof PtIconButton>;
@@ -81,13 +125,13 @@ export const Showcase: Story = {
     components: { PtIconButton },
     template: `
       <div class="flex items-center gap-3">
-        <PtIconButton aria-label="Close" variant="primary">${CloseIcon}</PtIconButton>
+        <PtIconButton aria-label="Close" variant="solid">${CloseIcon}</PtIconButton>
         <PtIconButton aria-label="Close" variant="secondary">${CloseIcon}</PtIconButton>
         <PtIconButton aria-label="Close" variant="outline">${CloseIcon}</PtIconButton>
         <PtIconButton aria-label="Close" variant="ghost">${CloseIcon}</PtIconButton>
         <PtIconButton aria-label="Close" variant="link-primary">${CloseIcon}</PtIconButton>
         <PtIconButton aria-label="Close" variant="link-secondary">${CloseIcon}</PtIconButton>
-        <PtIconButton aria-label="Delete" tone="destructive">${CloseIcon}</PtIconButton>
+        <PtIconButton aria-label="Delete" color="danger">${CloseIcon}</PtIconButton>
       </div>
     `,
   }),

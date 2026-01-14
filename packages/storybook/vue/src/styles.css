@@ -2,3 +2,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Force focus-visible state untuk Storybook focused toggle */
+/* Apply focus ring styles langsung saat data-focused="true" */
+button[data-focused='true'] {
+  outline: none !important;
+  /* Double ring untuk brand-300 (default untuk solid, secondary) */
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 4px rgb(1, 107, 248) !important;
+}
+
+/* Untuk variant outline dan ghost dengan slate-200 */
+button[data-focused='true'].bg-white.border-slate-300,
+button[data-focused='true'].bg-transparent.text-slate-900:not(.bg-brand-300):not(.bg-red-600) {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 4px rgb(226, 232, 240) !important;
+}
+
+/* Untuk danger variant dengan red-200 */
+button[data-focused='true'].bg-red-600,
+button[data-focused='true'].text-red-600.border-red-600 {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 4px rgb(254, 202, 202) !important;
+}

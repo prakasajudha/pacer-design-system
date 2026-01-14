@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@pacer-ui/react';
+import { useEffect, useRef } from 'react';
 
 const meta = {
   title: 'Components/Button',
@@ -25,17 +26,17 @@ const meta = {
   tags: ['autodocs'],
   args: {
     children: 'Primary Action',
-    variant: 'default',
+    variant: 'solid',
     size: 'md',
-    disabled: false,
     loading: false,
     color: 'primary',
     selected: false,
+    focused: false,
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'outline', 'ghost', 'link-primary', 'link-secondary'],
+      options: ['solid', 'secondary', 'outline', 'ghost', 'link-primary', 'link-secondary'],
       description: 'Pilihan gaya visual tombol.',
       table: {
         type: { summary: 'string' },
@@ -65,8 +66,8 @@ const meta = {
     },
     color: {
       control: 'select',
-      options: ['primary', 'destructive'],
-      description: 'Color button: primary (default) / destructive.',
+      options: ['primary', 'danger'],
+      description: 'Color button: primary (default) / danger.',
       table: {
         type: { summary: 'string' },
       },
@@ -74,6 +75,13 @@ const meta = {
     selected: {
       control: 'boolean',
       description: 'Aktifkan selected/toggled state.',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
+    focused: {
+      control: 'boolean',
+      description: 'Tampilkan focused state (focus ring).',
       table: {
         type: { summary: 'boolean' },
       },
@@ -142,16 +150,46 @@ Lihat story **WithRightIcon** untuk contoh lengkap.`,
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Wrapper component untuk handle focused state
+const FocusableButton = ({ focused, className, ...props }: any) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (focused && buttonRef.current) {
+      // Focus button
+      buttonRef.current.focus();
+      // Trigger focus-visible dengan menambahkan class yang memicu keyboard focus
+      // Browser akan menganggap ini sebagai keyboard focus
+      buttonRef.current.classList.add('storybook-focused');
+    } else if (!focused && buttonRef.current) {
+      buttonRef.current.classList.remove('storybook-focused');
+      if (document.activeElement === buttonRef.current) {
+        buttonRef.current.blur();
+      }
+    }
+  }, [focused]);
+
+  return (
+    <Button
+      ref={buttonRef}
+      className={className}
+      {...props}
+      data-focused={focused ? 'true' : undefined}
+    />
+  );
+};
+
 export const Playground: Story = {
+  render: (args) => <FocusableButton {...args} />,
   args: {
     children: 'Primary Action',
   },
 };
 
-export const Default: Story = {
+export const Solid: Story = {
   args: {
-    children: 'Default Button',
-    variant: 'default',
+    children: 'Solid Button',
+    variant: 'solid',
   },
 };
 
@@ -211,9 +249,9 @@ export const Loading: Story = {
   },
 };
 
-export const Destructive: Story = {
+export const Danger: Story = {
   args: {
-    color: 'destructive',
+    color: 'danger',
     children: 'Delete',
   },
 };
@@ -222,6 +260,14 @@ export const Selected: Story = {
   args: {
     selected: true,
     children: 'Selected',
+  },
+};
+
+export const Focused: Story = {
+  render: (args) => <FocusableButton {...args} />,
+  args: {
+    focused: true,
+    children: 'Focused Button',
   },
 };
 
@@ -299,7 +345,7 @@ const DownloadIcon = () => (
 
 export const WithLeftIcon: Story = {
   args: {
-    variant: 'default',
+    variant: 'solid',
     children: 'Download',
   },
   render: (args) => (
@@ -311,7 +357,7 @@ export const WithLeftIcon: Story = {
 
 export const WithRightIcon: Story = {
   args: {
-    variant: 'default',
+    variant: 'solid',
     children: 'Continue',
   },
   render: (args) => (
@@ -323,7 +369,7 @@ export const WithRightIcon: Story = {
 
 export const WithIcons: Story = {
   args: {
-    variant: 'default',
+    variant: 'solid',
     children: 'Submit',
   },
   render: (args) => (

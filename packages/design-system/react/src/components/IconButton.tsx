@@ -38,12 +38,12 @@ export type IconButtonProps = Omit<
   size?: IconButtonSize;
 
   /**
-   * Color button (Primary (default) / Destructive)
+   * Color button (Primary (default) / Danger)
    */
   color?: IconButtonColor;
 
   /**
-   * @deprecated gunakan `color="destructive"`.
+   * @deprecated gunakan `color="danger"`.
    */
   destructive?: boolean;
 
@@ -84,43 +84,46 @@ const getIconButtonSizeClasses = (size: IconButtonSize) => {
   return 'h-10 w-10 p-3 rounded-[6px]';
 };
 
-type VariantOpts = { variant: IconButtonVariant; destructive: boolean; selected: boolean };
+type VariantOpts = { variant: IconButtonVariant; isDanger: boolean; selected: boolean };
 
 const normalizeVariant = (variant: IconButtonVariant) => {
   return variant;
 };
 
-const getIconButtonVariantClasses = ({ variant, destructive, selected }: VariantOpts) => {
+const getIconButtonVariantClasses = ({ variant, isDanger, selected }: VariantOpts) => {
   // IconButton "Link" in Figma is still a square icon area (40x40 for md), just without bg/border.
   const normalizedVariant = normalizeVariant(variant);
   const isLinkVariant =
     normalizedVariant === 'link-primary' || normalizedVariant === 'link-secondary';
 
-  if (destructive) {
+  if (isDanger) {
     if (variant === 'secondary') {
       return cn(
         'bg-white text-red-600 border border-red-600',
-        'hover:bg-red-50',
+        'hover:bg-red-50 hover:text-red-700',
         'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        selected && 'bg-red-50'
+        'focus-visible:text-red-700',
+        selected && 'bg-red-50 text-red-700'
       );
     }
 
     if (variant === 'outline') {
       return cn(
-        'bg-white text-slate-900 border border-red-600',
-        'hover:bg-red-50',
+        'bg-white text-red-600 border border-red-600',
+        'hover:bg-red-50 hover:text-red-700',
         'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        selected && 'bg-red-50'
+        'focus-visible:text-red-700',
+        selected && 'bg-red-50 text-red-700'
       );
     }
 
     if (variant === 'ghost' || isLinkVariant) {
       return cn(
         'bg-transparent text-red-600',
-        'hover:bg-red-50',
+        'hover:bg-red-50 hover:text-red-700',
         'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        selected && 'bg-red-50'
+        'focus-visible:text-red-700',
+        selected && 'bg-red-50 text-red-700'
       );
     }
 
@@ -132,7 +135,7 @@ const getIconButtonVariantClasses = ({ variant, destructive, selected }: Variant
     );
   }
 
-  if (variant === 'default') {
+  if (variant === 'solid') {
     return cn(
       'bg-brand-300 text-white',
       'hover:bg-brand-400',
@@ -193,7 +196,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
       icon,
-      variant = 'default',
+      variant = 'solid',
       size = 'md',
       color = 'primary',
       destructive = false,
@@ -208,8 +211,9 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     const isDisabled = Boolean(disabled || loading);
     const normalizedVariant = normalizeVariant(variant);
-    const resolvedColor: IconButtonColor = destructive ? 'destructive' : color;
-    const isDestructive = resolvedColor === 'destructive';
+    // Support deprecated destructive prop for backward compatibility
+    const resolvedColor: IconButtonColor = destructive ? 'danger' : color;
+    const isDanger = resolvedColor === 'danger';
 
     return (
       <button
@@ -220,7 +224,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           getIconButtonSizeClasses(size),
           getIconButtonVariantClasses({
             variant: normalizedVariant as any,
-            destructive: isDestructive,
+            isDanger,
             selected,
           }),
           className

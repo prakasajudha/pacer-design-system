@@ -2,6 +2,7 @@ packages:
   # Design System Libraries
   - 'packages/design-system/react'
   - 'packages/design-system/vue'
+  - 'packages/design-system/blazor'
   - 'packages/design-system/tokens'
   - 'packages/design-system/tailwind'
   - 'packages/design-system/shared'

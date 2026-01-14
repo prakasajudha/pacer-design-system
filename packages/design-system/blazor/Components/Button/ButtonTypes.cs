@@ -2,17 +2,12 @@ namespace Pertamina.DesignSystem.Blazor;
 
 public enum ButtonVariant
 {
-    Primary,
+    Solid,
     Secondary,
     Outline,
     Ghost,
     LinkPrimary,
-    LinkSecondary,
-    // Backward compatibility
-    Link,
-    Success,
-    Warning,
-    Error
+    LinkSecondary
 }
 
 public enum ButtonSize

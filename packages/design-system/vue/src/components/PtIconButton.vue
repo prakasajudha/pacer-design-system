@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue';
 
-export type IconButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link-primary' | 'link-secondary' | 'link';
+export type IconButtonVariant =
+  | 'solid'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'link-primary'
+  | 'link-secondary';
 export type IconButtonSize = 'md' | 'sm' | 'xs' | 'xss';
 
 export interface IconButtonProps {
@@ -27,14 +33,9 @@ export interface IconButtonProps {
   size?: IconButtonSize;
 
   /**
-   * Tone button (Primary (default) / Destructive)
+   * Color button (Primary (default) / Danger)
    */
-  tone?: 'primary' | 'destructive';
-
-  /**
-   * @deprecated gunakan `tone="destructive"`.
-   */
-  destructive?: boolean;
+  color?: 'primary' | 'danger';
 
   /**
    * Selected/toggled state (untuk toggle)
@@ -54,13 +55,11 @@ export interface IconButtonProps {
 
 const props = withDefaults(defineProps<IconButtonProps>(), {
   icon: undefined,
-  variant: 'primary',
+  variant: 'solid',
   size: 'md',
-  tone: 'primary',
-  destructive: false,
+  color: 'primary',
   selected: false,
   loading: false,
-  disabled: false,
 });
 
 const sizeClasses = computed(() => {
@@ -71,17 +70,30 @@ const sizeClasses = computed(() => {
 });
 
 const variantClasses = computed(() => {
-  const normalizedVariant = props.variant === 'link' ? 'link-primary' : props.variant;
-  const isLinkVariant = normalizedVariant === 'link-primary' || normalizedVariant === 'link-secondary';
-  const resolvedTone = props.destructive ? 'destructive' : props.tone;
+  const isLinkVariant = props.variant === 'link-primary' || props.variant === 'link-secondary';
 
-  if (resolvedTone === 'destructive') {
+  // Helper untuk double ring focus effect
+  const getFocusRing = (ringColor: string) => {
+    if (ringColor === 'brand-300') {
+      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]';
+    }
+    if (ringColor === 'slate-200') {
+      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]';
+    }
+    if (ringColor === 'red-200') {
+      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]';
+    }
+    return 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+  };
+
+  if (props.color === 'danger') {
     if (props.variant === 'secondary') {
       return [
         'bg-white text-red-600 border border-red-600',
-        'hover:bg-red-50',
-        'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-red-50',
+        'hover:bg-red-50 hover:text-red-700',
+        'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]',
+        'focus-visible:text-red-700',
+        props.selected && 'bg-red-50 text-red-700',
       ]
         .filter(Boolean)
         .join(' ');
@@ -89,10 +101,11 @@ const variantClasses = computed(() => {
 
     if (props.variant === 'outline') {
       return [
-        'bg-white text-slate-900 border border-red-600',
-        'hover:bg-red-50',
-        'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-red-50',
+        'bg-white text-red-600 border border-red-600',
+        'hover:bg-red-50 hover:text-red-700',
+        'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]',
+        'focus-visible:text-red-700',
+        props.selected && 'bg-red-50 text-red-700',
       ]
         .filter(Boolean)
         .join(' ');
@@ -101,9 +114,10 @@ const variantClasses = computed(() => {
     if (props.variant === 'ghost' || isLinkVariant) {
       return [
         'bg-transparent text-red-600',
-        'hover:bg-red-50',
-        'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-red-50',
+        'hover:bg-red-50 hover:text-red-700',
+        getFocusRing('red-200'),
+        'focus-visible:text-red-700',
+        props.selected && 'bg-red-50 text-red-700',
       ]
         .filter(Boolean)
         .join(' ');
@@ -112,18 +126,18 @@ const variantClasses = computed(() => {
     return [
       'bg-red-600 text-white',
       'hover:bg-red-700',
-      'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+      getFocusRing('red-200'),
       props.selected && 'bg-red-700',
     ]
       .filter(Boolean)
       .join(' ');
   }
 
-  if (props.variant === 'primary') {
+  if (props.variant === 'solid') {
     return [
       'bg-brand-300 text-white',
       'hover:bg-brand-400',
-      'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+      getFocusRing('brand-300'),
       props.selected && 'bg-brand-400',
     ]
       .filter(Boolean)
@@ -133,9 +147,10 @@ const variantClasses = computed(() => {
   if (props.variant === 'secondary') {
     return [
       'bg-white text-brand-300 border border-brand-300',
-      'hover:bg-brand-50',
-      'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-      props.selected && 'bg-brand-50',
+      'hover:bg-brand-50 hover:text-brand-400',
+      getFocusRing('brand-300'),
+      'focus-visible:text-brand-400',
+      props.selected && 'bg-brand-50 text-brand-500',
     ]
       .filter(Boolean)
       .join(' ');
@@ -145,7 +160,7 @@ const variantClasses = computed(() => {
     return [
       'bg-white text-slate-900 border border-slate-300',
       'hover:bg-slate-50',
-      'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+      getFocusRing('slate-200'),
       props.selected && 'bg-slate-100',
     ]
       .filter(Boolean)
@@ -156,14 +171,14 @@ const variantClasses = computed(() => {
     return [
       'bg-transparent text-slate-900',
       'hover:bg-slate-100',
-      'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+      getFocusRing('slate-200'),
       props.selected && 'bg-slate-100',
     ]
       .filter(Boolean)
       .join(' ');
   }
 
-  if (normalizedVariant === 'link-primary') {
+  if (props.variant === 'link-primary') {
     return [
       'bg-transparent text-brand-300',
       'hover:bg-brand-50',
@@ -227,5 +242,3 @@ const buttonClasses = computed(() => {
     </template>
   </button>
 </template>
-
-

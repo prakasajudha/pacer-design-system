@@ -5,27 +5,12 @@ export interface ButtonProps {
   /**
    * Variant visual dari button
    */
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'outline'
-    | 'ghost'
-    | 'link'
-    | 'link-secondary'
-    // Backward compatibility
-    | 'success'
-    | 'warning'
-    | 'error';
+  variant?: 'solid' | 'secondary' | 'outline' | 'ghost' | 'link-primary' | 'link-secondary';
 
   /**
-   * Ukuran button
+   * Ukuran button (non-link)
    */
   size?: 'sm' | 'md';
-
-  /**
-   * Full width button
-   */
-  fullWidth?: boolean;
 
   /**
    * Loading state
@@ -33,14 +18,9 @@ export interface ButtonProps {
   loading?: boolean;
 
   /**
-   * Tone button (Primary (default) / Destructive)
+   * Color button (Primary (default) / Danger)
    */
-  tone?: 'primary' | 'destructive';
-
-  /**
-   * @deprecated gunakan `tone="destructive"`.
-   */
-  destructive?: boolean;
+  color?: 'primary' | 'danger';
 
   /**
    * Selected/toggled state
@@ -48,57 +28,65 @@ export interface ButtonProps {
   selected?: boolean;
 
   /**
+   * Icon sebelum label tombol
+   */
+  leftIcon?: Component;
+
+  /**
+   * Icon setelah label tombol
+   */
+  rightIcon?: Component;
+
+  /**
    * Disabled state
    */
   disabled?: boolean;
 
-  startIcon?: Component;
-  endIcon?: Component;
+  /**
+   * Native HTML button type
+   */
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  variant: 'primary',
+  variant: 'solid',
   size: 'md',
-  fullWidth: false,
   loading: false,
-  tone: 'primary',
-  destructive: false,
+  color: 'primary',
   selected: false,
-  disabled: false,
-  startIcon: undefined,
-  endIcon: undefined,
+  leftIcon: undefined,
+  rightIcon: undefined,
+  type: 'button',
 });
 
 const buttonClasses = computed(() => {
   const baseStyles =
-    'inline-flex items-center justify-center gap-1 font-medium text-sm leading-6 transition-colors select-none disabled:pointer-events-none disabled:opacity-50';
+    'inline-flex items-center justify-center font-medium text-sm leading-6 transition-colors select-none disabled:pointer-events-none disabled:opacity-50';
 
-  const isLinkVariant = props.variant === 'link' || props.variant === 'link-secondary';
-  const normalizedVariant = props.variant === 'link' ? 'link-primary' : props.variant;
-  const resolvedTone = props.destructive ? 'destructive' : props.tone;
+  const isLinkVariant = props.variant === 'link-primary' || props.variant === 'link-secondary';
 
   // Link variants are special in Figma (24px height, no padding/bg).
   if (isLinkVariant) {
     const linkColor =
-      resolvedTone === 'destructive'
+      props.color === 'danger'
         ? 'text-red-600'
-        : normalizedVariant === 'link-primary'
+        : props.variant === 'link-primary'
           ? 'text-brand-300'
           : 'text-slate-900';
     const focusRing =
-      resolvedTone === 'destructive'
+      props.color === 'danger'
         ? 'focus-visible:ring-red-200'
-        : normalizedVariant === 'link-primary'
+        : props.variant === 'link-primary'
           ? 'focus-visible:ring-brand-200'
           : 'focus-visible:ring-slate-200';
 
     return [
       baseStyles,
-      'h-6 px-0 py-0 rounded-none underline-offset-4 hover:underline',
+      'h-6 px-0 py-0 rounded-none underline-offset-4',
+      props.color === 'danger' ? 'hover:text-red-700 hover:underline' : 'hover:underline',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
       focusRing,
       linkColor,
-      props.fullWidth && 'w-full justify-start',
       props.selected && 'underline',
     ]
       .filter(Boolean)
@@ -106,53 +94,70 @@ const buttonClasses = computed(() => {
   }
 
   const sizeStyles = {
-    sm: 'h-9 px-3 py-1.5 rounded-[6px]',
-    md: 'h-10 px-3 py-2 rounded-[6px]',
+    sm: 'min-w-[64px] py-1.5 px-2 gap-0 rounded-[6px]',
+    md: 'min-w-[80px] py-2 px-3 gap-1 rounded-[6px]',
   } as const;
 
-  const variantStyles = (() => {
-    if (resolvedTone === 'destructive') {
+  // Helper untuk double ring focus effect (outer + inner ring)
+  const getFocusRing = (ringColor: string) => {
+    if (ringColor === 'brand-300') {
+      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]';
+    }
+    if (ringColor === 'slate-200') {
+      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]';
+    }
+    if (ringColor === 'red-200') {
+      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]';
+    }
+    return 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+  };
+
+  const getVariantStyles = () => {
+    if (props.color === 'danger') {
       if (props.variant === 'secondary') {
         return [
           'bg-white text-red-600 border border-red-600',
-          'hover:bg-red-50',
-          'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-          props.selected && 'bg-red-50',
+          'hover:bg-red-50 hover:text-red-700',
+          getFocusRing('red-200'),
+          'focus-visible:text-red-700',
+          props.selected && 'bg-red-50 text-red-700',
         ];
       }
 
       if (props.variant === 'outline') {
         return [
-          'bg-white text-slate-900 border border-red-600',
-          'hover:bg-red-50',
-          'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-          props.selected && 'bg-red-50',
+          'bg-white text-red-600 border border-red-600',
+          'hover:bg-red-50 hover:text-red-700',
+          getFocusRing('red-200'),
+          'focus-visible:text-red-700',
+          props.selected && 'bg-red-50 text-red-700',
         ];
       }
 
       if (props.variant === 'ghost') {
         return [
           'bg-transparent text-red-600',
-          'hover:bg-red-50',
-          'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-          props.selected && 'bg-red-50',
+          'hover:bg-red-50 hover:text-red-700',
+          getFocusRing('red-200'),
+          'focus-visible:text-red-700',
+          props.selected && 'bg-red-50 text-red-700',
         ];
       }
 
-      // primary + legacy variants when destructive is true
+      // solid variant when danger is true
       return [
         'bg-red-600 text-white',
         'hover:bg-red-700',
-        'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        getFocusRing('red-200'),
         props.selected && 'bg-red-700',
       ];
     }
 
-    if (props.variant === 'primary') {
+    if (props.variant === 'solid') {
       return [
         'bg-brand-300 text-white',
         'hover:bg-brand-400',
-        'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        getFocusRing('brand-300'),
         props.selected && 'bg-brand-400',
       ];
     }
@@ -160,9 +165,10 @@ const buttonClasses = computed(() => {
     if (props.variant === 'secondary') {
       return [
         'bg-white text-brand-300 border border-brand-300',
-        'hover:bg-brand-50',
-        'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-brand-50',
+        'hover:bg-brand-50 hover:text-brand-400',
+        getFocusRing('brand-300'),
+        'focus-visible:text-brand-400',
+        props.selected && 'bg-brand-50 text-brand-500',
       ];
     }
 
@@ -170,7 +176,7 @@ const buttonClasses = computed(() => {
       return [
         'bg-white text-slate-900 border border-slate-300',
         'hover:bg-slate-50',
-        'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        getFocusRing('slate-200'),
         props.selected && 'bg-slate-100',
       ];
     }
@@ -179,43 +185,21 @@ const buttonClasses = computed(() => {
       return [
         'bg-transparent text-slate-900',
         'hover:bg-slate-100',
-        'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        getFocusRing('slate-200'),
         props.selected && 'bg-slate-100',
       ];
     }
 
-    // legacy variants (success/warning/error)
-    if (props.variant === 'success') {
-      return [
-        'bg-green-600 text-white',
-        'hover:bg-green-700',
-        'focus-visible:ring-2 focus-visible:ring-green-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-green-700',
-      ];
-    }
+    // Fallback: solid style
+    return [
+      'bg-brand-300 text-white',
+      'hover:bg-brand-400',
+      getFocusRing('brand-300'),
+      props.selected && 'bg-brand-400',
+    ];
+  };
 
-    if (props.variant === 'warning') {
-      return [
-        'bg-yellow-500 text-slate-900',
-        'hover:bg-yellow-600',
-        'focus-visible:ring-2 focus-visible:ring-yellow-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-yellow-600',
-      ];
-    }
-
-    if (props.variant === 'error') {
-      return [
-        'bg-red-600 text-white',
-        'hover:bg-red-700',
-        'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-        props.selected && 'bg-red-700',
-      ];
-    }
-
-    return ['bg-brand-300 text-white'];
-  })();
-
-  return [baseStyles, sizeStyles[props.size], ...variantStyles, props.fullWidth && 'w-full']
+  return [baseStyles, sizeStyles[props.size], ...getVariantStyles()]
     .filter(Boolean)
     .join(' ');
 });
@@ -226,7 +210,7 @@ const buttonClasses = computed(() => {
     :class="buttonClasses"
     :disabled="disabled || loading"
     :aria-pressed="selected || undefined"
-    type="button"
+    :type="type"
   >
     <svg
       v-if="loading"
@@ -244,12 +228,10 @@ const buttonClasses = computed(() => {
       />
     </svg>
 
-    <component :is="startIcon" v-if="!loading && startIcon" class="shrink-0" />
-    <slot name="start-icon" v-if="!loading && startIcon" />
+    <component :is="leftIcon" v-if="!loading && leftIcon" class="shrink-0" />
     <span v-if="!loading && $slots.default" class="px-1">
       <slot />
     </span>
-    <component :is="endIcon" v-if="!loading && endIcon" class="shrink-0" />
-    <slot name="end-icon" v-if="!loading && endIcon" />
+    <component :is="rightIcon" v-if="!loading && rightIcon" class="shrink-0" />
   </button>
 </template>

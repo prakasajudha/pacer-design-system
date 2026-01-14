@@ -16,9 +16,9 @@
         </svg>
     }
     
-    @if (!Loading && StartIcon != null)
+    @if (!Loading && LeftIcon != null)
     {
-        <span class="shrink-0">@StartIcon</span>
+        <span class="shrink-0">@LeftIcon</span>
     }
     
     @if (ChildContent != null)
@@ -26,9 +26,9 @@
         <span class="px-1">@ChildContent</span>
     }
     
-    @if (!Loading && EndIcon != null)
+    @if (!Loading && RightIcon != null)
     {
-        <span class="shrink-0">@EndIcon</span>
+        <span class="shrink-0">@RightIcon</span>
     }
 </button>
 
@@ -37,7 +37,7 @@
     /// Button variant (visual style)
     /// </summary>
     [Parameter]
-    public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Solid;
 
     /// <summary>
     /// Button size
@@ -46,28 +46,16 @@
     public ButtonSize Size { get; set; } = ButtonSize.Medium;
 
     /// <summary>
-    /// Full width button
-    /// </summary>
-    [Parameter]
-    public bool FullWidth { get; set; } = false;
-
-    /// <summary>
     /// Loading state
     /// </summary>
     [Parameter]
     public bool Loading { get; set; } = false;
 
     /// <summary>
-    /// Tone button (Primary (default) / Destructive)
+    /// Color button (Primary (default) / Danger)
     /// </summary>
     [Parameter]
-    public string Tone { get; set; } = "primary"; // primary | destructive
-
-    /// <summary>
-    /// @deprecated gunakan Tone="destructive"
-    /// </summary>
-    [Parameter]
-    public bool Destructive { get; set; } = false;
+    public string Color { get; set; } = "primary"; // primary | danger
 
     /// <summary>
     /// Selected/toggled state
@@ -76,28 +64,28 @@
     public bool Selected { get; set; } = false;
 
     /// <summary>
+    /// Icon sebelum label tombol
+    /// </summary>
+    [Parameter]
+    public RenderFragment? LeftIcon { get; set; }
+
+    /// <summary>
+    /// Icon setelah label tombol
+    /// </summary>
+    [Parameter]
+    public RenderFragment? RightIcon { get; set; }
+
+    /// <summary>
     /// Disabled state
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; } = false;
 
     /// <summary>
-    /// Button type attribute
+    /// Native HTML button type
     /// </summary>
     [Parameter]
     public string Type { get; set; } = "button";
-
-    /// <summary>
-    /// Icon before text
-    /// </summary>
-    [Parameter]
-    public RenderFragment? StartIcon { get; set; }
-
-    /// <summary>
-    /// Icon after text
-    /// </summary>
-    [Parameter]
-    public RenderFragment? EndIcon { get; set; }
 
     /// <summary>
     /// Button content
@@ -124,20 +112,17 @@
             "inline-flex",
             "items-center",
             "justify-center",
-            "gap-1",
+            "font-medium",
             "text-sm",
             "leading-6",
-            "font-medium",
             "transition-colors",
             "select-none",
             "disabled:pointer-events-none",
             "disabled:opacity-50",
         };
 
-        var resolvedTone = Destructive ? "destructive" : (Tone ?? "primary");
-
         // Link variants are special in Figma (24px height, no padding/bg).
-        if (Variant is ButtonVariant.Link or ButtonVariant.LinkPrimary or ButtonVariant.LinkSecondary)
+        if (Variant is ButtonVariant.LinkPrimary or ButtonVariant.LinkSecondary)
         {
             classes.Add("h-6");
             classes.Add("px-0");
@@ -150,15 +135,17 @@
             classes.Add("focus-visible:ring-offset-2");
             classes.Add("focus-visible:ring-offset-white");
 
-            if (resolvedTone == "destructive")
+            if (Color == "danger")
             {
                 classes.Add("text-red-600");
+                classes.Add("hover:text-red-700");
+                classes.Add("hover:underline");
                 classes.Add("focus-visible:ring-red-200");
                 if (Selected) classes.Add("underline");
                 return string.Join(" ", classes);
             }
 
-            if (Variant == ButtonVariant.Link || Variant == ButtonVariant.LinkPrimary)
+            if (Variant == ButtonVariant.LinkPrimary)
             {
                 classes.Add("text-brand-300");
                 classes.Add("focus-visible:ring-brand-200");
@@ -172,81 +159,69 @@
             return string.Join(" ", classes);
         }
 
-        // Size styles (md/sm)
+        // Size styles (md/sm) - match React exactly
         classes.Add(Size switch
         {
-            ButtonSize.Small => "h-9 px-3 py-1.5 rounded-[6px]",
-            _ => "h-10 px-3 py-2 rounded-[6px]",
+            ButtonSize.Small => "min-w-[64px] py-1.5 px-2 gap-0 rounded-[6px]",
+            _ => "min-w-[80px] py-2 px-3 gap-1 rounded-[6px]",
         });
 
-        // Variant styles (non-link)
-        if (resolvedTone == "destructive")
+        // Helper untuk double ring focus effect
+        string GetFocusRing(string ringColor)
         {
-            classes.Add("focus-visible:outline-none");
-            classes.Add("focus-visible:ring-2");
-            classes.Add("focus-visible:ring-offset-2");
-            classes.Add("focus-visible:ring-offset-white");
-            classes.Add("focus-visible:ring-red-200");
+            return ringColor switch
+            {
+                "brand-300" => "focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]",
+                "slate-200" => "focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]",
+                "red-200" => "focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]",
+                _ => "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            };
+        }
 
+        // Variant styles (non-link)
+        if (Color == "danger")
+        {
             classes.Add(Variant switch
             {
-                ButtonVariant.Secondary => "bg-white text-red-600 border border-red-600 hover:bg-red-50",
-                ButtonVariant.Outline => "bg-white text-slate-900 border border-red-600 hover:bg-red-50",
-                ButtonVariant.Ghost => "bg-transparent text-red-600 hover:bg-red-50",
-                _ => "bg-red-600 text-white hover:bg-red-700"
+                ButtonVariant.Secondary => $"bg-white text-red-600 border border-red-600 hover:bg-red-50 hover:text-red-700 {GetFocusRing("red-200")} focus-visible:text-red-700",
+                ButtonVariant.Outline => $"bg-white text-red-600 border border-red-600 hover:bg-red-50 hover:text-red-700 {GetFocusRing("red-200")} focus-visible:text-red-700",
+                ButtonVariant.Ghost => $"bg-transparent text-red-600 hover:bg-red-50 hover:text-red-700 {GetFocusRing("red-200")} focus-visible:text-red-700",
+                _ => $"bg-red-600 text-white hover:bg-red-700 {GetFocusRing("red-200")}"
             });
 
             if (Selected)
             {
                 classes.Add(Variant switch
                 {
-                    ButtonVariant.Secondary => "bg-red-50",
-                    ButtonVariant.Outline => "bg-red-50",
-                    ButtonVariant.Ghost => "bg-red-50",
+                    ButtonVariant.Secondary => "bg-red-50 text-red-700",
+                    ButtonVariant.Outline => "bg-red-50 text-red-700",
+                    ButtonVariant.Ghost => "bg-red-50 text-red-700",
                     _ => "bg-red-700",
                 });
-            }
-
-            if (Variant == ButtonVariant.Secondary || Variant == ButtonVariant.Outline)
-            {
-                classes.Add("border");
             }
         }
         else
         {
-            classes.Add("focus-visible:outline-none");
-            classes.Add("focus-visible:ring-2");
-            classes.Add("focus-visible:ring-offset-2");
-            classes.Add("focus-visible:ring-offset-white");
-
             classes.Add(Variant switch
             {
-                ButtonVariant.Primary => "bg-brand-300 text-white hover:bg-brand-400 focus-visible:ring-brand-200",
-                ButtonVariant.Secondary => "bg-white text-brand-300 border border-brand-300 hover:bg-brand-50 focus-visible:ring-brand-200",
-                ButtonVariant.Outline => "bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 focus-visible:ring-slate-200",
-                ButtonVariant.Ghost => "bg-transparent text-slate-900 hover:bg-slate-100 focus-visible:ring-slate-200",
-                ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-200",
-                ButtonVariant.Warning => "bg-yellow-500 text-slate-900 hover:bg-yellow-600 focus-visible:ring-yellow-200",
-                ButtonVariant.Error => "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-200",
-                _ => "bg-brand-300 text-white hover:bg-brand-400 focus-visible:ring-brand-200"
+                ButtonVariant.Solid => $"bg-brand-300 text-white hover:bg-brand-400 {GetFocusRing("brand-300")}",
+                ButtonVariant.Secondary => $"bg-white text-brand-300 border border-brand-300 hover:bg-brand-50 hover:text-brand-400 {GetFocusRing("brand-300")} focus-visible:text-brand-400",
+                ButtonVariant.Outline => $"bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 {GetFocusRing("slate-200")}",
+                ButtonVariant.Ghost => $"bg-transparent text-slate-900 hover:bg-slate-100 {GetFocusRing("slate-200")}",
+                _ => $"bg-brand-300 text-white hover:bg-brand-400 {GetFocusRing("brand-300")}"
             });
 
             if (Selected)
             {
                 classes.Add(Variant switch
                 {
-                    ButtonVariant.Primary => "bg-brand-400",
-                    ButtonVariant.Secondary => "bg-brand-50",
+                    ButtonVariant.Solid => "bg-brand-400",
+                    ButtonVariant.Secondary => "bg-brand-50 text-brand-500",
                     ButtonVariant.Outline => "bg-slate-100",
                     ButtonVariant.Ghost => "bg-slate-100",
                     _ => ""
                 });
             }
-        }
-
-        if (FullWidth)
-        {
-            classes.Add("w-full");
         }
 
         return string.Join(" ", classes);

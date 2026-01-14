@@ -27,6 +27,15 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
+  packages/design-system/blazor:
+    devDependencies:
+      '@pacer-ui/tailwind-preset':
+        specifier: workspace:*
+        version: link:../tailwind
+      tailwindcss:
+        specifier: ^3.4.0
+        version: 3.4.19
+
   packages/design-system/react:
     dependencies:
       '@pacer-ui/tokens':

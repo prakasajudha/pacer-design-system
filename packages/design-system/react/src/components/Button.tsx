@@ -3,7 +3,7 @@ import { cn } from '../utils/cn';
 
 // Type exports for IconButton
 export type ButtonVariant =
-  | 'default'
+  | 'solid'
   | 'secondary'
   | 'outline'
   | 'ghost'
@@ -12,7 +12,7 @@ export type ButtonVariant =
 
 export type ButtonSize = 'sm' | 'md';
 
-export type ButtonColor = 'primary' | 'destructive';
+export type ButtonColor = 'primary' | 'danger';
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   /**
@@ -34,7 +34,7 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   loading?: boolean;
 
   /**
-   * Color button (Primary (default) / Destructive)
+   * Color button (Primary (default) / Danger)
    * @type {ButtonColor}
    */
   color?: ButtonColor;
@@ -86,7 +86,7 @@ const Spinner = ({ className }: { className?: string }) => {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = 'default',
+      variant = 'solid',
       size = 'md',
       loading = false,
       color = 'primary',
@@ -109,13 +109,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     // Link variants are special in Figma (24px height, no padding/bg).
     if (isLinkVariant) {
       const linkColor =
-        color === 'destructive'
+        color === 'danger'
           ? 'text-red-600'
           : variant === 'link-primary'
             ? 'text-brand-300'
             : 'text-slate-900';
       const focusRing =
-        color === 'destructive'
+        color === 'danger'
           ? 'focus-visible:ring-red-200'
           : variant === 'link-primary'
             ? 'focus-visible:ring-brand-200'
@@ -127,7 +127,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           type={type}
           className={cn(
             baseStyles,
-            'h-6 px-0 py-0 rounded-none underline-offset-4 hover:underline',
+            'h-6 px-0 py-0 rounded-none underline-offset-4',
+            color === 'danger' ? 'hover:text-red-700 hover:underline' : 'hover:underline',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
             focusRing,
             linkColor,
@@ -151,49 +152,68 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       md: 'min-w-[80px] py-2 px-3 gap-1 rounded-[6px]',
     } as const;
 
+    // Helper untuk double ring focus effect (outer + inner ring)
+    // Dari Figma: Outer ring (brand-300, spread 4px) + Inner ring (white, spread 2px)
+    const getFocusRing = (ringColor: string) => {
+      // Double ring menggunakan box-shadow: inner ring (white 2px) + outer ring (color 4px)
+      if (ringColor === 'brand-300') {
+        return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]';
+      }
+      if (ringColor === 'slate-200') {
+        return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]';
+      }
+      if (ringColor === 'red-200') {
+        return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]';
+      }
+      return 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+    };
+
     const getVariantStyles = () => {
-      if (color === 'destructive') {
+      if (color === 'danger') {
         if (variant === 'secondary') {
           return cn(
             'bg-white text-red-600 border border-red-600',
-            'hover:bg-red-50',
-            'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-            selected && 'bg-red-50'
+            'hover:bg-red-50 hover:text-red-700',
+            getFocusRing('red-200'),
+            'focus-visible:text-red-700',
+            selected && 'bg-red-50 text-red-700'
           );
         }
 
         if (variant === 'outline') {
           return cn(
-            'bg-white text-slate-900 border border-red-600',
-            'hover:bg-red-50',
-            'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-            selected && 'bg-red-50'
+            'bg-white text-red-600 border border-red-600',
+            'hover:bg-red-50 hover:text-red-700',
+            getFocusRing('red-200'),
+            'focus-visible:text-red-700',
+            selected && 'bg-red-50 text-red-700'
           );
         }
 
         if (variant === 'ghost') {
           return cn(
             'bg-transparent text-red-600',
-            'hover:bg-red-50',
-            'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-            selected && 'bg-red-50'
+            'hover:bg-red-50 hover:text-red-700',
+            getFocusRing('red-200'),
+            'focus-visible:text-red-700',
+            selected && 'bg-red-50 text-red-700'
           );
         }
 
-        // default variant when destructive is true
+        // solid variant when danger is true
         return cn(
           'bg-red-600 text-white',
           'hover:bg-red-700',
-          'focus-visible:ring-2 focus-visible:ring-red-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          getFocusRing('red-200'),
           selected && 'bg-red-700'
         );
       }
 
-      if (variant === 'default') {
+      if (variant === 'solid') {
         return cn(
           'bg-brand-300 text-white',
           'hover:bg-brand-400',
-          'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          getFocusRing('brand-300'),
           selected && 'bg-brand-400'
         );
       }
@@ -201,9 +221,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       if (variant === 'secondary') {
         return cn(
           'bg-white text-brand-300 border border-brand-300',
-          'hover:bg-brand-50',
-          'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
-          selected && 'bg-brand-50'
+          'hover:bg-brand-50 hover:text-brand-400',
+          getFocusRing('brand-300'),
+          'focus-visible:text-brand-400',
+          selected && 'bg-brand-50 text-brand-500'
         );
       }
 
@@ -211,7 +232,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         return cn(
           'bg-white text-slate-900 border border-slate-300',
           'hover:bg-slate-50',
-          'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          getFocusRing('slate-200'),
           selected && 'bg-slate-100'
         );
       }
@@ -220,16 +241,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         return cn(
           'bg-transparent text-slate-900',
           'hover:bg-slate-100',
-          'focus-visible:ring-2 focus-visible:ring-slate-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+          getFocusRing('slate-200'),
           selected && 'bg-slate-100'
         );
       }
 
-      // Fallback: default style
+      // Fallback: solid style
       return cn(
         'bg-brand-300 text-white',
         'hover:bg-brand-400',
-        'focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        getFocusRing('brand-300'),
         selected && 'bg-brand-400'
       );
     };
