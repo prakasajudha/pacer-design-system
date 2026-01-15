@@ -1,7 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".vitepress/dist",
-  "installCommand": "npm install",
+  "buildCommand": "cd packages/web-docs/unified && pnpm run build",
+  "outputDirectory": "packages/web-docs/unified/.vitepress/dist",
   "framework": null
 }
 

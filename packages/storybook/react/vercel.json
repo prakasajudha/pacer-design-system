@@ -1,7 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "storybook-static",
-  "installCommand": "npm install",
+  "buildCommand": "cd packages/storybook/react && pnpm run build",
+  "outputDirectory": "packages/storybook/react/storybook-static",
   "framework": null
 }
 
