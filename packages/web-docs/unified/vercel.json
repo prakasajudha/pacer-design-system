@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm run build",
+  "buildCommand": "cd ../.. && pnpm --filter @pacer-ui/tokens build && pnpm --filter @pacer-ui/tailwind-preset build && pnpm --filter @pacer-ui/vue build && cd packages/web-docs/unified && pnpm run build",
   "outputDirectory": ".vitepress/dist",
   "framework": null
 }
