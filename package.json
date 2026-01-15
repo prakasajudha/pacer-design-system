@@ -32,7 +32,8 @@
     "storybook:react": "pnpm --filter @pacer-ui/storybook-react storybook",
     "storybook:vue": "pnpm --filter @pacer-ui/storybook-vue storybook",
     "docs:react-vue": "pnpm --filter @pacer-ui/web-docs-react-vue dev",
-    "docs:blazor": "pnpm --filter @pacer-ui/web-docs-blazor dev"
+    "docs:blazor": "pnpm --filter @pacer-ui/web-docs-blazor dev",
+    "docs:unified": "concurrently \"pnpm --filter @pacer-ui/tokens dev\" \"pnpm --filter @pacer-ui/tailwind-preset dev\" \"pnpm --filter @pacer-ui/vue dev\" \"pnpm --filter @pacer-ui/react dev\" \"pnpm --filter @pacer-ui/docs dev\" --names \"tokens,tailwind,vue,react,docs\" --prefix-colors \"blue,green,yellow,cyan,magenta\""
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
