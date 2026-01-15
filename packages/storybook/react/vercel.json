@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd ../.. && pnpm --filter @pacer-ui/tokens build && pnpm --filter @pacer-ui/tailwind-preset build && pnpm --filter @pacer-ui/react build && cd packages/storybook/react && pnpm run build",
+  "buildCommand": "pnpm run build:with-deps",
   "outputDirectory": "storybook-static",
   "framework": null
 }
