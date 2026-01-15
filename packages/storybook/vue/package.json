@@ -7,7 +7,7 @@
     "dev": "storybook dev -p 6007",
     "storybook": "storybook dev -p 6007",
     "build": "storybook build",
-    "build:with-deps": "cd ../.. && pnpm --filter @pacer-ui/tokens build && pnpm --filter @pacer-ui/tailwind-preset build && pnpm --filter @pacer-ui/vue build && cd packages/storybook/vue && pnpm run build",
+    "build:with-deps": "cd ../.. && pnpm --filter @pacer-ui/tokens build && pnpm --filter @pacer-ui/tailwind-preset build && pnpm --filter @pacer-ui/vue build && pnpm --filter @pacer-ui/storybook-vue build",
     "clean": "rm -rf storybook-static"
   },
   "dependencies": {
