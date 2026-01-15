@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd packages/storybook/vue && pnpm run build",
-  "outputDirectory": "packages/storybook/vue/storybook-static",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "storybook-static",
   "framework": null
 }
 
