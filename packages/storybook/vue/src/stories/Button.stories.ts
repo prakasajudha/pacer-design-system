@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtButton } from '@pacer-ui/vue';
-import { ref, onMounted, nextTick, h } from 'vue';
+import { ref, onMounted, nextTick, h, defineComponent } from 'vue';
 
 const meta = {
   title: 'Components/Button',
@@ -290,111 +290,134 @@ export const Disabled: Story = {
   },
 };
 
-// Simple icon components untuk contoh - menggunakan render function
-const ArrowRightIcon = () =>
-  h(
-    'svg',
-    {
-      'aria-hidden': 'true',
-      viewBox: '0 0 24 24',
-      fill: 'none',
-      stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      class: 'h-4 w-4',
-    },
-    [h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' })]
-  );
+// Simple icon components untuk contoh - menggunakan defineComponent
+const ArrowRightIcon = defineComponent({
+  name: 'ArrowRightIcon',
+  setup() {
+    return () =>
+      h(
+        'svg',
+        {
+          'aria-hidden': 'true',
+          viewBox: '0 0 24 24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          class: 'h-4 w-4',
+        },
+        [h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' })]
+      );
+  },
+});
 
-const CheckIcon = () =>
-  h(
-    'svg',
-    {
-      'aria-hidden': 'true',
-      viewBox: '0 0 24 24',
-      fill: 'none',
-      stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      class: 'h-4 w-4',
-    },
-    [h('polyline', { points: '20 6 9 17 4 12' })]
-  );
+const CheckIcon = defineComponent({
+  name: 'CheckIcon',
+  setup() {
+    return () =>
+      h(
+        'svg',
+        {
+          'aria-hidden': 'true',
+          viewBox: '0 0 24 24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          class: 'h-4 w-4',
+        },
+        [h('polyline', { points: '20 6 9 17 4 12' })]
+      );
+  },
+});
 
-const PlusIcon = () =>
-  h(
-    'svg',
-    {
-      'aria-hidden': 'true',
-      viewBox: '0 0 24 24',
-      fill: 'none',
-      stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      class: 'h-4 w-4',
-    },
-    [h('path', { d: 'M5 12h14' }), h('path', { d: 'M12 5v14' })]
-  );
+const PlusIcon = defineComponent({
+  name: 'PlusIcon',
+  setup() {
+    return () =>
+      h(
+        'svg',
+        {
+          'aria-hidden': 'true',
+          viewBox: '0 0 24 24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          class: 'h-4 w-4',
+        },
+        [h('path', { d: 'M5 12h14' }), h('path', { d: 'M12 5v14' })]
+      );
+  },
+});
 
-const DownloadIcon = () =>
-  h(
-    'svg',
-    {
-      'aria-hidden': 'true',
-      viewBox: '0 0 24 24',
-      fill: 'none',
-      stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      class: 'h-4 w-4',
-    },
-    [
-      h('path', { d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }),
-      h('polyline', { points: '7 10 12 15 17 10' }),
-      h('line', { x1: '12', y1: '15', x2: '12', y2: '3' }),
-    ]
-  );
+const DownloadIcon = defineComponent({
+  name: 'DownloadIcon',
+  setup() {
+    return () =>
+      h(
+        'svg',
+        {
+          'aria-hidden': 'true',
+          viewBox: '0 0 24 24',
+          fill: 'none',
+          stroke: 'currentColor',
+          'stroke-width': '2',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          class: 'h-4 w-4',
+        },
+        [
+          h('path', { d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }),
+          h('polyline', { points: '7 10 12 15 17 10' }),
+          h('line', { x1: '12', y1: '15', x2: '12', y2: '3' }),
+        ]
+      );
+  },
+});
 
 export const WithLeftIcon: Story = {
   render: (args) => ({
-    components: { PtButton, DownloadIcon },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template: '<PtButton v-bind="args" :leftIcon="DownloadIcon">Download</PtButton>',
+    template: '<PtButton v-bind="args">Download</PtButton>',
   }),
   args: {
     variant: 'solid',
+    leftIcon: DownloadIcon,
   },
 };
 
 export const WithRightIcon: Story = {
   render: (args) => ({
-    components: { PtButton, ArrowRightIcon },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template: '<PtButton v-bind="args" :rightIcon="ArrowRightIcon">Continue</PtButton>',
+    template: '<PtButton v-bind="args">Continue</PtButton>',
   }),
   args: {
     variant: 'solid',
+    rightIcon: ArrowRightIcon,
   },
 };
 
 export const WithIcons: Story = {
   render: (args) => ({
-    components: { PtButton, PlusIcon, CheckIcon },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<PtButton v-bind="args" :leftIcon="PlusIcon" :rightIcon="CheckIcon">Submit</PtButton>',
+    template: '<PtButton v-bind="args">Submit</PtButton>',
   }),
   args: {
     variant: 'solid',
+    leftIcon: PlusIcon,
+    rightIcon: CheckIcon,
   },
 };
