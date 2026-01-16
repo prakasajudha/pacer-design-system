@@ -37,6 +37,13 @@ const preset: Partial<Config> = {
     'min-w-[64px]',
     'min-w-[80px]',
     
+    // Border utilities - diperlukan untuk button variants (secondary, outline, danger)
+    'border',
+    'border-1',
+    'border-brand-300',
+    'border-slate-300',
+    'border-red-600',
+    
     // Complex shadow values (focus rings) - ini yang paling sering di-flag
     'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]',
     'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]',
@@ -99,6 +106,16 @@ const preset: Partial<Config> = {
         // Semantic values untuk komponen (menggantikan arbitrary values)
         button: '6px',      // untuk rounded-[6px] - button standard radius
         'badge-square': '4px', // untuk rounded-[4px] - badge square variant
+      },
+
+      // Border Width - ensure border utilities are available
+      borderWidth: {
+        DEFAULT: '1px',
+        '0': '0',
+        '1': '1px',
+        '2': '2px',
+        '4': '4px',
+        '8': '8px',
       },
 
       // Min Width - untuk button sizes

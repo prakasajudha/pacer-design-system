@@ -31,7 +31,7 @@ The layout and spacing of the button are crucial for its visual consistency and 
 ### Basic Button
 
 <ComponentDemo>
-  <div class="flex flex-col gap-10 flex-wrap">
+  <div class="flex gap-4 flex-wrap">
     <PtButton variant="solid">Primary Button</PtButton>
     <PtButton variant="secondary">Secondary Button</PtButton>
     <PtButton variant="outline">Outline Button</PtButton>
@@ -106,9 +106,113 @@ Button with white background and border.
 
 Button with transparent background.
 
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="ghost">Ghost Button</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button variant="ghost">Ghost Button</Button>
+    </div>
+  );
+}
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton variant="ghost">Ghost Button</PtButton>
+  </div>
+</template>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Variant="ButtonVariant.Ghost">Ghost Button</PtButton>
+</div>
+```
+
+</template>
+</ComponentDemo>
+
 ### Link Primary / Link Secondary
 
 Link-style buttons without background (24px height, underline on hover).
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="link-primary">Link Primary</PtButton>
+    <PtButton variant="link-secondary">Link Secondary</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button variant="link-primary">Link Primary</Button>
+      <Button variant="link-secondary">Link Secondary</Button>
+    </div>
+  );
+}
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton variant="link-primary">Link Primary</PtButton>
+    <PtButton variant="link-secondary">Link Secondary</PtButton>
+  </div>
+</template>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Variant="ButtonVariant.LinkPrimary">Link Primary</PtButton>
+    <PtButton Variant="ButtonVariant.LinkSecondary">Link Secondary</PtButton>
+</div>
+```
+
+</template>
+</ComponentDemo>
 
 ## Button Sizes
 
@@ -234,6 +338,7 @@ Buttons can include icons before or after the label.
   <div class="flex gap-4 flex-wrap">
     <PtButton variant="solid" :left-icon="PlusIcon">Add Item</PtButton>
     <PtButton variant="solid" :right-icon="SaveIcon">Save</PtButton>
+    <PtButton variant="solid" :left-icon="PlusIcon" :right-icon="CheckIcon">Submit</PtButton>
   </div>
   
   <script setup>
@@ -266,6 +371,19 @@ Buttons can include icons before or after the label.
     h('path', { d: 'M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z' }),
     h('polyline', { points: '17 21 17 13 7 13 7 21' }),
     h('polyline', { points: '7 3 7 8 15 8' })
+  ]);
+  
+  const CheckIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('polyline', { points: '20 6 9 17 4 12' })
   ]);
   </script>
 
@@ -307,11 +425,29 @@ const SaveIcon = () => (
   </svg>
 );
 
+const CheckIcon = () => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-4 w-4"
+  >
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
 export default function App() {
   return (
     <div className="flex gap-4">
       <Button leftIcon={<PlusIcon />}>Add Item</Button>
       <Button rightIcon={<SaveIcon />}>Save</Button>
+      <Button leftIcon={<PlusIcon />} rightIcon={<CheckIcon />}>
+        Submit
+      </Button>
     </div>
   );
 }
@@ -324,13 +460,14 @@ export default function App() {
 ```vue
 <script setup lang="ts">
 import { PtButton } from '@pacer-ui/vue';
-import { Plus, Save } from 'lucide-vue-next';
+import { Plus, Save, Check } from 'lucide-vue-next';
 </script>
 
 <template>
   <div class="flex gap-4">
     <PtButton :left-icon="Plus">Add Item</PtButton>
     <PtButton :right-icon="Save">Save</PtButton>
+    <PtButton :left-icon="Plus" :right-icon="Check">Submit</PtButton>
   </div>
 </template>
 ```
@@ -475,6 +612,62 @@ import { PtButton } from '@pacer-ui/vue';
 
   </template>
 </ComponentDemo>
+
+## Focused State
+
+Buttons show a focus ring when focused via keyboard navigation (Tab key). The focus ring uses a double-ring effect for better visibility.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton>Press Tab to focus</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button>Press Tab to focus</Button>
+    </div>
+  );
+}
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton>Press Tab to focus</PtButton>
+  </div>
+</template>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton>Press Tab to focus</PtButton>
+</div>
+```
+
+</template>
+</ComponentDemo>
+
+**Note:** Focus ring will appear automatically when the button is focused via keyboard navigation (Tab key). The focus ring uses a double-ring effect with white outer ring and colored inner ring for better visibility.
 
 ## Disabled State
 

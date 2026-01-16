@@ -14,6 +14,43 @@
   --vp-c-brand-3: #B0D1FD;
 }
 
+/* Explicit border utilities - ensure border classes work in VitePress */
+/* Using both @layer and direct rules to ensure compatibility */
+@layer utilities {
+  .border {
+    border-width: 1px !important;
+  }
+  
+  .border-1 {
+    border-width: 1px !important;
+  }
+  
+  .border-0 {
+    border-width: 0px !important;
+  }
+  
+  .border-2 {
+    border-width: 2px !important;
+  }
+  
+  .border-4 {
+    border-width: 4px !important;
+  }
+  
+  .border-8 {
+    border-width: 8px !important;
+  }
+}
+
+/* Direct CSS rules as fallback - ensure border works even if Tailwind doesn't process */
+.border {
+  border-width: 1px;
+}
+
+.border-1 {
+  border-width: 1px;
+}
+
 .component-demo {
   margin: 2rem 0;
 }

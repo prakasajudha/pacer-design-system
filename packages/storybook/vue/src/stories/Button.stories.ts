@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtButton } from '@pacer-ui/vue';
-import { ref, watch, h, onMounted, nextTick } from 'vue';
+import { ref, onMounted, nextTick, h } from 'vue';
 
 const meta = {
   title: 'Components/Button',
@@ -25,13 +25,11 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    children: 'Button',
     variant: 'solid',
     size: 'md',
     loading: false,
     color: 'primary',
     selected: false,
-    focused: false,
   },
   argTypes: {
     variant: {
@@ -98,21 +96,6 @@ const meta = {
         type: { summary: 'Component' },
       },
     },
-    children: {
-      control: 'text',
-      description: 'Konten tombol.',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
-    focused: {
-      control: 'boolean',
-      description: 'Tampilkan focused state (focus ring).',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-      },
-    },
     type: {
       table: { disable: true },
       description: 'Native HTML button type (button/submit/reset). Jarang perlu diubah.',
@@ -123,407 +106,295 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Wrapper component untuk handle focused state
-const FocusableButton = {
-  name: 'FocusableButton',
-  components: { PtButton },
-  props: {
-    focused: Boolean,
-    children: String,
-  },
-  setup(props: any, { attrs, slots }: any) {
-    const componentRef = ref<any>(null);
-
-    const getButtonElement = (): HTMLButtonElement | null => {
-      if (!componentRef.value) return null;
-
-      // Jika componentRef adalah component instance, ambil $el
-      const el = componentRef.value.$el || componentRef.value;
-
-      // Pastikan el adalah HTMLButtonElement
-      if (el && el instanceof HTMLButtonElement) {
-        return el;
-      }
-
-      // Jika bukan, coba cari button di dalam element
-      if (el && el instanceof HTMLElement) {
-        const button = el.querySelector('button');
-        if (button instanceof HTMLButtonElement) {
-          return button;
-        }
-      }
-
-      return null;
-    };
-
-    const updateFocus = async () => {
-      await nextTick();
-      const element = getButtonElement();
-      if (!element || typeof element.focus !== 'function') return;
-
-      if (props.focused) {
-        element.focus();
-        element.classList.add('storybook-focused');
-      } else {
-        element.classList.remove('storybook-focused');
-        if (document.activeElement === element) {
-          element.blur();
-        }
-      }
-    };
-
-    watch(
-      () => props.focused,
-      () => {
-        updateFocus();
-      },
-      { immediate: false }
-    );
-
-    onMounted(() => {
-      updateFocus();
-    });
-
-    return () =>
-      h(
-        PtButton,
-        {
-          ...attrs,
-          ref: componentRef,
-          'data-focused': props.focused ? 'true' : undefined,
-        },
-        {
-          default: () => props.children || slots.default?.() || '',
-        }
-      );
-  },
-};
-
-const renderButton = (label: string) => (args: Record<string, unknown>) => ({
-  components: { FocusableButton },
-  setup() {
-    return { args, label };
-  },
-  template: '<FocusableButton v-bind="args">{{ label || args.children }}</FocusableButton>',
-});
-
 export const Playground: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template: '<FocusableButton v-bind="args">{{ args.children || "Button" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Button</PtButton>',
   }),
 };
 
 export const Solid: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Solid Button" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Solid Button</PtButton>',
   }),
   args: {
     variant: 'solid',
-    children: 'Solid Button',
   },
 };
 
 export const Secondary: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Secondary Action" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Secondary Action</PtButton>',
   }),
   args: {
     variant: 'secondary',
-    children: 'Secondary Action',
   },
 };
 
 export const Outline: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Outline Action" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Outline Action</PtButton>',
   }),
   args: {
     variant: 'outline',
-    children: 'Outline Action',
   },
 };
 
 export const Ghost: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Ghost Button" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Ghost Button</PtButton>',
   }),
   args: {
     variant: 'ghost',
-    children: 'Ghost Button',
   },
 };
 
 export const LinkPrimary: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Link Primary" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Link Primary</PtButton>',
   }),
   args: {
     variant: 'link-primary',
-    children: 'Link Primary',
   },
 };
 
 export const LinkSecondary: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Link Secondary" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Link Secondary</PtButton>',
   }),
   args: {
     variant: 'link-secondary',
-    children: 'Link Secondary',
   },
 };
 
 export const Small: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Small Size" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Small Size</PtButton>',
   }),
   args: {
     size: 'sm',
-    children: 'Small Size',
   },
 };
 
 export const Large: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Medium (md)" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Medium (md)</PtButton>',
   }),
   args: {
     size: 'md',
-    children: 'Medium (md)',
   },
 };
 
 export const Loading: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Processing" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Processing</PtButton>',
   }),
   args: {
     loading: true,
-    children: 'Processing',
   },
 };
 
 export const Danger: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template: '<FocusableButton v-bind="args">{{ args.children || "Delete" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Delete</PtButton>',
   }),
   args: {
     color: 'danger',
-    children: 'Delete',
   },
 };
 
 export const Selected: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template: '<FocusableButton v-bind="args">{{ args.children || "Selected" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Selected</PtButton>',
   }),
   args: {
     selected: true,
-    children: 'Selected',
   },
 };
 
 export const Focused: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
-      return { args };
+      const buttonRef = ref<InstanceType<typeof PtButton> | null>(null);
+      onMounted(async () => {
+        await nextTick();
+        const buttonEl = buttonRef.value?.$el as HTMLButtonElement | undefined;
+        if (buttonEl) {
+          buttonEl.focus();
+        }
+      });
+      return { args, buttonRef };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Focused Button" }}</FocusableButton>',
+    template: '<PtButton ref="buttonRef" v-bind="args">Focused Button</PtButton>',
   }),
-  args: {
-    focused: true,
-    children: 'Focused Button',
-  },
 };
 
 export const Disabled: Story = {
   render: (args) => ({
-    components: { FocusableButton },
+    components: { PtButton },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args">{{ args.children || "Disabled State" }}</FocusableButton>',
+    template: '<PtButton v-bind="args">Disabled State</PtButton>',
   }),
   args: {
     disabled: true,
-    children: 'Disabled State',
   },
 };
 
-// Simple icon components untuk contoh
-const ArrowRightIcon = {
-  template: `
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="h-4 w-4"
-    >
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
-    </svg>
-  `,
-};
+// Simple icon components untuk contoh - menggunakan render function
+const ArrowRightIcon = () =>
+  h(
+    'svg',
+    {
+      'aria-hidden': 'true',
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      class: 'h-4 w-4',
+    },
+    [h('path', { d: 'M5 12h14' }), h('path', { d: 'm12 5 7 7-7 7' })]
+  );
 
-const CheckIcon = {
-  template: `
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="h-4 w-4"
-    >
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  `,
-};
+const CheckIcon = () =>
+  h(
+    'svg',
+    {
+      'aria-hidden': 'true',
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      class: 'h-4 w-4',
+    },
+    [h('polyline', { points: '20 6 9 17 4 12' })]
+  );
 
-const PlusIcon = {
-  template: `
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="h-4 w-4"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
-  `,
-};
+const PlusIcon = () =>
+  h(
+    'svg',
+    {
+      'aria-hidden': 'true',
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      class: 'h-4 w-4',
+    },
+    [h('path', { d: 'M5 12h14' }), h('path', { d: 'M12 5v14' })]
+  );
 
-const DownloadIcon = {
-  template: `
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="h-4 w-4"
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" y1="15" x2="12" y2="3" />
-    </svg>
-  `,
-};
+const DownloadIcon = () =>
+  h(
+    'svg',
+    {
+      'aria-hidden': 'true',
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': '2',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      class: 'h-4 w-4',
+    },
+    [
+      h('path', { d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }),
+      h('polyline', { points: '7 10 12 15 17 10' }),
+      h('line', { x1: '12', y1: '15', x2: '12', y2: '3' }),
+    ]
+  );
 
 export const WithLeftIcon: Story = {
   render: (args) => ({
-    components: { FocusableButton, DownloadIcon },
+    components: { PtButton, DownloadIcon },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args" :leftIcon="DownloadIcon">{{ args.children || "Download" }}</FocusableButton>',
+    template: '<PtButton v-bind="args" :leftIcon="DownloadIcon">Download</PtButton>',
   }),
   args: {
     variant: 'solid',
-    children: 'Download',
   },
 };
 
 export const WithRightIcon: Story = {
   render: (args) => ({
-    components: { FocusableButton, ArrowRightIcon },
+    components: { PtButton, ArrowRightIcon },
     setup() {
       return { args };
     },
-    template:
-      '<FocusableButton v-bind="args" :rightIcon="ArrowRightIcon">{{ args.children || "Continue" }}</FocusableButton>',
+    template: '<PtButton v-bind="args" :rightIcon="ArrowRightIcon">Continue</PtButton>',
   }),
   args: {
     variant: 'solid',
-    children: 'Continue',
   },
 };
 
 export const WithIcons: Story = {
   render: (args) => ({
-    components: { FocusableButton, PlusIcon, CheckIcon },
+    components: { PtButton, PlusIcon, CheckIcon },
     setup() {
       return { args };
     },
     template:
-      '<FocusableButton v-bind="args" :leftIcon="PlusIcon" :rightIcon="CheckIcon">{{ args.children || "Submit" }}</FocusableButton>',
+      '<PtButton v-bind="args" :leftIcon="PlusIcon" :rightIcon="CheckIcon">Submit</PtButton>',
   }),
   args: {
     variant: 'solid',
-    children: 'Submit',
   },
 };

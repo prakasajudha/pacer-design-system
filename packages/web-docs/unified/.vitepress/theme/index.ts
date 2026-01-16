@@ -1,6 +1,10 @@
 import DefaultTheme from 'vitepress/theme';
 import ComponentDemo from './components/ComponentDemo.vue';
 import DocsTabs from './components/DocsTabs.vue';
+
+// Import PACER Vue components CSS FIRST (before custom.css)
+// This ensures Tailwind classes from components are available
+import '@pacer-ui/vue/styles.css';
 import './custom.css';
 
 // Import PACER Vue components
@@ -13,7 +17,6 @@ import {
   PtSkeleton,
   PtInformation,
 } from '@pacer-ui/vue';
-import '@pacer-ui/vue/styles.css';
 
 export default {
   extends: DefaultTheme,

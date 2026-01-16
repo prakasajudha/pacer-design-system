@@ -119,7 +119,7 @@ const buttonClasses = computed(() => {
     if (props.color === 'danger') {
       if (props.variant === 'secondary') {
         return [
-          'bg-white text-red-600 border border-red-600',
+          'bg-white text-red-600 border border-solid border-red-600',
           'hover:bg-red-50 hover:text-red-700',
           getFocusRing('red-200'),
           'focus-visible:text-red-700',
@@ -129,7 +129,7 @@ const buttonClasses = computed(() => {
 
       if (props.variant === 'outline') {
         return [
-          'bg-white text-red-600 border border-red-600',
+          'bg-white text-red-600 border border-solid border-red-600',
           'hover:bg-red-50 hover:text-red-700',
           getFocusRing('red-200'),
           'focus-visible:text-red-700',
@@ -167,7 +167,7 @@ const buttonClasses = computed(() => {
 
     if (props.variant === 'secondary') {
       return [
-        'bg-white text-brand-300 border border-brand-300',
+        'bg-transparent text-brand-300 border border-solid border-brand-300',
         'hover:bg-brand-50 hover:text-brand-400',
         getFocusRing('brand-300'),
         'focus-visible:text-brand-400',
@@ -177,7 +177,7 @@ const buttonClasses = computed(() => {
 
     if (props.variant === 'outline') {
       return [
-        'bg-white text-slate-900 border border-slate-300',
+        'bg-transparent text-slate-900 border border-solid border-slate-300',
         'hover:bg-slate-50',
         getFocusRing('slate-200'),
         props.selected && 'bg-slate-100',
@@ -202,9 +202,7 @@ const buttonClasses = computed(() => {
     ];
   };
 
-  return [baseStyles, sizeStyles[props.size], ...getVariantStyles()]
-    .filter(Boolean)
-    .join(' ');
+  return [baseStyles, sizeStyles[props.size], ...getVariantStyles()].filter(Boolean).join(' ');
 });
 </script>
 
