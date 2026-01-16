@@ -1,5 +1,38 @@
 # Icon Button Component
 
+<script setup>
+import { h } from 'vue';
+
+// Icon components untuk semua demo
+const PlusIcon = () => h('svg', {
+  'aria-hidden': 'true',
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  'stroke-width': '2',
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+  class: 'h-4 w-4'
+}, [
+  h('path', { d: 'M12 5v14' }),
+  h('path', { d: 'M5 12h14' })
+]);
+
+const XIcon = () => h('svg', {
+  'aria-hidden': 'true',
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  'stroke-width': '2',
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+  class: 'h-4 w-4'
+}, [
+  h('path', { d: 'M18 6 6 18' }),
+  h('path', { d: 'm6 6 12 12' })
+]);
+</script>
+
 Icon Button adalah tombol **ikon-only** (tanpa label teks) untuk aksi cepat (mis. close, search, settings).
 
 ## Guideline
@@ -39,38 +72,6 @@ Icon Button supports two color tones: `primary` (default) and `danger`.
 ## Visual Preview
 
 <ComponentDemo>
-  <script setup>
-  import { h } from 'vue';
-  
-  const PlusIcon = () => h('svg', {
-    'aria-hidden': 'true',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    'stroke-width': '2',
-    'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-    class: 'h-4 w-4'
-  }, [
-    h('path', { d: 'M12 5v14' }),
-    h('path', { d: 'M5 12h14' })
-  ]);
-  
-  const XIcon = () => h('svg', {
-    'aria-hidden': 'true',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    'stroke-width': '2',
-    'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-    class: 'h-4 w-4'
-  }, [
-    h('path', { d: 'M18 6 6 18' }),
-    h('path', { d: 'm6 6 12 12' })
-  ]);
-  </script>
-  
   <div class="flex gap-4 items-center flex-wrap">
     <PtIconButton variant="solid" :icon="PlusIcon" aria-label="Add" />
     <PtIconButton variant="secondary" :icon="PlusIcon" aria-label="Add" />
@@ -193,24 +194,6 @@ import { Plus, X } from 'lucide-vue-next';
 ## Size Variants
 
 <ComponentDemo>
-  <script setup>
-  import { h } from 'vue';
-  
-  const PlusIcon = () => h('svg', {
-    'aria-hidden': 'true',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    'stroke-width': '2',
-    'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-    class: 'h-4 w-4'
-  }, [
-    h('path', { d: 'M12 5v14' }),
-    h('path', { d: 'M5 12h14' })
-  ]);
-  </script>
-  
   <div class="flex gap-4 items-center flex-wrap">
     <PtIconButton variant="solid" size="xss" :icon="PlusIcon" aria-label="Add" />
     <PtIconButton variant="solid" size="xs" :icon="PlusIcon" aria-label="Add" />
@@ -381,24 +364,6 @@ import { Plus } from 'lucide-vue-next';
 ## Selected State
 
 <ComponentDemo>
-  <script setup>
-  import { h } from 'vue';
-  
-  const PlusIcon = () => h('svg', {
-    'aria-hidden': 'true',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    'stroke-width': '2',
-    'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-    class: 'h-4 w-4'
-  }, [
-    h('path', { d: 'M12 5v14' }),
-    h('path', { d: 'M5 12h14' })
-  ]);
-  </script>
-  
   <div class="flex gap-4 items-center flex-wrap">
     <PtIconButton variant="solid" :icon="PlusIcon" :selected="true" aria-label="Add" />
   </div>
