@@ -78,10 +78,11 @@ const Spinner = ({ className }: { className?: string }) => {
 };
 
 const getIconButtonSizeClasses = (size: IconButtonSize) => {
-  if (size === 'xss') return 'h-5 w-5 p-0.5 rounded-[6px]';
-  if (size === 'xs') return 'h-7 w-7 p-1.5 rounded-[6px]';
-  if (size === 'sm') return 'h-8 w-8 p-2 rounded-[6px]';
-  return 'h-10 w-10 p-3 rounded-[6px]';
+  // Menggunakan theme values untuk menghindari arbitrary values (SAST/DAST safe)
+  if (size === 'xss') return 'h-5 w-5 p-0.5 rounded-button';
+  if (size === 'xs') return 'h-7 w-7 p-1.5 rounded-button';
+  if (size === 'sm') return 'h-8 w-8 p-2 rounded-button';
+  return 'h-10 w-10 p-3 rounded-button';
 };
 
 type VariantOpts = { variant: IconButtonVariant; isDanger: boolean; selected: boolean };

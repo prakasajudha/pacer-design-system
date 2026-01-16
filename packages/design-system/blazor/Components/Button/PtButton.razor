@@ -159,21 +159,22 @@
             return string.Join(" ", classes);
         }
 
-        // Size styles (md/sm) - match React exactly
+        // Size styles (md/sm) - menggunakan theme values untuk menghindari arbitrary values (SAST/DAST safe)
         classes.Add(Size switch
         {
-            ButtonSize.Small => "min-w-[64px] py-1.5 px-2 gap-0 rounded-[6px]",
-            _ => "min-w-[80px] py-2 px-3 gap-1 rounded-[6px]",
+            ButtonSize.Small => "min-w-button-sm py-1.5 px-2 gap-0 rounded-button",
+            _ => "min-w-button-md py-2 px-3 gap-1 rounded-button",
         });
 
         // Helper untuk double ring focus effect
+        // Menggunakan utility classes dari theme untuk menghindari arbitrary shadow values
         string GetFocusRing(string ringColor)
         {
             return ringColor switch
             {
-                "brand-300" => "focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]",
-                "slate-200" => "focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]",
-                "red-200" => "focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]",
+                "brand-300" => "focus-ring-primary",
+                "slate-200" => "focus-ring-slate",
+                "red-200" => "focus-ring-danger",
                 _ => "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             };
         }

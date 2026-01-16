@@ -42,9 +42,7 @@ const config: StorybookConfig = {
           '@pacer-ui/react/styles.css': stylesPath,
         },
       },
-      css: {
-        postcss: resolve(__dirname, '../postcss.config.js'),
-      },
+      // PostCSS config will be auto-discovered from postcss.config.js
       server: {
         fs: {
           allow: [repoRootPath],

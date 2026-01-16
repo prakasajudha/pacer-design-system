@@ -14,10 +14,51 @@ All PACER components maintain **identical design, spacing, colors, and behavior*
 
 Interactive buttons for actions and navigation.
 
-- ✅ 5 variants (Primary, Secondary, Outline, Ghost, Danger)
-- ✅ 3 sizes (Small, Medium, Large)
+- ✅ 6 variants (Solid, Secondary, Outline, Ghost, Link Primary, Link Secondary)
+- ✅ 2 sizes (Small, Medium)
+- ✅ 2 colors (Primary, Danger)
 - ✅ Loading and disabled states
-- ✅ Icon support
+- ✅ Selected/toggled state
+- ✅ Left and right icon support
+
+#### [IconButton](/components/icon-button)
+
+Icon-only buttons for quick actions.
+
+- ✅ 6 variants (Solid, Secondary, Outline, Ghost, Link Primary, Link Secondary)
+- ✅ 4 sizes (xss, xs, sm, md)
+- ✅ 2 colors (Primary, Danger)
+- ✅ Loading and disabled states
+- ✅ Selected/toggled state
+- ✅ Required aria-label for accessibility
+
+#### [Badge](/components/badge)
+
+Status indicators and labels.
+
+- ✅ 3 variants (Solid, Secondary, Outline)
+- ✅ 2 types (Rounded, Square)
+- ✅ 8 colors (Slate, Primary, Danger, Warning, Success, Purple, Pink, Orange)
+- ✅ Label prop or children support
+
+#### [Skeleton](/components/skeleton)
+
+Loading placeholders with pulse animation.
+
+- ✅ 2 variants (Square, Round)
+- ✅ Customizable height and width (px, em, rem, %)
+- ✅ Pulse animation
+
+#### [Information](/components/information)
+
+Information, warning, and notification messages.
+
+- ✅ 5 variants (Info, Slate, Success, Warning, Danger)
+- ✅ 3 sizes (Small, Medium, Large)
+- ✅ Title and description support
+- ✅ Custom icon support
+- ✅ ReactNode/VNode/RenderFragment children support
+- ✅ Icon customization (iconClassName, iconStyle)
 
 #### [Input](/components/input)
 
@@ -164,11 +205,15 @@ Learn more about [Design Tokens](/tokens).
 
 ## Component Status
 
-| Component | React | Vue | Blazor | Status      |
-| --------- | :---: | :-: | :----: | ----------- |
-| Button    |  ✅   | ✅  |   ✅   | Stable      |
-| Input     |  ✅   | ✅  |   ✅   | Stable      |
-| Card      |  ✅   | ✅  |   ✅   | Stable      |
+| Component     | React | Vue | Blazor | Status      |
+| ------------- | :---: | :-: | :----: | ----------- |
+| Button        |  ✅   | ✅  |   ✅   | Stable      |
+| IconButton    |  ✅   | ✅  |   ✅   | Stable      |
+| Badge         |  ✅   | ✅  |   ✅   | Stable      |
+| Skeleton      |  ✅   | ✅  |   ✅   | Stable      |
+| Information   |  ✅   | ✅  |   ✅   | Stable      |
+| Input         |  ✅   | ✅  |   ✅   | Stable      |
+| Card          |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Checkbox  |  🚧   | 🚧  |   🚧   | In Progress |
 | Radio     |  🚧   | 🚧  |   🚧   | In Progress |

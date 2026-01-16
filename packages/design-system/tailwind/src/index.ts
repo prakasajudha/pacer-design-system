@@ -20,6 +20,28 @@ import { tokens } from '@pacer-ui/tokens';
 const preset: Partial<Config> = {
   content: [],
   darkMode: 'class',
+  /**
+   * Safelist untuk mengatasi false positive pada SAST/DAST tools.
+   * Semua arbitrary values yang digunakan di komponen harus ada di sini
+   * agar Tailwind selalu generate classes tersebut dan tidak di-flag sebagai dynamic code injection.
+   */
+  safelist: [
+    // Border radius arbitrary values
+    'rounded-[6px]',
+    'rounded-[4px]',
+    
+    // Spacing arbitrary values
+    'mt-[2.5px]',
+    
+    // Min width arbitrary values
+    'min-w-[64px]',
+    'min-w-[80px]',
+    
+    // Complex shadow values (focus rings) - ini yang paling sering di-flag
+    'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]',
+    'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]',
+    'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]',
+  ],
   theme: {
     // Extend default Tailwind theme
     extend: {
@@ -54,8 +76,11 @@ const preset: Partial<Config> = {
         pertamina: tokens.colors.pertamina,
       },
 
-      // Spacing (4px base)
-      spacing: tokens.spacing,
+      // Spacing (4px base) - extended dengan icon offset
+      spacing: {
+        ...tokens.spacing,
+        'icon-offset': '2.5px', // untuk mt-[2.5px] - icon vertical alignment
+      },
 
       // Typography
       fontFamily: {
@@ -68,8 +93,19 @@ const preset: Partial<Config> = {
       lineHeight: tokens.typography.lineHeight,
       letterSpacing: tokens.typography.letterSpacing,
 
-      // Border Radius
-      borderRadius: tokens.borderRadius,
+      // Border Radius - extended dengan semantic values untuk komponen
+      borderRadius: {
+        ...tokens.borderRadius,
+        // Semantic values untuk komponen (menggantikan arbitrary values)
+        button: '6px',      // untuk rounded-[6px] - button standard radius
+        'badge-square': '4px', // untuk rounded-[4px] - badge square variant
+      },
+
+      // Min Width - untuk button sizes
+      minWidth: {
+        'button-sm': '64px',  // untuk min-w-[64px]
+        'button-md': '80px',  // untuk min-w-[80px]
+      },
 
       // Opacity
       opacity: tokens.opacity,
@@ -77,8 +113,14 @@ const preset: Partial<Config> = {
       // Max Width
       maxWidth: tokens.maxWidth,
 
-      // Box Shadow
-      boxShadow: tokens.shadows,
+      // Box Shadow - extended dengan focus ring utilities
+      boxShadow: {
+        ...tokens.shadows,
+        // Focus ring shadows untuk accessibility (menggantikan arbitrary shadow values)
+        'focus-ring-primary': '0 0 0 2px white, 0 0 0 4px rgb(1 107 248)', // brand-300 focus
+        'focus-ring-slate': '0 0 0 2px white, 0 0 0 4px rgb(226 232 240)',   // slate-200 focus
+        'focus-ring-danger': '0 0 0 2px white, 0 0 0 4px rgb(254 202 202)',  // red-200 focus
+      },
 
       // Animation Duration
       transitionDuration: tokens.motion.duration,
@@ -94,6 +136,31 @@ const preset: Partial<Config> = {
     },
   },
   plugins: [
+    // Plugin untuk utility classes (focus rings)
+    function ({ addUtilities, theme }: any) {
+      addUtilities({
+        // Focus ring utilities - untuk menggantikan arbitrary shadow values
+        // Menggunakan theme values agar tidak di-flag sebagai dynamic code
+        '.focus-ring-primary': {
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: theme('boxShadow.focus-ring-primary'),
+          },
+        },
+        '.focus-ring-slate': {
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: theme('boxShadow.focus-ring-slate'),
+          },
+        },
+        '.focus-ring-danger': {
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: theme('boxShadow.focus-ring-danger'),
+          },
+        },
+      });
+    },
     // Plugin untuk component classes
     function ({ addComponents, theme }: any) {
       addComponents({

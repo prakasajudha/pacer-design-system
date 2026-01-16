@@ -23,11 +23,11 @@ The Card component provides a consistent container for grouping related content 
 ::: code-group
 
 ```tsx [React]
-import { Card, CardHeader, CardContent, CardFooter } from '@pacer-ui/react';
+import { Card } from '@pacer-ui/react';
 ```
 
 ```vue [Vue]
-import { PtCard, PtCardHeader, PtCardContent, PtCardFooter } from '@pacer-ui/vue';
+import { PtCard } from '@pacer-ui/vue';
 ```
 
 ```razor [Blazor]
@@ -47,20 +47,15 @@ import { PtCard, PtCardHeader, PtCardContent, PtCardFooter } from '@pacer-ui/vue
 ::: code-group
 
 ```tsx [React]
-import { Card, CardHeader, CardContent, CardFooter, Button } from '@pacer-ui/react';
+import { Card, Button } from '@pacer-ui/react';
 
 function App() {
   return (
-    <Card>
-      <CardHeader>
-        <h3>Card Title</h3>
-      </CardHeader>
-      <CardContent>
-        <p>This is the card content with some text.</p>
-      </CardContent>
-      <CardFooter>
-        <Button>Action</Button>
-      </CardFooter>
+    <Card
+      header={<h3>Card Title</h3>}
+      footer={<Button>Action</Button>}
+    >
+      <p>This is the card content with some text.</p>
     </Card>
   );
 }
@@ -68,35 +63,22 @@ function App() {
 
 ```vue [Vue]
 <script setup lang="ts">
-import { PtCard, PtCardHeader, PtCardContent, PtCardFooter, PtButton } from '@pacer-ui/vue';
+import { PtCard, PtButton } from '@pacer-ui/vue';
 </script>
 
 <template>
-  <PtCard>
-    <PtCardHeader>
-      <h3>Card Title</h3>
-    </PtCardHeader>
-    <PtCardContent>
-      <p>This is the card content with some text.</p>
-    </PtCardContent>
-    <PtCardFooter>
-      <PtButton>Action</PtButton>
-    </PtCardFooter>
+  <PtCard
+    :header="<h3>Card Title</h3>"
+    :footer="<PtButton>Action</PtButton>"
+  >
+    <p>This is the card content with some text.</p>
   </PtCard>
 </template>
 ```
 
 ```razor [Blazor]
-<PtCard>
-    <PtCardHeader>
-        <h3>Card Title</h3>
-    </PtCardHeader>
-    <PtCardContent>
-        <p>This is the card content with some text.</p>
-    </PtCardContent>
-    <PtCardFooter>
-        <PtButton>Action</PtButton>
-    </PtCardFooter>
+<PtCard Header="@(() => <h3>Card Title</h3>)" Footer="@(() => <PtButton>Action</PtButton>)">
+    <p>This is the card content with some text.</p>
 </PtCard>
 ```
 
@@ -114,25 +96,19 @@ Standard card with border and subtle shadow.
 
 ```tsx [React]
 <Card>
-  <CardContent>
-    <p>Default card with border and shadow</p>
-  </CardContent>
+  <p>Default card with border and shadow</p>
 </Card>
 ```
 
 ```vue [Vue]
 <PtCard>
-  <PtCardContent>
-    <p>Default card with border and shadow</p>
-  </PtCardContent>
+  <p>Default card with border and shadow</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
 <PtCard>
-    <PtCardContent>
-        <p>Default card with border and shadow</p>
-    </PtCardContent>
+    <p>Default card with border and shadow</p>
 </PtCard>
 ```
 
@@ -146,25 +122,19 @@ Card with more prominent shadow.
 
 ```tsx [React]
 <Card variant="elevated">
-  <CardContent>
-    <p>Elevated card with larger shadow</p>
-  </CardContent>
+  <p>Elevated card with larger shadow</p>
 </Card>
 ```
 
 ```vue [Vue]
 <PtCard variant="elevated">
-  <PtCardContent>
-    <p>Elevated card with larger shadow</p>
-  </PtCardContent>
+  <p>Elevated card with larger shadow</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
 <PtCard Variant="CardVariant.Elevated">
-    <PtCardContent>
-        <p>Elevated card with larger shadow</p>
-    </PtCardContent>
+    <p>Elevated card with larger shadow</p>
 </PtCard>
 ```
 
@@ -182,192 +152,193 @@ Card with border, no shadow.
 
 ```tsx [React]
 <Card variant="outlined">
-  <CardContent>
-    <p>Outlined card without shadow</p>
-  </CardContent>
+  <p>Outlined card without shadow</p>
 </Card>
 ```
 
 ```vue [Vue]
 <PtCard variant="outlined">
-  <PtCardContent>
-    <p>Outlined card without shadow</p>
-  </PtCardContent>
+  <p>Outlined card without shadow</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
 <PtCard Variant="CardVariant.Outlined">
-    <PtCardContent>
-        <p>Outlined card without shadow</p>
-    </PtCardContent>
+    <p>Outlined card without shadow</p>
 </PtCard>
 ```
 
 :::
-
-### Filled Card
-
-Card with background color, no border or shadow.
-
-::: code-group
-
-```tsx [React]
-<Card variant="filled">
-  <CardContent>
-    <p>Filled card with background color</p>
-  </CardContent>
-</Card>
-```
-
-```vue [Vue]
-<PtCard variant="filled">
-  <PtCardContent>
-    <p>Filled card with background color</p>
-  </PtCardContent>
-</PtCard>
-```
-
-```razor [Blazor]
-<PtCard Variant="CardVariant.Filled">
-    <PtCardContent>
-        <p>Filled card with background color</p>
-    </PtCardContent>
-</PtCard>
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `#F9FAFB` (Gray 50)
-- Border: `none`
-- Shadow: `none`
 
 ---
 
 ## Card Sections
 
-### Header
+Card component supports `header` and `footer` props for structured content.
 
-Top section for titles and actions.
+### With Header
 
-**Spacing:**
+::: code-group
 
-- Padding: `1.5rem` (24px)
+```tsx [React]
+<Card header={<h3>Card Title</h3>}>
+  <p>Card content here</p>
+</Card>
+```
+
+```vue [Vue]
+<PtCard :header="<h3>Card Title</h3>">
+  <p>Card content here</p>
+</PtCard>
+```
+
+```razor [Blazor]
+<PtCard Header="@(() => <h3>Card Title</h3>)">
+    <p>Card content here</p>
+</PtCard>
+```
+
+:::
+
+**Header Spacing:**
+
+- Padding: `1rem` (16px) bottom
 - Bottom border: `1px solid #E5E7EB`
+- Margin bottom: `1rem` (16px)
 
-### Content
+### With Footer
 
-Main content area.
+::: code-group
 
-**Spacing:**
+```tsx [React]
+<Card footer={<Button>Action</Button>}>
+  <p>Card content here</p>
+</Card>
+```
 
-- Padding: `1.5rem` (24px)
+```vue [Vue]
+<PtCard :footer="<PtButton>Action</PtButton>">
+  <p>Card content here</p>
+</PtCard>
+```
 
-### Footer
+```razor [Blazor]
+<PtCard Footer="@(() => <PtButton>Action</PtButton>)">
+    <p>Card content here</p>
+</PtCard>
+```
 
-Bottom section for actions.
+:::
 
-**Spacing:**
+**Footer Spacing:**
 
-- Padding: `1rem 1.5rem` (16px 24px)
+- Padding: `1rem` (16px) top
 - Top border: `1px solid #E5E7EB`
-- Background: `#F9FAFB` (optional)
+- Margin top: `1rem` (16px)
 
 ---
 
 ## Interactive Card
 
+Card can be made interactive by adding click handlers and custom styling.
+
 ::: code-group
 
 ```tsx [React]
-<Card hoverable onClick={() => console.log('Card clicked')} className="cursor-pointer">
-  <CardContent>
-    <h3>Clickable Card</h3>
-    <p>This card responds to hover and click</p>
-  </CardContent>
+<Card onClick={() => console.log('Card clicked')} className="cursor-pointer hover:shadow-lg transition-shadow">
+  <h3>Clickable Card</h3>
+  <p>This card responds to hover and click</p>
 </Card>
 ```
 
 ```vue [Vue]
-<PtCard hoverable @click="handleClick" class="cursor-pointer">
-  <PtCardContent>
-    <h3>Clickable Card</h3>
-    <p>This card responds to hover and click</p>
-  </PtCardContent>
+<PtCard @click="handleClick" class="cursor-pointer hover:shadow-lg transition-shadow">
+  <h3>Clickable Card</h3>
+  <p>This card responds to hover and click</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
-<PtCard
-    Hoverable="true"
-    OnClick="HandleClick"
-    Class="cursor-pointer">
-    <PtCardContent>
-        <h3>Clickable Card</h3>
-        <p>This card responds to hover and click</p>
-    </PtCardContent>
+<PtCard OnClick="HandleClick" Class="cursor-pointer hover:shadow-lg transition-shadow">
+    <h3>Clickable Card</h3>
+    <p>This card responds to hover and click</p>
 </PtCard>
 ```
 
 :::
-
-**Hover State:**
-
-- Transform: `translateY(-2px)`
-- Shadow: `0 10px 15px -3px rgba(0,0,0,0.1)`
-- Transition: `all 200ms ease-in-out`
 
 ---
 
 ## Padding Sizes
 
+Card supports different padding sizes for content area.
+
 ::: code-group
 
 ```tsx [React]
+<Card padding="none">
+  <p>No padding</p>
+</Card>
+
 <Card padding="sm">
-  <CardContent>Small padding (12px)</CardContent>
+  <p>Small padding (16px)</p>
 </Card>
 
 <Card padding="md">
-  <CardContent>Medium padding (24px)</CardContent>
+  <p>Medium padding (24px)</p>
 </Card>
 
 <Card padding="lg">
-  <CardContent>Large padding (32px)</CardContent>
+  <p>Large padding (32px)</p>
 </Card>
 ```
 
 ```vue [Vue]
+<PtCard padding="none">
+  <p>No padding</p>
+</PtCard>
+
 <PtCard padding="sm">
-  <PtCardContent>Small padding (12px)</PtCardContent>
+  <p>Small padding (16px)</p>
 </PtCard>
 
 <PtCard padding="md">
-  <PtCardContent>Medium padding (24px)</PtCardContent>
+  <p>Medium padding (24px)</p>
 </PtCard>
 
 <PtCard padding="lg">
-  <PtCardContent>Large padding (32px)</PtCardContent>
+  <p>Large padding (32px)</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
+<PtCard Padding="CardPadding.None">
+    <p>No padding</p>
+</PtCard>
+
 <PtCard Padding="CardPadding.Small">
-    <PtCardContent>Small padding (12px)</PtCardContent>
+    <p>Small padding (16px)</p>
 </PtCard>
 
 <PtCard Padding="CardPadding.Medium">
-    <PtCardContent>Medium padding (24px)</PtCardContent>
+    <p>Medium padding (24px)</p>
 </PtCard>
 
 <PtCard Padding="CardPadding.Large">
-    <PtCardContent>Large padding (32px)</PtCardContent>
+    <p>Large padding (32px)</p>
 </PtCard>
 ```
 
 :::
+
+**Padding Specifications:**
+
+| Size | Padding | Usage |
+|------|---------|-------|
+| `none` | `0` | No padding |
+| `sm` | `1rem` (16px) | Compact content |
+| `md` | `1.5rem` (24px) | Default, standard content |
+| `lg` | `2rem` (32px) | Spacious content |
 
 ---
 
@@ -375,20 +346,27 @@ Bottom section for actions.
 
 ### React Props
 
-| Prop        | Type                                                | Default     | Description         |
-| ----------- | --------------------------------------------------- | ----------- | ------------------- |
-| `variant`   | `'default' \| 'elevated' \| 'outlined' \| 'filled'` | `'default'` | Card variant        |
-| `padding`   | `'sm' \| 'md' \| 'lg'`                              | `'md'`      | Card padding        |
-| `hoverable` | `boolean`                                           | `false`     | Enable hover effect |
-| `onClick`   | `() => void`                                        | -           | Click handler       |
+| Prop        | Type                                                               | Default     | Description                    |
+| ----------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
+| `variant`   | `'default' \| 'outlined' \| 'elevated'`                           | `'default'` | Card variant                   |
+| `padding`   | `'none' \| 'sm' \| 'md' \| 'lg'`                                  | `'md'`      | Card padding                   |
+| `header`    | `React.ReactNode`                                                  | `undefined` | Header content (top section)   |
+| `footer`    | `React.ReactNode`                                                  | `undefined` | Footer content (bottom section) |
+| `children`  | `React.ReactNode`                                                  | `undefined` | Main card content              |
+| `className` | `string`                                                           | `undefined` | Custom className for styling   |
+| `style`     | `React.CSSProperties`                                              | `undefined` | Custom inline styles           |
+| `onClick`   | `(event: React.MouseEvent<HTMLDivElement>) => void`              | -           | Click handler                  |
 
 ### Vue Props
 
-| Prop        | Type                                                | Default     | Description         |
-| ----------- | --------------------------------------------------- | ----------- | ------------------- |
-| `variant`   | `'default' \| 'elevated' \| 'outlined' \| 'filled'` | `'default'` | Card variant        |
-| `padding`   | `'sm' \| 'md' \| 'lg'`                              | `'md'`      | Card padding        |
-| `hoverable` | `boolean`                                           | `false`     | Enable hover effect |
+| Prop        | Type                                                               | Default     | Description                    |
+| ----------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
+| `variant`   | `'default' \| 'outlined' \| 'elevated'`                            | `'default'` | Card variant                   |
+| `padding`   | `'none' \| 'sm' \| 'md' \| 'lg'`                                  | `'md'`      | Card padding                   |
+| `header`    | `VNode \| Component`                                               | `undefined` | Header content (top section)   |
+| `footer`    | `VNode \| Component`                                               | `undefined` | Footer content (bottom section) |
+| `class`     | `string`                                                           | `undefined` | Custom class for styling       |
+| `style`     | `Record<string, string>`                                           | `undefined` | Custom inline styles           |
 
 ### Vue Events
 
@@ -398,12 +376,16 @@ Bottom section for actions.
 
 ### Blazor Parameters
 
-| Parameter   | Type            | Default   | Description         |
-| ----------- | --------------- | --------- | ------------------- |
-| `Variant`   | `CardVariant`   | `Default` | Card variant        |
-| `Padding`   | `CardPadding`   | `Medium`  | Card padding        |
-| `Hoverable` | `bool`          | `false`   | Enable hover effect |
-| `OnClick`   | `EventCallback` | -         | Click event         |
+| Parameter   | Type              | Default   | Description                    |
+| ----------- | ----------------- | --------- | ------------------------------ |
+| `Variant`   | `CardVariant`      | `Default` | Card variant                   |
+| `Padding`   | `CardPadding`     | `Medium`  | Card padding                   |
+| `Header`    | `RenderFragment?` | `null`    | Header content (top section)   |
+| `Footer`    | `RenderFragment?` | `null`    | Footer content (bottom section) |
+| `ChildContent` | `RenderFragment?` | `null`    | Main card content              |
+| `Class`     | `string?`          | `null`    | Custom class for styling       |
+| `Style`    | `string?`          | `null`    | Custom inline styles           |
+| `OnClick`   | `EventCallback`    | -         | Click event                    |
 
 ---
 
@@ -424,8 +406,8 @@ Bottom section for actions.
 ::: code-group
 
 ```tsx [React]
-<Card>
-  <CardHeader>
+<Card
+  header={
     <div className="flex items-center gap-4">
       <img src="/avatar.jpg" className="w-12 h-12 rounded-full" />
       <div>
@@ -433,57 +415,40 @@ Bottom section for actions.
         <p className="text-sm text-gray-500">Software Engineer</p>
       </div>
     </div>
-  </CardHeader>
-  <CardContent>
-    <p>Passionate about building great user experiences.</p>
-  </CardContent>
-  <CardFooter>
+  }
+  footer={
     <Button variant="outline" size="sm">
       View Profile
     </Button>
-  </CardFooter>
+  }
+>
+  <p>Passionate about building great user experiences.</p>
 </Card>
 ```
 
 ```vue [Vue]
-<PtCard>
-  <PtCardHeader>
-    <div class="flex items-center gap-4">
-      <img src="/avatar.jpg" class="w-12 h-12 rounded-full" />
+<PtCard
+  :header="
+    <div class='flex items-center gap-4'>
+      <img src='/avatar.jpg' class='w-12 h-12 rounded-full' />
       <div>
-        <h3 class="font-semibold">John Doe</h3>
-        <p class="text-sm text-gray-500">Software Engineer</p>
+        <h3 class='font-semibold'>John Doe</h3>
+        <p class='text-sm text-gray-500'>Software Engineer</p>
       </div>
     </div>
-  </PtCardHeader>
-  <PtCardContent>
-    <p>Passionate about building great user experiences.</p>
-  </PtCardContent>
-  <PtCardFooter>
-    <PtButton variant="outline" size="sm">View Profile</PtButton>
-  </PtCardFooter>
+  "
+  :footer="<PtButton variant='outline' size='sm'>View Profile</PtButton>"
+>
+  <p>Passionate about building great user experiences.</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
-<PtCard>
-    <PtCardHeader>
-        <div class="flex items-center gap-4">
-            <img src="/avatar.jpg" class="w-12 h-12 rounded-full" />
-            <div>
-                <h3 class="font-semibold">John Doe</h3>
-                <p class="text-sm text-gray-500">Software Engineer</p>
-            </div>
-        </div>
-    </PtCardHeader>
-    <PtCardContent>
-        <p>Passionate about building great user experiences.</p>
-    </PtCardContent>
-    <PtCardFooter>
-        <PtButton Variant="ButtonVariant.Outline" Size="ButtonSize.Small">
-            View Profile
-        </PtButton>
-    </PtCardFooter>
+<PtCard
+    Header="@(() => <div class='flex items-center gap-4'><img src='/avatar.jpg' class='w-12 h-12 rounded-full' /><div><h3 class='font-semibold'>John Doe</h3><p class='text-sm text-gray-500'>Software Engineer</p></div></div>)"
+    Footer="@(() => <PtButton Variant='ButtonVariant.Outline' Size='ButtonSize.Small'>View Profile</PtButton>)"
+>
+    <p>Passionate about building great user experiences.</p>
 </PtCard>
 ```
 
@@ -494,32 +459,26 @@ Bottom section for actions.
 ::: code-group
 
 ```tsx [React]
-<Card variant="filled">
-  <CardContent>
-    <p className="text-sm text-gray-500 mb-1">Total Users</p>
-    <h2 className="text-3xl font-bold">12,543</h2>
-    <p className="text-sm text-green-600 mt-2">↑ 12% from last month</p>
-  </CardContent>
+<Card variant="elevated">
+  <p className="text-sm text-gray-500 mb-1">Total Users</p>
+  <h2 className="text-3xl font-bold">12,543</h2>
+  <p className="text-sm text-green-600 mt-2">↑ 12% from last month</p>
 </Card>
 ```
 
 ```vue [Vue]
-<PtCard variant="filled">
-  <PtCardContent>
-    <p class="text-sm text-gray-500 mb-1">Total Users</p>
-    <h2 class="text-3xl font-bold">12,543</h2>
-    <p class="text-sm text-green-600 mt-2">↑ 12% from last month</p>
-  </PtCardContent>
+<PtCard variant="elevated">
+  <p class="text-sm text-gray-500 mb-1">Total Users</p>
+  <h2 class="text-3xl font-bold">12,543</h2>
+  <p class="text-sm text-green-600 mt-2">↑ 12% from last month</p>
 </PtCard>
 ```
 
 ```razor [Blazor]
-<PtCard Variant="CardVariant.Filled">
-    <PtCardContent>
-        <p class="text-sm text-gray-500 mb-1">Total Users</p>
-        <h2 class="text-3xl font-bold">12,543</h2>
-        <p class="text-sm text-green-600 mt-2">↑ 12% from last month</p>
-    </PtCardContent>
+<PtCard Variant="CardVariant.Elevated">
+    <p class="text-sm text-gray-500 mb-1">Total Users</p>
+    <h2 class="text-3xl font-bold">12,543</h2>
+    <p class="text-sm text-green-600 mt-2">↑ 12% from last month</p>
 </PtCard>
 ```
 

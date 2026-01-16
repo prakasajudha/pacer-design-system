@@ -62,26 +62,29 @@ const props = withDefaults(defineProps<IconButtonProps>(), {
   loading: false,
 });
 
+// Menggunakan theme values untuk menghindari arbitrary values (SAST/DAST safe)
 const sizeClasses = computed(() => {
-  if (props.size === 'xss') return 'h-5 w-5 p-0.5 rounded-[6px]';
-  if (props.size === 'xs') return 'h-7 w-7 p-1.5 rounded-[6px]';
-  if (props.size === 'sm') return 'h-8 w-8 p-2 rounded-[6px]';
-  return 'h-10 w-10 p-3 rounded-[6px]';
+  if (props.size === 'xss') return 'h-5 w-5 p-0.5 rounded-button';
+  if (props.size === 'xs') return 'h-7 w-7 p-1.5 rounded-button';
+  if (props.size === 'sm') return 'h-8 w-8 p-2 rounded-button';
+  return 'h-10 w-10 p-3 rounded-button';
 });
 
 const variantClasses = computed(() => {
   const isLinkVariant = props.variant === 'link-primary' || props.variant === 'link-secondary';
 
   // Helper untuk double ring focus effect
+  // Menggunakan utility classes dari theme untuk menghindari arbitrary shadow values
   const getFocusRing = (ringColor: string) => {
+    // Menggunakan utility classes yang sudah didefinisikan di Tailwind preset
     if (ringColor === 'brand-300') {
-      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]';
+      return 'focus-ring-primary';
     }
     if (ringColor === 'slate-200') {
-      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]';
+      return 'focus-ring-slate';
     }
     if (ringColor === 'red-200') {
-      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]';
+      return 'focus-ring-danger';
     }
     return 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
   };
@@ -91,7 +94,7 @@ const variantClasses = computed(() => {
       return [
         'bg-white text-red-600 border border-red-600',
         'hover:bg-red-50 hover:text-red-700',
-        'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]',
+        getFocusRing('red-200'),
         'focus-visible:text-red-700',
         props.selected && 'bg-red-50 text-red-700',
       ]
@@ -103,7 +106,7 @@ const variantClasses = computed(() => {
       return [
         'bg-white text-red-600 border border-red-600',
         'hover:bg-red-50 hover:text-red-700',
-        'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]',
+        getFocusRing('red-200'),
         'focus-visible:text-red-700',
         props.selected && 'bg-red-50 text-red-700',
       ]

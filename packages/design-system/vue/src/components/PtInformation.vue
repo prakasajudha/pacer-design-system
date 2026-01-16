@@ -178,7 +178,7 @@ const iconClasses = computed(() => {
   return cn(
     currentSizeStyles.value.icon,
     iconColorStyles[props.variant],
-    'mt-[2.5px]',
+    'mt-icon-offset',
     props.iconClassName
   );
 });

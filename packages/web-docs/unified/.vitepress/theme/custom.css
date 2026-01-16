@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Pertamina Brand Blue - matches @pacer-ui/tokens brand colors */
   --vp-c-brand: #0156C6;

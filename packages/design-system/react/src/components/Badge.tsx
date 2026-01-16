@@ -57,7 +57,7 @@ export const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
 
     const typeStyles = {
       rounded: 'rounded-full',
-      square: 'rounded-[4px]',
+      square: 'rounded-badge-square',
     } as const;
 
     const getVariantStyles = () => {

@@ -1,4 +1,4 @@
-# Icon Button
+# Icon Button Component
 
 Icon Button adalah tombol **ikon-only** (tanpa label teks) untuk aksi cepat (mis. close, search, settings).
 
@@ -8,76 +8,75 @@ Icon Button adalah tombol **ikon-only** (tanpa label teks) untuk aksi cepat (mis
 
 Karena tidak ada label teks, Icon Button **wajib** punya label untuk screen reader:
 
-- **React**: `aria-label`
-- **Vue**: `ariaLabel`
-- **Blazor**: `AriaLabel`
+- **React**: `aria-label` (required)
+- **Vue**: `ariaLabel` (required)
+- **Blazor**: `AriaLabel` (required)
 
 ## Variants
 
-- `primary`
+Icon Button supports the same variants as Button:
+
+- `solid` (default)
 - `secondary`
 - `outline`
 - `ghost`
 - `link-primary`
 - `link-secondary`
 
-## Type (Tone)
-
-- `tone="primary"` (default)
-- `tone="destructive"` (danger)
-
 ## Sizes
 
 Icon Button tersedia dalam 4 ukuran:
 
-- `xss`: 20x20px
-- `xs`: 28x28px
-- `sm`: 32x32px
-- `md`: 40x40px (default)
+- `xss`: 20x20px (h-5 w-5 p-0.5)
+- `xs`: 28x28px (h-7 w-7 p-1.5)
+- `sm`: 32x32px (h-8 w-8 p-2)
+- `md`: 40x40px (h-10 w-10 p-3) (default)
+
+## Color (Primary / Danger)
+
+Icon Button supports two color tones: `primary` (default) and `danger`.
 
 ## Visual Preview
 
 <ComponentDemo>
-  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-    <!-- Primary -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; cursor: pointer; background: #016BF8; color: white; width: 2.5rem; height: 2.5rem; padding: 0.75rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- Secondary -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; background: white; color: #016BF8; border: 1px solid #016BF8; width: 2.5rem; height: 2.5rem; padding: 0.75rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- Outline -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; border: 1px solid #cbd5e1; background: white; color: #0f172a; width: 2.5rem; height: 2.5rem; padding: 0.75rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- Ghost -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: #0f172a; width: 2.5rem; height: 2.5rem; padding: 0.75rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- Destructive -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; cursor: pointer; background: #dc2626; color: white; width: 2.5rem; height: 2.5rem; padding: 0.75rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-    </button>
+  <script setup>
+  import { h } from 'vue';
+  
+  const PlusIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('path', { d: 'M12 5v14' }),
+    h('path', { d: 'M5 12h14' })
+  ]);
+  
+  const XIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('path', { d: 'M18 6 6 18' }),
+    h('path', { d: 'm6 6 12 12' })
+  ]);
+  </script>
+  
+  <div class="flex gap-4 items-center flex-wrap">
+    <PtIconButton variant="solid" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="secondary" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="outline" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="ghost" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="solid" color="danger" :icon="XIcon" aria-label="Close" />
   </div>
 
 <template #react>
@@ -106,7 +105,7 @@ export default function App() {
       <IconButton aria-label="Add" icon={<PlusIcon />} variant="secondary" />
       <IconButton aria-label="Add" icon={<PlusIcon />} variant="outline" />
       <IconButton aria-label="Add" icon={<PlusIcon />} variant="ghost" />
-      <IconButton aria-label="Close" icon={<XIcon />} tone="destructive" />
+      <IconButton aria-label="Close" icon={<XIcon />} color="danger" />
     </div>
   );
 }
@@ -119,44 +118,16 @@ export default function App() {
 ```vue
 <script setup lang="ts">
 import { PtIconButton } from '@pacer-ui/vue';
+import { Plus, X } from 'lucide-vue-next';
 </script>
 
 <template>
   <div class="flex items-center gap-4">
-    <PtIconButton aria-label="Add">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Add" variant="secondary">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Add" variant="outline">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Add" variant="ghost">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Close" tone="destructive">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-    </PtIconButton>
+    <PtIconButton aria-label="Add" :icon="Plus" />
+    <PtIconButton aria-label="Add" :icon="Plus" variant="secondary" />
+    <PtIconButton aria-label="Add" :icon="Plus" variant="outline" />
+    <PtIconButton aria-label="Add" :icon="Plus" variant="ghost" />
+    <PtIconButton aria-label="Close" :icon="X" color="danger" />
   </div>
 </template>
 ```
@@ -196,7 +167,16 @@ import { PtIconButton } from '@pacer-ui/vue';
         </Icon>
     </PtIconButton>
 
-    <PtIconButton AriaLabel="Close" Tone="ButtonTone.Destructive">
+    <PtIconButton AriaLabel="Add" Variant="ButtonVariant.Ghost">
+        <Icon>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+            </svg>
+        </Icon>
+    </PtIconButton>
+
+    <PtIconButton AriaLabel="Close" Color="danger">
         <Icon>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                 <path d="M18 6 6 18" />
@@ -213,38 +193,29 @@ import { PtIconButton } from '@pacer-ui/vue';
 ## Size Variants
 
 <ComponentDemo>
-  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-    <!-- xss -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; cursor: pointer; background: #016BF8; color: white; width: 1.25rem; height: 1.25rem; padding: 0.125rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 0.75rem; height: 0.75rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- xs -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; cursor: pointer; background: #016BF8; color: white; width: 1.75rem; height: 1.75rem; padding: 0.375rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 0.875rem; height: 0.875rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- sm -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; cursor: pointer; background: #016BF8; color: white; width: 2rem; height: 2rem; padding: 0.5rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
-    
-    <!-- md -->
-    <button style="display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; cursor: pointer; background: #016BF8; color: white; width: 2.5rem; height: 2.5rem; padding: 0.75rem;">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 1rem; height: 1rem;">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </button>
+  <script setup>
+  import { h } from 'vue';
+  
+  const PlusIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('path', { d: 'M12 5v14' }),
+    h('path', { d: 'M5 12h14' })
+  ]);
+  </script>
+  
+  <div class="flex gap-4 items-center flex-wrap">
+    <PtIconButton variant="solid" size="xss" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="solid" size="xs" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="solid" size="sm" :icon="PlusIcon" aria-label="Add" />
+    <PtIconButton variant="solid" size="md" :icon="PlusIcon" aria-label="Add" />
   </div>
 
 <template #react>
@@ -278,37 +249,15 @@ export default function App() {
 ```vue
 <script setup lang="ts">
 import { PtIconButton } from '@pacer-ui/vue';
+import { Plus } from 'lucide-vue-next';
 </script>
 
 <template>
   <div class="flex items-center gap-4">
-    <PtIconButton aria-label="Add" size="xss">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Add" size="xs">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Add" size="sm">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
-
-    <PtIconButton aria-label="Add" size="md">
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-        <path d="M12 5v14" />
-        <path d="M5 12h14" />
-      </svg>
-    </PtIconButton>
+    <PtIconButton aria-label="Add" :icon="Plus" size="xss" />
+    <PtIconButton aria-label="Add" :icon="Plus" size="xs" />
+    <PtIconButton aria-label="Add" :icon="Plus" size="sm" />
+    <PtIconButton aria-label="Add" :icon="Plus" size="md" />
   </div>
 </template>
 ```
@@ -321,7 +270,7 @@ import { PtIconButton } from '@pacer-ui/vue';
 @using Pertamina.DesignSystem.Blazor
 
 <div class="d-flex gap-3 align-items-center">
-    <PtIconButton AriaLabel="Add" Size="ButtonSize.ExtraSmall">
+    <PtIconButton AriaLabel="Add" Size="xss">
         <Icon>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                 <path d="M12 5v14" />
@@ -330,7 +279,7 @@ import { PtIconButton } from '@pacer-ui/vue';
         </Icon>
     </PtIconButton>
 
-    <PtIconButton AriaLabel="Add" Size="ButtonSize.XSmall">
+    <PtIconButton AriaLabel="Add" Size="xs">
         <Icon>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                 <path d="M12 5v14" />
@@ -339,7 +288,7 @@ import { PtIconButton } from '@pacer-ui/vue';
         </Icon>
     </PtIconButton>
 
-    <PtIconButton AriaLabel="Add" Size="ButtonSize.Small">
+    <PtIconButton AriaLabel="Add" Size="sm">
         <Icon>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                 <path d="M12 5v14" />
@@ -348,7 +297,159 @@ import { PtIconButton } from '@pacer-ui/vue';
         </Icon>
     </PtIconButton>
 
-    <PtIconButton AriaLabel="Add" Size="ButtonSize.Medium">
+    <PtIconButton AriaLabel="Add" Size="md">
+        <Icon>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+            </svg>
+        </Icon>
+    </PtIconButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## Loading State
+
+<ComponentDemo>
+  <div class="flex gap-4 items-center flex-wrap">
+    <PtIconButton variant="solid" :loading="true" aria-label="Loading" />
+  </div>
+
+<template #react>
+
+```tsx
+import { IconButton } from '@pacer-ui/react';
+
+const PlusIcon = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+    <path d="M12 5v14" />
+    <path d="M5 12h14" />
+  </svg>
+);
+
+export default function App() {
+  return (
+    <div className="flex items-center gap-4">
+      <IconButton aria-label="Add" icon={<PlusIcon />} loading />
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtIconButton } from '@pacer-ui/vue';
+import { Plus } from 'lucide-vue-next';
+</script>
+
+<template>
+  <div class="flex items-center gap-4">
+    <PtIconButton aria-label="Add" :icon="Plus" :loading="true" />
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3 align-items-center">
+    <PtIconButton AriaLabel="Add" Loading="true">
+        <Icon>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+            </svg>
+        </Icon>
+    </PtIconButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## Selected State
+
+<ComponentDemo>
+  <script setup>
+  import { h } from 'vue';
+  
+  const PlusIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('path', { d: 'M12 5v14' }),
+    h('path', { d: 'M5 12h14' })
+  ]);
+  </script>
+  
+  <div class="flex gap-4 items-center flex-wrap">
+    <PtIconButton variant="solid" :icon="PlusIcon" :selected="true" aria-label="Add" />
+  </div>
+
+<template #react>
+
+```tsx
+import { IconButton } from '@pacer-ui/react';
+
+const PlusIcon = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+    <path d="M12 5v14" />
+    <path d="M5 12h14" />
+  </svg>
+);
+
+export default function App() {
+  return (
+    <div className="flex items-center gap-4">
+      <IconButton aria-label="Add" icon={<PlusIcon />} selected />
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtIconButton } from '@pacer-ui/vue';
+import { Plus } from 'lucide-vue-next';
+</script>
+
+<template>
+  <div class="flex items-center gap-4">
+    <PtIconButton aria-label="Add" :icon="Plus" :selected="true" />
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3 align-items-center">
+    <PtIconButton AriaLabel="Add" Selected="true">
         <Icon>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                 <path d="M12 5v14" />
@@ -368,44 +469,24 @@ import { PtIconButton } from '@pacer-ui/vue';
 
 | Prop        | Type                                                               | Default     | Description                               |
 | ----------- | ------------------------------------------------------------------ | ----------- | ----------------------------------------- |
-| `icon`      | `React.ReactNode` (React) / slot (Vue) / `RenderFragment` (Blazor) | `(required)` | Komponen ikon yang akan ditampilkan       |
-| `aria-label` (React) / `ariaLabel` (Vue/Blazor) | `string`                               | `(required)` | Label yang wajib untuk pembaca layar (screen readers) |
-| `variant`   | `'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'link-primary' \| 'link-secondary'` | `'primary'` | Pilihan gaya visual tombol ikon           |
+| `icon`      | `React.ReactNode` (React) / `Component` (Vue) / `RenderFragment` (Blazor) | `(required)` | Komponen ikon yang akan ditampilkan       |
+| `aria-label` (React) / `ariaLabel` (Vue) / `AriaLabel` (Blazor) | `string`                               | `(required)` | Label yang wajib untuk pembaca layar (screen readers) |
+| `variant`   | `'solid' \| 'secondary' \| 'outline' \| 'ghost' \| 'link-primary' \| 'link-secondary'` | `'solid'` | Pilihan gaya visual tombol ikon           |
 | `size`      | `'xss' \| 'xs' \| 'sm' \| 'md'`                                    | `'md'`      | Ukuran tombol ikon (20px / 28px / 32px / 40px) |
-| `tone`      | `'primary' \| 'destructive'`                                       | `'primary'` | Type button: primary / destructive        |
+| `color`     | `'primary' \| 'danger'`                                            | `'primary'` | Color button (Primary / Danger)           |
 | `disabled`  | `boolean`                                                          | `false`     | Nonaktifkan tombol ikon                   |
 | `loading`   | `boolean`                                                          | `false`     | Tampilkan indikator loading dan nonaktifkan interaksi |
 | `selected`  | `boolean`                                                          | `false`     | Terapkan gaya terpilih (selected styling) |
-| `type`      | `'button' \| 'submit' \| 'reset'` (React/Blazor only)             | `'button'`  | Native HTML button type (jarang perlu diubah) |
-| `destructive` | `boolean`                                                        | `false`     | **@deprecated** - gunakan `tone="destructive"` sebagai gantinya |
-
-::: info Legacy Props
-Props `destructive` deprecated. Gunakan `tone="destructive"` untuk styling destructive (merah).
-:::
+| `type`      | `'button' \| 'submit' \| 'reset'` (React/Blazor only)             | `'button'`  | Native HTML button type                   |
+| `destructive` | `boolean` (React only)                                            | `false`     | **@deprecated** - gunakan `color="danger"` sebagai gantinya |
+| `className` (React) / `class` (Vue) / `class` (Blazor) | `string` | `undefined` | Custom className untuk override styling   |
+| `style`     | `React.CSSProperties` (React) / `Record<string, string>` (Vue) / `string` (Blazor) | `undefined` | Custom style untuk override styling       |
 
 ### Events
 
 | Event                            | Description                  |
 | -------------------------------- | ---------------------------- |
 | `onClick` / `@click` / `OnClick` | Fired when icon button is clicked |
-
-== Guideline
-
-## Icon Button Anatomy
-
-Icon buttons consist of:
-
-- **Container**: The clickable square area (size varies: 20px / 28px / 32px / 40px)
-- **Icon**: The visual symbol inside (typically 16x16px for most sizes)
-
-## Icon Button Sizes
-
-| Size | Dimensions | Icon Size | Usage |
-|------|------------|-----------|-------|
-| `xss` | 20x20px | 12px | Very compact UI, toolbar icons |
-| `xs` | 28x28px | 14px | Compact UI, inline actions |
-| `sm` | 32x32px | 16px | Standard inline actions |
-| `md` | 40x40px | 16px | Primary actions, more prominent |
 
 ## Best Practices
 
@@ -431,27 +512,14 @@ Icon buttons consist of:
 - Ensure icons have adequate color contrast (4.5:1 for normal text, 3:1 for large text)
 - Icons should be **aria-hidden="true"** since `aria-label` provides the description
 
-## Variants in Context
+## Design Tokens
 
-### Primary
-Use for the main action in a context (e.g., "Add new item" button in a toolbar).
-
-### Secondary
-Use for important but not primary actions.
-
-### Outline
-Use for actions that need visual distinction without dominating the interface.
-
-### Ghost
-Use for subtle actions, often in crowded interfaces (e.g., table row actions).
-
-### Link Primary / Link Secondary
-Use for navigation-like actions that don't need button affordance.
-
-## Tone: Destructive
-
-Use `tone="destructive"` for delete, remove, or other destructive actions.
-
-Always confirm destructive actions with a dialog or prompt.
-
-:::
+- **Border Radius**: `6px` (rounded-[6px])
+- **Icon Size**: `16x16px` (h-4 w-4) for most sizes
+- **Sizes**: 
+  - `xss`: 20x20px (h-5 w-5 p-0.5)
+  - `xs`: 28x28px (h-7 w-7 p-1.5)
+  - `sm`: 32x32px (h-8 w-8 p-2)
+  - `md`: 40x40px (h-10 w-10 p-3)
+- **Colors**: Same as Button component
+- **Focus Ring**: Double ring effect (2px white inner, 4px colored outer)

@@ -93,21 +93,24 @@ const buttonClasses = computed(() => {
       .join(' ');
   }
 
+  // Menggunakan theme values untuk menghindari arbitrary values (SAST/DAST safe)
   const sizeStyles = {
-    sm: 'min-w-[64px] py-1.5 px-2 gap-0 rounded-[6px]',
-    md: 'min-w-[80px] py-2 px-3 gap-1 rounded-[6px]',
+    sm: 'min-w-button-sm py-1.5 px-2 gap-0 rounded-button',
+    md: 'min-w-button-md py-2 px-3 gap-1 rounded-button',
   } as const;
 
   // Helper untuk double ring focus effect (outer + inner ring)
+  // Menggunakan utility classes dari theme untuk menghindari arbitrary shadow values
   const getFocusRing = (ringColor: string) => {
+    // Menggunakan utility classes yang sudah didefinisikan di Tailwind preset
     if (ringColor === 'brand-300') {
-      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]';
+      return 'focus-ring-primary';
     }
     if (ringColor === 'slate-200') {
-      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]';
+      return 'focus-ring-slate';
     }
     if (ringColor === 'red-200') {
-      return 'focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(254_202_202)]';
+      return 'focus-ring-danger';
     }
     return 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
   };

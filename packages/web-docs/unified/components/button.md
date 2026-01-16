@@ -1,584 +1,589 @@
-# Button
+# Button Component
 
 Buttons allow users to take actions and make choices with a single tap or click.
 
-## Overview
+## Guideline
 
-The Button component is available in all three frameworks with identical design, spacing, and behavior. All variants maintain consistent colors, typography, and interactions across React, Vue, and Blazor.
+### Anatomy
 
-## Design Consistency
+The Button component consists of several key elements:
 
-| Property          | Value                    | Applied To   |
-| ----------------- | ------------------------ | ------------ |
-| **Border Radius** | `0.375rem` (6px)         | All variants |
-| **Font Weight**   | `500` (Medium)           | All variants |
-| **Padding (md)**  | `0.5rem 1rem` (8px 16px) | All variants |
-| **Transition**    | `150ms ease-in-out`      | All states   |
-| **Focus Ring**    | `2px offset 2px`         | All variants |
+- **Icons left or right**: Icons that can be positioned either before (leading) or after (trailing) the Label.
+- **Text labels**: The text attributed to the Button that provides context.
+- **Container**: The clickable area of the button, encompassing the label and icons.
 
----
+### Layout and Spacing
 
-## Installation & Import
+The layout and spacing of the button are crucial for its visual consistency and usability.
 
-::: code-group
-
-```tsx [React]
-import { Button } from '@pacer-ui/react';
-```
-
-```vue [Vue]
-import { PtButton } from '@pacer-ui/vue';
-```
-
-```razor [Blazor]
-@using Pertamina.DesignSystem.Blazor
-
-<PtButton>Click me</PtButton>
-```
-
-:::
+- **Item spacing**: 4px between icon and text (gap-1).
+- **Padding**:
+  - Medium size: 12px horizontal (px-3), 8px vertical (py-2) → height 40px.
+  - Small size: 8px horizontal (px-2), 6px vertical (py-1.5) → height 36px.
+- **Border Radius**: 6px (rounded-[6px]).
+- **Icon Size**: 16x16px.
+- **Font Size**: 14px (text-sm) with 24px line height (leading-6).
 
 ---
 
-## Basic Usage
+## Implementation
 
-::: code-group
+### Basic Button
 
-```tsx [React]
+<ComponentDemo>
+  <div class="flex flex-col gap-10 flex-wrap">
+    <PtButton variant="solid">Primary Button</PtButton>
+    <PtButton variant="secondary">Secondary Button</PtButton>
+    <PtButton variant="outline">Outline Button</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
 import { Button } from '@pacer-ui/react';
 
-function App() {
-  return <Button onClick={() => console.log('Clicked!')}>Click me</Button>;
-}
-```
-
-```vue [Vue]
-<script setup lang="ts">
-import { PtButton } from '@pacer-ui/vue';
-
-const handleClick = () => {
-  console.log('Clicked!');
-};
-</script>
-
-<template>
-  <PtButton @click="handleClick"> Click me </PtButton>
-</template>
-```
-
-```razor [Blazor]
-<PtButton OnClick="HandleClick">
-    Click me
-</PtButton>
-
-@code {
-    private void HandleClick()
-    {
-        Console.WriteLine("Clicked!");
-    }
-}
-```
-
-:::
-
----
-
-## Variants
-
-All variants use the same design tokens and colors across frameworks.
-
-### Primary Button
-
-Used for the main call-to-action.
-
-::: code-group
-
-```tsx [React]
-<Button variant="primary">Primary Button</Button>
-```
-
-```vue [Vue]
-<PtButton variant="primary">
-  Primary Button
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Variant="ButtonVariant.Primary">
-    Primary Button
-</PtButton>
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `#00A19B` (Pertamina Teal)
-- Text: `#FFFFFF`
-- Hover: `#008A85`
-- Active: `#007570`
-
-### Secondary Button
-
-Used for secondary actions.
-
-::: code-group
-
-```tsx [React]
-<Button variant="secondary">Secondary Button</Button>
-```
-
-```vue [Vue]
-<PtButton variant="secondary">
-  Secondary Button
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Variant="ButtonVariant.Secondary">
-    Secondary Button
-</PtButton>
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `#6B7280` (Gray 500)
-- Text: `#FFFFFF`
-- Hover: `#4B5563`
-- Active: `#374151`
-
-### Outline Button
-
-Used for less prominent actions.
-
-::: code-group
-
-```tsx [React]
-<Button variant="outline">Outline Button</Button>
-```
-
-```vue [Vue]
-<PtButton variant="outline">
-  Outline Button
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Variant="ButtonVariant.Outline">
-    Outline Button
-</PtButton>
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `transparent`
-- Border: `1px solid #D1D5DB`
-- Text: `#374151`
-- Hover Background: `#F9FAFB`
-
-### Ghost Button
-
-Minimal styling for subtle actions.
-
-::: code-group
-
-```tsx [React]
-<Button variant="ghost">Ghost Button</Button>
-```
-
-```vue [Vue]
-<PtButton variant="ghost">
-  Ghost Button
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Variant="ButtonVariant.Ghost">
-    Ghost Button
-</PtButton>
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `transparent`
-- Text: `#374151`
-- Hover Background: `#F3F4F6`
-
-### Danger Button
-
-Used for destructive actions.
-
-::: code-group
-
-```tsx [React]
-<Button variant="danger">Delete</Button>
-```
-
-```vue [Vue]
-<PtButton variant="danger">
-  Delete
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Variant="ButtonVariant.Danger">
-    Delete
-</PtButton>
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `#DC2626` (Red 600)
-- Text: `#FFFFFF`
-- Hover: `#B91C1C`
-- Active: `#991B1B`
-
----
-
-## Sizes
-
-All sizes maintain consistent proportions across frameworks.
-
-::: code-group
-
-```tsx [React]
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
-```
-
-```vue [Vue]
-<PtButton size="sm">Small</PtButton>
-<PtButton size="md">Medium</PtButton>
-<PtButton size="lg">Large</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Size="ButtonSize.Small">Small</PtButton>
-<PtButton Size="ButtonSize.Medium">Medium</PtButton>
-<PtButton Size="ButtonSize.Large">Large</PtButton>
-```
-
-:::
-
-**Size Specifications:**
-
-| Size   | Height | Padding X | Padding Y | Font Size |
-| ------ | ------ | --------- | --------- | --------- |
-| Small  | 32px   | 12px      | 6px       | 14px      |
-| Medium | 40px   | 16px      | 8px       | 16px      |
-| Large  | 48px   | 24px      | 12px      | 18px      |
-
----
-
-## States
-
-### Disabled State
-
-::: code-group
-
-```tsx [React]
-<Button disabled>Disabled Button</Button>
-```
-
-```vue [Vue]
-<PtButton disabled>
-  Disabled Button
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Disabled="true">
-    Disabled Button
-</PtButton>
-```
-
-:::
-
-**Design Specs:**
-
-- Opacity: `0.5`
-- Cursor: `not-allowed`
-- Pointer Events: `none`
-
-### Loading State
-
-::: code-group
-
-```tsx [React]
-<Button loading>Loading...</Button>
-```
-
-```vue [Vue]
-<PtButton loading>
-  Loading...
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton Loading="true">
-    Loading...
-</PtButton>
-```
-
-:::
-
----
-
-## Full Width
-
-::: code-group
-
-```tsx [React]
-<Button fullWidth>Full Width Button</Button>
-```
-
-```vue [Vue]
-<PtButton full-width>
-  Full Width Button
-</PtButton>
-```
-
-```razor [Blazor]
-<PtButton FullWidth="true">
-    Full Width Button
-</PtButton>
-```
-
-:::
-
----
-
-## With Icons
-
-::: code-group
-
-```tsx [React]
-import { Button } from '@pacer-ui/react';
-import { IconCheck } from '@tabler/icons-react';
-
-function App() {
+export default function App() {
   return (
-    <>
-      <Button>
-        <IconCheck size={20} />
-        With Icon
-      </Button>
-
-      <Button>
-        Save
-        <IconCheck size={20} />
-      </Button>
-    </>
+    <div className="flex gap-4">
+      <Button variant="solid">Primary Button</Button>
+      <Button variant="secondary">Secondary Button</Button>
+      <Button variant="outline">Outline Button</Button>
+    </div>
   );
 }
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <script setup lang="ts">
 import { PtButton } from '@pacer-ui/vue';
-import { IconCheck } from '@tabler/icons-vue';
 </script>
 
 <template>
-  <PtButton>
-    <IconCheck :size="20" />
-    With Icon
-  </PtButton>
-
-  <PtButton>
-    Save
-    <IconCheck :size="20" />
-  </PtButton>
+  <div class="flex gap-4">
+    <PtButton variant="solid">Primary Button</PtButton>
+    <PtButton variant="secondary">Secondary Button</PtButton>
+    <PtButton variant="outline">Outline Button</PtButton>
+  </div>
 </template>
 ```
 
-```razor [Blazor]
-<PtButton>
-    <i class="icon-check"></i>
-    With Icon
-</PtButton>
+  </template>
 
-<PtButton>
-    Save
-    <i class="icon-check"></i>
-</PtButton>
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Variant="ButtonVariant.Solid">Primary Button</PtButton>
+    <PtButton Variant="ButtonVariant.Secondary">Secondary Button</PtButton>
+    <PtButton Variant="ButtonVariant.Outline">Outline Button</PtButton>
+</div>
 ```
 
-:::
+  </template>
+</ComponentDemo>
 
-**Icon Spacing:**
+## Variants
 
-- Icon-to-text gap: `8px`
-- Icon size: `20px` (small), `24px` (medium), `28px` (large)
+### Solid (Primary)
 
----
+Default variant with solid background.
+
+### Secondary
+
+Button with white background and colored border/text.
+
+### Outline
+
+Button with white background and border.
+
+### Ghost
+
+Button with transparent background.
+
+### Link Primary / Link Secondary
+
+Link-style buttons without background (24px height, underline on hover).
+
+## Button Sizes
+
+Buttons are available in multiple sizes to fit different use cases (Figma: `sm` dan `md`).
+
+<ComponentDemo>
+  <div class="flex gap-4 items-center flex-wrap">
+    <PtButton size="sm">Small</PtButton>
+    <PtButton size="md">Medium</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4 items-center">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4 items-center">
+    <PtButton size="sm">Small</PtButton>
+    <PtButton size="md">Medium</PtButton>
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3 align-items-center">
+    <PtButton Size="ButtonSize.Small">Small</PtButton>
+    <PtButton Size="ButtonSize.Medium">Medium</PtButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## Color (Primary / Danger)
+
+Buttons support two color tones: `primary` (default) and `danger`.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton color="primary">Primary</PtButton>
+    <PtButton color="danger">Danger</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button color="primary">Primary</Button>
+      <Button color="danger">Danger</Button>
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton color="primary">Primary</PtButton>
+    <PtButton color="danger">Danger</PtButton>
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Color="primary">Primary</PtButton>
+    <PtButton Color="danger">Danger</PtButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## With Icons
+
+Buttons can include icons before or after the label.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="solid" :left-icon="PlusIcon">Add Item</PtButton>
+    <PtButton variant="solid" :right-icon="SaveIcon">Save</PtButton>
+  </div>
+  
+  <script setup>
+  import { h } from 'vue';
+  
+  const PlusIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('path', { d: 'M12 5v14' }),
+    h('path', { d: 'M5 12h14' })
+  ]);
+  
+  const SaveIcon = () => h('svg', {
+    'aria-hidden': 'true',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: 'h-4 w-4'
+  }, [
+    h('path', { d: 'M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z' }),
+    h('polyline', { points: '17 21 17 13 7 13 7 21' }),
+    h('polyline', { points: '7 3 7 8 15 8' })
+  ]);
+  </script>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+const PlusIcon = () => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-4 w-4"
+  >
+    <path d="M12 5v14" />
+    <path d="M5 12h14" />
+  </svg>
+);
+
+const SaveIcon = () => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-4 w-4"
+  >
+    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+    <polyline points="17 21 17 13 7 13 7 21" />
+    <polyline points="7 3 7 8 15 8" />
+  </svg>
+);
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button leftIcon={<PlusIcon />}>Add Item</Button>
+      <Button rightIcon={<SaveIcon />}>Save</Button>
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+import { Plus, Save } from 'lucide-vue-next';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton :left-icon="Plus">Add Item</PtButton>
+    <PtButton :right-icon="Save">Save</PtButton>
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton>
+        <LeftIcon>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+            </svg>
+        </LeftIcon>
+        Add Item
+    </PtButton>
+    <PtButton>
+        <RightIcon>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+            </svg>
+        </RightIcon>
+        Save
+    </PtButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## Loading State
+
+Buttons can show a loading state with a spinner.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton :loading="true">Loading...</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button loading>Loading...</Button>
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton :loading="true">Loading...</PtButton>
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Loading="true">Loading...</PtButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## Selected State
+
+Buttons can have a selected/toggled state.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton selected>Selected</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button selected>Selected</Button>
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton :selected="true">Selected</PtButton>
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Selected="true">Selected</PtButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
+
+## Disabled State
+
+Buttons can be disabled to prevent user interaction.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton disabled>Disabled Button</PtButton>
+    <PtButton variant="outline" disabled>Disabled Outline</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+import { Button } from '@pacer-ui/react';
+
+export default function App() {
+  return (
+    <div className="flex gap-4">
+      <Button disabled>Disabled Button</Button>
+      <Button variant="outline" disabled>
+        Disabled Outline
+      </Button>
+    </div>
+  );
+}
+```
+
+  </template>
+
+<template #vue>
+
+```vue
+<script setup lang="ts">
+import { PtButton } from '@pacer-ui/vue';
+</script>
+
+<template>
+  <div class="flex gap-4">
+    <PtButton disabled>Disabled Button</PtButton>
+    <PtButton variant="outline" disabled>Disabled Outline</PtButton>
+  </div>
+</template>
+```
+
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="d-flex gap-3">
+    <PtButton Disabled="true">Disabled Button</PtButton>
+    <PtButton Variant="ButtonVariant.Outline" Disabled="true">Disabled Outline</PtButton>
+</div>
+```
+
+  </template>
+</ComponentDemo>
 
 ## API Reference
 
-### React Props
+### Props
 
-| Prop        | Type                                                           | Default     | Description        |
-| ----------- | -------------------------------------------------------------- | ----------- | ------------------ |
-| `variant`   | `'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'danger'` | `'primary'` | Button variant     |
-| `size`      | `'sm' \| 'md' \| 'lg'`                                         | `'md'`      | Button size        |
-| `disabled`  | `boolean`                                                      | `false`     | Disable button     |
-| `loading`   | `boolean`                                                      | `false`     | Show loading state |
-| `fullWidth` | `boolean`                                                      | `false`     | Full width button  |
-| `onClick`   | `() => void`                                                   | -           | Click handler      |
+| Prop                                                   | Type                                                                                   | Default     | Description                             |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------- | ----------- | --------------------------------------- |
+| `variant`                                              | `'solid' \| 'secondary' \| 'outline' \| 'ghost' \| 'link-primary' \| 'link-secondary'` | `'solid'`   | Pilihan gaya visual tombol              |
+| `size`                                                 | `'sm' \| 'md'`                                                                         | `'md'`      | Ukuran tombol (non-link)                |
+| `loading`                                              | `boolean`                                                                              | `false`     | Tampilkan state loading                 |
+| `color`                                                | `'primary' \| 'danger'`                                                                | `'primary'` | Color button (Primary / Danger)         |
+| `selected`                                             | `boolean`                                                                              | `false`     | Aktifkan selected/toggled state         |
+| `leftIcon`                                             | `React.ReactNode` (React) / `Component` (Vue) / `RenderFragment` (Blazor)              | `undefined` | Ikon sebelum label tombol               |
+| `rightIcon`                                            | `React.ReactNode` (React) / `Component` (Vue) / `RenderFragment` (Blazor)              | `undefined` | Ikon setelah label tombol               |
+| `disabled`                                             | `boolean`                                                                              | `false`     | Nonaktifkan tombol                      |
+| `type`                                                 | `'button' \| 'submit' \| 'reset'`                                                      | `'button'`  | Native HTML button type                 |
+| `children`                                             | `React.ReactNode` (React) / `slot` (Vue) / `RenderFragment` (Blazor)                   | `undefined` | Label atau konten tombol                |
+| `className` (React) / `class` (Vue) / `class` (Blazor) | `string`                                                                               | `undefined` | Custom className untuk override styling |
+| `style`                                                | `React.CSSProperties` (React) / `Record<string, string>` (Vue) / `string` (Blazor)     | `undefined` | Custom style untuk override styling     |
 
-### Vue Props
+### Events
 
-| Prop        | Type                                                           | Default     | Description        |
-| ----------- | -------------------------------------------------------------- | ----------- | ------------------ |
-| `variant`   | `'primary' \| 'secondary' \| 'outline' \| 'ghost' \| 'danger'` | `'primary'` | Button variant     |
-| `size`      | `'sm' \| 'md' \| 'lg'`                                         | `'md'`      | Button size        |
-| `disabled`  | `boolean`                                                      | `false`     | Disable button     |
-| `loading`   | `boolean`                                                      | `false`     | Show loading state |
-| `fullWidth` | `boolean`                                                      | `false`     | Full width button  |
+| Event                            | Description                  |
+| -------------------------------- | ---------------------------- |
+| `onClick` / `@click` / `OnClick` | Fired when button is clicked |
 
-### Vue Events
+## Design Tokens
 
-| Event    | Payload | Description      |
-| -------- | ------- | ---------------- |
-| `@click` | `Event` | Emitted on click |
+The button uses the following design tokens:
 
-### Blazor Parameters
-
-| Parameter   | Type            | Default   | Description        |
-| ----------- | --------------- | --------- | ------------------ |
-| `Variant`   | `ButtonVariant` | `Primary` | Button variant     |
-| `Size`      | `ButtonSize`    | `Medium`  | Button size        |
-| `Disabled`  | `bool`          | `false`   | Disable button     |
-| `Loading`   | `bool`          | `false`   | Show loading state |
-| `FullWidth` | `bool`          | `false`   | Full width button  |
-| `OnClick`   | `EventCallback` | -         | Click event        |
-
----
+- **Primary Color**: `--color-brand-300` (#016BF8)
+- **Secondary Color**: `--color-white` (background), `--color-brand-300` (text + border)
+- **Outline Color**: `--color-slate-300` (border), `--color-slate-900` (text)
+- **Ghost Color**: `--color-slate-900` (text)
+- **Link Primary Color**: `--color-brand-300` (text)
+- **Link Secondary Color**: `--color-slate-900` (text)
+- **Danger Colors**: `--color-red-600` (background), `--color-red-700` (hover), `--color-red-600` (text/border)
+- **Selected Colors**: `--color-brand-400` (background when selected), `--color-brand-50` (secondary bg when selected)
+- **Border Radius**: `6px` (rounded-[6px])
+- **Font Weight**: `--font-weight-medium` (500)
+- **Typography**: `text-sm` (14px) + `leading-6` (24px line-height)
+- **Transition**: `all 150ms ease-in-out`
+- **Spacing**: `px-2 py-1.5` (8px/6px) for `sm`; `px-3 py-2` (12px/8px) for `md`
+- **Gap**: `gap-1` (4px) between icons and text
 
 ## Accessibility
 
-All button implementations follow WCAG 2.1 Level AA guidelines:
-
-- ✅ Keyboard accessible (Tab, Enter, Space)
-- ✅ Focus indicators visible
-- ✅ Screen reader compatible
-- ✅ Sufficient color contrast (4.5:1 minimum)
-- ✅ Touch target size (44x44px minimum)
-- ✅ Disabled state properly communicated
-
-### ARIA Attributes
-
-All implementations include:
-
-- `role="button"` (when not using native button element)
-- `aria-disabled="true"` for disabled state
-- `aria-busy="true"` for loading state
-- `aria-label` when icon-only
-
----
-
-## Best Practices
-
-### ✅ Do
-
-- Use Primary variant for main actions
-- Use Outline or Ghost for secondary actions
-- Use Danger for destructive actions
-- Provide clear, action-oriented labels
-- Use consistent sizing throughout your app
-
-### ❌ Don't
-
-- Don't use multiple primary buttons in close proximity
-- Don't make buttons too small (minimum 32px height)
-- Don't use vague labels like "Click here"
-- Don't override disabled state styling
-- Don't put too much text in a button
-
----
-
-## Examples
-
-### Button Group
-
-::: code-group
-
-```tsx [React]
-<div className="flex gap-2">
-  <Button variant="primary">Save</Button>
-  <Button variant="outline">Cancel</Button>
-</div>
-```
-
-```vue [Vue]
-<div class="flex gap-2">
-  <PtButton variant="primary">Save</PtButton>
-  <PtButton variant="outline">Cancel</PtButton>
-</div>
-```
-
-```razor [Blazor]
-<div class="flex gap-2">
-    <PtButton Variant="ButtonVariant.Primary">Save</PtButton>
-    <PtButton Variant="ButtonVariant.Outline">Cancel</PtButton>
-</div>
-```
-
-:::
-
-### Form Actions
-
-::: code-group
-
-```tsx [React]
-<form onSubmit={handleSubmit}>
-  <Input placeholder="Email" />
-  <div className="flex justify-end gap-2 mt-4">
-    <Button variant="ghost" type="button">
-      Reset
-    </Button>
-    <Button variant="primary" type="submit">
-      Submit
-    </Button>
-  </div>
-</form>
-```
-
-```vue [Vue]
-<form @submit.prevent="handleSubmit">
-  <PtInput placeholder="Email" />
-  <div class="flex justify-end gap-2 mt-4">
-    <PtButton variant="ghost" type="button">
-      Reset
-    </PtButton>
-    <PtButton variant="primary" type="submit">
-      Submit
-    </PtButton>
-  </div>
-</form>
-```
-
-```razor [Blazor]
-<EditForm Model="model" OnValidSubmit="HandleSubmit">
-    <PtInput @bind-Value="model.Email" Placeholder="Email" />
-    <div class="flex justify-end gap-2 mt-4">
-        <PtButton Variant="ButtonVariant.Ghost" Type="button">
-            Reset
-        </PtButton>
-        <PtButton Variant="ButtonVariant.Primary" Type="submit">
-            Submit
-        </PtButton>
-    </div>
-</EditForm>
-```
-
-:::
+- Uses semantic `<button>` element.
+- Supports keyboard navigation (Enter, Space).
+- Includes focus indicators with double ring effect.
+- Properly handles disabled and loading states.
+- Supports `aria-pressed` for toggle states.

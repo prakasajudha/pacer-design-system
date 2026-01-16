@@ -64,10 +64,11 @@
         };
 
         // Type styles
+        // Menggunakan theme values untuk menghindari arbitrary values (SAST/DAST safe)
         classes.Add(Type switch
         {
             BadgeType.Rounded => "rounded-full",
-            _ => "rounded-[4px]",
+            _ => "rounded-badge-square",
         });
 
         // Variant and color styles

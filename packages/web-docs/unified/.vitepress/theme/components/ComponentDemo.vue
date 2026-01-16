@@ -35,8 +35,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const activeFramework = ref('React');
-const frameworks = ['React', 'Vue', 'Blazor'];
+// Default to Vue since web-docs uses Vue components
+const activeFramework = ref('Vue');
+const frameworks = ['Vue', 'React', 'Blazor'];
 </script>
 
 <style scoped>

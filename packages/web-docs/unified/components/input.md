@@ -238,49 +238,30 @@ const value = ref('');
 - Border: `1px solid #D1D5DB` (Gray 300)
 - Background: `#FFFFFF`
 
-### Success State
-
-::: code-group
-
-```tsx [React]
-<Input status="success" placeholder="Valid input" helperText="This field is valid" />
-```
-
-```vue [Vue]
-<PtInput status="success" placeholder="Valid input" helper-text="This field is valid" />
-```
-
-```razor [Blazor]
-<PtInput
-    Status="InputStatus.Success"
-    Placeholder="Valid input"
-    HelperText="This field is valid" />
-```
-
-:::
-
-**Design Specs:**
-
-- Border: `1px solid #10B981` (Green 500)
-- Focus Ring: `2px #10B981`
-
 ### Error State
 
+Input component uses `error` prop to display error state and error message.
+
 ::: code-group
 
 ```tsx [React]
-<Input status="error" placeholder="Invalid input" helperText="This field is required" />
+<Input 
+  error="This field is required" 
+  placeholder="Invalid input" 
+/>
 ```
 
 ```vue [Vue]
-<PtInput status="error" placeholder="Invalid input" helper-text="This field is required" />
+<PtInput 
+  error="This field is required" 
+  placeholder="Invalid input" 
+/>
 ```
 
 ```razor [Blazor]
 <PtInput
-    Status="InputStatus.Error"
-    Placeholder="Invalid input"
-    HelperText="This field is required" />
+    Error="This field is required"
+    Placeholder="Invalid input" />
 ```
 
 :::
@@ -289,101 +270,73 @@ const value = ref('');
 
 - Border: `1px solid #DC2626` (Red 600)
 - Focus Ring: `2px #DC2626`
-- Helper Text Color: `#DC2626`
-
-### Warning State
-
-::: code-group
-
-```tsx [React]
-<Input status="warning" placeholder="Warning input" helperText="Please review this field" />
-```
-
-```vue [Vue]
-<PtInput status="warning" placeholder="Warning input" helper-text="Please review this field" />
-```
-
-```razor [Blazor]
-<PtInput
-    Status="InputStatus.Warning"
-    Placeholder="Warning input"
-    HelperText="Please review this field" />
-```
-
-:::
-
-**Design Specs:**
-
-- Border: `1px solid #F59E0B` (Amber 500)
-- Focus Ring: `2px #F59E0B`
+- Error Text Color: `#DC2626`
 
 ---
 
 ## With Label
 
+Input component supports `label` prop for built-in label rendering.
+
 ::: code-group
 
 ```tsx [React]
-<div>
-  <label htmlFor="email" className="block text-sm font-medium mb-1">
-    Email Address
-  </label>
-  <Input id="email" type="email" placeholder="email@example.com" />
-</div>
+<Input 
+  label="Email Address"
+  type="email" 
+  placeholder="email@example.com" 
+/>
 ```
 
 ```vue [Vue]
-<div>
-  <label for="email" class="block text-sm font-medium mb-1">
-    Email Address
-  </label>
-  <PtInput 
-    id="email"
-    type="email"
-    placeholder="email@example.com"
-  />
-</div>
+<PtInput 
+  label="Email Address"
+  type="email"
+  placeholder="email@example.com"
+/>
 ```
 
 ```razor [Blazor]
-<div>
-    <label for="email" class="block text-sm font-medium mb-1">
-        Email Address
-    </label>
-    <PtInput
-        Id="email"
-        Type="email"
-        Placeholder="email@example.com" />
-</div>
+<PtInput
+    Label="Email Address"
+    Type="email"
+    Placeholder="email@example.com" />
 ```
 
 :::
 
-**Label Spacing:**
+**Label Specifications:**
 
-- Margin bottom: `4px`
-- Font size: `14px`
-- Font weight: `500`
+- Font size: `14px` (text-sm)
+- Font weight: `500` (font-medium)
 - Color: `#374151` (Gray 700)
+- Margin bottom: `4px` (space-y-1)
 
 ---
 
 ## With Icons
 
-### Left Icon
+Input component supports `startIcon` and `endIcon` props for icons.
+
+### Left Icon (startIcon)
 
 ::: code-group
 
 ```tsx [React]
 import { Input } from '@pacer-ui/react';
-import { IconSearch } from '@tabler/icons-react';
+
+const SearchIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+);
 
 function App() {
   return (
-    <div className="relative">
-      <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-      <Input className="pl-10" placeholder="Search..." />
-    </div>
+    <Input 
+      startIcon={<SearchIcon />}
+      placeholder="Search..." 
+    />
   );
 }
 ```
@@ -391,40 +344,45 @@ function App() {
 ```vue [Vue]
 <script setup lang="ts">
 import { PtInput } from '@pacer-ui/vue';
-import { IconSearch } from '@tabler/icons-vue';
 </script>
 
 <template>
-  <div class="relative">
-    <IconSearch class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" :size="20" />
-    <PtInput class="pl-10" placeholder="Search..." />
-  </div>
+  <PtInput 
+    :start-icon="<SearchIcon />"
+    placeholder="Search..." 
+  />
 </template>
 ```
 
 ```razor [Blazor]
-<div class="relative">
-    <i class="icon-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-    <PtInput Class="pl-10" Placeholder="Search..." />
-</div>
+<PtInput
+    StartIcon="@(() => <SearchIcon />)"
+    Placeholder="Search..." />
 ```
 
 :::
 
-### Right Icon
+### Right Icon (endIcon)
 
 ::: code-group
 
 ```tsx [React]
 import { Input } from '@pacer-ui/react';
-import { IconEye } from '@tabler/icons-react';
+
+const EyeIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+  </svg>
+);
 
 function App() {
   return (
-    <div className="relative">
-      <Input className="pr-10" type="password" placeholder="Password" />
-      <IconEye className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-    </div>
+    <Input 
+      endIcon={<EyeIcon />}
+      type="password" 
+      placeholder="Password" 
+    />
   );
 }
 ```
@@ -432,32 +390,32 @@ function App() {
 ```vue [Vue]
 <script setup lang="ts">
 import { PtInput } from '@pacer-ui/vue';
-import { IconEye } from '@tabler/icons-vue';
 </script>
 
 <template>
-  <div class="relative">
-    <PtInput class="pr-10" type="password" placeholder="Password" />
-    <IconEye class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" :size="20" />
-  </div>
+  <PtInput 
+    :end-icon="<EyeIcon />"
+    type="password" 
+    placeholder="Password" 
+  />
 </template>
 ```
 
 ```razor [Blazor]
-<div class="relative">
-    <PtInput Class="pr-10" Type="password" Placeholder="Password" />
-    <i class="icon-eye absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-</div>
+<PtInput
+    EndIcon="@(() => <EyeIcon />)"
+    Type="password"
+    Placeholder="Password" />
 ```
 
 :::
 
 **Icon Specifications:**
 
-- Icon size: `20px`
-- Icon color: `#9CA3AF` (Gray 400)
-- Left position: `12px` from left edge
-- Right position: `12px` from right edge
+- Icon size: `20px` (recommended)
+- Icon color: `#6B7280` (Gray 500)
+- Left position: `12px` from left edge (auto-handled by component)
+- Right position: `12px` from right edge (auto-handled by component)
 
 ---
 
@@ -538,32 +496,41 @@ import { IconEye } from '@tabler/icons-vue';
 
 ### React Props
 
-| Prop          | Type                                             | Default     | Description             |
-| ------------- | ------------------------------------------------ | ----------- | ----------------------- |
-| `type`        | `string`                                         | `'text'`    | Input type              |
-| `value`       | `string`                                         | -           | Input value             |
-| `placeholder` | `string`                                         | -           | Placeholder text        |
-| `size`        | `'sm' \| 'md' \| 'lg'`                           | `'md'`      | Input size              |
-| `status`      | `'default' \| 'success' \| 'error' \| 'warning'` | `'default'` | Validation status       |
-| `disabled`    | `boolean`                                        | `false`     | Disable input           |
-| `readOnly`    | `boolean`                                        | `false`     | Read-only state         |
-| `fullWidth`   | `boolean`                                        | `false`     | Full width input        |
-| `helperText`  | `string`                                         | -           | Helper text below input |
-| `onChange`    | `(e: ChangeEvent) => void`                       | -           | Change handler          |
+| Prop          | Type                                                               | Default     | Description                    |
+| ------------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
+| `label`       | `string`                                                           | `undefined` | Label text above input         |
+| `error`       | `string`                                                           | `undefined` | Error message (shows error state) |
+| `helperText`  | `string`                                                           | `undefined` | Helper text below input        |
+| `startIcon`   | `React.ReactNode`                                                  | `undefined` | Icon before input              |
+| `endIcon`     | `React.ReactNode`                                                  | `undefined` | Icon after input               |
+| `fullWidth`   | `boolean`                                                          | `false`     | Full width input               |
+| `type`        | `string`                                                           | `'text'`    | Input type (text, email, password, number, search, etc.) |
+| `value`       | `string`                                                           | -           | Input value                    |
+| `placeholder` | `string`                                                           | -           | Placeholder text               |
+| `id`          | `string`                                                           | -           | Input ID (auto-generated if not provided) |
+| `disabled`    | `boolean`                                                          | `false`     | Disable input                  |
+| `readOnly`    | `boolean`                                                          | `false`     | Read-only state                |
+| `className`   | `string`                                                           | `undefined` | Custom className               |
+| `onChange`    | `(e: React.ChangeEvent<HTMLInputElement>) => void`                | -           | Change handler                 |
+| ...           | `React.InputHTMLAttributes<HTMLInputElement>`                      | -           | All standard HTML input attributes |
 
 ### Vue Props
 
-| Prop          | Type                                             | Default     | Description             |
-| ------------- | ------------------------------------------------ | ----------- | ----------------------- |
-| `type`        | `string`                                         | `'text'`    | Input type              |
-| `modelValue`  | `string`                                         | -           | Input value (v-model)   |
-| `placeholder` | `string`                                         | -           | Placeholder text        |
-| `size`        | `'sm' \| 'md' \| 'lg'`                           | `'md'`      | Input size              |
-| `status`      | `'default' \| 'success' \| 'error' \| 'warning'` | `'default'` | Validation status       |
-| `disabled`    | `boolean`                                        | `false`     | Disable input           |
-| `readonly`    | `boolean`                                        | `false`     | Read-only state         |
-| `fullWidth`   | `boolean`                                        | `false`     | Full width input        |
-| `helperText`  | `string`                                         | -           | Helper text below input |
+| Prop          | Type                                                               | Default     | Description                    |
+| ------------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
+| `label`       | `string`                                                           | `undefined` | Label text above input         |
+| `error`       | `string`                                                           | `undefined` | Error message (shows error state) |
+| `helperText`  | `string`                                                           | `undefined` | Helper text below input        |
+| `startIcon`   | `VNode \| Component`                                               | `undefined` | Icon before input              |
+| `endIcon`     | `VNode \| Component`                                               | `undefined` | Icon after input               |
+| `fullWidth`   | `boolean`                                                          | `false`     | Full width input               |
+| `type`        | `string`                                                           | `'text'`    | Input type                     |
+| `modelValue`  | `string`                                                           | -           | Input value (v-model)          |
+| `placeholder` | `string`                                                           | -           | Placeholder text               |
+| `id`          | `string`                                                           | -           | Input ID                       |
+| `disabled`    | `boolean`                                                          | `false`     | Disable input                  |
+| `readonly`    | `boolean`                                                          | `false`     | Read-only state                |
+| `class`       | `string`                                                           | `undefined` | Custom class                   |
 
 ### Vue Events
 
@@ -575,18 +542,22 @@ import { IconEye } from '@tabler/icons-vue';
 
 ### Blazor Parameters
 
-| Parameter      | Type                    | Default   | Description             |
-| -------------- | ----------------------- | --------- | ----------------------- |
-| `Type`         | `string`                | `"text"`  | Input type              |
-| `Value`        | `string`                | -         | Input value             |
-| `Placeholder`  | `string`                | -         | Placeholder text        |
-| `Size`         | `InputSize`             | `Medium`  | Input size              |
-| `Status`       | `InputStatus`           | `Default` | Validation status       |
-| `Disabled`     | `bool`                  | `false`   | Disable input           |
-| `ReadOnly`     | `bool`                  | `false`   | Read-only state         |
-| `FullWidth`    | `bool`                  | `false`   | Full width input        |
-| `HelperText`   | `string`                | -         | Helper text below input |
-| `ValueChanged` | `EventCallback<string>` | -         | Value change event      |
+| Parameter      | Type                    | Default   | Description                    |
+| -------------- | ----------------------- | --------- | ------------------------------ |
+| `Label`        | `string?`                | `null`    | Label text above input         |
+| `Error`        | `string?`                | `null`    | Error message (shows error state) |
+| `HelperText`   | `string?`                | `null`    | Helper text below input        |
+| `StartIcon`    | `RenderFragment?`        | `null`    | Icon before input              |
+| `EndIcon`      | `RenderFragment?`        | `null`    | Icon after input               |
+| `FullWidth`    | `bool`                   | `false`   | Full width input               |
+| `Type`         | `string`                 | `"text"`  | Input type                     |
+| `Value`        | `string`                 | -         | Input value                    |
+| `Placeholder`  | `string?`                | `null`    | Placeholder text               |
+| `Id`           | `string?`                | `null`    | Input ID                       |
+| `Disabled`     | `bool`                   | `false`   | Disable input                  |
+| `ReadOnly`     | `bool`                   | `false`   | Read-only state                |
+| `Class`        | `string?`                | `null`    | Custom class                   |
+| `ValueChanged` | `EventCallback<string>`  | -         | Value change event             |
 
 ---
 
@@ -724,8 +695,8 @@ return (
     value={query}
     onChange={(e) => setQuery(e.target.value)}
     placeholder="Search products..."
-    status={error ? 'error' : 'default'}
-    helperText={error || 'Min 3 characters'}
+    error={error || undefined}
+    helperText={!error ? 'Min 3 characters' : undefined}
     fullWidth
   />
 );
@@ -742,8 +713,8 @@ const error = ref('');
     type="search"
     v-model="query"
     placeholder="Search products..."
-    :status="error ? 'error' : 'default'"
-    :helper-text="error || 'Min 3 characters'"
+    :error="error || undefined"
+    :helper-text="!error ? 'Min 3 characters' : undefined"
     full-width
   />
 </template>
@@ -754,8 +725,8 @@ const error = ref('');
     Type="search"
     @bind-Value="query"
     Placeholder="Search products..."
-    Status="@(string.IsNullOrEmpty(error) ? InputStatus.Default : InputStatus.Error)"
-    HelperText="@(error ?? "Min 3 characters")"
+    Error="@error"
+    HelperText="@(!string.IsNullOrEmpty(error) ? null : "Min 3 characters")"
     FullWidth="true" />
 
 @code {

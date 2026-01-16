@@ -3,6 +3,9 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'PACER Design System',
   description: 'Pertamina Patra Niaga Components & Experience Resources',
+  markdown: {
+    html: true,
+  },
   themeConfig: {
     logo: '/logo.svg',
     nav: [
@@ -49,10 +52,13 @@ export default defineConfig({
         text: 'Components',
         items: [
           { text: 'Overview', link: '/components/' },
-          { text: 'Button', link: '/components/button-new' },
+          { text: 'Button', link: '/components/button' },
           { text: 'Icon Button', link: '/components/icon-button' },
-          { text: 'Card', link: '/components/card-new' },
-          { text: 'Input', link: '/components/input-new' },
+          { text: 'Badge', link: '/components/badge' },
+          { text: 'Skeleton', link: '/components/skeleton' },
+          { text: 'Information', link: '/components/information' },
+          { text: 'Input', link: '/components/input' },
+          { text: 'Card', link: '/components/card' },
         ],
       },
       {
