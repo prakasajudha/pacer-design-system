@@ -15,12 +15,14 @@ Progress digunakan untuk menampilkan status kemajuan (0–100) dalam bentuk bar 
 - **`bgColor`**: warna track (hex/rgb/rgba/var())
 - **`color`**: warna bar (hex/rgb/rgba/var())
 - **`size`**: `xs | sm | md | lg` (default: `md`)
+- **`showValue`**: tampilkan label value di kanan (default: `false`)
+- **`valuePlaceholder`**: suffix label (default: `%`)
 
 ## Visual Preview
 
 <ComponentDemo>
   <div class="w-[190px]">
-    <PtProgress :value="30" />
+    <PtProgress :value="50" show-value />
   </div>
 
 <template #react>
@@ -31,7 +33,7 @@ import { Progress } from '@pacer-ui/react';
 export default function App() {
   return (
     <div style={{ width: 190 }}>
-      <Progress value={30} />
+      <Progress value={50} showValue />
     </div>
   );
 }
@@ -48,7 +50,7 @@ import { PtProgress } from '@pacer-ui/vue';
 
 <template>
   <div class="w-[190px]">
-    <PtProgress :value="30" />
+    <PtProgress :value="50" show-value />
   </div>
 </template>
 ```
@@ -61,7 +63,7 @@ import { PtProgress } from '@pacer-ui/vue';
 @using Pertamina.DesignSystem.Blazor
 
 <div style="width:190px">
-    <PtProgress Value="30" />
+    <PtProgress Value="50" ShowValue="true" />
 </div>
 ```
 
@@ -128,3 +130,6 @@ import { PtProgress } from '@pacer-ui/vue';
 
 Progress akan animate saat `value` berubah (transition width).
 
+## Value Placeholder
+
+Gunakan `valuePlaceholder` untuk mengganti suffix label (contoh: `pts`, `MB`, dll).
