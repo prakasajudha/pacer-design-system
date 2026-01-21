@@ -60,6 +60,7 @@ export default defineConfig({
           { text: 'Input', link: '/components/input' },
           { text: 'Card', link: '/components/card' },
           { text: 'Avatar', link: '/components/avatar' },
+          { text: 'Progress', link: '/components/progress' },
         ],
       },
       {

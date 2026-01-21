@@ -1,0 +1,86 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<div
+    class="@GetTrackClasses()"
+    style="@GetTrackStyle()"
+    role="progressbar"
+    aria-label="Progress"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="@ClampedValue"
+    @attributes="AdditionalAttributes">
+    <div class="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style="@GetBarStyle()"></div>
+</div>
+
+@code {
+    /// <summary>
+    /// Background color untuk track (hex/rgb/rgba/var()).
+    /// Default sesuai Figma.
+    /// </summary>
+    [Parameter]
+    public string BgColor { get; set; } = "#E6F0FE";
+
+    /// <summary>
+    /// Color untuk bar/surface (hex/rgb/rgba/var()).
+    /// Default sesuai Figma.
+    /// </summary>
+    [Parameter]
+    public string Color { get; set; } = "#016BF8";
+
+    /// <summary>
+    /// Nilai progress (0 - 100)
+    /// </summary>
+    [Parameter]
+    public int Value { get; set; } = 0;
+
+    /// <summary>
+    /// Ukuran progress bar (tinggi)
+    /// </summary>
+    [Parameter]
+    public ProgressSize Size { get; set; } = ProgressSize.Md;
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private int ClampedValue => Math.Min(100, Math.Max(0, Value));
+
+    private string GetTrackClasses()
+    {
+        var classes = new List<string>
+        {
+            "relative",
+            "overflow-hidden",
+            "rounded-full",
+            "w-full",
+            GetSizeClass(),
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSizeClass()
+    {
+        return Size switch
+        {
+            ProgressSize.Xs => "h-1", // 4px
+            ProgressSize.Sm => "h-2", // 8px
+            ProgressSize.Md => "h-3", // 12px
+            _ => "h-4", // 16px
+        };
+    }
+
+    private string GetTrackStyle()
+    {
+        return $"background-color: {BgColor};";
+    }
+
+    private string GetBarStyle()
+    {
+        return $"width: {ClampedValue}%; background-color: {Color};";
+    }
+}
+

@@ -17,6 +17,7 @@ import {
   PtSkeleton,
   PtInformation,
   PtAvatar,
+  PtProgress,
 } from '@pacer-ui/vue';
 
 export default {
@@ -34,5 +35,6 @@ export default {
     app.component('PtSkeleton', PtSkeleton);
     app.component('PtInformation', PtInformation);
     app.component('PtAvatar', PtAvatar);
+    app.component('PtProgress', PtProgress);
   },
 };

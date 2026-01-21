@@ -22,5 +22,8 @@ export type { InformationProps, InformationVariant } from './components/Informat
 export { Avatar } from './components/Avatar';
 export type { AvatarProps, AvatarMode, AvatarType, AvatarSize, AvatarBadge, AvatarItem } from './components/Avatar';
 
+export { Progress } from './components/Progress';
+export type { ProgressProps, ProgressSize } from './components/Progress';
+
 // Utilities
 export { cn } from './utils/cn';

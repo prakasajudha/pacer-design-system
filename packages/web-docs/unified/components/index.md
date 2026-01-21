@@ -91,6 +91,16 @@ User profile pictures and initials with status indicators.
 - ✅ Automatic initials generation
 - ✅ Group mode with overlap and count badge
 
+#### [Progress](/components/progress)
+
+Progress indicator for completion status.
+
+- ✅ value 0–100 (clamped)
+- ✅ Custom track color (`bgColor`)
+- ✅ Custom bar color (`color`)
+- ✅ 4 sizes (xs, sm, md, lg)
+- ✅ Smooth width animation on value change
+
 ## Design Principles
 
 All components follow these principles:
@@ -226,6 +236,7 @@ Learn more about [Design Tokens](/tokens).
 | Input         |  ✅   | ✅  |   ✅   | Stable      |
 | Card          |  ✅   | ✅  |   ✅   | Stable      |
 | Avatar        |  ✅   | ✅  |   ✅   | Stable      |
+| Progress      |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Checkbox  |  🚧   | 🚧  |   🚧   | In Progress |
 | Radio     |  🚧   | 🚧  |   🚧   | In Progress |
