@@ -19,6 +19,7 @@ import {
   PtAvatar,
   PtProgress,
   PtSwitch,
+  PtCheckbox,
 } from '@pacer-ui/vue';
 
 export default {
@@ -38,5 +39,6 @@ export default {
     app.component('PtAvatar', PtAvatar);
     app.component('PtProgress', PtProgress);
     app.component('PtSwitch', PtSwitch);
+    app.component('PtCheckbox', PtCheckbox);
   },
 };

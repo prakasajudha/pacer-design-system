@@ -1,0 +1,228 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@GetWrapperClasses()" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrWhiteSpace(Name))
+    {
+        <input type="hidden" name="@Name" value="@(Value ? "true" : "false")" disabled="@Disabled" />
+    }
+
+    <button
+        type="button"
+        class="@GetCheckboxClasses()"
+        style="@GetCheckboxStyle()"
+        id="@Id"
+        aria-checked="@GetAriaChecked()"
+        aria-disabled="@(Disabled ? "true" : null)"
+        aria-invalid="@(Error ? "true" : null)"
+        aria-labelledby="@GetLabelId()"
+        aria-describedby="@GetDescId()"
+        disabled="@Disabled"
+        @onclick="HandleToggle"
+        @onclick:stopPropagation="true"
+        @onkeydown="HandleKeyDown"
+        @onfocus="HandleFocus"
+        @onblur="HandleBlur">
+        <span class="sr-only">Checkbox</span>
+        @if (Value && !Indeterminate)
+        {
+            <!-- Checkmark icon (checked state) -->
+            <svg
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[14px] h-[14px] text-white pointer-events-none"
+                fill="none"
+                viewBox="0 0 14 14"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M11.6667 3.5L5.25 9.91667L2.33333 7"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        }
+        @if (Indeterminate)
+        {
+            <!-- Minus icon (intermediate state) -->
+            <svg
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[14px] h-[14px] text-white pointer-events-none"
+                fill="none"
+                viewBox="0 0 14 14"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3.5 7H10.5"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round" />
+            </svg>
+        }
+    </button>
+
+    @if (!string.IsNullOrWhiteSpace(Label) || !string.IsNullOrWhiteSpace(Description))
+    {
+        <div
+            class="@GetContentClasses()"
+            @onclick="HandleToggle"
+            @onkeydown="HandleContentKeyDown"
+            tabindex="0"
+            role="button"
+            aria-label="@(Label ?? "Toggle checkbox")">
+            @if (!string.IsNullOrWhiteSpace(Label))
+            {
+                <div id="@GetLabelId()" class="@GetLabelClasses()">@Label</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <div id="@GetDescId()" class="@GetDescriptionClasses()">@Description</div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public bool Value { get; set; } = false;
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+
+    [Parameter] public bool Indeterminate { get; set; } = false;
+
+    [Parameter] public EventCallback<bool> OnChange { get; set; }
+
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public CheckboxPosition Position { get; set; } = CheckboxPosition.Left;
+    [Parameter] public bool Outlined { get; set; } = false;
+    [Parameter] public bool Error { get; set; } = false;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool _isFocused = false;
+
+    private string LabelId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-label";
+    private string DescId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-description";
+
+    private string GetWrapperClasses()
+    {
+        var hasContent = !string.IsNullOrWhiteSpace(Label) || !string.IsNullOrWhiteSpace(Description);
+
+        var classes = new List<string>
+        {
+            "flex items-start",
+            Position == CheckboxPosition.Right ? "flex-row-reverse justify-between" : "gap-2",
+            Outlined ? "border rounded-lg p-4 gap-4" : "p-0",
+            Outlined && !hasContent ? "p-0 border-0" : "",
+            Disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+        };
+
+        if (Outlined)
+        {
+            classes.Add(Error ? "border-error-500" : "border-slate-300");
+        }
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
+    }
+
+    private string GetCheckboxClasses()
+    {
+        var isSelected = Value || Indeterminate;
+
+        var classes = new List<string>
+        {
+            "relative shrink-0 w-4 h-4 rounded",
+            "border border-solid transition-colors duration-200 ease-out",
+            "focus-visible:outline-none",
+            isSelected
+                ? "border-[#016BF8]"
+                : Error
+                    ? "bg-white border-error-500"
+                    : Disabled
+                        ? "bg-slate-100 border-slate-300"
+                        : "bg-white border-slate-300",
+            !Disabled ? "cursor-pointer" : ""
+        };
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
+    }
+
+    private string GetCheckboxStyle()
+    {
+        var isSelected = Value || Indeterminate;
+        var bgStyle = isSelected ? "background-color: #016BF8;" : "";
+
+        if (_isFocused)
+        {
+            // Focus ring: 2px white + 4px brand-300
+            return $"{bgStyle} box-shadow: 0px 0px 0px 2px white, 0px 0px 0px 4px #016BF8;";
+        }
+
+        return bgStyle;
+    }
+
+    private string GetContentClasses()
+    {
+        return "flex flex-col gap-1";
+    }
+
+    private string GetLabelClasses()
+    {
+        return Error ? "text-sm font-medium leading-none text-error-600" : "text-sm font-medium leading-none text-slate-950";
+    }
+
+    private string GetDescriptionClasses()
+    {
+        return "text-sm font-normal leading-5 text-slate-500";
+    }
+
+    private string GetLabelId() => LabelId ?? string.Empty;
+    private string GetDescId() => DescId ?? string.Empty;
+
+    private string GetAriaChecked()
+    {
+        if (Indeterminate) return "mixed";
+        return Value.ToString().ToLower();
+    }
+
+    private async Task HandleToggle()
+    {
+        if (Disabled) return;
+        // Cycle: false -> true -> false
+        // If indeterminate, go to false (uncheck)
+        var next = Indeterminate ? false : Value ? false : true;
+        Value = next;
+        if (ValueChanged.HasDelegate) await ValueChanged.InvokeAsync(next);
+        if (OnChange.HasDelegate) await OnChange.InvokeAsync(next);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled) return;
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            e.PreventDefault();
+            await HandleToggle();
+        }
+    }
+
+    private async Task HandleContentKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            e.PreventDefault();
+            await HandleToggle();
+        }
+    }
+
+    private void HandleFocus()
+    {
+        _isFocused = true;
+    }
+
+    private void HandleBlur()
+    {
+        _isFocused = false;
+    }
+}

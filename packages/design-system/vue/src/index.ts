@@ -11,9 +11,10 @@ import PtInformation from './components/PtInformation.vue';
 import PtAvatar from './components/PtAvatar.vue';
 import PtProgress from './components/PtProgress.vue';
 import PtSwitch from './components/PtSwitch.vue';
+import PtCheckbox from './components/PtCheckbox.vue';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox };
 
 // Plugin untuk install semua components
 export default {
@@ -28,6 +29,7 @@ export default {
     app.component('PtAvatar', PtAvatar);
     app.component('PtProgress', PtProgress);
     app.component('PtSwitch', PtSwitch);
+    app.component('PtCheckbox', PtCheckbox);
   },
 };
 
@@ -42,3 +44,4 @@ export type { InformationProps } from './components/PtInformation.vue';
 export type { AvatarProps, AvatarItem } from './components/PtAvatar.vue';
 export type { ProgressProps, ProgressSize } from './components/PtProgress.vue';
 export type { SwitchProps, SwitchPosition, SwitchSize } from './components/PtSwitch.vue';
+export type { CheckboxProps, CheckboxPosition } from './components/PtCheckbox.vue';

@@ -62,6 +62,7 @@ export default defineConfig({
           { text: 'Avatar', link: '/components/avatar' },
           { text: 'Progress', link: '/components/progress' },
           { text: 'Switch', link: '/components/switch' },
+          { text: 'Checkbox', link: '/components/checkbox' },
         ],
       },
       {

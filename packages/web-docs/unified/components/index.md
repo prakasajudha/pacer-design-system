@@ -111,6 +111,18 @@ Boolean toggle with label/description and optional outlined container.
 - ✅ outlined variant
 - ✅ error styling (text + outline)
 
+#### [Checkbox](/components/checkbox)
+
+Checkbox untuk memilih satu atau lebih opsi dengan label dan optional description.
+
+- ✅ disabled state
+- ✅ label + description
+- ✅ position left/right
+- ✅ outlined variant
+- ✅ error styling (text + outline)
+- ✅ indeterminate state (intermediate)
+- ✅ focus ring
+
 ## Design Principles
 
 All components follow these principles:
@@ -248,8 +260,8 @@ Learn more about [Design Tokens](/tokens).
 | Avatar        |  ✅   | ✅  |   ✅   | Stable      |
 | Progress      |  ✅   | ✅  |   ✅   | Stable      |
 | Switch        |  ✅   | ✅  |   ✅   | Stable      |
+| Checkbox      |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
-| Checkbox  |  🚧   | 🚧  |   🚧   | In Progress |
 | Radio     |  🚧   | 🚧  |   🚧   | In Progress |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
 | Modal     |  🚧   | 🚧  |   🚧   | Planned     |

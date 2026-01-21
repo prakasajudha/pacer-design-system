@@ -28,5 +28,8 @@ export type { ProgressProps, ProgressSize } from './components/Progress';
 export { Switch } from './components/Switch';
 export type { SwitchProps, SwitchPosition, SwitchSize } from './components/Switch';
 
+export { Checkbox } from './components/Checkbox';
+export type { CheckboxProps, CheckboxPosition } from './components/Checkbox';
+
 // Utilities
 export { cn } from './utils/cn';
