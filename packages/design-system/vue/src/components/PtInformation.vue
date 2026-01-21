@@ -195,7 +195,8 @@ const hasChildren = computed(() => {
     if (typeof slot.children === 'string') {
       return slot.children.trim().length > 0;
     }
-    return slot.children != null && slot.children !== '';
+    // children bisa berupa array VNode / object slots; yang penting ada isinya
+    return slot.children != null;
   });
 });
 </script>

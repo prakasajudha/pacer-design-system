@@ -23,6 +23,16 @@ export interface ProgressProps {
   value?: number;
 
   /**
+   * Tampilkan value text (mis. 50%) di sebelah kanan progress.
+   */
+  showValue?: boolean;
+
+  /**
+   * Suffix/placeholder untuk value, default '%'
+   */
+  valuePlaceholder?: string;
+
+  /**
    * Ukuran progress bar (tinggi).
    */
   size?: ProgressSize;
@@ -33,6 +43,8 @@ const props = withDefaults(defineProps<ProgressProps>(), {
   bgColor: '#E6F0FE',
   color: '#016BF8',
   value: 0,
+  showValue: false,
+  valuePlaceholder: '%',
   size: 'md',
 });
 
@@ -73,23 +85,38 @@ const barStyle = computed(() => {
     backgroundColor: props.color,
   } as const;
 });
+
+const displayValue = computed(() => {
+  const suffix = props.valuePlaceholder ?? '%';
+  return `${clampedValue.value}${suffix}`;
+});
 </script>
 
 <template>
-  <div
-    :class="trackClasses"
-    :style="{ backgroundColor: bgColor }"
-    role="progressbar"
-    aria-label="Progress"
-    :aria-valuemin="0"
-    :aria-valuemax="100"
-    :aria-valuenow="clampedValue"
-    v-bind="$attrs"
-  >
+  <div class="flex items-center gap-3">
     <div
-      class="absolute inset-y-0 left-0 transition-all duration-300 ease-out"
-      :style="barStyle"
-    />
+      :class="trackClasses"
+      :style="{ backgroundColor: bgColor }"
+      role="progressbar"
+      aria-label="Progress"
+      :aria-valuemin="0"
+      :aria-valuemax="100"
+      :aria-valuenow="clampedValue"
+      v-bind="$attrs"
+    >
+      <div
+        class="absolute inset-y-0 left-0 transition-all duration-300 ease-out"
+        :style="barStyle"
+      />
+    </div>
+
+    <span
+      v-if="showValue"
+      class="text-sm font-medium text-slate-900 tabular-nums"
+      aria-label="Progress value"
+    >
+      {{ displayValue }}
+    </span>
   </div>
 </template>
 

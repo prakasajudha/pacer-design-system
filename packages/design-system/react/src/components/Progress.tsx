@@ -22,6 +22,16 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number;
 
   /**
+   * Tampilkan value text (mis. 50%) di sebelah kanan progress.
+   */
+  showValue?: boolean;
+
+  /**
+   * Suffix/placeholder untuk value, default '%'
+   */
+  valuePlaceholder?: string;
+
+  /**
    * Ukuran progress bar (tinggi).
    */
   size?: ProgressSize;
@@ -46,6 +56,8 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       bgColor = '#E6F0FE',
       color = '#016BF8',
       value = 0,
+      showValue = false,
+      valuePlaceholder = '%',
       size = 'md',
       className,
       style,
@@ -54,6 +66,7 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     ref
   ) => {
     const clamped = clampValue(value);
+    const displayValue = `${clamped}${valuePlaceholder ?? '%'}`;
 
     const trackStyle: React.CSSProperties = {
       ...style,
@@ -66,18 +79,26 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn('relative overflow-hidden rounded-full w-full', sizeClasses[size], className)}
-        style={trackStyle}
-        role="progressbar"
-        aria-label="Progress"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={clamped}
-        {...props}
-      >
-        <div className="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style={barStyle} />
+      <div className="flex items-center gap-3">
+        <div
+          ref={ref}
+          className={cn('relative overflow-hidden rounded-full w-full', sizeClasses[size], className)}
+          style={trackStyle}
+          role="progressbar"
+          aria-label="Progress"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={clamped}
+          {...props}
+        >
+          <div className="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style={barStyle} />
+        </div>
+
+        {showValue ? (
+          <span className="text-sm font-medium text-slate-900 tabular-nums" aria-label="Progress value">
+            {displayValue}
+          </span>
+        ) : null}
       </div>
     );
   }

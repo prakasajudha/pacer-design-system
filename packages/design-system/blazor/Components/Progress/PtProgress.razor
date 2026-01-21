@@ -1,16 +1,25 @@
 @namespace Pertamina.DesignSystem.Blazor
 @inherits ComponentBase
 
-<div
-    class="@GetTrackClasses()"
-    style="@GetTrackStyle()"
-    role="progressbar"
-    aria-label="Progress"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    aria-valuenow="@ClampedValue"
-    @attributes="AdditionalAttributes">
-    <div class="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style="@GetBarStyle()"></div>
+<div class="flex items-center gap-3">
+    <div
+        class="@GetTrackClasses()"
+        style="@GetTrackStyle()"
+        role="progressbar"
+        aria-label="Progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="@ClampedValue"
+        @attributes="AdditionalAttributes">
+        <div class="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style="@GetBarStyle()"></div>
+    </div>
+
+    @if (ShowValue)
+    {
+        <span class="text-sm font-medium text-slate-900 tabular-nums" aria-label="Progress value">
+            @($"{ClampedValue}{ValuePlaceholder}")
+        </span>
+    }
 </div>
 
 @code {
@@ -33,6 +42,18 @@
     /// </summary>
     [Parameter]
     public int Value { get; set; } = 0;
+
+    /// <summary>
+    /// Tampilkan value text (mis. 50%) di sebelah kanan progress.
+    /// </summary>
+    [Parameter]
+    public bool ShowValue { get; set; } = false;
+
+    /// <summary>
+    /// Suffix/placeholder untuk value, default '%'
+    /// </summary>
+    [Parameter]
+    public string ValuePlaceholder { get; set; } = "%";
 
     /// <summary>
     /// Ukuran progress bar (tinggi)

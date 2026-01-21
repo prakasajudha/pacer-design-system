@@ -13,9 +13,11 @@ const meta = {
           'Komponen Progress PACER sesuai guideline Figma.',
           '',
           'Props utama:',
-          '- value: 1 - 100 (akan di-clamp)',
+          '- value: 0 - 100 (akan di-clamp)',
           '- bgColor: warna track (hex/rgb/rgba/var())',
           '- color: warna bar (hex/rgb/rgba/var())',
+          '- showValue: tampilkan label value di kanan (default: false)',
+          '- valuePlaceholder: suffix label (default: %)',
           '',
           'Animasi: perubahan value akan transisi halus (width transition).',
         ].join('\n'),
@@ -28,12 +30,24 @@ const meta = {
     size: 'md',
     bgColor: '#E6F0FE',
     color: '#016BF8',
+    showValue: false,
+    valuePlaceholder: '%',
   },
   argTypes: {
     value: {
       control: { type: 'range', min: 0, max: 100, step: 1 },
       description: 'Nilai progress (0 - 100).',
       table: { type: { summary: 'number' }, defaultValue: { summary: '0' } },
+    },
+    showValue: {
+      control: 'boolean',
+      description: 'Tampilkan value text di kanan progress.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    valuePlaceholder: {
+      control: 'text',
+      description: 'Suffix/placeholder untuk label value. Default: %',
+      table: { type: { summary: 'string' }, defaultValue: { summary: "'%'" } },
     },
     size: {
       control: 'select',

@@ -16,6 +16,8 @@ const meta = {
           '- value: 0 - 100 (akan di-clamp)',
           '- bgColor: warna track (hex/rgb/rgba/var())',
           '- color: warna bar (hex/rgb/rgba/var())',
+          '- showValue: tampilkan label value di kanan (default: false)',
+          '- valuePlaceholder: suffix label (default: %)',
           '',
           'Animasi: perubahan value akan transisi halus (width transition).',
         ].join('\n'),
@@ -28,6 +30,8 @@ const meta = {
     size: 'md',
     bgColor: '#E6F0FE',
     color: '#016BF8',
+    showValue: false,
+    valuePlaceholder: '%',
     style: { width: 190 },
   },
   argTypes: {
@@ -51,6 +55,16 @@ const meta = {
       control: 'text',
       description: 'Warna bar (hex/rgb/rgba/var()).',
       table: { type: { summary: 'string' } },
+    },
+    showValue: {
+      control: 'boolean',
+      description: 'Tampilkan value text di kanan progress.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    valuePlaceholder: {
+      control: 'text',
+      description: 'Suffix/placeholder untuk label value. Default: %',
+      table: { type: { summary: 'string' }, defaultValue: { summary: "'%'" } },
     },
     style: {
       control: 'object',
