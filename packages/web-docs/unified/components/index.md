@@ -101,6 +101,16 @@ Progress indicator for completion status.
 - ✅ 4 sizes (xs, sm, md, lg)
 - ✅ Smooth width animation on value change
 
+#### [Switch](/components/switch)
+
+Boolean toggle with label/description and optional outlined container.
+
+- ✅ disabled state
+- ✅ label + description
+- ✅ position left/right
+- ✅ outlined variant
+- ✅ error styling (text + outline)
+
 ## Design Principles
 
 All components follow these principles:
@@ -237,10 +247,10 @@ Learn more about [Design Tokens](/tokens).
 | Card          |  ✅   | ✅  |   ✅   | Stable      |
 | Avatar        |  ✅   | ✅  |   ✅   | Stable      |
 | Progress      |  ✅   | ✅  |   ✅   | Stable      |
+| Switch        |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Checkbox  |  🚧   | 🚧  |   🚧   | In Progress |
 | Radio     |  🚧   | 🚧  |   🚧   | In Progress |
-| Switch    |  🚧   | 🚧  |   🚧   | Planned     |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
 | Modal     |  🚧   | 🚧  |   🚧   | Planned     |
 | Dropdown  |  🚧   | 🚧  |   🚧   | Planned     |

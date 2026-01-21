@@ -25,5 +25,8 @@ export type { AvatarProps, AvatarMode, AvatarType, AvatarSize, AvatarBadge, Avat
 export { Progress } from './components/Progress';
 export type { ProgressProps, ProgressSize } from './components/Progress';
 
+export { Switch } from './components/Switch';
+export type { SwitchProps, SwitchPosition, SwitchSize } from './components/Switch';
+
 // Utilities
 export { cn } from './utils/cn';

@@ -1,0 +1,176 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<div class="@GetWrapperClasses()" @onclick="HandleToggle">
+    @if (!string.IsNullOrWhiteSpace(Name))
+    {
+        <input type="hidden" name="@Name" value="@(Value ? "true" : "false")" disabled="@Disabled" />
+    }
+
+    <button
+        id="@Id"
+        type="button"
+        class="@GetTrackClasses()"
+        style="@GetTrackStyle()"
+        role="switch"
+        aria-checked="@Value"
+        aria-disabled="@(Disabled ? "true" : null)"
+        aria-invalid="@(Error ? "true" : null)"
+        aria-labelledby="@GetLabelId()"
+        aria-describedby="@GetDescId()"
+        disabled="@Disabled"
+        @onclick:stopPropagation="true"
+        @onclick="HandleToggle"
+        @onkeydown="HandleKeyDown">
+        <span class="sr-only">Toggle</span>
+        <span class="@GetThumbClasses()"></span>
+    </button>
+
+    @if (!string.IsNullOrWhiteSpace(Label) || !string.IsNullOrWhiteSpace(Description))
+    {
+        <div class="flex flex-col gap-1 items-start text-left">
+            @if (!string.IsNullOrWhiteSpace(Label))
+            {
+                <div id="@GetLabelId()" class="@GetLabelClasses()">@Label</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <div id="@GetDescId()" class="@GetDescriptionClasses()">@Description</div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public bool Value { get; set; } = false;
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+
+    [Parameter] public EventCallback<bool> OnChange { get; set; }
+
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public SwitchPosition Position { get; set; } = SwitchPosition.Left;
+    [Parameter] public bool Outlined { get; set; } = false;
+    [Parameter] public string BgColor { get; set; } = "#016BF8";
+    [Parameter] public bool Error { get; set; } = false;
+    [Parameter] public SwitchSize Size { get; set; } = SwitchSize.Md;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string LabelId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-label";
+    private string DescId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-description";
+
+    private string GetWrapperClasses()
+    {
+        var hasContent = !string.IsNullOrWhiteSpace(Label) || !string.IsNullOrWhiteSpace(Description);
+
+        var classes = new List<string>
+        {
+            "flex items-center",
+            Position == SwitchPosition.Right ? "flex-row-reverse justify-between" : "gap-4",
+            Outlined ? "border rounded-lg p-4 gap-4" : "p-0",
+            Outlined && !hasContent ? "p-0 border-0" : "",
+            Disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+        };
+
+        if (Outlined)
+        {
+            classes.Add(Error ? "border-error-500" : "border-slate-300");
+        }
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
+    }
+
+    private string GetTrackClasses()
+    {
+        var (track, _) = GetSizeClasses();
+
+        var classes = new List<string>
+        {
+            "relative inline-flex shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-out",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-primary-300",
+            track,
+            !Disabled ? "cursor-pointer" : "",
+            !Value ? "bg-slate-300" : ""
+        };
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
+    }
+
+    private string GetTrackStyle()
+    {
+        if (!Value) return string.Empty;
+        return $"background-color: {BgColor};";
+    }
+
+    private string GetThumbClasses()
+    {
+        var (_, thumb) = GetSizeClasses();
+        var translateOn = GetTranslateClass();
+
+        var classes = new List<string>
+        {
+            "pointer-events-none inline-block rounded-full bg-white shadow-sm transform transition-transform duration-200 ease-out",
+            thumb,
+            Value ? translateOn : "translate-x-0"
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private (string Track, string Thumb) GetSizeClasses()
+    {
+        return Size switch
+        {
+            SwitchSize.Sm => ("w-[36px] h-[20px]", "w-[16px] h-[16px]"),
+            _ => ("w-[44px] h-[24px]", "w-[20px] h-[20px]"),
+        };
+    }
+
+    private string GetTranslateClass()
+    {
+        return Size switch
+        {
+            SwitchSize.Sm => "translate-x-4",
+            _ => "translate-x-5",
+        };
+    }
+
+    private string GetLabelClasses()
+    {
+        return Error ? "text-sm font-medium leading-none text-error-600" : "text-sm font-medium leading-none text-slate-950";
+    }
+
+    private string GetDescriptionClasses()
+    {
+        return Error ? "text-sm font-normal leading-5 text-error-600" : "text-sm font-normal leading-5 text-slate-500";
+    }
+
+    private string GetLabelId() => LabelId ?? string.Empty;
+    private string GetDescId() => DescId ?? string.Empty;
+
+    private async Task HandleToggle()
+    {
+        if (Disabled) return;
+        var next = !Value;
+        Value = next;
+        if (ValueChanged.HasDelegate) await ValueChanged.InvokeAsync(next);
+        if (OnChange.HasDelegate) await OnChange.InvokeAsync(next);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled) return;
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            e.PreventDefault();
+            await HandleToggle();
+        }
+    }
+}
+

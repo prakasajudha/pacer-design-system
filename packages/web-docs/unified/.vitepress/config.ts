@@ -61,6 +61,7 @@ export default defineConfig({
           { text: 'Card', link: '/components/card' },
           { text: 'Avatar', link: '/components/avatar' },
           { text: 'Progress', link: '/components/progress' },
+          { text: 'Switch', link: '/components/switch' },
         ],
       },
       {
