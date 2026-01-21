@@ -80,6 +80,17 @@ Container for grouping related content.
 - ✅ Interactive hover states
 - ✅ Customizable padding
 
+#### [Avatar](/components/avatar)
+
+User profile pictures and initials with status indicators.
+
+- ✅ 2 modes (Single, Group)
+- ✅ 2 types (Circle, Square)
+- ✅ 7 sizes (xxs, xs, sm, md, lg, xl, 2xl)
+- ✅ 3 badge types (Online, Offline, Icon)
+- ✅ Automatic initials generation
+- ✅ Group mode with overlap and count badge
+
 ## Design Principles
 
 All components follow these principles:
@@ -214,6 +225,7 @@ Learn more about [Design Tokens](/tokens).
 | Information   |  ✅   | ✅  |   ✅   | Stable      |
 | Input         |  ✅   | ✅  |   ✅   | Stable      |
 | Card          |  ✅   | ✅  |   ✅   | Stable      |
+| Avatar        |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Checkbox  |  🚧   | 🚧  |   🚧   | In Progress |
 | Radio     |  🚧   | 🚧  |   🚧   | In Progress |

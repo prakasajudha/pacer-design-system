@@ -19,5 +19,8 @@ export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export { Information } from './components/Information';
 export type { InformationProps, InformationVariant } from './components/Information';
 
+export { Avatar } from './components/Avatar';
+export type { AvatarProps, AvatarMode, AvatarType, AvatarSize, AvatarBadge, AvatarItem } from './components/Avatar';
+
 // Utilities
 export { cn } from './utils/cn';

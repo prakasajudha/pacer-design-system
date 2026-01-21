@@ -16,6 +16,7 @@ import {
   PtBadge,
   PtSkeleton,
   PtInformation,
+  PtAvatar,
 } from '@pacer-ui/vue';
 
 export default {
@@ -32,5 +33,6 @@ export default {
     app.component('PtBadge', PtBadge);
     app.component('PtSkeleton', PtSkeleton);
     app.component('PtInformation', PtInformation);
+    app.component('PtAvatar', PtAvatar);
   },
 };

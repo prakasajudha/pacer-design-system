@@ -1,0 +1,345 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+@if (Mode == AvatarMode.Single)
+{
+    <div class="flex items-center relative">
+        <div class="@GetSingleWrapperClasses()">
+            <!-- Inner shape -->
+            <div class="@GetSingleAvatarClasses()">
+                @if (!string.IsNullOrEmpty(Img))
+                {
+                    <img src="@Img" alt="@(FullName ?? "Avatar")" class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+                }
+                else
+                {
+                    <div class="@GetInitialsInnerClasses()">
+                        @GetInitials(FullName ?? "User")
+                    </div>
+                }
+            </div>
+
+            <!-- Badge (di luar clip area) -->
+            @if (Badge.HasValue)
+            {
+                <div class="@GetBadgeClasses()">
+                    @if (Badge == AvatarBadge.Icon && !string.IsNullOrEmpty(IconImg))
+                    {
+                        <div class="w-full h-full flex items-center justify-center overflow-hidden">
+                            <img src="@IconImg" alt="" class="w-full h-full object-contain" />
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+else if (Mode == AvatarMode.Group)
+{
+    <div class="@GetGroupAvatarClasses()">
+        @foreach (var (item, index) in VisibleAvatars.Select((item, index) => (item, index)))
+        {
+            <div class="@GetGroupItemClasses()" style="z-index: @(VisibleAvatars.Count - index)">
+                @if (!string.IsNullOrEmpty(item.Img))
+                {
+                    <img src="@item.Img" alt="@(item.FullName ?? "Avatar")" class="absolute inset-0 w-full h-full object-cover pointer-events-none rounded-full" />
+                }
+                else
+                {
+                    <div class="flex items-center justify-center bg-slate-200 text-slate-950 w-full h-full rounded-full @GetTextSizeClass()">
+                        @GetInitials(item.FullName ?? "User")
+                    </div>
+                }
+            </div>
+        }
+        @if (RemainingCount > 0)
+        {
+            <div class="@GetGroupCountClasses()" style="z-index: 0">
+                @RemainingCount+
+            </div>
+        }
+    </div>
+}
+
+@code {
+    /// <summary>
+    /// Mode avatar: single atau group
+    /// </summary>
+    [Parameter]
+    public AvatarMode Mode { get; set; } = AvatarMode.Single;
+
+    /// <summary>
+    /// Type avatar: circle atau square (diabaikan jika mode group, selalu circle)
+    /// </summary>
+    [Parameter]
+    public AvatarType Type { get; set; } = AvatarType.Circle;
+
+    /// <summary>
+    /// Ukuran avatar
+    /// </summary>
+    [Parameter]
+    public AvatarSize Size { get; set; } = AvatarSize.Sm;
+
+    /// <summary>
+    /// Badge status (hanya untuk single mode)
+    /// </summary>
+    [Parameter]
+    public AvatarBadge? Badge { get; set; }
+
+    /// <summary>
+    /// URL gambar avatar (hanya untuk single mode)
+    /// </summary>
+    [Parameter]
+    public string? Img { get; set; }
+
+    /// <summary>
+    /// URL icon untuk badge type icon (hanya untuk single mode)
+    /// </summary>
+    [Parameter]
+    public string? IconImg { get; set; }
+
+    /// <summary>
+    /// Nama lengkap untuk generate initials (hanya untuk single mode)
+    /// </summary>
+    [Parameter]
+    public string? FullName { get; set; } = "User";
+
+    /// <summary>
+    /// Array avatar items (hanya untuk group mode)
+    /// </summary>
+    [Parameter]
+    public List<AvatarItem>? Items { get; set; }
+
+    /// <summary>
+    /// Jumlah maksimal avatar yang ditampilkan sebelum count badge (hanya untuk group mode)
+    /// Default: 1
+    /// </summary>
+    [Parameter]
+    public int ShowGroupCount { get; set; } = 1;
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetInitials(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return "U";
+        var parts = name.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1)
+        {
+            return parts[0][0].ToString().ToUpperInvariant();
+        }
+        return (parts[0][0].ToString() + parts[parts.Length - 1][0].ToString()).ToUpperInvariant();
+    }
+
+    private string GetSingleWrapperClasses()
+    {
+        var config = GetSizeConfig();
+        var classes = new List<string>
+        {
+            "relative",
+            "shrink-0",
+            config.Size,
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSingleAvatarClasses()
+    {
+        var isCircle = Mode == AvatarMode.Group || Type == AvatarType.Circle;
+        var roundedClass = GetRoundedClass(isCircle);
+        var classes = new List<string>
+        {
+            "relative",
+            "w-full",
+            "h-full",
+            "border-2",
+            "border-white",
+            "overflow-hidden",
+            roundedClass
+        };
+        return string.Join(" ", classes);
+    }
+
+    private string GetBadgeClasses()
+    {
+        if (!Badge.HasValue || Mode == AvatarMode.Group) return "";
+        
+        var config = GetSizeConfig();
+        var classes = new List<string>
+        {
+            "absolute",
+            "bottom-0",
+            "right-0",
+            "flex",
+            "items-center",
+            "justify-center",
+            "overflow-hidden",
+            "rounded-full",
+            config.Badge,
+            config.BadgeBorder,
+            "border-white"
+        };
+
+        if (Badge == AvatarBadge.Online)
+        {
+            classes.Add("bg-green-500");
+        }
+        else if (Badge == AvatarBadge.Offline)
+        {
+            classes.Add("bg-slate-300");
+        }
+        else if (Badge == AvatarBadge.Icon)
+        {
+            classes.Add("bg-brand-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInitialsInnerClasses()
+    {
+        var config = GetSizeConfig();
+        var isCircle = Mode == AvatarMode.Group || Type == AvatarType.Circle;
+        var roundedClass = GetRoundedClass(isCircle);
+        
+        var classes = new List<string>
+        {
+            "flex",
+            "items-center",
+            "justify-center",
+            "bg-slate-200",
+            "text-slate-950",
+            "relative",
+            "w-full",
+            "h-full",
+            config.Text,
+            "font-normal",
+            "leading-none",
+            roundedClass
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetGroupAvatarClasses()
+    {
+        var config = GetSizeConfig();
+        var classes = new List<string>
+        {
+            "flex",
+            "items-center",
+            "isolate",
+            "relative",
+            config.GroupPadding
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetGroupItemClasses()
+    {
+        var config = GetSizeConfig();
+        var classes = new List<string>
+        {
+            "relative",
+            "shrink-0",
+            "border-2",
+            "border-white",
+            "overflow-hidden",
+            config.Size,
+            "rounded-full",
+            config.GroupOverlap
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetGroupCountClasses()
+    {
+        var config = GetSizeConfig();
+        var classes = new List<string>
+        {
+            "flex",
+            "items-center",
+            "justify-center",
+            "bg-slate-200",
+            "text-slate-950",
+            "border-2",
+            "border-white",
+            config.Size,
+            config.Text,
+            "font-normal",
+            "leading-none",
+            "rounded-full",
+            config.GroupOverlap
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetRoundedClass(bool isCircle)
+    {
+        if (isCircle) return "rounded-full";
+        
+        return Size switch
+        {
+            AvatarSize.Xs => "rounded-md",
+            AvatarSize.Sm or AvatarSize.Md => "rounded-lg",
+            AvatarSize.Lg or AvatarSize.Xl => "rounded-xl",
+            _ => "rounded-2xl"
+        };
+    }
+
+    private string GetTextSizeClass()
+    {
+        return Size switch
+        {
+            AvatarSize.Xxs => "text-[8px]",
+            AvatarSize.Xs => "text-xs",
+            AvatarSize.Sm => "text-sm",
+            AvatarSize.Md => "text-base",
+            AvatarSize.Lg => "text-lg",
+            AvatarSize.Xl => "text-xl",
+            _ => "text-2xl"
+        };
+    }
+
+    private (string Size, string Text, string Badge, string BadgeBorder, string GroupOverlap, string GroupPadding) GetSizeConfig()
+    {
+        return Size switch
+        {
+            AvatarSize.Xxs => ("w-4 h-4", "text-[8px]", "w-1 h-1 border", "border", "-mr-0.5", "pr-0.5"),
+            AvatarSize.Xs => ("w-6 h-6", "text-xs", "w-1.5 h-1.5 border", "border", "-mr-1", "pr-1"),
+            AvatarSize.Sm => ("w-8 h-8", "text-sm", "w-2 h-2 border", "border", "-mr-1.5", "pr-1.5"),
+            AvatarSize.Md => ("w-10 h-10", "text-base", "w-2.5 h-2.5 border", "border", "-mr-2", "pr-2"),
+            AvatarSize.Lg => ("w-12 h-12", "text-lg", "w-3 h-3 border", "border", "-mr-2.5", "pr-2.5"),
+            AvatarSize.Xl => ("w-14 h-14", "text-xl", "w-3.5 h-3.5 border", "border", "-mr-3", "pr-3"),
+            _ => ("w-16 h-16", "text-2xl", "w-4 h-4 border", "border", "-mr-3.5", "pr-3.5")
+        };
+    }
+
+    private List<AvatarItem> VisibleAvatars
+    {
+        get
+        {
+            if (Mode != AvatarMode.Group || Items == null || Items.Count == 0)
+                return new List<AvatarItem>();
+            return Items.Take(ShowGroupCount).ToList();
+        }
+    }
+
+    private int RemainingCount
+    {
+        get
+        {
+            if (Mode != AvatarMode.Group || Items == null)
+                return 0;
+            var remaining = Items.Count - ShowGroupCount;
+            return remaining > 0 ? remaining : 0;
+        }
+    }
+}

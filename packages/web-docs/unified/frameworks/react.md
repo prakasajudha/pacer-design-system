@@ -40,7 +40,7 @@ export default {
 ## Basic Usage
 
 ```tsx
-import { Button, Card, Input } from '@pacer-ui/react';
+import { Button, Card, Input, Avatar } from '@pacer-ui/react';
 import { useState } from 'react';
 
 function App() {

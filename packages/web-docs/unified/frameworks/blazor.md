@@ -49,6 +49,7 @@ For Blazor WebAssembly:
 
 <PtCard>
     <h2>Contact Form</h2>
+    <PtAvatar Mode="AvatarMode.Single" Size="AvatarSize.Md" FullName="John Doe" />
     <PtInput
         @bind-Value="email"
         Type="email"
