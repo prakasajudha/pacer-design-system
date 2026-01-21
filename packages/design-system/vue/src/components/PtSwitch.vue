@@ -119,6 +119,7 @@ const trackClasses = computed(() => {
     // Padding 2px untuk inset thumb (match Figma)
     'relative inline-flex shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-out',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-primary-300',
+    props.error ? 'border border-error-500' : 'border border-transparent',
     cfg.track,
     !props.disabled && 'cursor-pointer',
     // default off bg is #CBD5E1 (slate-300) in Figma
@@ -156,8 +157,7 @@ const labelClasses = computed(() => {
 
 const descriptionClasses = computed(() => {
   return cn(
-    'text-sm font-normal leading-5',
-    props.error ? 'text-error-600' : 'text-slate-500'
+    'text-sm font-normal leading-5 text-slate-500'
   );
 });
 

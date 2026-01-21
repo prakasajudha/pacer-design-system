@@ -4,7 +4,7 @@ import { cn } from '../utils/cn';
 export type SwitchPosition = 'left' | 'right';
 export type SwitchSize = 'md' | 'sm';
 
-export interface SwitchProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SwitchProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
    * Controlled checked state.
    */
@@ -119,6 +119,7 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       // Padding 2px untuk inset thumb (match Figma)
       'relative inline-flex shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-out',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-primary-300',
+      error ? 'border border-error-500' : 'border border-transparent',
       sizes[size].track,
       !disabled && 'cursor-pointer',
       !isOn && 'bg-slate-300'
@@ -133,7 +134,7 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
     );
 
     const labelClasses = cn('text-sm font-medium leading-none', error ? 'text-error-600' : 'text-slate-950');
-    const descriptionClasses = cn('text-sm font-normal leading-5', error ? 'text-error-600' : 'text-slate-500');
+    const descriptionClasses = cn('text-sm font-normal leading-5 text-slate-500');
 
     return (
       <div ref={ref} className={wrapperClasses} {...props} onClick={toggle}>

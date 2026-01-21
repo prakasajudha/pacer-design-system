@@ -23,7 +23,7 @@ const v5 = ref(true);
 - **`outlined`**: boolean (default: `false`)
 - **`bgColor`**: string color (hex/rgb/rgba/var) — default **hex** sesuai Figma
 - **`error`**: boolean (default: `false`)  
-  Jika `true`: text merah; jika `outlined` maka border merah.
+  Jika `true`: title merah; toggle menampilkan border merah (outline merah jika `outlined`).
 
 ## Preview
 

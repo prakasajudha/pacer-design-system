@@ -94,6 +94,7 @@
         {
             "relative inline-flex shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-out",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-primary-300",
+            Error ? "border border-error-500" : "border border-transparent",
             track,
             !Disabled ? "cursor-pointer" : "",
             !Value ? "bg-slate-300" : ""
@@ -148,7 +149,7 @@
 
     private string GetDescriptionClasses()
     {
-        return Error ? "text-sm font-normal leading-5 text-error-600" : "text-sm font-normal leading-5 text-slate-500";
+        return "text-sm font-normal leading-5 text-slate-500";
     }
 
     private string GetLabelId() => LabelId ?? string.Empty;
