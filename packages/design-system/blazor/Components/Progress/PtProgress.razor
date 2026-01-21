@@ -11,7 +11,7 @@
         aria-valuemax="100"
         aria-valuenow="@ClampedValue"
         @attributes="AdditionalAttributes">
-        <div class="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style="@GetBarStyle()"></div>
+        <div class="absolute inset-0 origin-left transition-transform duration-300 ease-out will-change-transform" style="@GetBarStyle()"></div>
     </div>
 
     @if (ShowValue)
@@ -101,7 +101,8 @@
 
     private string GetBarStyle()
     {
-        return $"width: {ClampedValue}%; background-color: {Color};";
+        var scale = ClampedValue / 100.0;
+        return $"transform: scaleX({scale}); background-color: {Color};";
     }
 }
 

@@ -74,8 +74,8 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     };
 
     const barStyle: React.CSSProperties = {
-      width: `${clamped}%`,
       backgroundColor: color,
+      transform: `scaleX(${clamped / 100})`,
     };
 
     return (
@@ -91,7 +91,10 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuenow={clamped}
           {...props}
         >
-          <div className="absolute inset-y-0 left-0 transition-all duration-300 ease-out" style={barStyle} />
+        <div
+          className="absolute inset-0 origin-left transition-transform duration-300 ease-out will-change-transform"
+          style={barStyle}
+        />
         </div>
 
         {showValue ? (

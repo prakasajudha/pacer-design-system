@@ -81,8 +81,8 @@ const trackClasses = computed(() => {
 
 const barStyle = computed(() => {
   return {
-    width: `${clampedValue.value}%`,
     backgroundColor: props.color,
+    transform: `scaleX(${clampedValue.value / 100})`,
   } as const;
 });
 
@@ -105,7 +105,7 @@ const displayValue = computed(() => {
       v-bind="$attrs"
     >
       <div
-        class="absolute inset-y-0 left-0 transition-all duration-300 ease-out"
+        class="absolute inset-0 origin-left transition-transform duration-300 ease-out will-change-transform"
         :style="barStyle"
       />
     </div>
