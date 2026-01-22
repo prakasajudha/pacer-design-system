@@ -98,6 +98,139 @@
   position: relative;
 }
 
+/* Hide default VitePress navbar and sidebar when using custom layout */
+.custom-layout .layout-content banner,
+.custom-layout .layout-content header.VPNav,
+.custom-layout .layout-content .VPSidebar,
+.custom-layout .layout-content aside.VPSidebar,
+.custom-layout .default-layout-wrapper .VPSidebar,
+.custom-layout .default-layout-wrapper aside {
+  display: none !important;
+}
+
+/* Hide default VitePress menu button */
+.custom-layout .layout-content button.menu,
+.custom-layout .default-layout-wrapper button.menu {
+  display: none !important;
+}
+
+/* Show custom menu button on mobile/tablet (< 960px) - override scoped styles */
+@media (max-width: 959px) {
+  .vp-navbar button.vp-navbar-menu-button,
+  button.vp-navbar-menu-button[data-v-361aa10e],
+  button.vp-navbar-menu-button {
+    display: flex !important;
+  }
+}
+
+/* Hide custom menu button on desktop */
+@media (min-width: 960px) {
+  .vp-navbar button.vp-navbar-menu-button,
+  button.vp-navbar-menu-button[data-v-361aa10e],
+  button.vp-navbar-menu-button {
+    display: none !important;
+  }
+}
+
+.VPSidebar {
+  display: none !important;
+}
+
+/* Content area adjustments - no deep, direct CSS */
+.VPContent {
+  padding-top: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Fix padding-left issue when has-sidebar - override VitePress default */
+/* VitePress adds padding-left: var(--vp-sidebar-width) on .VPContent.has-sidebar at min-width: 960px */
+@media (min-width: 960px) {
+  .VPContent.has-sidebar {
+    padding-left: 0 !important;
+  }
+  
+  /* More specific selector to override VitePress scoped styles */
+  .VPContent.has-sidebar[data-v-51e68cb7] {
+    padding-left: 0 !important;
+  }
+}
+
+/* Adjust content padding to be balanced - responsive */
+.VPDoc .content-container {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
+/* Fix layout issues at width < 1288px */
+@media (max-width: 1287px) {
+  .VPDoc .container {
+    max-width: 100% !important;
+  }
+  
+  .VPDoc .content-container {
+    max-width: 100% !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* Sidebar responsive behavior for < 960px */
+@media (max-width: 959px) {
+  /* Hide sidebar by default on mobile/tablet */
+  .custom-layout .vp-sidebar,
+  .vp-sidebar[data-v-*],
+  aside.vp-sidebar {
+    transform: translateX(-100%) !important;
+    z-index: 200;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Show sidebar when open */
+  .custom-layout .vp-sidebar.vp-sidebar-open,
+  .vp-sidebar.vp-sidebar-open[data-v-*],
+  aside.vp-sidebar.vp-sidebar-open {
+    transform: translateX(0) !important;
+  }
+  
+  /* Adjust content when sidebar is hidden */
+  .VPContent.has-sidebar {
+    padding-left: 0 !important;
+  }
+  
+  .layout-content.has-sidebar {
+    margin-left: 0 !important;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .VPDoc .content-container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .VPDoc .content-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* Set white background for the layout */
+.custom-layout {
+  background: white;
+}
+
+/* Dark mode: keep dark background */
+.dark .custom-layout {
+  background: var(--vp-c-bg);
+}
+
+.dark .vp-navbar {
+  background: var(--vp-c-bg);
+}
+
 /* Dark mode support */
 .dark {
   color-scheme: dark;
@@ -106,6 +239,10 @@
 .dark .home-page {
   background: #1a1a1a;
   color: #ffffff;
+}
+
+.VPLocalNav.has-sidebar{
+  padding-left: 0 !important;
 }
 
 .dark .navbar {
@@ -176,4 +313,13 @@
 
 .dark .dropdown-item:hover {
   background: #3a3a3a;
+}
+
+/* Has sidebar content - balanced padding, no extra margin */
+.has-sidebar .VPDoc .container,
+.has-sidebar .VPDoc .content,
+.has-sidebar .VPDoc .content-container,
+.has-sidebar .VPDoc main {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }

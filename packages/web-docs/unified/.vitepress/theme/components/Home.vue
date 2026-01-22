@@ -1,29 +1,6 @@
 <template>
   <div class="home-page">
-    <!-- Navbar -->
-    <nav class="navbar">
-      <div class="navbar-container">
-        <div class="navbar-logo">
-          <img src="/pacer-logo.png" alt="PACER Logo" class="logo-img" />
-          <img src="/pacer-text-logo.png" alt="PACER" class="logo-text" />
-        </div>
-        <div class="navbar-actions">
-          <div class="search-container">
-            <div class="search-input">
-              <svg class="search-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16z" />
-                <path d="M19 19l-4.35-4.35" />
-              </svg>
-              <input type="text" placeholder="Search" class="search-field" />
-            </div>
-          </div>
-          <StorybookDropdown />
-          <ThemeSwitcher />
-        </div>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
+    <!-- Main Content (Navbar and Sidebar are in Layout.vue) -->
     <div class="main-content">
       <!-- Hero Section -->
       <section class="hero-section">
@@ -254,8 +231,6 @@
 import { useRouter } from 'vitepress';
 import { h, onMounted } from 'vue';
 import { PtButton } from '@pacer-ui/vue';
-import StorybookDropdown from './StorybookDropdown.vue';
-import ThemeSwitcher from './ThemeSwitcher.vue';
 
 const router = useRouter();
 
@@ -411,7 +386,6 @@ onMounted(() => {
 
 /* Main Content */
 .main-content {
-  margin-top: 80px;
   width: 100%;
 }
 
