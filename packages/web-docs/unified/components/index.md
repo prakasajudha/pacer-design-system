@@ -123,6 +123,18 @@ Checkbox untuk memilih satu atau lebih opsi dengan label dan optional descriptio
 - ✅ indeterminate state (intermediate)
 - ✅ focus ring
 
+#### [Radio](/components/radio)
+
+Radio button untuk memilih satu opsi dari beberapa pilihan dalam sebuah grup. Styling sama seperti Checkbox, tapi berbentuk lingkaran dengan dot di tengah saat terpilih.
+
+- ✅ disabled state
+- ✅ label + description
+- ✅ position left/right
+- ✅ outlined variant
+- ✅ error styling (text + outline)
+- ✅ focus ring
+- ✅ radio group support (semua radio dalam grup yang sama punya `name` yang sama)
+
 ## Design Principles
 
 All components follow these principles:
@@ -261,8 +273,8 @@ Learn more about [Design Tokens](/tokens).
 | Progress      |  ✅   | ✅  |   ✅   | Stable      |
 | Switch        |  ✅   | ✅  |   ✅   | Stable      |
 | Checkbox      |  ✅   | ✅  |   ✅   | Stable      |
+| Radio         |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
-| Radio     |  🚧   | 🚧  |   🚧   | In Progress |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
 | Modal     |  🚧   | 🚧  |   🚧   | Planned     |
 | Dropdown  |  🚧   | 🚧  |   🚧   | Planned     |

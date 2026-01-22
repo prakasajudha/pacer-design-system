@@ -20,6 +20,7 @@ import {
   PtProgress,
   PtSwitch,
   PtCheckbox,
+  PtRadio,
 } from '@pacer-ui/vue';
 
 export default {
@@ -40,5 +41,6 @@ export default {
     app.component('PtProgress', PtProgress);
     app.component('PtSwitch', PtSwitch);
     app.component('PtCheckbox', PtCheckbox);
+    app.component('PtRadio', PtRadio);
   },
 };

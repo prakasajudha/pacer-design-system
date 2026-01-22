@@ -31,5 +31,8 @@ export type { SwitchProps, SwitchPosition, SwitchSize } from './components/Switc
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxProps, CheckboxPosition } from './components/Checkbox';
 
+export { Radio } from './components/Radio';
+export type { RadioProps, RadioPosition } from './components/Radio';
+
 // Utilities
 export { cn } from './utils/cn';
