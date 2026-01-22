@@ -135,7 +135,7 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
         }
       : checkboxBgStyle;
 
-    const contentClasses = cn('flex flex-col gap-1');
+    const contentClasses = cn('flex flex-col gap-1 min-w-0 flex-1');
 
     const labelClasses = cn('text-sm font-medium leading-none', error ? 'text-error-600' : 'text-slate-950');
 
@@ -208,12 +208,12 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
             aria-label={label || 'Toggle checkbox'}
           >
             {label ? (
-              <div id={labelId} className={labelClasses}>
+              <div id={labelId} className={labelClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                 {label}
               </div>
             ) : null}
             {description ? (
-              <div id={descId} className={descriptionClasses}>
+              <div id={descId} className={descriptionClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                 {description}
               </div>
             ) : null}

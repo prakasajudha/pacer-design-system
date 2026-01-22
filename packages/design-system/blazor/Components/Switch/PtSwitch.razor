@@ -29,14 +29,14 @@
 
     @if (!string.IsNullOrWhiteSpace(Label) || !string.IsNullOrWhiteSpace(Description))
     {
-        <div class="flex flex-col gap-1 items-start text-left">
+        <div class="flex flex-col gap-1 items-start text-left min-w-0 flex-1">
             @if (!string.IsNullOrWhiteSpace(Label))
             {
-                <div id="@GetLabelId()" class="@GetLabelClasses()">@Label</div>
+                <div id="@GetLabelId()" class="@GetLabelClasses()" style="overflow-wrap: anywhere; word-break: break-word;">@Label</div>
             }
             @if (!string.IsNullOrWhiteSpace(Description))
             {
-                <div id="@GetDescId()" class="@GetDescriptionClasses()">@Description</div>
+                <div id="@GetDescId()" class="@GetDescriptionClasses()" style="overflow-wrap: anywhere; word-break: break-word;">@Description</div>
             }
         </div>
     }
@@ -144,12 +144,12 @@
 
     private string GetLabelClasses()
     {
-        return Error ? "text-sm font-medium leading-none text-error-600" : "text-sm font-medium leading-none text-slate-950";
+        return Error ? "text-sm font-medium leading-none break-words text-error-600" : "text-sm font-medium leading-none break-words text-slate-950";
     }
 
     private string GetDescriptionClasses()
     {
-        return "text-sm font-normal leading-5 text-slate-500";
+        return "text-sm font-normal leading-5 text-slate-500 break-words";
     }
 
     private string GetLabelId() => LabelId ?? string.Empty;

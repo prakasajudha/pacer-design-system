@@ -133,8 +133,8 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       isOn ? sizes[size].translateOn : 'translate-x-0'
     );
 
-    const labelClasses = cn('text-sm font-medium leading-none', error ? 'text-error-600' : 'text-slate-950');
-    const descriptionClasses = cn('text-sm font-normal leading-5 text-slate-500');
+    const labelClasses = cn('text-sm font-medium leading-none break-words', error ? 'text-error-600' : 'text-slate-950');
+    const descriptionClasses = cn('text-sm font-normal leading-5 text-slate-500 break-words');
 
     return (
       <div ref={ref} className={wrapperClasses} {...props} onClick={toggle}>
@@ -161,14 +161,14 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
         </button>
 
         {hasContent ? (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 min-w-0 flex-1">
             {label ? (
-              <div id={labelId} className={labelClasses}>
+              <div id={labelId} className={labelClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                 {label}
               </div>
             ) : null}
             {description ? (
-              <div id={descId} className={descriptionClasses}>
+              <div id={descId} className={descriptionClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                 {description}
               </div>
             ) : null}

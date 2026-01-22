@@ -70,11 +70,11 @@
             aria-label="@(Label ?? "Toggle checkbox")">
             @if (!string.IsNullOrWhiteSpace(Label))
             {
-                <div id="@GetLabelId()" class="@GetLabelClasses()">@Label</div>
+                <div id="@GetLabelId()" class="@GetLabelClasses()" style="overflow-wrap: anywhere; word-break: break-word;">@Label</div>
             }
             @if (!string.IsNullOrWhiteSpace(Description))
             {
-                <div id="@GetDescId()" class="@GetDescriptionClasses()">@Description</div>
+                <div id="@GetDescId()" class="@GetDescriptionClasses()" style="overflow-wrap: anywhere; word-break: break-word;">@Description</div>
             }
         </div>
     }
@@ -164,7 +164,7 @@
 
     private string GetContentClasses()
     {
-        return "flex flex-col gap-1";
+        return "flex flex-col gap-1 min-w-0 flex-1";
     }
 
     private string GetLabelClasses()

@@ -130,7 +130,7 @@ const checkboxStyle = computed(() => {
 });
 
 const contentClasses = computed(() => {
-  return cn('flex flex-col gap-1', props.position === 'right' ? 'items-start text-left' : 'items-start text-left');
+  return cn('flex flex-col gap-1 min-w-0 flex-1', props.position === 'right' ? 'items-start text-left' : 'items-start text-left');
 });
 
 const labelClasses = computed(() => {
@@ -231,8 +231,8 @@ const onBlur = () => {
     </button>
 
     <div v-if="label || description" :class="contentClasses" @click="onToggle" @keydown.enter="onToggle" @keydown.space.prevent="onToggle" tabindex="0" role="button" :aria-label="label || 'Toggle checkbox'">
-      <div v-if="label" :id="labelId" :class="labelClasses">{{ label }}</div>
-      <div v-if="description" :id="descId" :class="descriptionClasses">{{ description }}</div>
+      <div v-if="label" :id="labelId" :class="labelClasses" style="overflow-wrap: anywhere; word-break: break-word;">{{ label }}</div>
+      <div v-if="description" :id="descId" :class="descriptionClasses" style="overflow-wrap: anywhere; word-break: break-word;">{{ description }}</div>
     </div>
   </div>
 </template>
