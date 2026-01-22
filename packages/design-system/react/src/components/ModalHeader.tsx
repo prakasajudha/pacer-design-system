@@ -31,7 +31,7 @@ export interface ModalHeaderProps {
   className?: string;
 }
 
-const CloseIcon = ({ className }: { className?: string }) => (
+const CloseIcon = (
   <svg
     aria-hidden="true"
     viewBox="0 0 16 16"
@@ -40,7 +40,7 @@ const CloseIcon = ({ className }: { className?: string }) => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className={className}
+    className="h-4 w-4"
   >
     <path d="M12 4l-8 8M4 4l8 8" />
   </svg>
