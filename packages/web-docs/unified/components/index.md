@@ -135,6 +135,18 @@ Radio button untuk memilih satu opsi dari beberapa pilihan dalam sebuah grup. St
 - ✅ focus ring
 - ✅ radio group support (semua radio dalam grup yang sama punya `name` yang sama)
 
+### Navigation Components
+
+#### [Tabs](/components/tabs)
+
+Tabs untuk mengorganisir konten ke dalam beberapa panel yang dapat diakses melalui tab triggers. Menggunakan compound components pattern untuk fleksibilitas maksimal.
+
+- ✅ 2 variants (Default, Line)
+- ✅ stretch prop untuk mengisi seluruh width dengan grid layout
+- ✅ disabled state
+- ✅ icon support (kiri atau kanan)
+- ✅ compound components pattern (Tabs, TabsList, TabsTrigger, TabsContent)
+
 ## Design Principles
 
 All components follow these principles:
@@ -274,6 +286,7 @@ Learn more about [Design Tokens](/tokens).
 | Switch        |  ✅   | ✅  |   ✅   | Stable      |
 | Checkbox      |  ✅   | ✅  |   ✅   | Stable      |
 | Radio         |  ✅   | ✅  |   ✅   | Stable      |
+| Tabs          |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
 | Modal     |  🚧   | 🚧  |   🚧   | Planned     |

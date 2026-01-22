@@ -34,5 +34,14 @@ export type { CheckboxProps, CheckboxPosition } from './components/Checkbox';
 export { Radio } from './components/Radio';
 export type { RadioProps, RadioPosition } from './components/Radio';
 
+export { Tabs, useTabsContext } from './components/Tabs';
+export type { TabsProps, TabsVariant } from './components/Tabs';
+export { TabsList, useTabsListContext } from './components/TabsList';
+export type { TabsListProps } from './components/TabsList';
+export { TabsTrigger } from './components/TabsTrigger';
+export type { TabsTriggerProps } from './components/TabsTrigger';
+export { TabsContent } from './components/TabsContent';
+export type { TabsContentProps } from './components/TabsContent';
+
 // Utilities
 export { cn } from './utils/cn';

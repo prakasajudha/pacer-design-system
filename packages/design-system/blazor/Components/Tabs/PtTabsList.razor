@@ -1,0 +1,59 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<CascadingValue Value="this" Name="TabsListContext">
+    <div class="@GetListClasses()" style="@GetListStyle()" role="tablist" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    [CascadingParameter(Name = "TabsContext")]
+    public PtTabs? Tabs { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public bool Stretch { get; set; } = false;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetListClasses()
+    {
+        var variant = Tabs?.CurrentVariant ?? TabsVariant.Default;
+        var classes = new List<string>
+        {
+            Stretch ? "grid relative grid-flow-col" : "flex relative"
+        };
+
+        if (variant == TabsVariant.Default)
+        {
+            classes.Add(Stretch ? "bg-slate-100 p-1 rounded-lg" : "items-start bg-slate-100 p-1 rounded-lg");
+        }
+        else
+        {
+            classes.Add(Stretch ? "items-end border-b border-slate-300 p-0" : "items-end border-b border-slate-300 p-0");
+        }
+
+        if (Stretch)
+        {
+            classes.Add("w-full");
+        }
+        else
+        {
+            classes.Add("w-fit");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetListStyle()
+    {
+        if (Stretch)
+        {
+            return "grid-auto-columns: 1fr;";
+        }
+        return string.Empty;
+    }
+}

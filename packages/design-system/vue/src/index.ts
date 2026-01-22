@@ -13,9 +13,13 @@ import PtProgress from './components/PtProgress.vue';
 import PtSwitch from './components/PtSwitch.vue';
 import PtCheckbox from './components/PtCheckbox.vue';
 import PtRadio from './components/PtRadio.vue';
+import PtTabs from './components/PtTabs.vue';
+import PtTabsList from './components/PtTabsList.vue';
+import PtTabsTrigger from './components/PtTabsTrigger.vue';
+import PtTabsContent from './components/PtTabsContent.vue';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent };
 
 // Plugin untuk install semua components
 export default {
@@ -32,6 +36,10 @@ export default {
     app.component('PtSwitch', PtSwitch);
     app.component('PtCheckbox', PtCheckbox);
     app.component('PtRadio', PtRadio);
+    app.component('PtTabs', PtTabs);
+    app.component('PtTabsList', PtTabsList);
+    app.component('PtTabsTrigger', PtTabsTrigger);
+    app.component('PtTabsContent', PtTabsContent);
   },
 };
 
@@ -48,3 +56,7 @@ export type { ProgressProps, ProgressSize } from './components/PtProgress.vue';
 export type { SwitchProps, SwitchPosition, SwitchSize } from './components/PtSwitch.vue';
 export type { CheckboxProps, CheckboxPosition } from './components/PtCheckbox.vue';
 export type { RadioProps, RadioPosition } from './components/PtRadio.vue';
+export type { TabsProps, TabsVariant } from './components/PtTabs.vue';
+export type { TabsListProps } from './components/PtTabsList.vue';
+export type { TabsTriggerProps } from './components/PtTabsTrigger.vue';
+export type { TabsContentProps } from './components/PtTabsContent.vue';

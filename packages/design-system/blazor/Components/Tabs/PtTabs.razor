@@ -1,0 +1,46 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<CascadingValue Value="this" Name="TabsContext">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public object? Value { get; set; }
+    [Parameter] public EventCallback<object> ValueChanged { get; set; }
+
+    [Parameter] public object? DefaultValue { get; set; }
+
+    [Parameter] public TabsVariant Variant { get; set; } = TabsVariant.Default;
+
+    private object? _internalValue;
+
+    public object? ActiveValue => Value ?? _internalValue;
+
+    public TabsVariant CurrentVariant => Variant;
+
+    protected override void OnInitialized()
+    {
+        if (Value == null && DefaultValue != null)
+        {
+            _internalValue = DefaultValue;
+        }
+    }
+
+    public async Task SetActiveValue(object? newValue)
+    {
+        if (Value == null)
+        {
+            _internalValue = newValue;
+        }
+        Value = newValue;
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(newValue);
+        }
+        StateHasChanged();
+    }
+}

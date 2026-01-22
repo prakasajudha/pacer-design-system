@@ -21,6 +21,10 @@ import {
   PtSwitch,
   PtCheckbox,
   PtRadio,
+  PtTabs,
+  PtTabsList,
+  PtTabsTrigger,
+  PtTabsContent,
 } from '@pacer-ui/vue';
 
 export default {
@@ -42,5 +46,9 @@ export default {
     app.component('PtSwitch', PtSwitch);
     app.component('PtCheckbox', PtCheckbox);
     app.component('PtRadio', PtRadio);
+    app.component('PtTabs', PtTabs);
+    app.component('PtTabsList', PtTabsList);
+    app.component('PtTabsTrigger', PtTabsTrigger);
+    app.component('PtTabsContent', PtTabsContent);
   },
 };
