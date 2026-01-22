@@ -1,6 +1,8 @@
 import DefaultTheme from 'vitepress/theme';
 import ComponentDemo from './components/ComponentDemo.vue';
 import DocsTabs from './components/DocsTabs.vue';
+import Home from './components/Home.vue';
+import Layout from './components/Layout.vue';
 
 // Import PACER Vue components CSS FIRST (before custom.css)
 // This ensures Tailwind classes from components are available
@@ -33,6 +35,7 @@ import {
 
 export default {
   extends: DefaultTheme,
+  Layout: Layout,
   enhanceApp({ app }) {
     app.component('ComponentDemo', ComponentDemo);
     app.component('DocsTabs', DocsTabs);

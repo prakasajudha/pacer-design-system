@@ -167,7 +167,7 @@ const buttonClasses = computed(() => {
 
     if (props.variant === 'secondary') {
       return [
-        'bg-transparent text-brand-300 border border-solid border-brand-300',
+        'bg-white text-brand-300 border border-solid border-brand-300',
         'hover:bg-brand-50 hover:text-brand-400',
         getFocusRing('brand-300'),
         'focus-visible:text-brand-400',

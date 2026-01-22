@@ -97,3 +97,83 @@
 .demo-code {
   position: relative;
 }
+
+/* Dark mode support */
+.dark {
+  color-scheme: dark;
+}
+
+.dark .home-page {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.dark .navbar {
+  background: #1a1a1a;
+  border-bottom-color: #333;
+}
+
+.dark .search-input {
+  background: #2a2a2a;
+  border-color: #404040;
+}
+
+.dark .search-field {
+  color: #ffffff;
+}
+
+.dark .search-field::placeholder {
+  color: #666;
+}
+
+.dark .hero-section {
+  background: #0f172a;
+}
+
+.dark .hero-title,
+.dark .section-title,
+.dark .feature-title,
+.dark .framework-title,
+.dark .role-title {
+  color: #ffffff;
+}
+
+.dark .hero-description,
+.dark .section-description,
+.dark .feature-description,
+.dark .framework-description,
+.dark .role-description {
+  color: #a0a0a0;
+}
+
+.dark .feature-card,
+.dark .framework-card,
+.dark .role-card {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .feature-icon-svg {
+  stroke: #ffffff;
+}
+
+.dark .roles-section {
+  background: #0f172a;
+}
+
+.dark .frameworks-section {
+  background: transparent;
+}
+
+.dark .dropdown-menu {
+  background: #2a2a2a;
+  border-color: #404040;
+}
+
+.dark .dropdown-item {
+  color: #ffffff;
+}
+
+.dark .dropdown-item:hover {
+  background: #3a3a3a;
+}
