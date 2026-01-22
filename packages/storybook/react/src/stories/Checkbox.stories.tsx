@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkbox } from '@pacer-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const meta = {
   title: 'Components/Checkbox',
@@ -70,6 +70,15 @@ export const Playground: Story = {
   render: (args) => {
     const [checked, setChecked] = useState(args.checked ?? false);
     const [indeterminate, setIndeterminate] = useState(args.indeterminate ?? false);
+
+    // Sync local state when controls change
+    useEffect(() => {
+      setChecked(args.checked ?? false);
+    }, [args.checked]);
+
+    useEffect(() => {
+      setIndeterminate(args.indeterminate ?? false);
+    }, [args.indeterminate]);
     return (
       <div className="w-[428px]">
         <Checkbox
