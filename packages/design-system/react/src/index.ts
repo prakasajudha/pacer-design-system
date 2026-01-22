@@ -43,5 +43,14 @@ export type { TabsTriggerProps } from './components/TabsTrigger';
 export { TabsContent } from './components/TabsContent';
 export type { TabsContentProps } from './components/TabsContent';
 
+export { Modal, useModalContext } from './components/Modal';
+export type { ModalProps, ModalSize } from './components/Modal';
+export { ModalHeader } from './components/ModalHeader';
+export type { ModalHeaderProps } from './components/ModalHeader';
+export { ModalBody } from './components/ModalBody';
+export type { ModalBodyProps } from './components/ModalBody';
+export { ModalFooter } from './components/ModalFooter';
+export type { ModalFooterProps } from './components/ModalFooter';
+
 // Utilities
 export { cn } from './utils/cn';

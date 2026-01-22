@@ -25,6 +25,10 @@ import {
   PtTabsList,
   PtTabsTrigger,
   PtTabsContent,
+  PtModal,
+  PtModalHeader,
+  PtModalBody,
+  PtModalFooter,
 } from '@pacer-ui/vue';
 
 export default {
@@ -50,5 +54,9 @@ export default {
     app.component('PtTabsList', PtTabsList);
     app.component('PtTabsTrigger', PtTabsTrigger);
     app.component('PtTabsContent', PtTabsContent);
+    app.component('PtModal', PtModal);
+    app.component('PtModalHeader', PtModalHeader);
+    app.component('PtModalBody', PtModalBody);
+    app.component('PtModalFooter', PtModalFooter);
   },
 };

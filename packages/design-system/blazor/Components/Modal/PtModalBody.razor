@@ -1,0 +1,11 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<div class="w-full px-6">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

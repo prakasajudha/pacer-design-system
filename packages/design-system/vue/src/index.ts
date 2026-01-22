@@ -17,9 +17,13 @@ import PtTabs from './components/PtTabs.vue';
 import PtTabsList from './components/PtTabsList.vue';
 import PtTabsTrigger from './components/PtTabsTrigger.vue';
 import PtTabsContent from './components/PtTabsContent.vue';
+import PtModal from './components/PtModal.vue';
+import PtModalHeader from './components/PtModalHeader.vue';
+import PtModalBody from './components/PtModalBody.vue';
+import PtModalFooter from './components/PtModalFooter.vue';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter };
 
 // Plugin untuk install semua components
 export default {
@@ -40,6 +44,10 @@ export default {
     app.component('PtTabsList', PtTabsList);
     app.component('PtTabsTrigger', PtTabsTrigger);
     app.component('PtTabsContent', PtTabsContent);
+    app.component('PtModal', PtModal);
+    app.component('PtModalHeader', PtModalHeader);
+    app.component('PtModalBody', PtModalBody);
+    app.component('PtModalFooter', PtModalFooter);
   },
 };
 
@@ -60,3 +68,6 @@ export type { TabsProps, TabsVariant } from './components/PtTabs.vue';
 export type { TabsListProps } from './components/PtTabsList.vue';
 export type { TabsTriggerProps } from './components/PtTabsTrigger.vue';
 export type { TabsContentProps } from './components/PtTabsContent.vue';
+export type { ModalProps, ModalSize } from './components/PtModal.vue';
+export type { ModalHeaderProps } from './components/PtModalHeader.vue';
+export type { ModalFooterProps } from './components/PtModalFooter.vue';

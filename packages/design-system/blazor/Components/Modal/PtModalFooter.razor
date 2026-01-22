@@ -1,0 +1,65 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<div class="flex gap-2 items-center justify-end w-full p-6 pt-4">
+    @if (HasChildren)
+    {
+        <!-- Custom Footer (children) -->
+        @ChildContent
+    }
+    else if (ShouldRenderButtons)
+    {
+        <!-- Default Footer (auto-render buttons) -->
+        @if (OnCancel != null)
+        {
+            <PtButton
+                Variant="outline"
+                Size="sm"
+                OnClick="HandleCancel">
+                @OnCancelText
+            </PtButton>
+        }
+        @if (OnConfirm != null)
+        {
+            <PtButton
+                Variant="solid"
+                Size="sm"
+                OnClick="HandleConfirm">
+                @OnConfirmText
+            </PtButton>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    [Parameter] public EventCallback OnConfirm { get; set; }
+
+    [Parameter] public string OnCancelText { get; set; } = "Cancel";
+
+    [Parameter] public string OnConfirmText { get; set; } = "Continue";
+
+    private bool HasChildren => ChildContent != null;
+
+    private bool ShouldRenderButtons => !HasChildren && (OnCancel.HasDelegate || OnConfirm.HasDelegate);
+
+    private async Task HandleCancel()
+    {
+        if (OnCancel.HasDelegate)
+        {
+            await OnCancel.InvokeAsync();
+        }
+    }
+
+    private async Task HandleConfirm()
+    {
+        if (OnConfirm.HasDelegate)
+        {
+            await OnConfirm.InvokeAsync();
+        }
+    }
+}

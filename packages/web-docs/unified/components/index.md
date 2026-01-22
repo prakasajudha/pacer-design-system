@@ -147,6 +147,17 @@ Tabs untuk mengorganisir konten ke dalam beberapa panel yang dapat diakses melal
 - ✅ icon support (kiri atau kanan)
 - ✅ compound components pattern (Tabs, TabsList, TabsTrigger, TabsContent)
 
+#### [Modal](/components/modal)
+
+Modal untuk menampilkan dialog atau overlay yang membutuhkan interaksi user. Menggunakan compound components pattern untuk fleksibilitas maksimal.
+
+- ✅ 3 sizes (Small: 400px, Medium: 500px, Large: 600px)
+- ✅ closeOnOverlayClick dan closeOnEscape props
+- ✅ Custom header/footer dengan children support
+- ✅ Auto-render buttons di footer (onCancel/onConfirm)
+- ✅ Body scroll lock
+- ✅ compound components pattern (Modal, ModalHeader, ModalBody, ModalFooter)
+
 ## Design Principles
 
 All components follow these principles:
@@ -287,9 +298,9 @@ Learn more about [Design Tokens](/tokens).
 | Checkbox      |  ✅   | ✅  |   ✅   | Stable      |
 | Radio         |  ✅   | ✅  |   ✅   | Stable      |
 | Tabs          |  ✅   | ✅  |   ✅   | Stable      |
+| Modal         |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
-| Modal     |  🚧   | 🚧  |   🚧   | Planned     |
 | Dropdown  |  🚧   | 🚧  |   🚧   | Planned     |
 
 Legend:

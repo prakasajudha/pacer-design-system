@@ -1,0 +1,91 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<div class="flex flex-col gap-1 items-start w-full p-6 pb-4">
+    @if (HasChildren)
+    {
+        <!-- Custom Header (children) -->
+        <div class="flex gap-2 items-center w-full">
+            @ChildContent
+        </div>
+    }
+    else if (HasProps)
+    {
+        <!-- Default Header (props) -->
+        <div class="flex gap-2 items-center w-full">
+            @if (Icon != null)
+            {
+                <!-- Left Icon -->
+                <div class="flex items-center justify-center p-0.5 rounded-button shrink-0">
+                    @Icon
+                </div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Title))
+            {
+                <!-- Title -->
+                <div class="flex-1 font-semibold text-xl leading-none tracking-[-0.6px] text-slate-900">
+                    @Title
+                </div>
+            }
+
+            @if (ShowCloseButton)
+            {
+                <!-- Close Button -->
+                <PtIconButton
+                    AriaLabel="Close dialog"
+                    Variant="ghost"
+                    Size="xss"
+                    OnClick="HandleClose">
+                    <svg
+                        aria-hidden="true"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-4 w-4">
+                        <path d="M12 4l-8 8M4 4l8 8" />
+                    </svg>
+                </PtIconButton>
+            }
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <!-- Description -->
+            <p class="font-normal text-base leading-6 text-slate-500 w-full">
+                @Description
+            </p>
+        }
+    }
+</div>
+
+@code {
+    [CascadingParameter(Name = "ModalContext")]
+    public PtModal? Modal { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public string? Title { get; set; }
+
+    [Parameter] public string? Description { get; set; }
+
+    [Parameter] public RenderFragment? Icon { get; set; }
+
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    private bool HasChildren => ChildContent != null;
+
+    private bool HasProps => !string.IsNullOrWhiteSpace(Title) || !string.IsNullOrWhiteSpace(Description) || Icon != null;
+
+    private async Task HandleClose()
+    {
+        if (Modal != null)
+        {
+            await Modal.Close();
+        }
+    }
+}

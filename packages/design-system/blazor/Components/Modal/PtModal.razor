@@ -1,0 +1,129 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@implements IAsyncDisposable
+
+@if (IsOpen)
+{
+    <div
+        class="fixed inset-0 z-[1040] flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        @onclick="HandleOverlayClick"
+        @onclick:stopPropagation="false">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+
+        <!-- Modal Container -->
+        <div
+            class="@GetSizeClasses() relative z-[1050] w-full bg-white rounded-lg shadow-lg flex flex-col transition-all duration-200"
+            @onclick:stopPropagation="true">
+            <CascadingValue Value="this" Name="ModalContext">
+                @ChildContent
+            </CascadingValue>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public bool Open { get; set; } = false;
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter] public bool DefaultOpen { get; set; } = false;
+
+    [Parameter] public ModalSize Size { get; set; } = ModalSize.Md;
+
+    [Parameter] public bool CloseOnOverlayClick { get; set; } = true;
+
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private bool _internalOpen;
+    private bool IsControlled => OpenChanged.HasDelegate;
+    private bool IsOpen => IsControlled ? Open : _internalOpen;
+
+    protected override void OnInitialized()
+    {
+        _internalOpen = DefaultOpen;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && IsOpen)
+        {
+            LockBodyScroll();
+        }
+    }
+
+    public async Task Close()
+    {
+        if (!IsControlled)
+        {
+            _internalOpen = false;
+        }
+        if (OpenChanged.HasDelegate)
+        {
+            await OpenChanged.InvokeAsync(false);
+        }
+        if (OnClose.HasDelegate)
+        {
+            await OnClose.InvokeAsync();
+        }
+        UnlockBodyScroll();
+        StateHasChanged();
+    }
+
+    private void HandleOverlayClick()
+    {
+        if (CloseOnOverlayClick)
+        {
+            Close();
+        }
+    }
+
+    private string GetSizeClasses()
+    {
+        return Size switch
+        {
+            ModalSize.Sm => "max-w-[400px]",
+            ModalSize.Md => "max-w-[500px]",
+            ModalSize.Lg => "max-w-[600px]",
+            _ => "max-w-[500px]"
+        };
+    }
+
+    private void LockBodyScroll()
+    {
+        if (IsOpen)
+        {
+            // Blazor doesn't have direct access to document.body.style
+            // This would need to be handled via JSInterop if needed
+        }
+    }
+
+    private void UnlockBodyScroll()
+    {
+        // Blazor doesn't have direct access to document.body.style
+        // This would need to be handled via JSInterop if needed
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsOpen)
+        {
+            LockBodyScroll();
+        }
+        else
+        {
+            UnlockBodyScroll();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        UnlockBodyScroll();
+    }
+}
