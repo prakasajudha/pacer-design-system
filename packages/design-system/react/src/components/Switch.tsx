@@ -119,7 +119,7 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       // Padding 2px untuk inset thumb (match Figma)
       'relative inline-flex shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-out',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-primary-300',
-      error ? 'border border-error-500' : 'border border-transparent',
+      'border border-transparent',
       sizes[size].track,
       !disabled && 'cursor-pointer',
       !isOn && 'bg-slate-300'
