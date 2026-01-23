@@ -1,12 +1,108 @@
+---
+layout: doc
+---
+
 # Getting Started
 
-Welcome to PACER Design System! This guide will help you integrate PACER components into your React, Vue, or Blazor application.
+<InstallationGuide />
 
-## Choose Your Framework
+## Design Tokens
 
-Select your framework to see specific installation instructions:
+All frameworks use the same design tokens for consistency:
 
-## React Installation
+```bash
+# Optional: Install design tokens for custom theming
+npm install @pacer-ui/tokens
+```
+
+Learn more about [Design Tokens](/tokens).
+
+## Tailwind CSS Configuration
+
+PACER components are built with Tailwind CSS. If you want to customize the design system:
+
+### React & Vue
+
+```js
+// tailwind.config.js
+import { pacerPreset } from '@pacer-ui/tailwind';
+
+export default {
+  presets: [pacerPreset],
+  content: [
+    './src/**/*.{js,jsx,ts,tsx,vue}',
+    './node_modules/@pacer-ui/react/**/*.{js,jsx}',
+    './node_modules/@pacer-ui/vue/**/*.{js,vue}',
+  ],
+};
+```
+
+### Blazor
+
+```js
+// tailwind.config.js in your Blazor project
+module.exports = {
+  content: ['./**/*.razor', './**/*.cshtml', './**/*.html'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#e6f7f7',
+          // ... PACER color tokens
+        },
+      },
+    },
+  },
+};
+```
+
+## IntelliSense & Type Safety
+
+### TypeScript (React & Vue)
+
+All components come with full TypeScript definitions:
+
+```tsx
+import type { ButtonProps } from '@pacer-ui/react';
+
+const buttonProps: ButtonProps = {
+  variant: 'primary', // Autocomplete available!
+  size: 'lg',
+  disabled: false,
+};
+```
+
+### C# (Blazor)
+
+Full IntelliSense support in Visual Studio:
+
+```razor
+<PtButton
+  Variant="ButtonVariant.Primary"  @* IntelliSense works! *@
+  Size="ButtonSize.Large"
+  OnClick="HandleClick">
+    Click me
+</PtButton>
+```
+
+## Next Steps
+
+- 📦 [Browse Components](/components/)
+- 🎨 [Explore Design Tokens](/tokens)
+- 🎯 [Learn Best Practices](/design-principles)
+- 🔧 [Customize Your Theme](/tokens#using-tokens-in-your-project)
+
+## Need Help?
+
+- 📖 Check out our [FAQ](/faq)
+- 💬 Join [GitHub Discussions](https://github.com/pertamina/design-system/discussions)
+- 🐛 [Report Issues](https://github.com/pertamina/design-system/issues)
+
+---
+
+## Detailed Installation Guides
+
+### React Installation
 
 ### Prerequisites
 

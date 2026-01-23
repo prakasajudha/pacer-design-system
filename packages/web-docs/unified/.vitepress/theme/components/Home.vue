@@ -17,7 +17,7 @@
             </h1>
             
             <p class="hero-description">
-              Pertamina Patra Niaga Components & Experience Resources. A unified toolkit for designers and developers to create consistent, accessible digital experiences.
+              A unified toolkit for designers and developers
             </p>
             
             <div class="hero-actions">
@@ -38,7 +38,7 @@
                 @click="navigateTo('/components/')"
                 class="cta-secondary"
               >
-                View Components
+                Components
               </PtButton>
             </div>
           </div>
@@ -468,8 +468,9 @@ onMounted(() => {
 
 .hero-actions {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .cta-primary :deep(.pt-button) {

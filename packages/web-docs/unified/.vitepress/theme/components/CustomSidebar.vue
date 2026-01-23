@@ -15,7 +15,10 @@
               <a
                 :href="item.link"
                 class="vp-sidebar-item"
-                :class="{ 'active': isActive(item.link) }"
+                :class="{ 
+                  'active': isExactActive(item.link),
+                  'parent-active': isParentActive(item.link)
+                }"
               >
                 <span class="vp-sidebar-item-text">{{ item.text }}</span>
               </a>
@@ -42,12 +45,73 @@ const sidebarGroups = computed(() => {
   return site.value.themeConfig?.sidebar || [];
 });
 
-const isActive = (link?: string) => {
+// Check if this is the exact active page
+const isExactActive = (link?: string) => {
   if (!link) return false;
-  if (link.endsWith('/')) {
-    return route.path.startsWith(link);
+  
+  const normalizePath = (path: string) => {
+    if (!path) return '';
+    let normalized = path;
+    // Remove .html extension
+    if (normalized.endsWith('.html')) {
+      normalized = normalized.slice(0, -5);
+    }
+    // Remove trailing slash (except for root)
+    if (normalized !== '/' && normalized.endsWith('/')) {
+      normalized = normalized.slice(0, -1);
+    }
+    // Ensure it starts with /
+    if (normalized && !normalized.startsWith('/')) {
+      normalized = '/' + normalized;
+    }
+    return normalized || '/';
+  };
+  
+  const normalizedLink = normalizePath(link);
+  const normalizedRoute = normalizePath(route.path);
+  const routePathWithoutHash = normalizedRoute.split('#')[0];
+  
+  // Exact match only
+  return routePathWithoutHash === normalizedLink;
+};
+
+// Check if this is a parent path of the current route (for subtle highlighting)
+const isParentActive = (link?: string) => {
+  if (!link) return false;
+  
+  const normalizePath = (path: string) => {
+    if (!path) return '';
+    let normalized = path;
+    if (normalized.endsWith('.html')) {
+      normalized = normalized.slice(0, -5);
+    }
+    if (normalized !== '/' && normalized.endsWith('/')) {
+      normalized = normalized.slice(0, -1);
+    }
+    if (normalized && !normalized.startsWith('/')) {
+      normalized = '/' + normalized;
+    }
+    return normalized || '/';
+  };
+  
+  const normalizedLink = normalizePath(link);
+  const normalizedRoute = normalizePath(route.path);
+  const routePathWithoutHash = normalizedRoute.split('#')[0];
+  
+  // Don't highlight parent if it's already exact match
+  if (routePathWithoutHash === normalizedLink) {
+    return false;
   }
-  return route.path === link || route.path.startsWith(link + '/');
+  
+  // Only highlight parent if route is a direct child (not grandchild)
+  // e.g., /components/ should highlight for /components/button but not for /components/button/variant
+  if (normalizedLink !== '/' && routePathWithoutHash.startsWith(normalizedLink + '/')) {
+    const remainingPath = routePathWithoutHash.slice(normalizedLink.length + 1);
+    // Only highlight if it's a direct child (no additional slashes)
+    return !remainingPath.includes('/');
+  }
+  
+  return false;
 };
 </script>
 
@@ -114,10 +178,28 @@ const isActive = (link?: string) => {
   color: var(--vp-c-brand);
 }
 
+/* Exact active page - full highlight */
 .vp-sidebar-item.active {
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand);
+  background: #f0f7ff;
+  color: #0156C6;
+  font-weight: 600;
+  border-left: 3px solid #0156C6;
+  padding-left: 9px;
+}
+
+.dark .vp-sidebar-item.active {
+  background: rgba(1, 86, 198, 0.15);
+  color: #60a5fa;
+}
+
+/* Parent path - subtle highlight (no background, just color) */
+.vp-sidebar-item.parent-active {
+  color: #0156C6;
   font-weight: 500;
+}
+
+.dark .vp-sidebar-item.parent-active {
+  color: #60a5fa;
 }
 
 .vp-sidebar-item-text {

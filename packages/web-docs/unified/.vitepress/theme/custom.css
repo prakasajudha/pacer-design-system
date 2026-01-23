@@ -114,6 +114,14 @@
   display: none !important;
 }
 
+.VPDoc.has-aside .content-container{
+  max-width: 100% !important;
+}
+
+.aside {
+  display: none !important;
+}
+
 /* Show custom menu button on mobile/tablet (< 960px) - override scoped styles */
 @media (max-width: 959px) {
   .vp-navbar button.vp-navbar-menu-button,
@@ -134,6 +142,38 @@
 
 .VPSidebar {
   display: none !important;
+}
+
+/* Hide "On this page" / Table of Contents sidebar */
+.VPDocAside,
+.VPDocAsideWrapper,
+.VPDocAsideOutline,
+.VPDocAsideTitle,
+aside.VPDocAside,
+.vp-doc-aside,
+.vp-doc-aside-wrapper,
+.vp-doc-aside-outline,
+.vp-doc-aside-title,
+[class*="VPDocAside"],
+[class*="vp-doc-aside"],
+.VPDoc .content-container > aside,
+.VPDoc .container > aside,
+.VPDoc aside {
+  display: none !important;
+}
+
+/* Remove right padding/margin when aside is hidden */
+.VPDoc.has-aside .content-container,
+.VPDoc.has-aside .container,
+.VPDoc.has-aside .content {
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Remove has-aside class behavior */
+.VPDoc.has-aside {
+  --vp-layout-max-width: 100% !important;
 }
 
 /* Content area adjustments - no deep, direct CSS */
@@ -157,8 +197,8 @@
 
 /* Adjust content padding to be balanced - responsive */
 .VPDoc .content-container {
-  padding-left: 32px !important;
-  padding-right: 32px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 /* Fix layout issues at width < 1288px */

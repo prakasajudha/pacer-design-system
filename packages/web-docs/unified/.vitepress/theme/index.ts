@@ -3,6 +3,8 @@ import ComponentDemo from './components/ComponentDemo.vue';
 import DocsTabs from './components/DocsTabs.vue';
 import Home from './components/Home.vue';
 import Layout from './components/Layout.vue';
+import InstallationGuide from './components/InstallationGuide.vue';
+import IntroductionGuide from './components/IntroductionGuide.vue';
 
 // Import PACER Vue components CSS FIRST (before custom.css)
 // This ensures Tailwind classes from components are available
@@ -39,6 +41,8 @@ export default {
   enhanceApp({ app }) {
     app.component('ComponentDemo', ComponentDemo);
     app.component('DocsTabs', DocsTabs);
+    app.component('InstallationGuide', InstallationGuide);
+    app.component('IntroductionGuide', IntroductionGuide);
     
     // Register PACER Vue components globally
     app.component('PtButton', PtButton);
