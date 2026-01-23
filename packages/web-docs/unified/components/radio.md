@@ -1,6 +1,4 @@
-# Radio Component
-
-Radio digunakan untuk memilih satu opsi dari beberapa pilihan dalam sebuah grup. Styling sama seperti Checkbox, tapi berbentuk lingkaran dengan dot di tengah saat terpilih.
+<ComponentHero title="Radio" description="Radio digunakan untuk memilih satu opsi dari beberapa pilihan dalam sebuah grup. Styling sama seperti Checkbox, tapi berbentuk lingkaran dengan dot di tengah saat terpilih." />
 
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -12,26 +10,46 @@ const v4 = ref('option1');
 const v5 = ref(null);
 </script>
 
-## Props
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-- **`value`**: string | number (required) — nilai yang akan di-submit jika radio ini terpilih
-- **`disabled`**: boolean (default: `false`)
-- **`name`**: string (optional) — untuk HTML form submit dan grouping (semua radio dalam grup yang sama punya `name` yang sama)
-- **`id`**: string (optional) — untuk a11y (`aria-labelledby` / `aria-describedby`)
-- **`label`**: string (default: empty)
-- **`description`**: string (default: empty)
-- **`position`**: `left | right` (default: `left`)
-- **`outlined`**: boolean (default: `false`)
-- **`error`**: boolean (default: `false`)  
-  Jika `true`: title merah; radio menampilkan border merah (outline merah jika `outlined`).
+<template #Guideline>
 
-## Model
+## Anatomy
 
-- **`v-model`** (Vue) / **`checked`** (React) / **`SelectedValue`** (Blazor): string | number
-  - Nilai yang terpilih dari radio group (dibandingkan dengan `value` prop)
-  - Jika `modelValue === value`, maka radio tersebut terpilih
+Radio component terdiri dari:
 
-## Preview
+- **Radio Circle**: Lingkaran dengan border yang dapat di-select
+- **Label**: Teks label di sebelah radio
+- **Description** (optional): Teks deskripsi di bawah label
+- **Dot**: Dot di tengah saat radio terpilih
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Radio Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Radio Anatomy Diagram 2" />
+  </div>
+</div>
+
+## States
+
+Radio supports different states:
+
+- **Unselected**: Default state, radio kosong
+- **Selected**: Radio terpilih dengan dot di tengah
+- **Disabled**: Non-interactive state
+- **Error**: Error state dengan border merah
+
+## Grouping
+
+Radio buttons harus digunakan dalam grup dengan `name` yang sama untuk memastikan hanya satu yang bisa terpilih.
+
+</template>
+
+<template #Implementation>
+
+## Visual Preview
 
 <ComponentDemo>
   <div class="w-[428px] space-y-2">
@@ -127,7 +145,6 @@ const selectedValue = ref('option1');
 ```razor
 @using Pertamina.DesignSystem.Blazor
 
-@* Binding *@
 <PtRadio 
   Id="radio-option1" 
   Name="radio-group" 
@@ -146,7 +163,6 @@ const selectedValue = ref('option1');
 ```
 
 </template>
-
 </ComponentDemo>
 
 ## States
@@ -190,7 +206,6 @@ const [selectedValue, setSelectedValue] = useState('option1');
 ```
 
 </template>
-
 </ComponentDemo>
 
 ### With Description
@@ -227,119 +242,29 @@ const [selectedValue, setSelectedValue] = useState('option1');
 ```
 
 </template>
-
 </ComponentDemo>
 
-### Outlined
+## API Reference
 
-<ComponentDemo>
-  <div class="w-[428px] space-y-2">
-    <PtRadio v-model="v4" value="option1" name="group3" label="Option 1" description="This is the first option with a description." outlined />
-    <PtRadio v-model="v4" value="option2" name="group3" label="Option 2" description="This is the second option with a description." outlined />
-  </div>
+### Props
 
-<template #react>
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string \| number` | `(required)` | Nilai yang akan di-submit jika radio ini terpilih |
+| `disabled` | `boolean` | `false` | Disable radio |
+| `name` | `string` | `undefined` | Untuk HTML form submit dan grouping |
+| `id` | `string` | `undefined` | Untuk a11y |
+| `label` | `string` | `''` | Label text |
+| `description` | `string` | `''` | Description text |
+| `position` | `'left' \| 'right'` | `'left'` | Position radio relative to label |
+| `outlined` | `boolean` | `false` | Outlined variant |
+| `error` | `boolean` | `false` | Error state |
 
-```tsx
-<Radio checked={selectedValue === 'option1'} value="option1" name="group3" label="Option 1" description="This is the first option with a description." outlined onCheckedChange={setSelectedValue} />
-<Radio checked={selectedValue === 'option2'} value="option2" name="group3" label="Option 2" description="This is the second option with a description." outlined onCheckedChange={setSelectedValue} />
-```
+### Model
 
-</template>
-
-<template #vue>
-
-```vue
-<PtRadio v-model="selectedValue" value="option1" name="group3" label="Option 1" description="This is the first option with a description." outlined />
-<PtRadio v-model="selectedValue" value="option2" name="group3" label="Option 2" description="This is the second option with a description." outlined />
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-<PtRadio @bind-SelectedValue="selectedValue" Value="@("option1")" Name="group3" Label="Option 1" Description="This is the first option with a description." Outlined="true" />
-<PtRadio @bind-SelectedValue="selectedValue" Value="@("option2")" Name="group3" Label="Option 2" Description="This is the second option with a description." Outlined="true" />
-```
-
-</template>
-
-</ComponentDemo>
-
-### Error
-
-<ComponentDemo>
-  <div class="w-[428px] space-y-2">
-    <PtRadio v-model="v5" value="option1" name="group4" label="Option 1" description="Please select an option." error />
-    <PtRadio v-model="v5" value="option2" name="group4" label="Option 2" description="Please select an option." error />
-  </div>
-
-<template #react>
-
-```tsx
-<Radio checked={selectedValue === 'option1'} value="option1" name="group4" label="Option 1" description="Please select an option." error onCheckedChange={setSelectedValue} />
-<Radio checked={selectedValue === 'option2'} value="option2" name="group4" label="Option 2" description="Please select an option." error onCheckedChange={setSelectedValue} />
-```
-
-</template>
-
-<template #vue>
-
-```vue
-<PtRadio v-model="selectedValue" value="option1" name="group4" label="Option 1" description="Please select an option." error />
-<PtRadio v-model="selectedValue" value="option2" name="group4" label="Option 2" description="Please select an option." error />
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-<PtRadio @bind-SelectedValue="selectedValue" Value="@("option1")" Name="group4" Label="Option 1" Description="Please select an option." Error="true" />
-<PtRadio @bind-SelectedValue="selectedValue" Value="@("option2")" Name="group4" Label="Option 2" Description="Please select an option." Error="true" />
-```
-
-</template>
-
-</ComponentDemo>
-
-### Disabled
-
-<ComponentDemo>
-  <div class="w-[428px] space-y-2">
-    <PtRadio checked={false} disabled label="Unchecked disabled" value="option1" name="group5" />
-    <PtRadio checked={true} disabled label="Checked disabled" value="option2" name="group5" />
-  </div>
-
-<template #react>
-
-```tsx
-<Radio checked={false} disabled label="Unchecked disabled" value="option1" name="group5" />
-<Radio checked={true} disabled label="Checked disabled" value="option2" name="group5" />
-```
-
-</template>
-
-<template #vue>
-
-```vue
-<PtRadio :model-value="false" disabled label="Unchecked disabled" value="option1" name="group5" />
-<PtRadio :model-value="true" disabled label="Checked disabled" value="option2" name="group5" />
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-<PtRadio SelectedValue="@(null)" Disabled="true" Label="Unchecked disabled" Value="@("option1")" Name="group5" />
-<PtRadio SelectedValue="@("option2")" Disabled="true" Label="Checked disabled" Value="@("option2")" Name="group5" />
-```
-
-</template>
-
-</ComponentDemo>
+- **`v-model`** (Vue) / **`checked`** (React) / **`SelectedValue`** (Blazor): string | number
+  - Nilai yang terpilih dari radio group (dibandingkan dengan `value` prop)
+  - Jika `modelValue === value`, maka radio tersebut terpilih
 
 ## Notes
 
@@ -347,3 +272,7 @@ const [selectedValue, setSelectedValue] = useState('option1');
 - Hanya satu radio yang bisa terpilih dalam satu grup
 - `value` prop wajib diisi untuk menentukan nilai yang akan di-submit
 - `modelValue` / `checked` / `SelectedValue` adalah nilai yang terpilih dari grup (dibandingkan dengan `value`)
+
+</template>
+
+</PageTabs>

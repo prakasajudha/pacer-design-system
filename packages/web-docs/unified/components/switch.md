@@ -1,6 +1,4 @@
-# Switch Component
-
-Switch digunakan untuk mengubah state boolean (on/off) dengan label dan optional description.
+<ComponentHero title="Switch" description="Switch digunakan untuk mengubah state boolean (on/off) dengan label dan optional description." />
 
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -12,20 +10,42 @@ const v4 = ref(true);
 const v5 = ref(true);
 </script>
 
-## Props
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-- **`disabled`**: boolean (default: `false`)
-- **`name`**: string (optional) — untuk HTML form submit (akan submit `true/false` lewat hidden input)
-- **`id`**: string (optional) — untuk a11y (`aria-labelledby` / `aria-describedby`)
-- **`label`**: string (default: empty)
-- **`description`**: string (default: empty)
-- **`position`**: `left | right` (default: `left`)
-- **`outlined`**: boolean (default: `false`)
-- **`bgColor`**: string color (hex/rgb/rgba/var) — default **hex** sesuai Figma
-- **`error`**: boolean (default: `false`)  
-  Jika `true`: title merah; toggle menampilkan border merah (outline merah jika `outlined`).
+<template #Guideline>
 
-## Preview
+## Anatomy
+
+Switch component terdiri dari:
+
+- **Toggle Track**: Background track yang menunjukkan on/off state
+- **Toggle Thumb**: Bulatan yang bergerak di dalam track
+- **Label**: Teks label di sebelah switch
+- **Description** (optional): Teks deskripsi di bawah label
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Switch Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Switch Anatomy Diagram 2" />
+  </div>
+</div>
+
+## States
+
+Switch supports different states:
+
+- **Off**: Default state, thumb di kiri
+- **On**: Active state, thumb di kanan
+- **Disabled**: Non-interactive state
+- **Error**: Error state dengan border merah
+
+</template>
+
+<template #Implementation>
+
+## Visual Preview
 
 <ComponentDemo>
   <div class="w-[428px]">
@@ -93,7 +113,6 @@ const checked = ref(true);
 ```razor
 @using Pertamina.DesignSystem.Blazor
 
-@* Binding *@
 <PtSwitch Id="accept-terms-switch" Name="acceptTerms" @bind-Value="checked" Label="Accept terms and conditions" Description="You agree to our Terms of Service and Privacy Policy." />
 ```
 
@@ -190,8 +209,28 @@ const v5 = ref(true);
 </template>
 </ComponentDemo>
 
-## Form integration
+## API Reference
 
-- **SPA form (state)**: gunakan `v-model` (Vue) / `checked + onCheckedChange` (React).
-- **Native HTML form submit**: isi `name`, maka Switch akan men-submit field dengan value string **`"true"`** / **`"false"`**.
+### Props
 
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | `false` | Disable switch |
+| `name` | `string` | `undefined` | Untuk HTML form submit |
+| `id` | `string` | `undefined` | Untuk a11y |
+| `label` | `string` | `''` | Label text |
+| `description` | `string` | `''` | Description text |
+| `position` | `'left' \| 'right'` | `'left'` | Position switch relative to label |
+| `outlined` | `boolean` | `false` | Outlined variant |
+| `bgColor` | `string` | `undefined` | Custom background color |
+| `error` | `boolean` | `false` | Error state |
+
+### Model
+
+- **`v-model`** (Vue) / **`checked`** (React) / **`Value`** (Blazor): boolean
+  - `true` = on
+  - `false` = off
+
+</template>
+
+</PageTabs>

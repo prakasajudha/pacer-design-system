@@ -1,6 +1,4 @@
-# Checkbox Component
-
-Checkbox digunakan untuk memilih satu atau lebih opsi dengan label dan optional description. Mendukung state checked, unchecked, dan indeterminate (intermediate).
+<ComponentHero title="Checkbox" description="Checkbox digunakan untuk memilih satu atau lebih opsi dengan label dan optional description. Mendukung state checked, unchecked, dan indeterminate (intermediate)." />
 
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -13,28 +11,49 @@ const v4 = ref(true);
 const v5 = ref(false);
 </script>
 
-## Props
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-- **`disabled`**: boolean (default: `false`)
-- **`name`**: string (optional) — untuk HTML form submit (akan submit `true/false` lewat hidden input)
-- **`id`**: string (optional) — untuk a11y (`aria-labelledby` / `aria-describedby`)
-- **`label`**: string (default: empty)
-- **`description`**: string (default: empty)
-- **`position`**: `left | right` (default: `left`)
-- **`outlined`**: boolean (default: `false`)
-- **`error`**: boolean (default: `false`)  
-  Jika `true`: title merah; checkbox menampilkan border merah (outline merah jika `outlined`).
-- **`indeterminate`**: boolean (default: `false`)  
-  Menampilkan minus icon sebagai ganti checkmark (intermediate state). Saat user klik indeterminate, akan menjadi unchecked.
+<template #Guideline>
 
-## Model
+## Anatomy
 
-- **`v-model`** (Vue) / **`checked`** (React) / **`Value`** (Blazor): boolean
-  - `true` = checked
-  - `false` = unchecked
-  - Indeterminate di-handle via prop `indeterminate` terpisah
+Checkbox component terdiri dari:
 
-## Preview
+- **Checkbox Box**: Kotak persegi dengan border yang dapat di-check
+- **Label**: Teks label di sebelah checkbox
+- **Description** (optional): Teks deskripsi di bawah label
+- **Checkmark/Indeterminate Icon**: Icon yang muncul saat checked atau indeterminate
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Checkbox Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Checkbox Anatomy Diagram 2" />
+  </div>
+</div>
+
+## States
+
+Checkbox supports three states:
+
+- **Unchecked**: Default state, checkbox kosong
+- **Checked**: Checkbox tercentang dengan checkmark
+- **Indeterminate**: Intermediate state dengan minus icon
+
+## Variants
+
+Checkbox supports different visual variants:
+
+- **Default**: Standard checkbox styling
+- **Outlined**: Checkbox dengan outline container
+- **Error**: Checkbox dengan error styling (border merah)
+
+</template>
+
+<template #Implementation>
+
+## Visual Preview
 
 <ComponentDemo>
   <div class="w-[428px]">
@@ -112,7 +131,6 @@ const indeterminate = ref(false);
 ```razor
 @using Pertamina.DesignSystem.Blazor
 
-@* Binding *@
 <PtCheckbox 
   Id="accept-terms-checkbox" 
   Name="acceptTerms" 
@@ -123,7 +141,6 @@ const indeterminate = ref(false);
 ```
 
 </template>
-
 </ComponentDemo>
 
 ## States
@@ -158,7 +175,6 @@ const indeterminate = ref(false);
 ```
 
 </template>
-
 </ComponentDemo>
 
 ### With Description
@@ -208,7 +224,6 @@ const indeterminate = ref(false);
 ```
 
 </template>
-
 </ComponentDemo>
 
 ### Outlined
@@ -262,61 +277,6 @@ const indeterminate = ref(false);
 ```
 
 </template>
-
-</ComponentDemo>
-
-### Right Position
-
-<ComponentDemo>
-  <div class="w-[428px]">
-    <PtCheckbox
-      v-model="v4"
-      label="Accept terms and conditions"
-      description="You agree to our Terms of Service and Privacy Policy."
-      position="right"
-    />
-  </div>
-
-<template #react>
-
-```tsx
-<Checkbox
-  checked={checked}
-  onCheckedChange={setChecked}
-  label="Accept terms and conditions"
-  description="You agree to our Terms of Service and Privacy Policy."
-  position="right"
-/>
-```
-
-</template>
-
-<template #vue>
-
-```vue
-<PtCheckbox
-  v-model="checked"
-  label="Accept terms and conditions"
-  description="You agree to our Terms of Service and Privacy Policy."
-  position="right"
-/>
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-<PtCheckbox
-  @bind-Value="checked"
-  Label="Accept terms and conditions"
-  Description="You agree to our Terms of Service and Privacy Policy."
-  Position="CheckboxPosition.Right"
-/>
-```
-
-</template>
-
 </ComponentDemo>
 
 ### Error
@@ -370,7 +330,6 @@ const indeterminate = ref(false);
 ```
 
 </template>
-
 </ComponentDemo>
 
 ### Intermediate (Indeterminate)
@@ -439,62 +398,30 @@ const indeterminate = ref(true);
 ```
 
 </template>
-
 </ComponentDemo>
 
-### Disabled
+## API Reference
 
-<ComponentDemo>
-  <div class="w-[428px] space-y-4">
-    <PtCheckbox checked={false} disabled label="Unchecked disabled" />
-    <PtCheckbox checked={true} disabled label="Checked disabled" />
-    <PtCheckbox checked={true} :indeterminate="true" disabled label="Intermediate disabled" />
-  </div>
+### Props
 
-<template #react>
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `disabled` | `boolean` | `false` | Disable checkbox |
+| `name` | `string` | `undefined` | Untuk HTML form submit |
+| `id` | `string` | `undefined` | Untuk a11y |
+| `label` | `string` | `''` | Label text |
+| `description` | `string` | `''` | Description text |
+| `position` | `'left' \| 'right'` | `'left'` | Position checkbox relative to label |
+| `outlined` | `boolean` | `false` | Outlined variant |
+| `error` | `boolean` | `false` | Error state |
+| `indeterminate` | `boolean` | `false` | Indeterminate state |
 
-```tsx
-<Checkbox checked={false} disabled label="Unchecked disabled" />
-<Checkbox checked={true} disabled label="Checked disabled" />
-<Checkbox checked={true} indeterminate={true} disabled label="Intermediate disabled" />
-```
+### Model
 
-</template>
-
-<template #vue>
-
-```vue
-<PtCheckbox :model-value="false" disabled label="Unchecked disabled" />
-<PtCheckbox :model-value="true" disabled label="Checked disabled" />
-<PtCheckbox :model-value="true" :indeterminate="true" disabled label="Intermediate disabled" />
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-<PtCheckbox Value="false" Disabled="true" Label="Unchecked disabled" />
-<PtCheckbox Value="true" Disabled="true" Label="Checked disabled" />
-<PtCheckbox Value="true" Indeterminate="true" Disabled="true" Label="Intermediate disabled" />
-```
-
-</template>
-
-</ComponentDemo>
-
-## Form Integration
-
-Checkbox mendukung HTML form submission melalui hidden input:
-
-```vue
-<form @submit.prevent="handleSubmit">
-  <PtCheckbox name="acceptTerms" v-model="checked" label="Accept terms" />
-  <button type="submit">Submit</button>
-</form>
-```
-
-Form akan submit `acceptTerms` dengan value `"true"` atau `"false"` (string).
+- **`v-model`** (Vue) / **`checked`** (React) / **`Value`** (Blazor): boolean
+  - `true` = checked
+  - `false` = unchecked
+  - Indeterminate di-handle via prop `indeterminate` terpisah
 
 ## Accessibility
 
@@ -503,9 +430,6 @@ Form akan submit `acceptTerms` dengan value `"true"` atau `"false"` (string).
 - **Focus ring**: Custom focus ring dengan 2px white + 4px brand-300
 - **Role**: `role="checkbox"` pada button
 
-## Behavior
+</template>
 
-- **Toggle cycle**: `false` → `true` → `false`
-- **Indeterminate behavior**: Saat user klik checkbox yang sedang indeterminate, akan menjadi `false` (unchecked)
-- **Focus state**: Auto dari focus event, menampilkan focus ring
-- **Label/Description clickable**: Klik label atau description akan toggle checkbox
+</PageTabs>

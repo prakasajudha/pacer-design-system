@@ -7,6 +7,7 @@ import InstallationGuide from './components/InstallationGuide.vue';
 import IntroductionGuide from './components/IntroductionGuide.vue';
 import BadgeGuide from './components/BadgeGuide.vue';
 import BadgeHero from './components/BadgeHero.vue';
+import ComponentHero from './components/ComponentHero.vue';
 import PageTabs from './components/PageTabs.vue';
 import GuidelineSection from './components/GuidelineSection.vue';
 import ImagePlaceholder from './components/ImagePlaceholder.vue';
@@ -53,6 +54,7 @@ export default {
     app.component('IntroductionGuide', IntroductionGuide);
     app.component('BadgeGuide', BadgeGuide);
     app.component('BadgeHero', BadgeHero);
+    app.component('ComponentHero', ComponentHero);
     app.component('GuidelineSection', GuidelineSection);
     app.component('ImagePlaceholder', ImagePlaceholder);
     app.component('DoDontGrid', DoDontGrid);

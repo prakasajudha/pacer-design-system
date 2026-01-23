@@ -1,10 +1,45 @@
-# Input
+<ComponentHero title="Input" description="Input fields let users enter and edit text with consistent styling, validation states, and interactions across all frameworks." />
 
-Input fields let users enter and edit text.
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-## Overview
+<template #Guideline>
 
-The Input component provides consistent text input across all frameworks with identical styling, validation states, and interactions.
+## Anatomy
+
+The Input component consists of:
+
+- **Container**: The input field wrapper
+- **Label** (optional): Text label above the input
+- **Input Field**: The actual text input element
+- **Icons** (optional): Start or end icons for visual cues
+- **Helper Text / Error Message** (optional): Text below the input
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Input Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Input Anatomy Diagram 2" />
+  </div>
+</div>
+
+## Variants
+
+Input supports different states and configurations:
+
+- **Default**: Normal input state
+- **Error**: Input with validation error
+- **Disabled**: Non-interactive state
+- **Read-only**: Display-only state
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Input Variants Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Input Variants Diagram 2" />
+  </div>
+</div>
 
 ## Design Consistency
 
@@ -17,48 +52,61 @@ The Input component provides consistent text input across all frameworks with id
 | **Padding**       | `0.5rem 0.75rem` (8px 12px) | Default size  |
 | **Focus Ring**    | `2px #00A19B`               | Focus state   |
 
----
+## Layout
 
-## Installation & Import
+Input fields should be used consistently across forms and applications.
 
-::: code-group
+<DoDontGrid>
+  <DoDontItem type="do">
+    <div class="do-dont-example">
+      <PtInput label="Email Address" type="email" placeholder="email@example.com" />
+    </div>
+    <p class="do-dont-text">• Use clear, descriptive labels above input fields.</p>
+  </DoDontItem>
+  <DoDontItem type="dont">
+    <div class="do-dont-example">
+      <PtInput placeholder="Enter your email address here" />
+    </div>
+    <p class="do-dont-text">• Don't use placeholder as a label replacement.</p>
+  </DoDontItem>
+</DoDontGrid>
 
-```tsx [React]
-import { Input } from '@pacer-ui/react';
-```
+</template>
 
-```vue [Vue]
-import { PtInput } from '@pacer-ui/vue';
-```
+<template #Implementation>
 
-```razor [Blazor]
-@using Pertamina.DesignSystem.Blazor
+## Visual Preview
 
-<PtInput Placeholder="Enter text" />
-```
+<ComponentDemo>
+  <div class="w-full max-w-md space-y-4">
+    <PtInput placeholder="Enter your name" />
+    <PtInput label="Email Address" type="email" placeholder="email@example.com" />
+    <PtInput error="This field is required" placeholder="Invalid input" />
+  </div>
 
-:::
+<template #react>
 
----
-
-## Basic Usage
-
-::: code-group
-
-```tsx [React]
+```tsx
 import { Input } from '@pacer-ui/react';
 import { useState } from 'react';
 
-function App() {
+export default function App() {
   const [value, setValue] = useState('');
-
   return (
-    <Input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Enter your name" />
+    <div className="w-full max-w-md space-y-4">
+      <Input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Enter your name" />
+      <Input label="Email Address" type="email" placeholder="email@example.com" />
+      <Input error="This field is required" placeholder="Invalid input" />
+    </div>
   );
 }
 ```
 
-```vue [Vue]
+  </template>
+
+<template #vue>
+
+```vue
 <script setup lang="ts">
 import { PtInput } from '@pacer-ui/vue';
 import { ref } from 'vue';
@@ -67,141 +115,166 @@ const value = ref('');
 </script>
 
 <template>
-  <PtInput v-model="value" placeholder="Enter your name" />
+  <div class="w-full max-w-md space-y-4">
+    <PtInput v-model="value" placeholder="Enter your name" />
+    <PtInput label="Email Address" type="email" placeholder="email@example.com" />
+    <PtInput error="This field is required" placeholder="Invalid input" />
+  </div>
 </template>
 ```
 
-```razor [Blazor]
-<PtInput
-    @bind-Value="name"
-    Placeholder="Enter your name" />
+  </template>
+
+<template #blazor>
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<div class="w-full max-w-md space-y-4">
+    <PtInput @bind-Value="name" Placeholder="Enter your name" />
+    <PtInput Label="Email Address" Type="email" Placeholder="email@example.com" />
+    <PtInput Error="This field is required" Placeholder="Invalid input" />
+</div>
 
 @code {
     private string name = "";
 }
 ```
 
-:::
-
----
+  </template>
+</ComponentDemo>
 
 ## Input Types
 
 ### Text Input
 
-::: code-group
+<ComponentDemo>
+  <PtInput type="text" placeholder="Enter text" />
 
-```tsx [React]
+<template #react>
+
+```tsx
 <Input type="text" placeholder="Enter text" />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput type="text" placeholder="Enter text" />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput Type="text" Placeholder="Enter text" />
 ```
 
-:::
+</template>
+</ComponentDemo>
 
 ### Email Input
 
-::: code-group
+<ComponentDemo>
+  <PtInput type="email" placeholder="email@example.com" />
 
-```tsx [React]
+<template #react>
+
+```tsx
 <Input type="email" placeholder="email@example.com" />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput type="email" placeholder="email@example.com" />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput Type="email" Placeholder="email@example.com" />
 ```
 
-:::
+</template>
+</ComponentDemo>
 
 ### Password Input
 
-::: code-group
+<ComponentDemo>
+  <PtInput type="password" placeholder="Enter password" />
 
-```tsx [React]
+<template #react>
+
+```tsx
 <Input type="password" placeholder="Enter password" />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput type="password" placeholder="Enter password" />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput Type="password" Placeholder="Enter password" />
 ```
 
-:::
-
-### Number Input
-
-::: code-group
-
-```tsx [React]
-<Input type="number" placeholder="Enter number" min={0} max={100} />
-```
-
-```vue [Vue]
-<PtInput type="number" placeholder="Enter number" :min="0" :max="100" />
-```
-
-```razor [Blazor]
-<PtInput Type="number" Placeholder="Enter number" Min="0" Max="100" />
-```
-
-:::
-
-### Search Input
-
-::: code-group
-
-```tsx [React]
-<Input type="search" placeholder="Search..." />
-```
-
-```vue [Vue]
-<PtInput type="search" placeholder="Search..." />
-```
-
-```razor [Blazor]
-<PtInput Type="search" Placeholder="Search..." />
-```
-
-:::
-
----
+</template>
+</ComponentDemo>
 
 ## Sizes
 
-::: code-group
+<ComponentDemo>
+  <div class="w-full max-w-md space-y-4">
+    <PtInput size="sm" placeholder="Small input" />
+    <PtInput size="md" placeholder="Medium input" />
+    <PtInput size="lg" placeholder="Large input" />
+  </div>
 
-```tsx [React]
+<template #react>
+
+```tsx
 <Input size="sm" placeholder="Small input" />
 <Input size="md" placeholder="Medium input" />
 <Input size="lg" placeholder="Large input" />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput size="sm" placeholder="Small input" />
 <PtInput size="md" placeholder="Medium input" />
 <PtInput size="lg" placeholder="Large input" />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput Size="InputSize.Small" Placeholder="Small input" />
 <PtInput Size="InputSize.Medium" Placeholder="Medium input" />
 <PtInput Size="InputSize.Large" Placeholder="Large input" />
 ```
 
-:::
+</template>
+</ComponentDemo>
 
 **Size Specifications:**
 
@@ -211,76 +284,58 @@ const value = ref('');
 | Medium | 40px   | 10px 12px | 16px      |
 | Large  | 48px   | 12px 16px | 18px      |
 
----
-
 ## Validation States
-
-### Default State
-
-::: code-group
-
-```tsx [React]
-<Input placeholder="Normal input" />
-```
-
-```vue [Vue]
-<PtInput placeholder="Normal input" />
-```
-
-```razor [Blazor]
-<PtInput Placeholder="Normal input" />
-```
-
-:::
-
-**Design Specs:**
-
-- Border: `1px solid #D1D5DB` (Gray 300)
-- Background: `#FFFFFF`
 
 ### Error State
 
-Input component uses `error` prop to display error state and error message.
+<ComponentDemo>
+  <PtInput error="This field is required" placeholder="Invalid input" />
 
-::: code-group
+<template #react>
 
-```tsx [React]
+```tsx
 <Input 
   error="This field is required" 
   placeholder="Invalid input" 
 />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput 
   error="This field is required" 
   placeholder="Invalid input" 
 />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput
     Error="This field is required"
     Placeholder="Invalid input" />
 ```
 
-:::
-
-**Design Specs:**
-
-- Border: `1px solid #DC2626` (Red 600)
-- Focus Ring: `2px #DC2626`
-- Error Text Color: `#DC2626`
-
----
+</template>
+</ComponentDemo>
 
 ## With Label
 
-Input component supports `label` prop for built-in label rendering.
+<ComponentDemo>
+  <PtInput 
+    label="Email Address"
+    type="email" 
+    placeholder="email@example.com" 
+  />
 
-::: code-group
+<template #react>
 
-```tsx [React]
+```tsx
 <Input 
   label="Email Address"
   type="email" 
@@ -288,7 +343,11 @@ Input component supports `label` prop for built-in label rendering.
 />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput 
   label="Email Address"
   type="email"
@@ -296,213 +355,61 @@ Input component supports `label` prop for built-in label rendering.
 />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput
     Label="Email Address"
     Type="email"
     Placeholder="email@example.com" />
 ```
 
-:::
-
-**Label Specifications:**
-
-- Font size: `14px` (text-sm)
-- Font weight: `500` (font-medium)
-- Color: `#374151` (Gray 700)
-- Margin bottom: `4px` (space-y-1)
-
----
-
-## With Icons
-
-Input component supports `startIcon` and `endIcon` props for icons.
-
-### Left Icon (startIcon)
-
-::: code-group
-
-```tsx [React]
-import { Input } from '@pacer-ui/react';
-
-const SearchIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-  </svg>
-);
-
-function App() {
-  return (
-    <Input 
-      startIcon={<SearchIcon />}
-      placeholder="Search..." 
-    />
-  );
-}
-```
-
-```vue [Vue]
-<script setup lang="ts">
-import { PtInput } from '@pacer-ui/vue';
-</script>
-
-<template>
-  <PtInput 
-    :start-icon="<SearchIcon />"
-    placeholder="Search..." 
-  />
 </template>
-```
-
-```razor [Blazor]
-<PtInput
-    StartIcon="@(() => <SearchIcon />)"
-    Placeholder="Search..." />
-```
-
-:::
-
-### Right Icon (endIcon)
-
-::: code-group
-
-```tsx [React]
-import { Input } from '@pacer-ui/react';
-
-const EyeIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-  </svg>
-);
-
-function App() {
-  return (
-    <Input 
-      endIcon={<EyeIcon />}
-      type="password" 
-      placeholder="Password" 
-    />
-  );
-}
-```
-
-```vue [Vue]
-<script setup lang="ts">
-import { PtInput } from '@pacer-ui/vue';
-</script>
-
-<template>
-  <PtInput 
-    :end-icon="<EyeIcon />"
-    type="password" 
-    placeholder="Password" 
-  />
-</template>
-```
-
-```razor [Blazor]
-<PtInput
-    EndIcon="@(() => <EyeIcon />)"
-    Type="password"
-    Placeholder="Password" />
-```
-
-:::
-
-**Icon Specifications:**
-
-- Icon size: `20px` (recommended)
-- Icon color: `#6B7280` (Gray 500)
-- Left position: `12px` from left edge (auto-handled by component)
-- Right position: `12px` from right edge (auto-handled by component)
-
----
+</ComponentDemo>
 
 ## Disabled State
 
-::: code-group
+<ComponentDemo>
+  <PtInput disabled placeholder="Disabled input" />
 
-```tsx [React]
+<template #react>
+
+```tsx
 <Input disabled placeholder="Disabled input" />
 ```
 
-```vue [Vue]
+</template>
+
+<template #vue>
+
+```vue
 <PtInput disabled placeholder="Disabled input" />
 ```
 
-```razor [Blazor]
+</template>
+
+<template #blazor>
+
+```razor
 <PtInput Disabled="true" Placeholder="Disabled input" />
 ```
 
-:::
-
-**Design Specs:**
-
-- Background: `#F3F4F6` (Gray 100)
-- Border: `1px solid #E5E7EB` (Gray 200)
-- Text color: `#9CA3AF` (Gray 400)
-- Cursor: `not-allowed`
-
----
-
-## Read-only State
-
-::: code-group
-
-```tsx [React]
-<Input readOnly value="Read-only value" />
-```
-
-```vue [Vue]
-<PtInput readonly value="Read-only value" />
-```
-
-```razor [Blazor]
-<PtInput ReadOnly="true" Value="Read-only value" />
-```
-
-:::
-
-**Design Specs:**
-
-- Background: `#F9FAFB` (Gray 50)
-- Border: `1px solid #E5E7EB`
-- Cursor: `default`
-
----
-
-## Full Width
-
-::: code-group
-
-```tsx [React]
-<Input fullWidth placeholder="Full width input" />
-```
-
-```vue [Vue]
-<PtInput full-width placeholder="Full width input" />
-```
-
-```razor [Blazor]
-<PtInput FullWidth="true" Placeholder="Full width input" />
-```
-
-:::
-
----
+</template>
+</ComponentDemo>
 
 ## API Reference
 
-### React Props
+### Props
 
 | Prop          | Type                                                               | Default     | Description                    |
 | ------------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
 | `label`       | `string`                                                           | `undefined` | Label text above input         |
 | `error`       | `string`                                                           | `undefined` | Error message (shows error state) |
 | `helperText`  | `string`                                                           | `undefined` | Helper text below input        |
-| `startIcon`   | `React.ReactNode`                                                  | `undefined` | Icon before input              |
-| `endIcon`     | `React.ReactNode`                                                  | `undefined` | Icon after input               |
+| `startIcon`   | `React.ReactNode` (React) / `VNode \| Component` (Vue) / `RenderFragment` (Blazor) | `undefined` | Icon before input              |
+| `endIcon`     | `React.ReactNode` (React) / `VNode \| Component` (Vue) / `RenderFragment` (Blazor) | `undefined` | Icon after input               |
 | `fullWidth`   | `boolean`                                                          | `false`     | Full width input               |
 | `type`        | `string`                                                           | `'text'`    | Input type (text, email, password, number, search, etc.) |
 | `value`       | `string`                                                           | -           | Input value                    |
@@ -510,56 +417,7 @@ import { PtInput } from '@pacer-ui/vue';
 | `id`          | `string`                                                           | -           | Input ID (auto-generated if not provided) |
 | `disabled`    | `boolean`                                                          | `false`     | Disable input                  |
 | `readOnly`    | `boolean`                                                          | `false`     | Read-only state                |
-| `className`   | `string`                                                           | `undefined` | Custom className               |
-| `onChange`    | `(e: React.ChangeEvent<HTMLInputElement>) => void`                | -           | Change handler                 |
-| ...           | `React.InputHTMLAttributes<HTMLInputElement>`                      | -           | All standard HTML input attributes |
-
-### Vue Props
-
-| Prop          | Type                                                               | Default     | Description                    |
-| ------------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
-| `label`       | `string`                                                           | `undefined` | Label text above input         |
-| `error`       | `string`                                                           | `undefined` | Error message (shows error state) |
-| `helperText`  | `string`                                                           | `undefined` | Helper text below input        |
-| `startIcon`   | `VNode \| Component`                                               | `undefined` | Icon before input              |
-| `endIcon`     | `VNode \| Component`                                               | `undefined` | Icon after input               |
-| `fullWidth`   | `boolean`                                                          | `false`     | Full width input               |
-| `type`        | `string`                                                           | `'text'`    | Input type                     |
-| `modelValue`  | `string`                                                           | -           | Input value (v-model)          |
-| `placeholder` | `string`                                                           | -           | Placeholder text               |
-| `id`          | `string`                                                           | -           | Input ID                       |
-| `disabled`    | `boolean`                                                          | `false`     | Disable input                  |
-| `readonly`    | `boolean`                                                          | `false`     | Read-only state                |
-| `class`       | `string`                                                           | `undefined` | Custom class                   |
-
-### Vue Events
-
-| Event                | Payload  | Description      |
-| -------------------- | -------- | ---------------- |
-| `@update:modelValue` | `string` | Emitted on input |
-| `@focus`             | `Event`  | Emitted on focus |
-| `@blur`              | `Event`  | Emitted on blur  |
-
-### Blazor Parameters
-
-| Parameter      | Type                    | Default   | Description                    |
-| -------------- | ----------------------- | --------- | ------------------------------ |
-| `Label`        | `string?`                | `null`    | Label text above input         |
-| `Error`        | `string?`                | `null`    | Error message (shows error state) |
-| `HelperText`   | `string?`                | `null`    | Helper text below input        |
-| `StartIcon`    | `RenderFragment?`        | `null`    | Icon before input              |
-| `EndIcon`      | `RenderFragment?`        | `null`    | Icon after input               |
-| `FullWidth`    | `bool`                   | `false`   | Full width input               |
-| `Type`         | `string`                 | `"text"`  | Input type                     |
-| `Value`        | `string`                 | -         | Input value                    |
-| `Placeholder`  | `string?`                | `null`    | Placeholder text               |
-| `Id`           | `string?`                | `null`    | Input ID                       |
-| `Disabled`     | `bool`                   | `false`   | Disable input                  |
-| `ReadOnly`     | `bool`                   | `false`   | Read-only state                |
-| `Class`        | `string?`                | `null`    | Custom class                   |
-| `ValueChanged` | `EventCallback<string>`  | -         | Value change event             |
-
----
+| `size`        | `'sm' \| 'md' \| 'lg'`                                             | `'md'`      | Input size                     |
 
 ## Accessibility
 
@@ -579,8 +437,6 @@ All implementations include:
 - `aria-required="true"` for required fields
 - `aria-disabled="true"` for disabled state
 
----
-
 ## Best Practices
 
 ### ✅ Do
@@ -599,140 +455,6 @@ All implementations include:
 - Don't validate on every keystroke for long inputs
 - Don't hide important information in placeholders
 
----
-
-## Examples
-
-### Login Form
-
-::: code-group
-
-```tsx [React]
-<form>
-  <div className="space-y-4">
-    <div>
-      <label htmlFor="email">Email</label>
-      <Input id="email" type="email" placeholder="email@example.com" fullWidth />
-    </div>
-    <div>
-      <label htmlFor="password">Password</label>
-      <Input id="password" type="password" placeholder="Enter password" fullWidth />
-    </div>
-    <Button variant="primary" fullWidth>
-      Sign In
-    </Button>
-  </div>
-</form>
-```
-
-```vue [Vue]
-<form>
-  <div class="space-y-4">
-    <div>
-      <label for="email">Email</label>
-      <PtInput 
-        id="email"
-        type="email"
-        placeholder="email@example.com"
-        full-width
-      />
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <PtInput 
-        id="password"
-        type="password"
-        placeholder="Enter password"
-        full-width
-      />
-    </div>
-    <PtButton variant="primary" full-width>
-      Sign In
-    </PtButton>
-  </div>
-</form>
-```
-
-```razor [Blazor]
-<form>
-    <div class="space-y-4">
-        <div>
-            <label for="email">Email</label>
-            <PtInput
-                Id="email"
-                Type="email"
-                Placeholder="email@example.com"
-                FullWidth="true" />
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <PtInput
-                Id="password"
-                Type="password"
-                Placeholder="Enter password"
-                FullWidth="true" />
-        </div>
-        <PtButton Variant="ButtonVariant.Primary" FullWidth="true">
-            Sign In
-        </PtButton>
-    </div>
-</form>
-```
-
-:::
-
-### Search with Validation
-
-::: code-group
-
-```tsx [React]
-const [query, setQuery] = useState('');
-const [error, setError] = useState('');
-
-return (
-  <Input
-    type="search"
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    placeholder="Search products..."
-    error={error || undefined}
-    helperText={!error ? 'Min 3 characters' : undefined}
-    fullWidth
-  />
-);
-```
-
-```vue [Vue]
-<script setup lang="ts">
-const query = ref('');
-const error = ref('');
-</script>
-
-<template>
-  <PtInput
-    type="search"
-    v-model="query"
-    placeholder="Search products..."
-    :error="error || undefined"
-    :helper-text="!error ? 'Min 3 characters' : undefined"
-    full-width
-  />
 </template>
-```
 
-```razor [Blazor]
-<PtInput
-    Type="search"
-    @bind-Value="query"
-    Placeholder="Search products..."
-    Error="@error"
-    HelperText="@(!string.IsNullOrEmpty(error) ? null : "Min 3 characters")"
-    FullWidth="true" />
-
-@code {
-    private string query = "";
-    private string? error;
-}
-```
-
-:::
+</PageTabs>

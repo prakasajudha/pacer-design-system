@@ -1,10 +1,10 @@
-# Button Component
+<ComponentHero title="Button" description="Buttons allow users to take actions and make choices with a single tap or click." />
 
-Buttons allow users to take actions and make choices with a single tap or click.
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-## Guideline
+<template #Guideline>
 
-### Anatomy
+## Anatomy
 
 The Button component consists of several key elements:
 
@@ -12,7 +12,29 @@ The Button component consists of several key elements:
 - **Text labels**: The text attributed to the Button that provides context.
 - **Container**: The clickable area of the button, encompassing the label and icons.
 
-### Layout and Spacing
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Button Anatomy Diagram" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Button States Diagram" />
+  </div>
+</div>
+
+## Variants
+
+Button supports multiple variants: solid (primary), secondary, outline, ghost, link-primary, and link-secondary. Each variant serves different use cases and visual hierarchy.
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Button Variants Diagram" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Button Usage Diagram" />
+  </div>
+</div>
+
+## Layout and Spacing
 
 The layout and spacing of the button are crucial for its visual consistency and usability.
 
@@ -24,11 +46,26 @@ The layout and spacing of the button are crucial for its visual consistency and 
 - **Icon Size**: 16x16px.
 - **Font Size**: 14px (text-sm) with 24px line height (leading-6).
 
----
+<DoDontGrid>
+  <DoDontItem type="do">
+    <div class="do-dont-example">
+      <PtButton variant="solid">Save Changes</PtButton>
+    </div>
+    <p class="do-dont-text">• Use clear, action-oriented labels that describe what will happen when clicked.</p>
+  </DoDontItem>
+  <DoDontItem type="dont">
+    <div class="do-dont-example">
+      <PtButton variant="solid">Click Here</PtButton>
+    </div>
+    <p class="do-dont-text">• Avoid vague labels that don't communicate the action clearly.</p>
+  </DoDontItem>
+</DoDontGrid>
 
-## Implementation
+</template>
 
-### Basic Button
+<template #Implementation>
+
+## Visual Preview
 
 <ComponentDemo>
   <div class="flex gap-4 flex-wrap">
@@ -71,7 +108,7 @@ import { PtButton } from '@pacer-ui/vue';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -85,7 +122,7 @@ import { PtButton } from '@pacer-ui/vue';
 </div>
 ```
 
-  </template>
+</template>
 </ComponentDemo>
 
 ## Variants
@@ -239,7 +276,7 @@ export default function App() {
 }
 ```
 
-  </template>
+</template>
 
 <template #vue>
 
@@ -256,7 +293,7 @@ import { PtButton } from '@pacer-ui/vue';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -269,7 +306,7 @@ import { PtButton } from '@pacer-ui/vue';
 </div>
 ```
 
-  </template>
+</template>
 </ComponentDemo>
 
 ## Color (Primary / Danger)
@@ -297,7 +334,7 @@ export default function App() {
 }
 ```
 
-  </template>
+</template>
 
 <template #vue>
 
@@ -314,7 +351,7 @@ import { PtButton } from '@pacer-ui/vue';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -327,7 +364,7 @@ import { PtButton } from '@pacer-ui/vue';
 </div>
 ```
 
-  </template>
+</template>
 </ComponentDemo>
 
 ## With Icons
@@ -453,7 +490,7 @@ export default function App() {
 }
 ```
 
-  </template>
+</template>
 
 <template #vue>
 
@@ -472,7 +509,7 @@ import { Plus, Save, Check } from 'lucide-vue-next';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -502,7 +539,7 @@ import { Plus, Save, Check } from 'lucide-vue-next';
 </div>
 ```
 
-  </template>
+</template>
 </ComponentDemo>
 
 ## Loading State
@@ -528,7 +565,7 @@ export default function App() {
 }
 ```
 
-  </template>
+</template>
 
 <template #vue>
 
@@ -544,7 +581,7 @@ import { PtButton } from '@pacer-ui/vue';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -556,7 +593,7 @@ import { PtButton } from '@pacer-ui/vue';
 </div>
 ```
 
-  </template>
+</template>
 </ComponentDemo>
 
 ## Selected State
@@ -582,7 +619,7 @@ export default function App() {
 }
 ```
 
-  </template>
+</template>
 
 <template #vue>
 
@@ -598,7 +635,7 @@ import { PtButton } from '@pacer-ui/vue';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -610,64 +647,8 @@ import { PtButton } from '@pacer-ui/vue';
 </div>
 ```
 
-  </template>
-</ComponentDemo>
-
-## Focused State
-
-Buttons show a focus ring when focused via keyboard navigation (Tab key). The focus ring uses a double-ring effect for better visibility.
-
-<ComponentDemo>
-  <div class="flex gap-4 flex-wrap">
-    <PtButton>Press Tab to focus</PtButton>
-  </div>
-
-<template #react>
-
-```tsx
-import { Button } from '@pacer-ui/react';
-
-export default function App() {
-  return (
-    <div className="flex gap-4">
-      <Button>Press Tab to focus</Button>
-    </div>
-  );
-}
-```
-
-</template>
-
-<template #vue>
-
-```vue
-<script setup lang="ts">
-import { PtButton } from '@pacer-ui/vue';
-</script>
-
-<template>
-  <div class="flex gap-4">
-    <PtButton>Press Tab to focus</PtButton>
-  </div>
-</template>
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-@using Pertamina.DesignSystem.Blazor
-
-<div class="d-flex gap-3">
-    <PtButton>Press Tab to focus</PtButton>
-</div>
-```
-
 </template>
 </ComponentDemo>
-
-**Note:** Focus ring will appear automatically when the button is focused via keyboard navigation (Tab key). The focus ring uses a double-ring effect with white outer ring and colored inner ring for better visibility.
 
 ## Disabled State
 
@@ -696,7 +677,7 @@ export default function App() {
 }
 ```
 
-  </template>
+</template>
 
 <template #vue>
 
@@ -713,7 +694,7 @@ import { PtButton } from '@pacer-ui/vue';
 </template>
 ```
 
-  </template>
+</template>
 
 <template #blazor>
 
@@ -726,7 +707,7 @@ import { PtButton } from '@pacer-ui/vue';
 </div>
 ```
 
-  </template>
+</template>
 </ComponentDemo>
 
 ## API Reference
@@ -780,3 +761,7 @@ The button uses the following design tokens:
 - Includes focus indicators with double ring effect.
 - Properly handles disabled and loading states.
 - Supports `aria-pressed` for toggle states.
+
+</template>
+
+</PageTabs>

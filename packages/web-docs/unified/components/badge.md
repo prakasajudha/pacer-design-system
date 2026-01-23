@@ -1,4 +1,4 @@
-<BadgeHero title="Badge" description="Badges allow users to take actions and make choices with a single tap or click." />
+<ComponentHero title="Badge" description="Badges allow users to take actions and make choices with a single tap or click." />
 
 <PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 

@@ -1,13 +1,24 @@
-# Progress Component
+<ComponentHero title="Progress" description="Progress digunakan untuk menampilkan status kemajuan (0–100) dalam bentuk bar horizontal." />
 
-Progress digunakan untuk menampilkan status kemajuan (0–100) dalam bentuk bar horizontal.
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-## Guideline
+<template #Guideline>
 
-### Anatomy
+## Anatomy
+
+Progress component terdiri dari:
 
 - **Track**: Background bar
 - **Bar/Surface**: Bagian terisi yang mewakili `value`
+
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Progress Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Progress Anatomy Diagram 2" />
+  </div>
+</div>
 
 ## Props
 
@@ -17,6 +28,10 @@ Progress digunakan untuk menampilkan status kemajuan (0–100) dalam bentuk bar 
 - **`size`**: `xs | sm | md | lg` (default: `md`)
 - **`showValue`**: tampilkan label value di kanan (default: `false`)
 - **`valuePlaceholder`**: suffix label (default: `%`)
+
+</template>
+
+<template #Implementation>
 
 ## Visual Preview
 
@@ -126,10 +141,24 @@ import { PtProgress } from '@pacer-ui/vue';
 </template>
 </ComponentDemo>
 
-## Animation
+## API Reference
 
-Progress akan animate saat `value` berubah (transition width).
+### Props
 
-## Value Placeholder
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | `0` | Progress value (0-100, akan di-clamp) |
+| `bgColor` | `string` | `undefined` | Warna track (hex/rgb/rgba/var()) |
+| `color` | `string` | `undefined` | Warna bar (hex/rgb/rgba/var()) |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Size progress bar |
+| `showValue` | `boolean` | `false` | Tampilkan label value di kanan |
+| `valuePlaceholder` | `string` | `'%'` | Suffix label |
 
-Gunakan `valuePlaceholder` untuk mengganti suffix label (contoh: `pts`, `MB`, dll).
+## Notes
+
+- Progress akan animate saat `value` berubah (transition width)
+- Gunakan `valuePlaceholder` untuk mengganti suffix label (contoh: `pts`, `MB`, dll)
+
+</template>
+
+</PageTabs>
