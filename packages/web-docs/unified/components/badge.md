@@ -1,43 +1,57 @@
-# Badge Component
+<BadgeHero title="Badge" description="Badges allow users to take actions and make choices with a single tap or click." />
 
-Badge digunakan untuk menampilkan status, kategori, atau label pendek dengan berbagai variant dan warna.
+<PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
-## Guideline
+<template #Guideline>
 
-### Anatomy
+## Anatomy
 
-Badge component terdiri dari:
+The basic element of a badge is a label. Labels inform users of the action that will occur if they click the badge.
 
-- **Container**: Area yang menampung konten badge
-- **Label/Content**: Teks atau konten yang ditampilkan di dalam badge
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Anatomy Diagram 2" />
+  </div>
+</div>
 
 ## Variants
 
-Badge supports three variants:
+Badge supports three variants: solid (default), secondary, and outline. Each variant can be combined with different colors and types.
 
-- `solid` (default): Background solid dengan text putih
-- `secondary`: Background light dengan text berwarna
-- `outline`: Background putih dengan border dan text berwarna
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Variants Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Variants Diagram 2" />
+  </div>
+</div>
 
-## Types
+## Layout
 
-Badge supports two types:
+The basic element of a badge is a label. Labels inform users of the action that will occur if they click the badge.
 
-- `rounded` (default): Border radius penuh (rounded-full)
-- `square`: Border radius kecil (rounded-[4px])
+<DoDontGrid>
+  <DoDontItem type="do">
+    <div class="do-dont-example">
+      <PtBadge color="success">Done</PtBadge>
+    </div>
+    <p class="do-dont-text">• With short copy, it clearly indicates that the process has been completed and is easy to scan at a glance.</p>
+  </DoDontItem>
+  <DoDontItem type="dont">
+    <div class="do-dont-example">
+      <PtBadge color="danger">Document has been fully completed</PtBadge>
+    </div>
+    <p class="do-dont-text">• With long copy, badges have limited space and should not contain excessive information.</p>
+  </DoDontItem>
+</DoDontGrid>
 
-## Colors
+</template>
 
-Badge supports 8 colors:
-
-- `slate` (default)
-- `primary`
-- `danger`
-- `warning`
-- `success`
-- `purple`
-- `pink`
-- `orange`
+<template #Implementation>
 
 ## Visual Preview
 
@@ -328,3 +342,6 @@ import { PtBadge } from '@pacer-ui/vue';
   - Square: `rounded-[4px]` (4px)
 - **Colors**: Sesuai dengan color prop yang dipilih
 
+</template>
+
+</PageTabs>

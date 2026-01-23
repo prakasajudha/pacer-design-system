@@ -33,18 +33,18 @@ export default defineConfig({
       }
     },
     nav: [
-      { text: 'Guide', link: '/getting-started' },
-      { text: 'Components', link: '/components/' },
-      { text: 'Design Tokens', link: '/tokens' },
-      { text: 'Contributing', link: '/contributing' },
-      {
-        text: 'Frameworks',
-        items: [
-          { text: 'React', link: '/frameworks/react' },
-          { text: 'Vue', link: '/frameworks/vue' },
-          { text: 'Blazor', link: '/frameworks/blazor' },
-        ],
-      },
+      // { text: 'Guide', link: '/getting-started' },
+      // { text: 'Components', link: '/components/' },
+      // { text: 'Design Tokens', link: '/tokens' },
+      // { text: 'Contributing', link: '/contributing' },
+      // {
+      //   text: 'Frameworks',
+      //   items: [
+      //     { text: 'React', link: '/frameworks/react' },
+      //     { text: 'Vue', link: '/frameworks/vue' },
+      //     { text: 'Blazor', link: '/frameworks/blazor' },
+      //   ],
+      // },
     ],
     sidebar: [
       {

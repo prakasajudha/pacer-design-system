@@ -42,6 +42,10 @@
   }
 }
 
+.VPDoc{
+  padding: 0 !important;
+}
+
 /* Direct CSS rules as fallback - ensure border works even if Tailwind doesn't process */
 .border {
   border-width: 1px;
@@ -98,6 +102,35 @@
   position: relative;
 }
 
+/* Badge Image Grid - untuk menampilkan 2 image side by side */
+.badge-image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.badge-image-item .image-placeholder {
+  margin-top: 0;
+}
+
+.badge-image-item :deep(.placeholder-content) {
+  height: 96px;
+}
+
+.badge-image-item :deep(.placeholder-content svg) {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Responsive: mobile jadi 1 kolom */
+@media (max-width: 768px) {
+  .badge-image-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Hide default VitePress navbar and sidebar when using custom layout */
 .custom-layout .layout-content banner,
 .custom-layout .layout-content header.VPNav,
@@ -138,10 +171,62 @@
   button.vp-navbar-menu-button {
     display: none !important;
   }
+
+  .content {
+    padding: 0 !important;
+  }
 }
 
 .VPSidebar {
   display: none !important;
+}
+
+/* Sidebar max-width constraint - ensure sidebar doesn't stretch on wide screens */
+/* On wide screens (> 1696px), center the layout and limit sidebar position */
+/* Total width: 256px (sidebar) + content = max 1440px */
+@media (min-width: 1696px) {
+  /* When viewport > 1696px, center the 1440px container */
+  .vp-sidebar {
+    left: calc((100% - 1440px) / 2) !important;
+  }
+  
+  .layout-content.has-sidebar {
+    margin-left: calc((100% - 1440px) / 2 + 256px) !important;
+    max-width: calc(1440px - 256px) !important;
+    width: calc(1440px - 256px) !important;
+  }
+}
+
+/* On medium screens (1440px - 1695px), sidebar stays at left edge */
+@media (min-width: 1440px) and (max-width: 1695px) {
+  .vp-sidebar {
+    left: 0 !important;
+  }
+  
+  .layout-content.has-sidebar {
+    margin-left: 256px !important;
+    max-width: calc(100% - 256px) !important;
+  }
+}
+
+/* Footer default padding - follows container (5em) */
+.VPDocFooter{
+  padding-top: 2rem !important;
+  padding-left: 5em !important;
+  padding-right: 5em !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Footer padding when PageTabs is present - use 3em to match PageTabs */
+.VPDoc:has(.page-tabs) .VPDocFooter {
+  padding-left: 3em !important;
+  padding-right: 3em !important;
+}
+
+/* PageTabs padding - only for component pages (not getting-started, etc) */
+.page-tabs {
+  padding-left: 3em !important;
+  padding-right: 3em !important;
 }
 
 /* Hide "On this page" / Table of Contents sidebar */
@@ -166,7 +251,6 @@ aside.VPDocAside,
 .VPDoc.has-aside .content-container,
 .VPDoc.has-aside .container,
 .VPDoc.has-aside .content {
-  padding-right: 0 !important;
   margin-right: 0 !important;
   max-width: 100% !important;
 }
@@ -179,7 +263,15 @@ aside.VPDocAside,
 /* Content area adjustments - no deep, direct CSS */
 .VPContent {
   padding-top: 0 !important;
-  margin-left: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 1440px !important;
+  width: 100% !important;
+}
+
+.vp-doc h2{
+  margin-top:0;
+  border-top: none;
 }
 
 /* Fix padding-left issue when has-sidebar - override VitePress default */
@@ -196,13 +288,23 @@ aside.VPDocAside,
 }
 
 /* Adjust content padding to be balanced - responsive */
+/* Default padding for all VPDoc content containers */
 .VPDoc .content-container {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-top: 2rem !important;
+  padding-left: 5em !important;
+  padding-right: 5em !important;
+  max-width: 100% !important;
 }
 
-/* Fix layout issues at width < 1288px */
-@media (max-width: 1287px) {
+/* Remove padding from content-container when PageTabs is present (PageTabs has its own padding) */
+.VPDoc .content-container:has(.page-tabs) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Fix layout issues at width < 1448px */
+@media (max-width: 1447px) {
   .VPDoc .container {
     max-width: 100% !important;
   }
@@ -212,6 +314,36 @@ aside.VPDocAside,
     padding-left: 24px !important;
     padding-right: 24px !important;
   }
+  
+  /* Remove padding from content-container when PageTabs is present on smaller screens */
+  .VPDoc .content-container:has(.page-tabs) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* PageTabs responsive padding */
+  .page-tabs {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  
+  /* Footer responsive padding - default follows container */
+  .VPDocFooter {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  
+  /* Footer responsive padding when PageTabs is present - matches PageTabs */
+  .VPDoc:has(.page-tabs) .VPDocFooter {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* Ensure VPContent container doesn't stretch beyond max-width */
+.VPContent .container,
+.VPContent .VPDoc {
+  max-width: 100% !important;
 }
 
 /* Sidebar responsive behavior for < 960px */
@@ -248,10 +380,56 @@ aside.VPDocAside,
     padding-left: 24px !important;
     padding-right: 24px !important;
   }
+  
+  /* Remove padding from content-container when PageTabs is present */
+  .VPDoc .content-container:has(.page-tabs) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  .page-tabs {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  
+  /* Footer responsive padding - default follows container */
+  .VPDocFooter {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  
+  /* Footer responsive padding when PageTabs is present - matches PageTabs */
+  .VPDoc:has(.page-tabs) .VPDocFooter {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
 }
 
 @media (max-width: 480px) {
   .VPDoc .content-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  /* Remove padding from content-container when PageTabs is present */
+  .VPDoc .content-container:has(.page-tabs) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  .page-tabs {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  /* Footer responsive padding - default follows container */
+  .VPDocFooter {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  /* Footer responsive padding when PageTabs is present - matches PageTabs */
+  .VPDoc:has(.page-tabs) .VPDocFooter {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
@@ -362,4 +540,8 @@ aside.VPDocAside,
 .has-sidebar .VPDoc main {
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+.VPContent.has-sidebar{
+  padding-right: 0 !important;
 }

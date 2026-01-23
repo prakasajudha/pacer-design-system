@@ -5,6 +5,13 @@ import Home from './components/Home.vue';
 import Layout from './components/Layout.vue';
 import InstallationGuide from './components/InstallationGuide.vue';
 import IntroductionGuide from './components/IntroductionGuide.vue';
+import BadgeGuide from './components/BadgeGuide.vue';
+import BadgeHero from './components/BadgeHero.vue';
+import PageTabs from './components/PageTabs.vue';
+import GuidelineSection from './components/GuidelineSection.vue';
+import ImagePlaceholder from './components/ImagePlaceholder.vue';
+import DoDontGrid from './components/DoDontGrid.vue';
+import DoDontItem from './components/DoDontItem.vue';
 
 // Import PACER Vue components CSS FIRST (before custom.css)
 // This ensures Tailwind classes from components are available
@@ -41,8 +48,15 @@ export default {
   enhanceApp({ app }) {
     app.component('ComponentDemo', ComponentDemo);
     app.component('DocsTabs', DocsTabs);
+    app.component('PageTabs', PageTabs);
     app.component('InstallationGuide', InstallationGuide);
     app.component('IntroductionGuide', IntroductionGuide);
+    app.component('BadgeGuide', BadgeGuide);
+    app.component('BadgeHero', BadgeHero);
+    app.component('GuidelineSection', GuidelineSection);
+    app.component('ImagePlaceholder', ImagePlaceholder);
+    app.component('DoDontGrid', DoDontGrid);
+    app.component('DoDontItem', DoDontItem);
     
     // Register PACER Vue components globally
     app.component('PtButton', PtButton);
