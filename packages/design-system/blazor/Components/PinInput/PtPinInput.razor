@@ -6,13 +6,17 @@
 @inherits ComponentBase
 @implements IDisposable
 
-<div class="flex flex-col gap-1.5 @GetRootAlignClass()">
-    @if (!string.IsNullOrEmpty(Title))
+<div class="flex flex-col gap-1.5">
+    @if (TitleContent != null)
     {
-        <label class="block w-full text-sm font-medium text-slate-700 @GetTextAlignClass()">@Title</label>
+        <label class="block w-full text-sm font-medium text-slate-700">@TitleContent</label>
+    }
+    else if (!string.IsNullOrEmpty(Title))
+    {
+        <label class="block w-full text-sm font-medium text-slate-700">@Title</label>
     }
 
-    <div class="flex w-full items-center @GetGapClass() @GetPositionClass()">
+    <div class="flex w-full items-center justify-start @GetGapClass()">
         <div class="flex items-center @GetGapClass()">
             @for (var i = 0; i < Length; i++)
             {
@@ -31,13 +35,17 @@
         </div>
     </div>
 
-    @if (!string.IsNullOrEmpty(Description))
+    @if (DescriptionContent != null && !Error)
     {
-        <label class="block w-full text-sm font-normal leading-5 text-slate-500 @GetTextAlignClass()">@Description</label>
+        <label class="block w-full text-sm font-normal leading-5 text-slate-500">@DescriptionContent</label>
+    }
+    else if (!string.IsNullOrEmpty(Description) && !Error)
+    {
+        <label class="block w-full text-sm font-normal leading-5 text-slate-500">@Description</label>
     }
     @if (Error && !string.IsNullOrEmpty(ErrorMessage))
     {
-        <label class="block w-full text-sm text-error-600 @GetTextAlignClass()" role="alert">@ErrorMessage</label>
+        <label class="block w-full text-sm text-error-600" role="alert">@ErrorMessage</label>
     }
 </div>
 
@@ -52,9 +60,12 @@
     [Parameter] public int Length { get; set; } = 4;
     [Parameter] public PinInputSize Size { get; set; } = PinInputSize.Medium;
     [Parameter] public bool Mask { get; set; } = true;
-    [Parameter] public PinInputPosition Position { get; set; } = PinInputPosition.Left;
+    /// <summary>Label di atas. String atau isi RenderFragment (komponen/kustom).</summary>
     [Parameter] public string? Title { get; set; }
+    [Parameter] public RenderFragment? TitleContent { get; set; }
+    /// <summary>Teks bantuan di bawah. String atau RenderFragment. Tidak ditampilkan saat error.</summary>
     [Parameter] public string? Description { get; set; }
+    [Parameter] public RenderFragment? DescriptionContent { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool Error { get; set; }
     [Parameter] public string? ErrorMessage { get; set; }
@@ -124,12 +135,6 @@
     };
 
     private string GetGapClass() => Size == PinInputSize.Large ? "gap-3" : "gap-2";
-
-    private string GetPositionClass() => Position == PinInputPosition.Center ? "justify-center" : "justify-start";
-
-    private string GetRootAlignClass() => Position == PinInputPosition.Center ? "items-center" : "";
-
-    private string GetTextAlignClass() => Position == PinInputPosition.Center ? "text-center" : "";
 
     private string GetInputStateClass() => Error
         ? "border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500"

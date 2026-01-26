@@ -19,7 +19,6 @@ const meta = {
     length: 4,
     size: 'md',
     mask: true,
-    position: 'left',
     title: 'Kode OTP',
     description: 'Masukkan 4 digit dari email/SMS.',
     disabled: false,
@@ -32,10 +31,6 @@ const meta = {
       options: ['sm', 'md', 'lg'],
     },
     mask: { control: 'boolean' },
-    position: {
-      control: 'select',
-      options: ['left', 'center'],
-    },
     title: { control: 'text' },
     description: { control: 'text' },
     disabled: { control: 'boolean' },
@@ -76,18 +71,6 @@ export const Default: Story = {
 
 export const NoMask: Story = {
   args: { mask: false, title: 'PIN' },
-  render: (args) => ({
-    components: { PtPinInput },
-    setup() {
-      const value = ref('');
-      return { args, value };
-    },
-    template: '<PtPinInput v-model="value" v-bind="args" />',
-  }),
-};
-
-export const ToggleRight: Story = {
-  args: { position: 'right', title: 'OTP', description: 'Toggle di kanan.' },
   render: (args) => ({
     components: { PtPinInput },
     setup() {

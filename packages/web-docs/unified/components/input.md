@@ -81,7 +81,7 @@ Input fields should be used consistently across forms and applications.
   <div class="w-full max-w-md space-y-4">
     <PtInput placeholder="Enter your name" />
     <PtInput label="Email Address" type="email" placeholder="email@example.com" />
-    <PtInput error="This field is required" placeholder="Invalid input" />
+    <PtInput :error="true" error-message="This field is required" placeholder="Invalid input" />
   </div>
 
 <template #react>
@@ -96,7 +96,7 @@ export default function App() {
     <div className="w-full max-w-md space-y-4">
       <Input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Enter your name" />
       <Input label="Email Address" type="email" placeholder="email@example.com" />
-      <Input error="This field is required" placeholder="Invalid input" />
+      <Input error errorMessage="This field is required" placeholder="Invalid input" />
     </div>
   );
 }
@@ -118,7 +118,7 @@ const value = ref('');
   <div class="w-full max-w-md space-y-4">
     <PtInput v-model="value" placeholder="Enter your name" />
     <PtInput label="Email Address" type="email" placeholder="email@example.com" />
-    <PtInput error="This field is required" placeholder="Invalid input" />
+    <PtInput :error="true" error-message="This field is required" placeholder="Invalid input" />
   </div>
 </template>
 ```
@@ -133,7 +133,7 @@ const value = ref('');
 <div class="w-full max-w-md space-y-4">
     <PtInput @bind-Value="name" Placeholder="Enter your name" />
     <PtInput Label="Email Address" Type="email" Placeholder="email@example.com" />
-    <PtInput Error="This field is required" Placeholder="Invalid input" />
+    <PtInput Error="true" ErrorMessage="This field is required" Placeholder="Invalid input" />
 </div>
 
 @code {
@@ -289,13 +289,14 @@ const value = ref('');
 ### Error State
 
 <ComponentDemo>
-  <PtInput error="This field is required" placeholder="Invalid input" />
+  <PtInput :error="true" error-message="This field is required" placeholder="Invalid input" />
 
 <template #react>
 
 ```tsx
 <Input 
-  error="This field is required" 
+  error 
+  errorMessage="This field is required" 
   placeholder="Invalid input" 
 />
 ```
@@ -306,7 +307,8 @@ const value = ref('');
 
 ```vue
 <PtInput 
-  error="This field is required" 
+  :error="true" 
+  error-message="This field is required" 
   placeholder="Invalid input" 
 />
 ```
@@ -406,7 +408,8 @@ const value = ref('');
 | Prop          | Type                                                               | Default     | Description                    |
 | ------------- | ------------------------------------------------------------------ | ----------- | ------------------------------ |
 | `label`       | `string`                                                           | `undefined` | Label text above input         |
-| `error`       | `string`                                                           | `undefined` | Error message (shows error state) |
+| `error`       | `boolean`                                                          | `false`     | State error                    |
+| `errorMessage` | `string`                                                          | `undefined` | Pesan error (ditampilkan saat error true) |
 | `helperText`  | `string`                                                           | `undefined` | Helper text below input        |
 | `startIcon`   | `React.ReactNode` (React) / `VNode \| Component` (Vue) / `RenderFragment` (Blazor) | `undefined` | Icon before input              |
 | `endIcon`     | `React.ReactNode` (React) / `VNode \| Component` (Vue) / `RenderFragment` (Blazor) | `undefined` | Icon after input               |

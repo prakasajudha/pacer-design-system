@@ -23,6 +23,8 @@ const meta = {
     fullWidth: false,
     disabled: false,
     modelValue: '',
+    error: false,
+    errorMessage: '',
   },
   argTypes: {
     type: {
@@ -88,7 +90,8 @@ export const WithHelperText: Story = {
 export const WithError: Story = {
   render: baseRender(),
   args: {
-    error: 'Format email tidak valid.',
+    error: true,
+    errorMessage: 'Format email tidak valid.',
     helperText: undefined,
     modelValue: 'user@example',
   },

@@ -125,15 +125,31 @@ const DividerComponent = React.forwardRef<HTMLDivElement, DividerProps>(
 
     const w = SIZE_TO_BORDER_WIDTH[size];
     const color = COLOR_PALETTE_TO_CSS[colorPalette];
+    const borderStyle = variant as React.CSSProperties['borderTopStyle'];
     const sizeStyle: React.CSSProperties =
       orientation === 'horizontal'
-        ? { width: width ?? '100%', height: w, minHeight: w, backgroundColor: color }
+        ? {
+            width: width ?? '100%',
+            height: 0,
+            minHeight: 0,
+            borderTopWidth: w,
+            borderTopStyle: borderStyle,
+            borderTopColor: color,
+            borderLeft: 'none',
+            borderRight: 'none',
+            borderBottom: 'none',
+          }
         : {
-            width: w,
-            minWidth: w,
+            width: 0,
+            minWidth: 0,
             height: height ?? '100%',
             ...(height == null ? { minHeight: '1em' } : {}),
-            backgroundColor: color,
+            borderLeftWidth: w,
+            borderLeftStyle: borderStyle,
+            borderLeftColor: color,
+            borderTop: 'none',
+            borderRight: 'none',
+            borderBottom: 'none',
           };
 
     const mergedStyle: React.CSSProperties = { ...sizeStyle, ...(style && typeof style === 'object' ? style : {}) };

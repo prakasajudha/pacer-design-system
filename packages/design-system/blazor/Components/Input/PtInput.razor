@@ -36,10 +36,10 @@
         }
     </div>
     
-    @if (!string.IsNullOrEmpty(Error))
+    @if (Error && !string.IsNullOrEmpty(ErrorMessage))
     {
         <p class="text-sm text-error-600" role="alert">
-            @Error
+            @ErrorMessage
         </p>
     }
     else if (!string.IsNullOrEmpty(HelperText))
@@ -72,10 +72,16 @@
     public string? Label { get; set; }
 
     /// <summary>
-    /// Error message
+    /// State error
     /// </summary>
     [Parameter]
-    public string? Error { get; set; }
+    public bool Error { get; set; }
+
+    /// <summary>
+    /// Pesan saat error (ditampilkan di bawah input)
+    /// </summary>
+    [Parameter]
+    public string? ErrorMessage { get; set; }
 
     /// <summary>
     /// Helper text
@@ -152,7 +158,7 @@
             "focus:ring-offset-0"
         };
 
-        if (!string.IsNullOrEmpty(Error))
+        if (Error)
         {
             classes.Add("border-error-500 focus:border-error-500 focus:ring-error-200");
         }

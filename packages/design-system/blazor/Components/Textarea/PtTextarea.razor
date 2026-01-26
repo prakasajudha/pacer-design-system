@@ -1,0 +1,108 @@
+@namespace Pertamina.DesignSystem.Blazor
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@inherits ComponentBase
+
+<div class="flex flex-col gap-1.5">
+    @if (TitleContent != null)
+    {
+        <label for="@Id" class="block w-full text-sm font-medium text-slate-700">@TitleContent</label>
+    }
+    else if (!string.IsNullOrEmpty(Title))
+    {
+        <label for="@Id" class="block w-full text-sm font-medium text-slate-700">@Title</label>
+    }
+
+    <textarea id="@Id"
+              class="block w-full min-w-0 min-h-[120px] rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 @GetVariantClass() @GetSizeClass() @GetStateClass() @GetResizeClass() @GetDisabledClass()"
+              placeholder="@Placeholder"
+              disabled="@Disabled"
+              aria-invalid="@(Error ? "true" : null)"
+              aria-describedby="@GetDescribedBy()"
+              value="@Value"
+              @oninput="HandleInput"
+              @attributes="AdditionalAttributes">
+    </textarea>
+
+    @if (DescriptionContent != null && !Error)
+    {
+        <span id="@($"{Id}-desc")" class="block w-full text-sm font-normal leading-5 text-slate-500">@DescriptionContent</span>
+    }
+    else if (!string.IsNullOrEmpty(Description) && !Error)
+    {
+        <span id="@($"{Id}-desc")" class="block w-full text-sm font-normal leading-5 text-slate-500">@Description</span>
+    }
+    @if (Error && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <span id="@($"{Id}-err")" class="block w-full text-sm text-error-600" role="alert">@ErrorMessage</span>
+    }
+</div>
+
+@code {
+    private string Id { get; set; } = $"pt-textarea-{Guid.NewGuid():N}"[..20];
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public TextareaSize Size { get; set; } = TextareaSize.Medium;
+    /// <summary>Variant tampilan: Border (putih + border) atau Background (abu-abu isi, tanpa border).</summary>
+    [Parameter] public TextareaVariant Variant { get; set; } = TextareaVariant.Border;
+    /// <summary>Label di atas. String atau RenderFragment (komponen/kustom).</summary>
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public RenderFragment? TitleContent { get; set; }
+    /// <summary>Teks bantuan di bawah. String atau RenderFragment. Tidak ditampilkan saat error.</summary>
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public RenderFragment? DescriptionContent { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool Error { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public TextareaResize Resize { get; set; } = TextareaResize.Vertical;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool HasDescription => DescriptionContent != null || !string.IsNullOrEmpty(Description);
+
+    private string GetVariantClass() => Variant == TextareaVariant.Background
+        ? "bg-slate-50 text-slate-900 placeholder:text-slate-500"
+        : "bg-white text-slate-900 placeholder:text-slate-400";
+
+    private string GetSizeClass() => Size switch
+    {
+        TextareaSize.Small => "px-3 py-2 text-sm",
+        TextareaSize.Large => "px-3 py-3 text-lg",
+        _ => "px-3 py-2.5 text-base",
+    };
+
+    private string GetStateClass() => Error
+        ? "border border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500"
+        : Variant == TextareaVariant.Background
+            ? "border-0 focus:ring-brand-300 focus-visible:ring-brand-300"
+            : "border border-solid border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300";
+
+    private string GetResizeClass() => Resize switch
+    {
+        TextareaResize.None => "resize-none",
+        TextareaResize.Vertical => "resize-y",
+        TextareaResize.Horizontal => "resize-x",
+        _ => "resize",
+    };
+
+    private string GetDisabledClass() => !Disabled ? "" : Variant == TextareaVariant.Background
+        ? "disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400 disabled:placeholder-slate-400"
+        : "disabled:cursor-not-allowed disabled:bg-slate-50 disabled:border-slate-200 disabled:text-slate-400 disabled:placeholder-slate-400";
+
+    private string? GetDescribedBy()
+    {
+        var parts = new List<string>();
+        if (HasDescription && !Error) parts.Add($"{Id}-desc");
+        if (Error && !string.IsNullOrEmpty(ErrorMessage)) parts.Add($"{Id}-err");
+        return parts.Count > 0 ? string.Join(" ", parts) : null;
+    }
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        var v = e.Value?.ToString() ?? "";
+        await ValueChanged.InvokeAsync(v);
+    }
+}

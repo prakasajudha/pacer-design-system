@@ -13,12 +13,15 @@ export interface InputProps {
   label?: string;
   
   /**
-   * Pesan error
+   * State error
    */
-  error?: string;
-  
+  error?: boolean;
   /**
-   * Pesan helper text
+   * Pesan saat error (ditampilkan di bawah input)
+   */
+  errorMessage?: string;
+  /**
+   * Pesan helper text (ditampilkan ketika tidak error)
    */
   helperText?: string;
   
@@ -48,6 +51,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   fullWidth: false,
   type: 'text',
   disabled: false,
+  error: false,
 });
 
 const emit = defineEmits<{
@@ -115,11 +119,11 @@ const handleInput = (event: Event) => {
     </div>
     
     <p
-      v-if="error"
+      v-if="error && errorMessage"
       class="text-sm text-error-600"
       role="alert"
     >
-      {{ error }}
+      {{ errorMessage }}
     </p>
     
     <p

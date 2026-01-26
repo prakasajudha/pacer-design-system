@@ -78,6 +78,14 @@ Input OTP/PIN per digit dengan opsi mask dan toggle show/hide.
 - ✅ title, description, error, errorMessage, disabled
 - ✅ Jumlah digit konfigurasi (length, default 4)
 
+#### [Textarea](/components/textarea)
+
+Input teks multi-baris dengan title, description, dan error state.
+
+- ✅ size (sm, md, lg), variant (border, background)
+- ✅ title, description, error, errorMessage, disabled
+- ✅ resize (none, vertical, horizontal, both)
+
 ### Layout Components
 
 #### [Divider](/components/divider)
@@ -331,7 +339,7 @@ Learn more about [Design Tokens](/tokens).
 | Tooltip       |  ✅   | ✅  |   ✅   | Stable      |
 | Divider       |  ✅   | ✅  |   🚧   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
-| Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
+| Textarea  |  ✅   | ✅  |   ✅   | Stable      |
 | Dropdown  |  🚧   | 🚧  |   🚧   | Planned     |
 
 Legend:

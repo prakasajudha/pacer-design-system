@@ -10,7 +10,7 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Pin Input untuk OTP/PIN dengan opsi mask, size, dan posisi toggle.',
+        component: 'Pin Input untuk OTP/PIN dengan opsi mask dan size. Title/description bisa string atau ReactNode.',
       },
     },
   },
@@ -19,7 +19,6 @@ const meta = {
     length: 4,
     size: 'md',
     mask: true,
-    position: 'left',
     title: 'Kode OTP',
     description: 'Masukkan 4 digit dari email/SMS.',
     disabled: false,
@@ -32,10 +31,6 @@ const meta = {
       options: ['sm', 'md', 'lg'],
     },
     mask: { control: 'boolean' },
-    position: {
-      control: 'select',
-      options: ['left', 'center'],
-    },
     title: { control: 'text' },
     description: { control: 'text' },
     disabled: { control: 'boolean' },

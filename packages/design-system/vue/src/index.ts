@@ -24,9 +24,10 @@ import PtModalFooter from './components/PtModalFooter.vue';
 import PtPinInput from './components/PtPinInput.vue';
 import PtTooltip from './components/PtTooltip.vue';
 import PtDivider from './components/PtDivider.vue';
+import PtTextarea from './components/PtTextarea.vue';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider, PtTextarea };
 
 // Plugin untuk install semua components
 export default {
@@ -54,6 +55,7 @@ export default {
     app.component('PtPinInput', PtPinInput);
     app.component('PtTooltip', PtTooltip);
     app.component('PtDivider', PtDivider);
+    app.component('PtTextarea', PtTextarea);
   },
 };
 
@@ -80,3 +82,4 @@ export type { ModalFooterProps } from './components/PtModalFooter.vue';
 export type { PinInputProps } from './components/PtPinInput.vue';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/PtTooltip.vue';
 export type { DividerProps, DividerColorPalette, DividerVariant, DividerOrientation, DividerSize } from './components/PtDivider.vue';
+export type { TextareaProps, TextareaSize, TextareaVariant } from './components/PtTextarea.vue';

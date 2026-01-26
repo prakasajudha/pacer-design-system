@@ -44,6 +44,7 @@ import {
   PtPinInput,
   PtTooltip,
   PtDivider,
+  PtTextarea,
 } from '@pacer-ui/vue';
 
 export default {
@@ -87,5 +88,6 @@ export default {
     app.component('PtPinInput', PtPinInput);
     app.component('PtTooltip', PtTooltip);
     app.component('PtDivider', PtDivider);
+    app.component('PtTextarea', PtTextarea);
   },
 };

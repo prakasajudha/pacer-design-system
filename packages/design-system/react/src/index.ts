@@ -53,7 +53,10 @@ export { ModalFooter } from './components/ModalFooter';
 export type { ModalFooterProps } from './components/ModalFooter';
 
 export { PinInput } from './components/PinInput';
-export type { PinInputProps, PinInputSize, PinInputPosition } from './components/PinInput';
+export type { PinInputProps, PinInputSize } from './components/PinInput';
+
+export { Textarea } from './components/Textarea';
+export type { TextareaProps, TextareaSize, TextareaVariant } from './components/Textarea';
 
 export { Tooltip } from './components/Tooltip';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/Tooltip';

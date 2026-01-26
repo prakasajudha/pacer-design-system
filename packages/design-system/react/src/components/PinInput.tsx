@@ -4,7 +4,6 @@ import { cn } from '../utils/cn';
 const REVEAL_MS = 500;
 
 export type PinInputSize = 'sm' | 'md' | 'lg';
-export type PinInputPosition = 'left' | 'center';
 
 export interface PinInputProps {
   /**
@@ -28,17 +27,13 @@ export interface PinInputProps {
    */
   mask?: boolean;
   /**
-   * Posisi: left atau center (default left)
+   * Label di atas. String atau ReactNode (komponen/JSX).
    */
-  position?: PinInputPosition;
+  title?: React.ReactNode;
   /**
-   * Label di atas
+   * Teks bantuan di bawah. String atau ReactNode (komponen/JSX). Tidak ditampilkan saat error.
    */
-  title?: string;
-  /**
-   * Teks bantuan di bawah
-   */
-  description?: string;
+  description?: React.ReactNode;
   /**
    * Nonaktif
    */
@@ -67,7 +62,6 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
       length = 4,
       size = 'md',
       mask = true,
-      position = 'left',
       title,
       description,
       disabled = false,
@@ -191,19 +185,18 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
       error ? 'border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500' : 'border-solid border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300'
     );
 
-    const isCenter = position === 'center';
-    const rootClass = cn('flex flex-col gap-1.5', isCenter && 'items-center');
-    const labelClass = cn('block text-sm font-medium text-slate-700 w-full', isCenter && 'text-center');
-    const errorClass = cn('block text-sm text-error-600 w-full', isCenter && 'text-center');
-    const descClass = cn('block text-sm font-normal leading-5 text-slate-500 w-full', isCenter && 'text-center');
+    const rootClass = 'flex flex-col gap-1.5';
+    const labelClass = 'block text-sm font-medium text-slate-700 w-full';
+    const errorClass = 'block text-sm text-error-600 w-full';
+    const descClass = 'block text-sm font-normal leading-5 text-slate-500 w-full';
 
     return (
       <div ref={ref} className={rootClass}>
-        {title && (
+        {title != null && title !== '' && (
           <label className={labelClass}>{title}</label>
         )}
 
-        <div className={cn('flex w-full items-center', styles.gap, isCenter ? 'justify-center' : 'justify-start')}>
+        <div className={cn('flex w-full items-center justify-start', styles.gap)}>
           <div className={cn('flex items-center', styles.gap)}>
             {Array.from({ length }, (_, idx) => (
               <input
@@ -227,7 +220,9 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
           </div>
         </div>
 
-        {description && <label className={descClass}>{description}</label>}
+        {description != null && description !== '' && !error && (
+          <label className={descClass}>{description}</label>
+        )}
         {error && errorMessage && (
           <label className={errorClass} role="alert">
             {errorMessage}

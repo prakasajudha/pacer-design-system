@@ -53,6 +53,8 @@ const meta = {
     type: 'email',
     fullWidth: false,
     disabled: false,
+    error: false,
+    errorMessage: '',
   },
   argTypes: {
     type: {
@@ -73,8 +75,12 @@ const meta = {
       description: 'Pesan pendukung ketika tidak ada error.',
     },
     error: {
+      control: 'boolean',
+      description: 'State error.',
+    },
+    errorMessage: {
       control: 'text',
-      description: 'Pesan error yang menampilkan state validasi.',
+      description: 'Pesan error (ditampilkan saat error true).',
     },
     fullWidth: {
       control: 'boolean',
@@ -111,7 +117,8 @@ export const WithHelperText: Story = {
 
 export const WithError: Story = {
   args: {
-    error: 'Format email tidak valid.',
+    error: true,
+    errorMessage: 'Format email tidak valid.',
     helperText: undefined,
     defaultValue: 'user@example',
   },

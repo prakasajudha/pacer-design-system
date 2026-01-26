@@ -369,7 +369,7 @@ const components = [
   { name: 'Progress', react: true, vue: true, blazor: true, status: 'stable', statusText: 'Stable' },
   { name: 'Switch', react: true, vue: true, blazor: true, status: 'stable', statusText: 'Stable' },
   { name: 'Radio', react: true, vue: true, blazor: true, status: 'stable', statusText: 'Stable' },
-  { name: 'Textarea', react: null, vue: null, blazor: null, status: 'planned', statusText: 'Planned' },
+  { name: 'Textarea', react: true, vue: true, blazor: true, status: 'stable', statusText: 'Stable' },
   { name: 'Dropdown', react: null, vue: null, blazor: null, status: 'planned', statusText: 'Planned' },
 ];
 

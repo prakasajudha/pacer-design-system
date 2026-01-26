@@ -124,6 +124,7 @@ export default defineConfig({
               { text: 'Pin Input', link: '/components/pin-input' },
               { text: 'Radio', link: '/components/radio' },
               { text: 'Switch', link: '/components/switch' },
+              { text: 'Textarea', link: '/components/textarea' },
             ],
           },
         ],

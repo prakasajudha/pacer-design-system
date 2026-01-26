@@ -6,14 +6,16 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
    * Label untuk input
    */
   label?: string;
-  
   /**
-   * Pesan error
+   * State error
    */
-  error?: string;
-  
+  error?: boolean;
   /**
-   * Pesan helper text
+   * Pesan saat error (ditampilkan di bawah input)
+   */
+  errorMessage?: string;
+  /**
+   * Pesan helper text (ditampilkan ketika tidak error)
    */
   helperText?: string;
   
@@ -52,7 +54,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       label,
-      error,
+      error = false,
+      errorMessage,
       helperText,
       startIcon,
       endIcon,
@@ -110,9 +113,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         
-        {error && (
+        {error && errorMessage && (
           <p className="text-sm text-error-600" role="alert">
-            {error}
+            {errorMessage}
           </p>
         )}
         

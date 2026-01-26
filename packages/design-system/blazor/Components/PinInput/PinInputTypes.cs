@@ -9,12 +9,3 @@ public enum PinInputSize
     Medium,
     Large
 }
-
-/// <summary>
-/// Posisi: kiri atau center (default left).
-/// </summary>
-public enum PinInputPosition
-{
-    Left,
-    Center
-}

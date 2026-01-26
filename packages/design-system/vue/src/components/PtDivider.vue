@@ -128,24 +128,35 @@ const dividerClasses = computed(() => {
   );
 });
 
-/** Garis divider digambar pakai background + height/width (bukan border) agar pasti muncul di web-docs; preflight/reset border tidak memengaruhi. */
+/** Garis divider digambar pakai border (bukan background) agar variant solid/dashed/dotted berfungsi; style inline supaya tetap muncul di web-docs tanpa Tailwind. */
 const dividerSizeStyle = computed((): Record<string, string> => {
   const w = SIZE_TO_BORDER_WIDTH[props.size];
   const color = COLOR_PALETTE_TO_CSS[props.colorPalette];
+  const borderStyle = props.variant;
 
   if (props.orientation === 'horizontal') {
     return {
       width: props.width ?? '100%',
-      height: w,
-      minHeight: w,
-      backgroundColor: color,
+      height: '0',
+      minHeight: '0',
+      borderTopWidth: w,
+      borderTopStyle: borderStyle,
+      borderTopColor: color,
+      borderLeft: 'none',
+      borderRight: 'none',
+      borderBottom: 'none',
     };
   }
   const style: Record<string, string> = {
-    width: w,
-    minWidth: w,
+    width: '0',
+    minWidth: '0',
     height: props.height ?? '100%',
-    backgroundColor: color,
+    borderLeftWidth: w,
+    borderLeftStyle: borderStyle,
+    borderLeftColor: color,
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
   };
   if (props.height == null) {
     style.minHeight = '1em';

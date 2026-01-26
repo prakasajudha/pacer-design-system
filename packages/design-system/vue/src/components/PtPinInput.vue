@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, onUnmounted } from 'vue';
+import { computed, ref, useSlots, watch, onUnmounted } from 'vue';
 import { cn } from '../lib/utils';
 
 const REVEAL_MS = 500;
@@ -18,15 +18,11 @@ export interface PinInputProps {
    */
   mask?: boolean;
   /**
-   * Posisi: left atau center (default left)
-   */
-  position?: 'left' | 'center';
-  /**
-   * Label di atas
+   * Label di atas. String atau isi slot #title (komponen/HTML).
    */
   title?: string;
   /**
-   * Teks bantuan di bawah
+   * Teks bantuan di bawah. String atau isi slot #description. Tidak ditampilkan saat error.
    */
   description?: string;
   /**
@@ -47,10 +43,13 @@ const props = withDefaults(defineProps<PinInputProps>(), {
   length: 4,
   size: 'md',
   mask: true,
-  position: 'left',
   disabled: false,
   error: false,
 });
+
+const slots = useSlots();
+const hasTitle = computed(() => !!slots.title || (props.title != null && props.title !== ''));
+const hasDescription = computed(() => !!slots.description || (props.description != null && props.description !== ''));
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];
@@ -193,12 +192,12 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5" :class="{ 'items-center': props.position === 'center' }">
-    <label v-if="props.title" class="block text-sm font-medium text-slate-700 w-full" :class="{ 'text-center': props.position === 'center' }">
-      {{ props.title }}
+  <div class="flex flex-col gap-1.5">
+    <label v-if="hasTitle" class="block text-sm font-medium text-slate-700 w-full">
+      <slot name="title">{{ props.title }}</slot>
     </label>
 
-    <div class="flex w-full items-center" :class="[sizeStyles.gap, props.position === 'center' ? 'justify-center' : 'justify-start']">
+    <div class="flex w-full items-center justify-start" :class="[sizeStyles.gap]">
       <div class="flex items-center" :class="[sizeStyles.gap]">
         <template v-for="idx in indices" :key="idx">
           <input
@@ -219,10 +218,10 @@ watch(
       </div>
     </div>
 
-    <label v-if="props.description" class="block w-full text-sm font-normal leading-5 text-slate-500" :class="{ 'text-center': props.position === 'center' }">
-      {{ props.description }}
+    <label v-if="hasDescription && !props.error" class="block w-full text-sm font-normal leading-5 text-slate-500">
+      <slot name="description">{{ props.description }}</slot>
     </label>
-    <label v-if="props.error && props.errorMessage" class="block w-full text-sm text-error-600" role="alert" :class="{ 'text-center': props.position === 'center' }">
+    <label v-if="props.error && props.errorMessage" class="block w-full text-sm text-error-600" role="alert">
       {{ props.errorMessage }}
     </label>
   </div>
