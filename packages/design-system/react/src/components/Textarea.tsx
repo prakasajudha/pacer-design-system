@@ -5,7 +5,7 @@ export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaVariant = 'border' | 'background';
 
 export interface TextareaProps
-  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'children' | 'rows' | 'title'> {
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'children' | 'rows' | 'title' | 'onChange'> {
   /**
    * Nilai (controlled)
    */
