@@ -4,7 +4,8 @@ import { cn } from '../utils/cn';
 export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaVariant = 'border' | 'background';
 
-export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'children' | 'rows'> {
+export interface TextareaProps
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'children' | 'rows' | 'title'> {
   /**
    * Nilai (controlled)
    */
@@ -70,7 +71,6 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       error = false,
       errorMessage,
       placeholder,
-      rows = 4,
       resize = 'vertical',
       className,
       id: providedId,
