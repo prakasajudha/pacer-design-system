@@ -41,10 +41,10 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: 'Size information.',
+      options: ['sm', 'md'],
+      description: 'Size information (sm atau md saja).',
       table: {
-        type: { summary: 'string' },
+        type: { summary: "'sm' | 'md'" },
         defaultValue: { summary: "'md'" },
       },
     },
@@ -68,6 +68,16 @@ const meta = {
       table: {
         type: { summary: 'Record<string, string>' },
       },
+    },
+    titleClassName: {
+      control: false,
+      description: 'Override class untuk title (termasuk warna teks).',
+      table: { disable: true },
+    },
+    descriptionClassName: {
+      control: false,
+      description: 'Override class untuk description (termasuk warna teks).',
+      table: { disable: true },
     },
   },
   args: {
@@ -160,21 +170,11 @@ export const Sizes: Story = {
       <div class="space-y-4 w-full max-w-md">
         <div>
           <p class="text-sm text-slate-600 mb-2">Small</p>
-          <PtInformation variant="info" size="sm">
-            Small size information component.
-          </PtInformation>
+          <PtInformation variant="info" size="sm" title="Lorem Ipsum" description="Silakan upload data terlebih dahulu untuk melanjutkan proses." />
         </div>
         <div>
           <p class="text-sm text-slate-600 mb-2">Medium (Default)</p>
-          <PtInformation variant="info" size="md">
-            Medium size information component.
-          </PtInformation>
-        </div>
-        <div>
-          <p class="text-sm text-slate-600 mb-2">Large</p>
-          <PtInformation variant="info" size="lg">
-            Large size information component.
-          </PtInformation>
+          <PtInformation variant="info" size="md" title="Lorem Ipsum" description="Silakan upload data terlebih dahulu untuk melanjutkan proses." />
         </div>
       </div>
     `,

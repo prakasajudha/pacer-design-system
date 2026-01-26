@@ -42,11 +42,23 @@ export interface InformationProps extends React.HTMLAttributes<HTMLDivElement> {
   iconStyle?: React.CSSProperties;
 
   /**
-   * Size information
-   * @type {'sm' | 'md' | 'lg'}
+   * Size information: sm atau md saja (sesuai Figma PACER).
+   * @type {'sm' | 'md'}
    * @default 'md'
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md';
+
+  /**
+   * Custom className untuk title (bisa dipakai override warna teks, mis. "text-red-600").
+   * @type {string}
+   */
+  titleClassName?: string;
+
+  /**
+   * Custom className untuk description (bisa dipakai override warna teks).
+   * @type {string}
+   */
+  descriptionClassName?: string;
 }
 
 // Helper function untuk membuat default icon
@@ -65,9 +77,9 @@ const createDefaultIcon = (variant: InformationVariant, size: number): React.Rea
 
   const colorClasses = {
     info: 'text-brand-300',
-    slate: 'text-slate-900',
+    slate: 'text-slate-950',
     success: 'text-green-600',
-    warning: 'text-yellow-600',
+    warning: 'text-amber-600',
     danger: 'text-red-600',
   };
 
@@ -127,53 +139,57 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
       style,
       iconClassName,
       iconStyle,
+      titleClassName,
+      descriptionClassName,
       ...props
     },
     ref
   ) => {
-    const baseStyles = 'flex items-start rounded-md';
+    const baseStyles = 'flex rounded-lg';
+    const hasChildren = React.Children.count(children) > 0;
 
     const variantBackgroundStyles = {
       info: 'bg-brand-50',
-      slate: 'bg-slate-50',
-      success: 'bg-green-50',
-      warning: 'bg-yellow-50',
-      danger: 'bg-red-50',
+      slate: 'bg-slate-100',
+      success: 'bg-green-100',
+      warning: 'bg-amber-100',
+      danger: 'bg-red-100',
     } as const;
 
     const sizeStyles = {
       sm: {
         container: 'py-2 px-3 gap-2',
         icon: 'w-4 h-4 shrink-0',
-        title: 'text-sm font-normal leading-5 text-slate-900',
-        description: 'text-sm font-normal leading-5 text-slate-900',
-        content: 'text-sm font-normal leading-5 text-slate-900',
+        title: 'text-sm font-medium leading-none',
+        description: 'text-xs font-normal leading-5',
+        content: 'text-xs font-normal leading-5',
       },
       md: {
         container: 'p-4 gap-3',
         icon: 'w-4 h-4 shrink-0',
-        title: 'text-sm font-normal leading-5 text-slate-900',
-        description: 'text-sm font-normal leading-5 text-slate-900',
-        content: 'text-sm font-normal leading-5 text-slate-900',
-      },
-      lg: {
-        container: 'p-4 gap-3',
-        icon: 'w-5 h-5 shrink-0',
-        title: 'text-base font-normal leading-6 text-slate-900',
-        description: 'text-base font-normal leading-6 text-slate-900',
-        content: 'text-base font-normal leading-6 text-slate-900',
+        title: 'text-base font-medium leading-none',
+        description: 'text-sm font-normal leading-6',
+        content: 'text-sm font-normal leading-6',
       },
     } as const;
 
     const iconColorStyles = {
       info: 'text-brand-300',
-      slate: 'text-slate-900',
+      slate: 'text-slate-950',
       success: 'text-green-600',
-      warning: 'text-yellow-600',
+      warning: 'text-amber-600',
       danger: 'text-red-600',
     } as const;
 
-    const iconSize = size === 'lg' ? 20 : 16;
+    const variantTextStyles = {
+      info: 'text-brand-600',
+      slate: 'text-slate-950',
+      success: 'text-green-600',
+      warning: 'text-amber-600',
+      danger: 'text-red-600',
+    } as const;
+
+    const iconSize = 16;
     const currentIcon = icon || createDefaultIcon(variant, iconSize);
     const currentSizeStyles = sizeStyles[size];
 
@@ -187,6 +203,7 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
         ref={ref}
         className={cn(
           baseStyles,
+          'items-start',
           currentSizeStyles.container,
           variantBackgroundStyles[variant],
           className
@@ -198,7 +215,7 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
           className={cn(
             currentSizeStyles.icon,
             iconColorStyles[variant],
-            'mt-icon-offset',
+            hasChildren && 'mt-[4.5px]',
             iconClassName
           )}
           style={iconStyle}
@@ -207,12 +224,16 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
         </div>
         <div className="flex-1 min-w-0">
           {React.Children.count(children) > 0 ? (
-            <div className={cn(currentSizeStyles.content)}>{children}</div>
+            <div className={cn(currentSizeStyles.content, variantTextStyles[variant])}>{children}</div>
           ) : (
             <>
-              {title && <div className={cn(currentSizeStyles.title, 'mb-1')}>{title}</div>}
+              {title && (
+                <div className={cn(currentSizeStyles.title, variantTextStyles[variant], titleClassName, 'mb-1')}>
+                  {title}
+                </div>
+              )}
               {description && (
-                <div className={cn(currentSizeStyles.description, title ? '' : 'mb-1')}>
+                <div className={cn(currentSizeStyles.description, variantTextStyles[variant], descriptionClassName, title ? '' : 'mb-1')}>
                   {description}
                 </div>
               )}

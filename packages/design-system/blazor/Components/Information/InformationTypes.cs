@@ -13,13 +13,12 @@ public enum InformationVariant
 }
 
 /// <summary>
-/// Size dari Information component
+/// Size Information: sm atau md saja (sesuai Figma PACER).
 /// </summary>
 public enum InformationSize
 {
     Small,
-    Medium,
-    Large
+    Medium
 }
 
 

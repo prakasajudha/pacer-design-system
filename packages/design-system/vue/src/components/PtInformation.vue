@@ -34,9 +34,20 @@ export interface InformationProps {
   iconStyle?: Record<string, string>;
 
   /**
-   * Size information
+   * Size information: sm atau md saja (sesuai Figma PACER).
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md';
+
+  /**
+   * Custom className untuk title (bisa dipakai override warna teks, mis. "text-red-600").
+   * Bila diisi, digabung dengan style base; tailwind-merge memastikan override warna berlaku.
+   */
+  titleClassName?: string;
+
+  /**
+   * Custom className untuk description (bisa dipakai override warna teks).
+   */
+  descriptionClassName?: string;
 }
 
 const props = withDefaults(defineProps<InformationProps>(), {
@@ -47,6 +58,8 @@ const props = withDefaults(defineProps<InformationProps>(), {
   icon: undefined,
   iconClassName: undefined,
   iconStyle: undefined,
+  titleClassName: undefined,
+  descriptionClassName: undefined,
 });
 
 const attrs = useAttrs();
@@ -68,9 +81,9 @@ const createDefaultIcon = (variant: InformationProps['variant'], size: number) =
 
   const colorClasses = {
     info: 'text-brand-300',
-    slate: 'text-slate-900',
+    slate: 'text-slate-950',
     success: 'text-green-600',
-    warning: 'text-yellow-600',
+    warning: 'text-amber-600',
     danger: 'text-red-600',
   };
 
@@ -109,50 +122,64 @@ const createDefaultIcon = (variant: InformationProps['variant'], size: number) =
   }
 };
 
-const baseStyles = 'flex items-start rounded-md';
+const baseStyles = 'flex rounded-lg';
 
 const variantBackgroundStyles = {
   info: 'bg-brand-50',
-  slate: 'bg-slate-50',
-  success: 'bg-green-50',
-  warning: 'bg-yellow-50',
-  danger: 'bg-red-50',
+  slate: 'bg-slate-100',
+  success: 'bg-green-100',
+  warning: 'bg-amber-100',
+  danger: 'bg-red-100',
+} as const;
+
+/** T1 (md): text-base font-medium leading-none. T2 (sm): text-sm font-medium leading-none. */
+const sizeTitleStyles = {
+  sm: 'text-sm font-medium leading-none',
+  md: 'text-base font-medium leading-none',
+} as const;
+
+/** Desc md: text-sm font-normal leading-6. Desc sm: text-xs font-normal leading-5. */
+const sizeDescriptionStyles = {
+  sm: 'text-xs font-normal leading-5',
+  md: 'text-sm font-normal leading-6',
 } as const;
 
 const sizeStyles = {
   sm: {
     container: 'py-2 px-3 gap-2',
     icon: 'w-4 h-4 shrink-0',
-    title: 'text-sm font-normal leading-5 text-slate-900',
-    description: 'text-sm font-normal leading-5 text-slate-900',
-    content: 'text-sm font-normal leading-5 text-slate-900',
+    title: sizeTitleStyles.sm,
+    description: sizeDescriptionStyles.sm,
+    content: sizeDescriptionStyles.sm,
   },
   md: {
     container: 'p-4 gap-3',
     icon: 'w-4 h-4 shrink-0',
-    title: 'text-sm font-normal leading-5 text-slate-900',
-    description: 'text-sm font-normal leading-5 text-slate-900',
-    content: 'text-sm font-normal leading-5 text-slate-900',
-  },
-  lg: {
-    container: 'p-4 gap-3',
-    icon: 'w-5 h-5 shrink-0',
-    title: 'text-base font-normal leading-6 text-slate-900',
-    description: 'text-base font-normal leading-6 text-slate-900',
-    content: 'text-base font-normal leading-6 text-slate-900',
+    title: sizeTitleStyles.md,
+    description: sizeDescriptionStyles.md,
+    content: sizeDescriptionStyles.md,
   },
 } as const;
 
 const iconColorStyles = {
   info: 'text-brand-300',
-  slate: 'text-slate-900',
+  slate: 'text-slate-950',
   success: 'text-green-600',
-  warning: 'text-yellow-600',
+  warning: 'text-amber-600',
   danger: 'text-red-600',
 } as const;
 
-const iconSize = computed(() => (props.size === 'lg' ? 20 : 16));
-const currentIcon = computed(() => props.icon || createDefaultIcon(props.variant, iconSize.value));
+/** Warna title/description/content: info pakai brand-600 (#0150BA), lainnya sesuai variant. */
+const variantTextStyles = {
+  info: 'text-brand-600',
+  slate: 'text-slate-950',
+  success: 'text-green-600',
+  warning: 'text-amber-600',
+  danger: 'text-red-600',
+} as const;
+
+const iconSize = 16;
+const currentIcon = computed(() => props.icon || createDefaultIcon(props.variant, iconSize));
 const currentSizeStyles = computed(() => sizeStyles[props.size]);
 
 const informationClasses = computed(() => {
@@ -164,6 +191,7 @@ const informationClasses = computed(() => {
         : '';
   return cn(
     baseStyles,
+    'items-start',
     currentSizeStyles.value.container,
     variantBackgroundStyles[props.variant],
     classFromAttrs
@@ -178,7 +206,7 @@ const iconClasses = computed(() => {
   return cn(
     currentSizeStyles.value.icon,
     iconColorStyles[props.variant],
-    'mt-icon-offset',
+    hasChildren.value && 'mt-[4.5px]',
     props.iconClassName
   );
 });
@@ -209,15 +237,15 @@ const hasChildren = computed(() => {
     </div>
     <div class="flex-1 min-w-0">
       <template v-if="hasChildren">
-        <div :class="currentSizeStyles.content">
+        <div :class="cn(currentSizeStyles.content, variantTextStyles[props.variant])">
           <slot />
         </div>
       </template>
       <template v-else>
-        <div v-if="title" :class="cn(currentSizeStyles.title, 'mb-1')">{{ title }}</div>
+        <div v-if="title" :class="cn(currentSizeStyles.title, variantTextStyles[props.variant], props.titleClassName, 'mb-1')">{{ title }}</div>
         <div
           v-if="description"
-          :class="cn(currentSizeStyles.description, title ? '' : 'mb-1')"
+          :class="cn(currentSizeStyles.description, variantTextStyles[props.variant], props.descriptionClassName, props.title ? '' : 'mb-1')"
         >
           {{ description }}
         </div>

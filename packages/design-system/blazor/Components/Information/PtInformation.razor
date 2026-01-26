@@ -71,7 +71,7 @@
     public string? IconStyle { get; set; }
 
     /// <summary>
-    /// Size information
+    /// Size information: Small atau Medium saja (sesuai Figma PACER).
     /// </summary>
     [Parameter]
     public InformationSize Size { get; set; } = InformationSize.Medium;
@@ -81,6 +81,18 @@
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Custom class untuk title (bisa dipakai override warna teks, mis. "text-red-600").
+    /// </summary>
+    [Parameter]
+    public string? TitleClassName { get; set; }
+
+    /// <summary>
+    /// Custom class untuk description (bisa dipakai override warna teks).
+    /// </summary>
+    [Parameter]
+    public string? DescriptionClassName { get; set; }
 
     /// <summary>
     /// Additional HTML attributes
@@ -96,7 +108,7 @@
         {
             "flex",
             "items-start",
-            "rounded-md",
+            "rounded-lg",
         };
 
         classes.Add(GetSizeContainerClasses());
@@ -105,20 +117,15 @@
         return string.Join(" ", classes);
     }
 
+    private string GetSizeContainerClasses()
+    {
+        return Size == InformationSize.Small ? "py-2 px-3 gap-2" : "p-4 gap-3";
+    }
+
     private string GetInformationStyles()
     {
         // Style dari AdditionalAttributes jika ada
         return "";
-    }
-
-    private string GetSizeContainerClasses()
-    {
-        return Size switch
-        {
-            InformationSize.Small => "py-2 px-3 gap-2",
-            InformationSize.Large => "p-4 gap-3",
-            _ => "p-4 gap-3", // Medium
-        };
     }
 
     private string GetVariantBackgroundClasses()
@@ -126,27 +133,23 @@
         return Variant switch
         {
             InformationVariant.Info => "bg-brand-50",
-            InformationVariant.Slate => "bg-slate-50",
-            InformationVariant.Success => "bg-green-50",
-            InformationVariant.Warning => "bg-yellow-50",
-            InformationVariant.Danger => "bg-red-50",
+            InformationVariant.Slate => "bg-slate-100",
+            InformationVariant.Success => "bg-green-100",
+            InformationVariant.Warning => "bg-amber-100",
+            InformationVariant.Danger => "bg-red-100",
             _ => "bg-brand-50",
         };
     }
 
     private string GetIconClasses()
     {
-        var classes = new List<string>();
-
-        classes.Add(Size switch
-        {
-            InformationSize.Large => "w-5 h-5",
-            _ => "w-4 h-4",
-        });
-
-        classes.Add("shrink-0");
-        classes.Add("mt-icon-offset");
+        var iconSizeClass = "w-4 h-4";
+        var classes = new List<string> { iconSizeClass, "shrink-0" };
         classes.Add(GetIconColorClasses());
+        if (HasChildren)
+        {
+            classes.Add("mt-[4.5px]");
+        }
 
         if (!string.IsNullOrEmpty(IconClassName))
         {
@@ -161,11 +164,24 @@
         return Variant switch
         {
             InformationVariant.Info => "text-brand-300",
-            InformationVariant.Slate => "text-slate-900",
+            InformationVariant.Slate => "text-slate-950",
             InformationVariant.Success => "text-green-600",
-            InformationVariant.Warning => "text-yellow-600",
+            InformationVariant.Warning => "text-amber-600",
             InformationVariant.Danger => "text-red-600",
             _ => "text-brand-300",
+        };
+    }
+
+    private string GetVariantTextClasses()
+    {
+        return Variant switch
+        {
+            InformationVariant.Info => "text-brand-600",
+            InformationVariant.Slate => "text-slate-950",
+            InformationVariant.Success => "text-green-600",
+            InformationVariant.Warning => "text-amber-600",
+            InformationVariant.Danger => "text-red-600",
+            _ => "text-brand-600",
         };
     }
 
@@ -174,43 +190,38 @@
         return IconStyle ?? "";
     }
 
+    private string GetSizeTitleClasses() => Size == InformationSize.Small ? "text-sm font-medium leading-none" : "text-base font-medium leading-none";
+
+    private string GetSizeDescriptionClasses() => Size == InformationSize.Small ? "text-xs font-normal leading-5" : "text-sm font-normal leading-6";
+
     private string GetTitleClasses()
     {
-        var classes = new List<string>();
-        classes.Add(GetSizeTextClasses());
-        classes.Add("mb-1");
+        var classes = new List<string> { GetSizeTitleClasses(), GetVariantTextClasses(), "mb-1" };
+        if (!string.IsNullOrEmpty(TitleClassName))
+            classes.Add(TitleClassName);
         return string.Join(" ", classes);
     }
 
     private string GetDescriptionClasses()
     {
-        var classes = new List<string>();
-        classes.Add(GetSizeTextClasses());
+        var classes = new List<string> { GetSizeDescriptionClasses(), GetVariantTextClasses() };
         if (!string.IsNullOrEmpty(Title))
-        {
             classes.Add("mb-1");
-        }
+        if (!string.IsNullOrEmpty(DescriptionClassName))
+            classes.Add(DescriptionClassName);
         return string.Join(" ", classes);
     }
 
     private string GetContentClasses()
     {
-        return GetSizeTextClasses();
+        return $"{GetSizeDescriptionClasses()} {GetVariantTextClasses()}";
     }
 
-    private string GetSizeTextClasses()
-    {
-        return Size switch
-        {
-            InformationSize.Small => "text-sm font-normal leading-5 text-slate-900",
-            InformationSize.Large => "text-base font-normal leading-6 text-slate-900",
-            _ => "text-sm font-normal leading-5 text-slate-900", // Medium
-        };
-    }
+    private const int IconSize = 16;
 
     private RenderFragment GetDefaultIcon()
     {
-        var iconSize = Size == InformationSize.Large ? 20 : 16;
+        var iconSize = IconSize;
         var colorClass = GetIconColorClasses();
 
         return Variant switch
