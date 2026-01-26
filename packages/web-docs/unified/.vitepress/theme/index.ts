@@ -43,6 +43,7 @@ import {
   PtModalFooter,
   PtPinInput,
   PtTooltip,
+  PtDivider,
 } from '@pacer-ui/vue';
 
 export default {
@@ -85,5 +86,6 @@ export default {
     app.component('PtModalFooter', PtModalFooter);
     app.component('PtPinInput', PtPinInput);
     app.component('PtTooltip', PtTooltip);
+    app.component('PtDivider', PtDivider);
   },
 };

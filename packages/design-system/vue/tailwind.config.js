@@ -7,6 +7,10 @@ module.exports = {
     content: [
         './src/**/*.{vue,js,ts,jsx,tsx}',
     ],
+    safelist: [
+        // PtDivider: ensure classes are present when consumed by docs/Storybook
+        { pattern: /^(border-(gray|red|orange|yellow|green|teal|blue|cyan|purple|pink)-300|border-(solid|dashed|dotted)|border-[tl](-[248])?|border-0|min-h-0|min-w-0|self-stretch|shrink-0|bg-transparent)$/ },
+    ],
     theme: {
         extend: {
             colors: {

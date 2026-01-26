@@ -342,7 +342,6 @@ packages/design-system/
 
 - **Shadcn/ui**: https://ui.shadcn.com/
 - **Shadcn Vue**: https://www.shadcn-vue.com/
-- **Radix UI**: https://www.radix-ui.com/
 - **Tailwind CSS**: https://tailwindcss.com/
 - **Turborepo**: https://turbo.build/repo/docs
 

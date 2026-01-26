@@ -82,7 +82,7 @@
               </div>
               <h3 class="feature-title">45+ Components</h3>
               <p class="feature-description">
-                Production-ready, fully React components builts on Radix UI primitives. Fully typed with Typescript, and customizable with Tailwind CSS.
+                Production-ready React components. Fully typed with TypeScript, and customizable with Tailwind CSS.
               </p>
             </div>
             
@@ -138,7 +138,7 @@
               </div>
               <h3 class="framework-title">React Components</h3>
               <p class="framework-description">
-                Production-ready React components built with Radix UI and Typescript
+                Production-ready React components built with TypeScript
               </p>
             </div>
             

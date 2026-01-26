@@ -58,5 +58,14 @@ export type { PinInputProps, PinInputSize, PinInputPosition } from './components
 export { Tooltip } from './components/Tooltip';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/Tooltip';
 
+export { Divider } from './components/Divider';
+export type {
+  DividerProps,
+  DividerColorPalette,
+  DividerVariant,
+  DividerOrientation,
+  DividerSize,
+} from './components/Divider';
+
 // Utilities
 export { cn } from './utils/cn';

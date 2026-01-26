@@ -18,7 +18,7 @@ Built for Pertamina Patra Niaga's enterprise applications with security, accessi
 
 Leveraging the latest technologies:
 
-- **React 18+** with Radix UI primitives
+- **React 18+**
 - **Vue 3** with Composition API
 - **.NET 8** Blazor components
 - **Tailwind CSS** for styling

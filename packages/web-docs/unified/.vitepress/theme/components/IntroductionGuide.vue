@@ -385,7 +385,7 @@ const techStacks = [
   { 
     name: 'React', 
     icon: '⚛️',
-    techs: ['React 18+', 'Radix UI', 'Tailwind CSS 3+', 'TypeScript 5+']
+    techs: ['React 18+', 'Tailwind CSS 3+', 'TypeScript 5+']
   },
   { 
     name: 'Vue', 

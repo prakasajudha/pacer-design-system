@@ -99,6 +99,7 @@ export default defineConfig({
               { text: 'Badge', link: '/components/badge' },
               { text: 'Button', link: '/components/button' },
               { text: 'Card', link: '/components/card' },
+              { text: 'Divider', link: '/components/divider' },
               { text: 'Icon Button', link: '/components/icon-button' },
               { text: 'Skeleton', link: '/components/skeleton' },
               { text: 'Tabs', link: '/components/tabs' },

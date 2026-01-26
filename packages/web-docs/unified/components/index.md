@@ -80,6 +80,14 @@ Input OTP/PIN per digit dengan opsi mask dan toggle show/hide.
 
 ### Layout Components
 
+#### [Divider](/components/divider)
+
+Pemisah visual horizontal atau vertikal antara konten.
+
+- ✅ Orientation (horizontal, vertical)
+- ✅ Variant (solid, dashed, dotted) & color palette
+- ✅ Size (xs, sm, md, lg) & width/height (Tailwind)
+
 #### [Card](/components/card)
 
 Container for grouping related content.
@@ -321,6 +329,7 @@ Learn more about [Design Tokens](/tokens).
 | Tabs          |  ✅   | ✅  |   ✅   | Stable      |
 | Modal         |  ✅   | ✅  |   ✅   | Stable      |
 | Tooltip       |  ✅   | ✅  |   ✅   | Stable      |
+| Divider       |  ✅   | ✅  |   🚧   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
 | Dropdown  |  🚧   | 🚧  |   🚧   | Planned     |
