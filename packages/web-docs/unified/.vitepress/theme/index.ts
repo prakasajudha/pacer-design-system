@@ -41,6 +41,7 @@ import {
   PtModalHeader,
   PtModalBody,
   PtModalFooter,
+  PtPinInput,
 } from '@pacer-ui/vue';
 
 export default {
@@ -81,5 +82,6 @@ export default {
     app.component('PtModalHeader', PtModalHeader);
     app.component('PtModalBody', PtModalBody);
     app.component('PtModalFooter', PtModalFooter);
+    app.component('PtPinInput', PtPinInput);
   },
 };

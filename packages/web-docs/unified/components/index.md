@@ -69,6 +69,15 @@ Text input fields with validation states.
 - ✅ Validation states (success, error, warning)
 - ✅ Icon support
 
+#### [Pin Input](/components/pin-input)
+
+Input OTP/PIN per digit dengan opsi mask dan toggle show/hide.
+
+- ✅ size (sm, md, lg)
+- ✅ mask (true/false), position (left/right)
+- ✅ title, description, error, errorMessage, disabled
+- ✅ Jumlah digit konfigurasi (length, default 4)
+
 ### Layout Components
 
 #### [Card](/components/card)
@@ -291,6 +300,7 @@ Learn more about [Design Tokens](/tokens).
 | Skeleton      |  ✅   | ✅  |   ✅   | Stable      |
 | Information   |  ✅   | ✅  |   ✅   | Stable      |
 | Input         |  ✅   | ✅  |   ✅   | Stable      |
+| Pin Input     |  ✅   | ✅  |   ✅   | Stable      |
 | Card          |  ✅   | ✅  |   ✅   | Stable      |
 | Avatar        |  ✅   | ✅  |   ✅   | Stable      |
 | Progress      |  ✅   | ✅  |   ✅   | Stable      |

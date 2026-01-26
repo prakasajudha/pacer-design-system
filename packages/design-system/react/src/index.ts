@@ -52,5 +52,8 @@ export type { ModalBodyProps } from './components/ModalBody';
 export { ModalFooter } from './components/ModalFooter';
 export type { ModalFooterProps } from './components/ModalFooter';
 
+export { PinInput } from './components/PinInput';
+export type { PinInputProps, PinInputSize, PinInputPosition } from './components/PinInput';
+
 // Utilities
 export { cn } from './utils/cn';

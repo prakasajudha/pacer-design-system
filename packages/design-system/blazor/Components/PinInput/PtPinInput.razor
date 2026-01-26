@@ -1,0 +1,180 @@
+@namespace Pertamina.DesignSystem.Blazor
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using System.Collections.Generic
+@using System.Threading
+@inherits ComponentBase
+@implements IDisposable
+
+<div class="flex flex-col gap-1.5 @GetRootAlignClass()">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <label class="block text-sm font-medium text-slate-700 w-full @GetTextAlignClass()">@Title</label>
+    }
+
+    <div class="flex w-full items-center @GetGapClass() @GetPositionClass()">
+        <div class="flex items-center @GetGapClass()">
+            @for (var i = 0; i < Length; i++)
+            {
+                var idx = i;
+                <input type="text"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       maxlength="1"
+                       disabled="@Disabled"
+                       aria-label="@($"Digit {idx + 1}")"
+                       class="inline-flex items-center justify-center rounded-md border bg-white text-center font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 @GetBoxClass() @GetInputStateClass()"
+                       value="@GetDisplayValue(idx)"
+                       @oninput="e => HandleInput(idx, e)"
+                       @onkeydown="e => HandleKeyDown(idx, e)" />
+            }
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p class="text-sm font-normal leading-5 text-slate-500 w-full @GetTextAlignClass()">@Description</p>
+    }
+    @if (Error && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p class="text-sm text-error-600 w-full @GetTextAlignClass()" role="alert">@ErrorMessage</p>
+    }
+</div>
+
+@code {
+    private const int RevealMs = 500;
+    private bool _maskVisible;
+    private readonly HashSet<int> _revealingIndices = new();
+    private readonly Dictionary<int, CancellationTokenSource> _revealCtsByIndex = new();
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public int Length { get; set; } = 4;
+    [Parameter] public PinInputSize Size { get; set; } = PinInputSize.Medium;
+    [Parameter] public bool Mask { get; set; } = true;
+    [Parameter] public PinInputPosition Position { get; set; } = PinInputPosition.Left;
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool Error { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+
+    private string GetDigits() => (Value ?? "").PadRight(Length).Substring(0, Length);
+
+    private string GetDisplayValue(int idx)
+    {
+        var digits = GetDigits();
+        var c = idx < digits.Length ? digits[idx] : ' ';
+        if (Mask && !_maskVisible && !_revealingIndices.Contains(idx) && c != ' ') return "•";
+        return c == ' ' ? "" : c.ToString();
+    }
+
+    private void StartRevealTimeout(int idx)
+    {
+        if (_revealCtsByIndex.TryGetValue(idx, out var existing))
+        {
+            existing.Cancel();
+            existing.Dispose();
+            _revealCtsByIndex.Remove(idx);
+        }
+        _revealingIndices.Add(idx);
+        StateHasChanged();
+        var cts = new CancellationTokenSource();
+        _revealCtsByIndex[idx] = cts;
+        _ = RunRevealTimerAsync(idx, cts.Token);
+    }
+
+    private async Task RunRevealTimerAsync(int idx, CancellationToken token)
+    {
+        try
+        {
+            await Task.Delay(RevealMs, token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        if (token.IsCancellationRequested) return;
+        _revealingIndices.Remove(idx);
+        _revealCtsByIndex.Remove(idx);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        foreach (var cts in _revealCtsByIndex.Values)
+        {
+            cts.Cancel();
+            cts.Dispose();
+        }
+        _revealCtsByIndex.Clear();
+    }
+
+    private string GetBoxClass() => Size switch
+    {
+        PinInputSize.Small => "w-9 h-9 text-sm",
+        PinInputSize.Large => "w-12 h-12 text-lg",
+        _ => "w-10 h-10 text-base"
+    };
+
+    private string GetGapClass() => Size == PinInputSize.Large ? "gap-3" : "gap-2";
+
+    private string GetPositionClass() => Position == PinInputPosition.Center ? "justify-center" : "justify-start";
+
+    private string GetRootAlignClass() => Position == PinInputPosition.Center ? "items-center" : "";
+
+    private string GetTextAlignClass() => Position == PinInputPosition.Center ? "text-center" : "";
+
+    private string GetInputStateClass() => Error
+        ? "border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500"
+        : "border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300";
+
+    private static string Sanitize(string s, int maxLen)
+    {
+        var t = new string(s.Where(char.IsDigit).Take(maxLen).ToArray());
+        return string.Concat(t.Take(maxLen));
+    }
+
+    private async Task SetValue(string v)
+    {
+        var next = Sanitize(v, Length);
+        Value = next;
+        await ValueChanged.InvokeAsync(next);
+    }
+
+    private async Task HandleInput(int idx, ChangeEventArgs e)
+    {
+        var raw = (e.Value?.ToString() ?? "").Replace("•", "");
+        if (raw.Length > 1)
+        {
+            var next = Sanitize(raw, Length);
+            await SetValue(next);
+            if (Mask)
+            {
+                for (var i = 0; i < next.Length; i++)
+                    StartRevealTimeout(i);
+            }
+            return;
+        }
+        var v = Sanitize(raw, 1);
+        var digits = GetDigits().ToCharArray();
+        if (idx < digits.Length) digits[idx] = v.Length > 0 ? v[0] : ' ';
+        await SetValue(new string(digits));
+        if (Mask) StartRevealTimeout(idx);
+    }
+
+    private async Task HandleKeyDown(int idx, KeyboardEventArgs e)
+    {
+        if (e.Key == "Backspace")
+        {
+            var digits = GetDigits();
+            if (idx > 0 && (idx >= digits.Length || digits[idx] == ' '))
+            {
+                var arr = digits.ToCharArray();
+                arr[idx - 1] = ' ';
+                await SetValue(new string(arr));
+            }
+        }
+    }
+
+}

@@ -97,6 +97,7 @@ export default defineConfig({
           { text: 'Skeleton', link: '/components/skeleton' },
           { text: 'Information', link: '/components/information' },
           { text: 'Input', link: '/components/input' },
+          { text: 'Pin Input', link: '/components/pin-input' },
           { text: 'Card', link: '/components/card' },
           { text: 'Avatar', link: '/components/avatar' },
           { text: 'Progress', link: '/components/progress' },
