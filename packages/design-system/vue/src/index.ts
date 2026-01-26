@@ -22,9 +22,10 @@ import PtModalHeader from './components/PtModalHeader.vue';
 import PtModalBody from './components/PtModalBody.vue';
 import PtModalFooter from './components/PtModalFooter.vue';
 import PtPinInput from './components/PtPinInput.vue';
+import PtTooltip from './components/PtTooltip.vue';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip };
 
 // Plugin untuk install semua components
 export default {
@@ -50,6 +51,7 @@ export default {
     app.component('PtModalBody', PtModalBody);
     app.component('PtModalFooter', PtModalFooter);
     app.component('PtPinInput', PtPinInput);
+    app.component('PtTooltip', PtTooltip);
   },
 };
 
@@ -74,3 +76,4 @@ export type { ModalProps, ModalSize } from './components/PtModal.vue';
 export type { ModalHeaderProps } from './components/PtModalHeader.vue';
 export type { ModalFooterProps } from './components/PtModalFooter.vue';
 export type { PinInputProps } from './components/PtPinInput.vue';
+export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/PtTooltip.vue';

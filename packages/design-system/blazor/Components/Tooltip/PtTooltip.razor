@@ -1,0 +1,201 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@implements IDisposable
+
+<div class="relative inline-flex"
+     @onmouseenter="HandleTriggerMouseEnter"
+     @onmouseleave="HandleTriggerMouseLeave"
+     @onfocusin="HandleTriggerFocus"
+     @onfocusout="HandleTriggerBlur"
+     aria-describedby="@(HasContent ? tooltipId : null)">
+    @ChildContent
+
+    @if (HasContent && _open && _showPanel)
+    {
+        <div class="absolute z-[1070] flex flex-col overflow-visible rounded-md whitespace-normal transition-opacity duration-150 @GetVariantClasses() @GetContainerSizeClasses() @GetPositionClasses()"
+             id="@tooltipId"
+             role="tooltip"
+             @onmouseenter="HandleTooltipMouseEnter"
+             @onmouseleave="HandleTooltipMouseLeave">
+            @if (Title != null)
+            {
+                <div class="@GetTitleClasses()">@Title</div>
+            }
+            @if (Description != null)
+            {
+                <div class="@GetDescriptionClasses()">@Description</div>
+            }
+            <div class="@GetArrowClasses()" style="@GetArrowStyle()" aria-hidden="true"></div>
+        </div>
+    }
+</div>
+
+@code {
+    private string tooltipId = "pt-tooltip-" + Guid.NewGuid().ToString("N")[..9];
+    private bool _open;
+    private bool _showPanel;
+    private Timer? _showTimer;
+    private Timer? _hideTimer;
+    private const int ArrowSize = 6;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Title { get; set; }
+    [Parameter] public RenderFragment? Description { get; set; }
+    [Parameter] public TooltipPosition Position { get; set; } = TooltipPosition.Top;
+    [Parameter] public TooltipVariant Variant { get; set; } = TooltipVariant.Primary;
+    [Parameter] public TooltipSize Size { get; set; } = TooltipSize.Md;
+    [Parameter] public int DelayDuration { get; set; } = 200;
+    [Parameter] public int SkipDelayDuration { get; set; } = 100;
+
+    private bool HasContent => Title != null || Description != null;
+
+    private void HandleTriggerMouseEnter() => Show();
+    private void HandleTriggerMouseLeave() => Hide();
+    private void HandleTriggerFocus() => Show();
+    private void HandleTriggerBlur() => Hide();
+    private void HandleTooltipMouseEnter()
+    {
+        StopHideTimer();
+        StopShowTimer();
+        _open = true;
+        _showPanel = true;
+        StateHasChanged();
+    }
+    private void HandleTooltipMouseLeave() => Hide();
+
+    private void Show()
+    {
+        StopHideTimer();
+        if (!HasContent) return;
+        if (DelayDuration <= 0)
+        {
+            _open = true;
+            _showPanel = true;
+            StateHasChanged();
+            return;
+        }
+        _showTimer = new Timer(_ =>
+        {
+            InvokeAsync(() =>
+            {
+                _open = true;
+                _showPanel = true;
+                StateHasChanged();
+            });
+            _showTimer?.Dispose();
+            _showTimer = null;
+        }, null, DelayDuration, Timeout.Infinite);
+    }
+
+    private void Hide()
+    {
+        StopShowTimer();
+        if (SkipDelayDuration <= 0)
+        {
+            _open = false;
+            _showPanel = false;
+            StateHasChanged();
+            return;
+        }
+        _hideTimer = new Timer(_ =>
+        {
+            InvokeAsync(() =>
+            {
+                _open = false;
+                _showPanel = false;
+                StateHasChanged();
+            });
+            _hideTimer?.Dispose();
+            _hideTimer = null;
+        }, null, SkipDelayDuration, Timeout.Infinite);
+    }
+
+    private void StopShowTimer()
+    {
+        _showTimer?.Dispose();
+        _showTimer = null;
+    }
+    private void StopHideTimer()
+    {
+        _hideTimer?.Dispose();
+        _hideTimer = null;
+    }
+
+    private string GetVariantClasses() => Variant == TooltipVariant.Primary
+        ? "bg-[#1A1A1A] text-white shadow-lg"
+        : "bg-white text-slate-900 border border-slate-200 shadow-lg";
+
+    private string GetContainerSizeClasses() => Size switch
+    {
+        TooltipSize.Sm => "px-3 py-2 gap-0.5 max-w-[200px]",
+        _ => "px-4 py-3 gap-1 max-w-[280px]"
+    };
+
+    private string GetPositionClasses()
+    {
+        const string gap = "8px";
+        return Position switch
+        {
+            TooltipPosition.Top => "bottom-full left-1/2 -translate-x-1/2 mb-2",
+            TooltipPosition.TopLeft => "bottom-full left-0 mb-2",
+            TooltipPosition.TopRight => "bottom-full right-0 mb-2",
+            TooltipPosition.Bottom => "top-full left-1/2 -translate-x-1/2 mt-2",
+            TooltipPosition.BottomLeft => "top-full left-0 mt-2",
+            TooltipPosition.BottomRight => "top-full right-0 mt-2",
+            TooltipPosition.Left => "right-full top-1/2 -translate-y-1/2 mr-2",
+            TooltipPosition.Right => "left-full top-1/2 -translate-y-1/2 ml-2",
+            _ => "bottom-full left-1/2 -translate-x-1/2 mb-2"
+        };
+    }
+
+    private string GetTitleClasses() => Size switch
+    {
+        TooltipSize.Sm => "text-xs font-semibold leading-tight",
+        _ => "text-sm font-semibold leading-tight"
+    };
+
+    private string GetDescriptionClasses() => Size switch
+    {
+        TooltipSize.Sm => "text-xs font-normal leading-4 opacity-90",
+        _ => "text-sm font-normal leading-5 opacity-90"
+    };
+
+    private string GetArrowClasses()
+    {
+        var baseClass = "absolute w-0 h-0 border-solid pointer-events-none ";
+        return Position switch
+        {
+            TooltipPosition.Top => baseClass + "bottom-0 left-1/2 -translate-x-1/2 translate-y-full border-l-transparent border-r-transparent border-b-transparent",
+            TooltipPosition.TopLeft => baseClass + "bottom-0 left-4 translate-y-full border-l-transparent border-r-transparent border-b-transparent",
+            TooltipPosition.TopRight => baseClass + "bottom-0 right-4 translate-y-full border-l-transparent border-r-transparent border-b-transparent",
+            TooltipPosition.Bottom => baseClass + "top-0 left-1/2 -translate-x-1/2 -translate-y-full border-l-transparent border-r-transparent border-t-transparent",
+            TooltipPosition.BottomLeft => baseClass + "top-0 left-4 -translate-y-full border-l-transparent border-r-transparent border-t-transparent",
+            TooltipPosition.BottomRight => baseClass + "top-0 right-4 -translate-y-full border-l-transparent border-r-transparent border-t-transparent",
+            TooltipPosition.Left => baseClass + "right-0 top-1/2 -translate-y-1/2 translate-x-full border-t-transparent border-b-transparent border-l-transparent",
+            TooltipPosition.Right => baseClass + "left-0 top-1/2 -translate-y-1/2 -translate-x-full border-t-transparent border-b-transparent border-r-transparent",
+            _ => baseClass + "bottom-0 left-1/2 -translate-x-1/2 translate-y-full border-l-transparent border-r-transparent border-b-transparent"
+        };
+    }
+
+    private string GetArrowStyle()
+    {
+        var color = Variant == TooltipVariant.Primary ? "#1A1A1A" : "#ffffff";
+        var tw = $"{ArrowSize}px";
+        return Position switch
+        {
+            TooltipPosition.Top or TooltipPosition.TopLeft or TooltipPosition.TopRight => $"border-width:{tw};border-top-color:{color};border-left-color:transparent;border-right-color:transparent;border-bottom-color:transparent;",
+            TooltipPosition.Bottom or TooltipPosition.BottomLeft or TooltipPosition.BottomRight => $"border-width:{tw};border-bottom-color:{color};border-left-color:transparent;border-right-color:transparent;border-top-color:transparent;",
+            TooltipPosition.Right or TooltipPosition.TopRight or TooltipPosition.BottomRight => $"border-width:{tw};border-right-color:{color};border-top-color:transparent;border-bottom-color:transparent;border-left-color:transparent;",
+            TooltipPosition.Left or TooltipPosition.TopLeft or TooltipPosition.BottomLeft => $"border-width:{tw};border-left-color:{color};border-top-color:transparent;border-bottom-color:transparent;border-right-color:transparent;",
+            _ => $"border-width:{tw};border-top-color:{color};border-left-color:transparent;border-right-color:transparent;border-bottom-color:transparent;"
+        };
+    }
+
+    public void Dispose()
+    {
+        StopShowTimer();
+        StopHideTimer();
+    }
+}
