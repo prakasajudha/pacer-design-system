@@ -77,7 +77,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
     ref
   ) => {
     /** Toggle mask (tetap di kode, tidak ditampilkan di UI). */
-    const [maskVisible, setMaskVisible] = useState(false);
+    const [maskVisible] = useState(false);
     /** Indeks kotak yang sedang dalam periode "reveal" (karakter terlihat ~0.5s lalu mask lagi). Satu timeout per kotak. */
     const [revealingIndices, setRevealingIndices] = useState<Set<number>>(new Set());
     const revealTimersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
