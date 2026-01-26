@@ -152,14 +152,14 @@
 
     private string GetTitleClasses() => Size switch
     {
-        TooltipSize.Sm => "text-xs font-semibold leading-tight",
-        _ => "text-sm font-semibold leading-tight"
+        TooltipSize.Sm => "text-xs font-semibold leading-tight whitespace-pre-line",
+        _ => "text-sm font-semibold leading-tight whitespace-pre-line"
     };
 
     private string GetDescriptionClasses() => Size switch
     {
-        TooltipSize.Sm => "text-xs font-normal leading-4 opacity-90",
-        _ => "text-sm font-normal leading-5 opacity-90"
+        TooltipSize.Sm => "text-xs font-normal leading-4 opacity-90 whitespace-pre-line",
+        _ => "text-sm font-normal leading-5 opacity-90 whitespace-pre-line"
     };
 
     private string GetArrowClasses()

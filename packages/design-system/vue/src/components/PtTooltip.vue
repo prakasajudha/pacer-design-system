@@ -53,6 +53,14 @@ const hasTitle = computed(() => Boolean(slots.title ?? props.title));
 const hasDescription = computed(() => Boolean(slots.description ?? props.description));
 const hasContent = computed(() => hasTitle.value || hasDescription.value);
 
+/** Untuk string: ubah literal \\n (dari Controls/input) jadi newline agar whitespace-pre-line jalan. */
+const displayTitle = computed(() =>
+  typeof props.title === 'string' ? props.title.replace(/\\n/g, '\n') : props.title
+);
+const displayDescription = computed(() =>
+  typeof props.description === 'string' ? props.description.replace(/\\n/g, '\n') : props.description
+);
+
 const variantStyles: Record<TooltipVariant, string> = {
   primary: 'bg-[#1A1A1A] text-white shadow-lg',
   secondary: 'bg-white text-slate-900 border border-slate-200 shadow-lg',
@@ -61,13 +69,13 @@ const variantStyles: Record<TooltipVariant, string> = {
 const sizeStyles = {
   sm: {
     container: 'px-3 py-2 gap-0.5 max-w-[200px]',
-    title: 'text-xs font-semibold leading-tight',
-    description: 'text-xs font-normal leading-4 opacity-90',
+    title: 'text-xs font-semibold leading-tight whitespace-pre-line',
+    description: 'text-xs font-normal leading-4 opacity-90 whitespace-pre-line',
   },
   md: {
     container: 'px-4 py-3 gap-1 max-w-[280px]',
-    title: 'text-sm font-semibold leading-tight',
-    description: 'text-sm font-normal leading-5 opacity-90',
+    title: 'text-sm font-semibold leading-tight whitespace-pre-line',
+    description: 'text-sm font-normal leading-5 opacity-90 whitespace-pre-line',
   },
 } as const;
 
@@ -295,10 +303,10 @@ const tooltipStyle = computed(() => {
       @mouseleave="handleTooltipMouseLeave"
     >
       <div v-if="hasTitle" :class="currentSizeStyles.title">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title">{{ displayTitle }}</slot>
       </div>
       <div v-if="hasDescription" :class="currentSizeStyles.description">
-        <slot name="description">{{ description }}</slot>
+        <slot name="description">{{ displayDescription }}</slot>
       </div>
       <div
         :class="getArrowClasses(position)"

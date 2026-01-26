@@ -112,13 +112,13 @@ export function Tooltip({
   const sizeStyles = {
     sm: {
       container: 'px-3 py-2 gap-0.5 max-w-[200px]',
-      title: 'text-xs font-semibold leading-tight',
-      description: 'text-xs font-normal leading-4 opacity-90',
+      title: 'text-xs font-semibold leading-tight whitespace-pre-line',
+      description: 'text-xs font-normal leading-4 opacity-90 whitespace-pre-line',
     },
     md: {
       container: 'px-4 py-3 gap-1 max-w-[280px]',
-      title: 'text-sm font-semibold leading-tight',
-      description: 'text-sm font-normal leading-5 opacity-90',
+      title: 'text-sm font-semibold leading-tight whitespace-pre-line',
+      description: 'text-sm font-normal leading-5 opacity-90 whitespace-pre-line',
     },
   } as const;
 
@@ -278,8 +278,16 @@ export function Tooltip({
         }}
         onMouseLeave={hide}
       >
-        {hasTitle && <div className={sizeStyles[size].title}>{title}</div>}
-        {hasDescription && <div className={sizeStyles[size].description}>{description}</div>}
+        {hasTitle && (
+          <div className={sizeStyles[size].title}>
+            {typeof title === 'string' ? title.replace(/\\n/g, '\n') : title}
+          </div>
+        )}
+        {hasDescription && (
+          <div className={sizeStyles[size].description}>
+            {typeof description === 'string' ? description.replace(/\\n/g, '\n') : description}
+          </div>
+        )}
         <div
           className={getArrowClasses(position)}
           style={getArrowStyle(position, variant)}
@@ -305,3 +313,5 @@ export function Tooltip({
     </>
   );
 }
+
+Tooltip.displayName = 'Tooltip';

@@ -111,6 +111,7 @@ export default defineConfig({
               { text: 'Information', link: '/components/information' },
               { text: 'Modal', link: '/components/modal' },
               { text: 'Progress', link: '/components/progress' },
+              { text: 'Tooltip', link: '/components/tooltip' },
             ],
           },
           {

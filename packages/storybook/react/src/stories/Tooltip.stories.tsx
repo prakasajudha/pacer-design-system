@@ -174,6 +174,15 @@ export const TitleDescriptionAsJsx: Story = {
   args: { ...base },
 };
 
+export const MultilineTitleDescription: Story = {
+  args: {
+    ...base,
+    title: 'Baris pertama judul\nBaris kedua judul',
+    description:
+      'Paragraf pertama deskripsi.\nParagraf kedua setelah Enter.\nParagraf ketiga — gunakan \\n untuk baris baru.',
+  },
+};
+
 export const TitleDescriptionAsComponent: Story = {
   render: (args) => (
     <Tooltip

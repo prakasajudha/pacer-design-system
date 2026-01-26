@@ -167,6 +167,17 @@ Modal untuk menampilkan dialog atau overlay yang membutuhkan interaksi user. Men
 - ✅ Body scroll lock
 - ✅ compound components pattern (Modal, ModalHeader, ModalBody, ModalFooter)
 
+#### [Tooltip](/components/tooltip)
+
+Tooltip menampilkan informasi singkat saat trigger di-hover atau difokus.
+
+- ✅ 2 variants (Primary/dark, Secondary/light)
+- ✅ 8 posisi (top, top-left, top-right, right, bottom-right, bottom, bottom-left, left)
+- ✅ 2 sizes (sm, md)
+- ✅ Title & description: string, komponen/slot/ReactNode/RenderFragment
+- ✅ Multiline: newline asli atau literal `\n` dari input
+- ✅ Delay show/hide, dismiss dengan Escape (Vue & React), hoverable
+
 ## Design Principles
 
 All components follow these principles:
@@ -309,6 +320,7 @@ Learn more about [Design Tokens](/tokens).
 | Radio         |  ✅   | ✅  |   ✅   | Stable      |
 | Tabs          |  ✅   | ✅  |   ✅   | Stable      |
 | Modal         |  ✅   | ✅  |   ✅   | Stable      |
+| Tooltip       |  ✅   | ✅  |   ✅   | Stable      |
 | Select    |  🚧   | 🚧  |   🚧   | In Progress |
 | Textarea  |  🚧   | 🚧  |   🚧   | Planned     |
 | Dropdown  |  🚧   | 🚧  |   🚧   | Planned     |
