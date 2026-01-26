@@ -9,7 +9,7 @@
 <div class="flex flex-col gap-1.5 @GetRootAlignClass()">
     @if (!string.IsNullOrEmpty(Title))
     {
-        <label class="block text-sm font-medium text-slate-700 w-full @GetTextAlignClass()">@Title</label>
+        <label class="block w-full text-sm font-medium text-slate-700 @GetTextAlignClass()">@Title</label>
     }
 
     <div class="flex w-full items-center @GetGapClass() @GetPositionClass()">
@@ -23,7 +23,7 @@
                        maxlength="1"
                        disabled="@Disabled"
                        aria-label="@($"Digit {idx + 1}")"
-                       class="inline-flex items-center justify-center rounded-md border bg-white text-center font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 @GetBoxClass() @GetInputStateClass()"
+                       class="inline-flex items-center justify-center rounded-md border border-solid bg-white text-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 @GetBoxClass() @GetInputStateClass()"
                        value="@GetDisplayValue(idx)"
                        @oninput="e => HandleInput(idx, e)"
                        @onkeydown="e => HandleKeyDown(idx, e)" />
@@ -33,11 +33,11 @@
 
     @if (!string.IsNullOrEmpty(Description))
     {
-        <p class="text-sm font-normal leading-5 text-slate-500 w-full @GetTextAlignClass()">@Description</p>
+        <label class="block w-full text-sm font-normal leading-5 text-slate-500 @GetTextAlignClass()">@Description</label>
     }
     @if (Error && !string.IsNullOrEmpty(ErrorMessage))
     {
-        <p class="text-sm text-error-600 w-full @GetTextAlignClass()" role="alert">@ErrorMessage</p>
+        <label class="block w-full text-sm text-error-600 @GetTextAlignClass()" role="alert">@ErrorMessage</label>
     }
 </div>
 
@@ -59,14 +59,20 @@
     [Parameter] public bool Error { get; set; }
     [Parameter] public string? ErrorMessage { get; set; }
 
-    private string GetDigits() => (Value ?? "").PadRight(Length).Substring(0, Length);
+    private const char EmptyChar = ' ';
+
+    private string GetValueStr()
+    {
+        var s = (Value ?? "").Where(c => char.IsDigit(c) || c == EmptyChar).Take(Length);
+        return new string(s).PadRight(Length, EmptyChar);
+    }
 
     private string GetDisplayValue(int idx)
     {
-        var digits = GetDigits();
-        var c = idx < digits.Length ? digits[idx] : ' ';
-        if (Mask && !_maskVisible && !_revealingIndices.Contains(idx) && c != ' ') return "•";
-        return c == ' ' ? "" : c.ToString();
+        var cur = GetValueStr();
+        var c = idx < cur.Length ? cur[idx] : EmptyChar;
+        if (Mask && !_maskVisible && !_revealingIndices.Contains(idx) && c != EmptyChar) return "•";
+        return c == EmptyChar ? "" : c.ToString();
     }
 
     private void StartRevealTimeout(int idx)
@@ -126,18 +132,18 @@
     private string GetTextAlignClass() => Position == PinInputPosition.Center ? "text-center" : "";
 
     private string GetInputStateClass() => Error
-        ? "border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500"
-        : "border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300";
+        ? "border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500"
+        : "border-solid border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300";
 
-    private static string Sanitize(string s, int maxLen)
+    private static string SanitizePositionBased(string s, int maxLen)
     {
-        var t = new string(s.Where(char.IsDigit).Take(maxLen).ToArray());
-        return string.Concat(t.Take(maxLen));
+        var t = new string(s.Where(c => char.IsDigit(c) || c == EmptyChar).Take(maxLen).ToArray());
+        return t.PadRight(maxLen, EmptyChar);
     }
 
     private async Task SetValue(string v)
     {
-        var next = Sanitize(v, Length);
+        var next = SanitizePositionBased(v, Length);
         Value = next;
         await ValueChanged.InvokeAsync(next);
     }
@@ -145,35 +151,37 @@
     private async Task HandleInput(int idx, ChangeEventArgs e)
     {
         var raw = (e.Value?.ToString() ?? "").Replace("•", "");
+        var v = new string(raw.Where(char.IsDigit).Take(1).ToArray());
         if (raw.Length > 1)
         {
-            var next = Sanitize(raw, Length);
-            await SetValue(next);
-            if (Mask)
-            {
-                for (var i = 0; i < next.Length; i++)
-                    StartRevealTimeout(i);
-            }
+            var cur = GetValueStr();
+            var merged = cur.Length > idx ? cur.Substring(0, idx) + (v.Length > 0 ? v[^1].ToString() : "") + cur.Substring(idx + 1) : cur;
+            await SetValue(merged);
+            if (Mask && v.Length > 0) StartRevealTimeout(idx);
             return;
         }
-        var v = Sanitize(raw, 1);
-        var digits = GetDigits().ToCharArray();
-        if (idx < digits.Length) digits[idx] = v.Length > 0 ? v[0] : ' ';
-        await SetValue(new string(digits));
+        var cur2 = GetValueStr();
+        var ch = v.Length > 0 ? v[0] : EmptyChar;
+        var next = (idx < cur2.Length ? cur2.Substring(0, idx) + ch + cur2.Substring(idx + 1) : cur2).PadRight(Length, EmptyChar).Substring(0, Length);
+        await SetValue(next);
         if (Mask) StartRevealTimeout(idx);
     }
 
     private async Task HandleKeyDown(int idx, KeyboardEventArgs e)
     {
-        if (e.Key == "Backspace")
+        if (e.Key != "Backspace") return;
+        var cur = GetValueStr();
+        var hasDigit = idx < cur.Length && cur[idx] != EmptyChar;
+        if (hasDigit)
         {
-            var digits = GetDigits();
-            if (idx > 0 && (idx >= digits.Length || digits[idx] == ' '))
-            {
-                var arr = digits.ToCharArray();
-                arr[idx - 1] = ' ';
-                await SetValue(new string(arr));
-            }
+            var next = cur.Substring(0, idx) + EmptyChar + (idx + 1 < cur.Length ? cur.Substring(idx + 1) : "");
+            await SetValue(next);
+            return;
+        }
+        if (idx > 0)
+        {
+            var next = cur.Substring(0, idx - 1) + EmptyChar + (idx < cur.Length ? cur.Substring(idx) : "");
+            await SetValue(next);
         }
     }
 

@@ -64,9 +64,17 @@ const maskVisible = ref(false);
 const revealingIndices = ref<Set<number>>(new Set());
 const revealTimerIds = new Map<number, ReturnType<typeof setTimeout>>();
 
+const EMPTY_CHAR = ' ';
+
+function getValueStr(): string {
+  const s = (modelValue.value || '').replace(/[^\d\s]/g, '').slice(0, props.length);
+  return s.padEnd(props.length, EMPTY_CHAR);
+}
+
 const digits = computed(() => {
-  const s = (modelValue.value || '').padEnd(props.length, '');
-  return s.slice(0, props.length).split('');
+  return getValueStr()
+    .split('')
+    .map((c) => (c === EMPTY_CHAR ? '' : c));
 });
 
 const displayValue = (idx: number) => {
@@ -105,57 +113,69 @@ const sizeStyles = computed(() => {
 
 const boxClasses = (idx: number) =>
   cn(
-    'inline-flex items-center justify-center rounded-md border bg-white text-center font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400',
+    'inline-flex items-center justify-center rounded-md border bg-white text-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400',
     sizeStyles.value.box,
     props.error
-      ? 'border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500'
-      : 'border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300'
+      ? 'border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500'
+      : 'border-solid border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300'
   );
 
 const inputRefs = ref<(HTMLInputElement | null)[]>([]);
 const indices = computed(() => Array.from({ length: props.length }, (_, i) => i));
 
-function getValueFromDigits(): string {
-  return digits.value.join('').replace(/\s/g, '');
+function setInputRef(i: number, el: unknown) {
+  if (el) (inputRefs.value as (HTMLInputElement | null)[])[i] = el as HTMLInputElement;
 }
 
 function setValue(val: string) {
-  const sanitized = val.replace(/\D/g, '').slice(0, props.length);
-  modelValue.value = sanitized;
-  emit('update:modelValue', sanitized);
+  const s = val.replace(/[^\d\s]/g, '').slice(0, props.length).padEnd(props.length, EMPTY_CHAR);
+  modelValue.value = s;
+  emit('update:modelValue', s);
 }
 
 function handleInput(idx: number, e: Event) {
   const el = e.target as HTMLInputElement;
   const v = (el.value || '').replace(/\D/g, '');
   if (v.length > 1) {
-    const cur = getValueFromDigits();
+    const cur = getValueStr();
     const merged = cur.slice(0, idx) + v.slice(-1) + cur.slice(idx + 1);
-    setValue(merged.slice(0, props.length));
+    setValue(merged);
     if (props.mask) startRevealTimeout(idx);
     inputRefs.value[Math.min(idx + 1, props.length - 1)]?.focus();
     return;
   }
-  const arr = [...digits.value];
-  arr[idx] = v;
-  setValue(arr.join(''));
+  const cur = getValueStr();
+  const ch = v ? v.slice(-1) : EMPTY_CHAR;
+  const next = cur.slice(0, idx) + ch + cur.slice(idx + 1);
+  setValue(next);
   if (props.mask) startRevealTimeout(idx);
   if (v && idx < props.length - 1) inputRefs.value[idx + 1]?.focus();
 }
 
 function handleKeydown(idx: number, e: KeyboardEvent) {
-  if (e.key === 'Backspace' && !digits.value[idx] && idx > 0) {
+  if (e.key !== 'Backspace') return;
+  const cur = getValueStr();
+  const hasDigit = cur[idx] !== EMPTY_CHAR && cur[idx] !== undefined;
+  if (hasDigit) {
+    const next = cur.slice(0, idx) + EMPTY_CHAR + cur.slice(idx + 1);
+    setValue(next);
+    e.preventDefault();
+    return;
+  }
+  if (idx > 0) {
     inputRefs.value[idx - 1]?.focus();
-    const arr = [...digits.value];
-    arr[idx - 1] = '';
-    setValue(arr.join(''));
+    const next = cur.slice(0, idx - 1) + EMPTY_CHAR + cur.slice(idx);
+    setValue(next);
+    e.preventDefault();
   }
 }
 
 function handlePaste(e: ClipboardEvent) {
   e.preventDefault();
   const pasted = (e.clipboardData?.getData('text') || '').replace(/\D/g, '').slice(0, props.length);
-  setValue(pasted);
+  const cur = getValueStr();
+  const next = (pasted + cur.slice(pasted.length)).slice(0, props.length).padEnd(props.length, EMPTY_CHAR);
+  setValue(next);
   if (props.mask && pasted.length > 0) {
     for (let i = 0; i < pasted.length; i++) startRevealTimeout(i);
   }
@@ -165,7 +185,7 @@ function handlePaste(e: ClipboardEvent) {
 watch(
   () => modelValue.value,
   (val) => {
-    const next = (val || '').replace(/\D/g, '').slice(0, props.length);
+    const next = (val || '').replace(/[^\d\s]/g, '').slice(0, props.length).padEnd(props.length, EMPTY_CHAR);
     if (next !== (modelValue.value || '')) modelValue.value = next;
   },
   { immediate: true }
@@ -173,22 +193,22 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5" :class="{ 'items-center': position === 'center' }">
-    <label v-if="title" class="block text-sm font-medium text-slate-700 w-full" :class="{ 'text-center': position === 'center' }">
-      {{ title }}
+  <div class="flex flex-col gap-1.5" :class="{ 'items-center': props.position === 'center' }">
+    <label v-if="props.title" class="block text-sm font-medium text-slate-700 w-full" :class="{ 'text-center': props.position === 'center' }">
+      {{ props.title }}
     </label>
 
-    <div class="flex w-full items-center" :class="[sizeStyles.gap, position === 'center' ? 'justify-center' : 'justify-start']">
+    <div class="flex w-full items-center" :class="[sizeStyles.gap, props.position === 'center' ? 'justify-center' : 'justify-start']">
       <div class="flex items-center" :class="[sizeStyles.gap]">
         <template v-for="idx in indices" :key="idx">
           <input
-            :ref="(el) => { if (el) inputRefs[idx] = el as HTMLInputElement }"
+            :ref="(el) => setInputRef(idx, el)"
             :value="displayValue(idx)"
             type="text"
             inputmode="numeric"
             autocomplete="one-time-code"
             maxlength="1"
-            :disabled="disabled"
+            :disabled="props.disabled"
             :aria-label="`Digit ${idx + 1}`"
             :class="boxClasses(idx)"
             @input="handleInput(idx, $event)"
@@ -199,11 +219,11 @@ watch(
       </div>
     </div>
 
-    <p v-if="description" class="text-sm font-normal leading-5 text-slate-500 w-full" :class="{ 'text-center': position === 'center' }">
-      {{ description }}
-    </p>
-    <p v-if="error && errorMessage" class="text-sm text-error-600 w-full" role="alert" :class="{ 'text-center': position === 'center' }">
-      {{ errorMessage }}
-    </p>
+    <label v-if="props.description" class="block w-full text-sm font-normal leading-5 text-slate-500" :class="{ 'text-center': props.position === 'center' }">
+      {{ props.description }}
+    </label>
+    <label v-if="props.error && props.errorMessage" class="block w-full text-sm text-error-600" role="alert" :class="{ 'text-center': props.position === 'center' }">
+      {{ props.errorMessage }}
+    </label>
   </div>
 </template>

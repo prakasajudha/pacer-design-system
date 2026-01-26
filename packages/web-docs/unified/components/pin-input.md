@@ -1,7 +1,3 @@
----
-outline: deep
----
-
 <ComponentHero title="Pin Input" description="Pin Input dipakai untuk memasukkan kode OTP atau PIN dengan kotak per digit. Saat mask aktif, digit yang baru diketik terlihat 0,5 detik lalu otomatis di-mask (•). Tombol show/hide tidak ditampilkan di UI; opsi mask/position tetap di API. Mendukung title, description, dan state error." />
 
 <PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
@@ -10,124 +6,48 @@ outline: deep
 
 ## Anatomy
 
-- **Title** (opsional): Label di atas
-- **Kotak digit**: Satu input per digit, jumlah mengikuti prop `length` (default 4). Jika `mask=true`, digit terlihat 0,5 detik setelah ketik lalu berubah ke • (tombol show/hide tidak ditampilkan di UI).
-- **Error message** (jika `error` dan `errorMessage` ada): Pesan error di bawah
-- **Description**: Teks bantuan di bawah; **tetap ditampilkan** saat ada error (setelah error message)
+Pin Input component terdiri dari:
 
-## Props
+- **Title** (opsional): Label di atas deretan kotak
+- **Kotak digit**: Satu input per digit, jumlah mengikuti `length` (default 4). Jika `mask=true`, digit terlihat 0,5 detik setelah ketik lalu di-mask (•); tombol show/hide tidak ditampilkan di UI
+- **Description label**: Teks bantuan di bawah; tetap ditampilkan saat ada error
+- **Error message label** (jika `error` dan `errorMessage` ada): Pesan error di bawah description label
 
-| Prop | Tipe | Default | Keterangan |
-|------|------|---------|--------------|
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Ukuran kotak |
-| `mask` | `boolean` | `true` | Digit terlihat 0,5 detik lalu di-mask (•). Logika mask/unmask tetap di API; tombol tidak ditampilkan. |
-| `position` | `'left' \| 'center'` | `'left'` | Posisi deretan kotak: kiri atau tengah |
-| `title` | `string` | - | Label di atas |
-| `description` | `string` | - | Teks bantuan di bawah (tetap tampil saat error) |
-| `disabled` | `boolean` | `false` | Nonaktif |
-| `error` | `boolean` | `false` | State error |
-| `errorMessage` | `string` | - | Pesan saat error |
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Pin Input Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Pin Input Anatomy Diagram 2" />
+  </div>
+</div>
+
+## Position
+
+Pin Input supports two positions:
+
+- `left` (default): Deretan kotak rata kiri
+- `center`: Deretan kotak rata tengah
+
+## Mask
+
+Saat `mask=true`, digit yang baru diketik terlihat 0,5 detik lalu otomatis di-mask (•). Logika mask/unmask tetap di API; tombol show/hide tidak ditampilkan di UI.
 
 ## Sizes
 
-- **sm**: kotak kecil (`w-9 h-9`), teks `text-sm`
-- **md**: kotak sedang (`w-10 h-10`), teks `text-base`
-- **lg**: kotak besar (`w-12 h-12`), teks `text-lg`
+Pin Input supports 3 sizes:
+
+- `sm`: Kotak kecil (w-9 h-9), teks `text-sm`
+- `md` (default): Kotak sedang (w-10 h-10), teks `text-base`
+- `lg`: Kotak besar (w-12 h-12), teks `text-lg`
 
 </template>
 
 <template #Implementation>
 
-## Cara pakai (value & onChange)
-
-Pin Input bersifat **controlled**: nilai disimpan di state, dan setiap perubahan dilaporkan lewat callback. Berikut cara pakai per framework.
-
-### React
-
-Gunakan `value` dan `onChange`. `onChange(newValue: string)` dipanggil setiap nilai pin berubah (ketik, paste, backspace).
-
-```tsx
-import { useState } from 'react';
-import { PinInput } from '@pacer-ui/react';
-
-function MyForm() {
-  const [pin, setPin] = useState('');
-
-  const handleChange = (newValue: string) => {
-    setPin(newValue);
-    if (newValue.length === 4) {
-      // OTP lengkap, bisa kirim ke backend
-      console.log('OTP submitted:', newValue);
-    }
-  };
-
-  return (
-    <PinInput
-      value={pin}
-      onChange={handleChange}
-      title="Kode OTP"
-      description="Masukkan 4 digit dari email/SMS."
-    />
-  );
-}
-```
-
-Atau singkat: `<PinInput value={pin} onChange={setPin} />`.
-
-### Vue
-
-Gunakan **v-model** (sama dengan `:modelValue` + `@update:modelValue`). Setiap perubahan nilai memicu `@update:modelValue`.
-
-```vue
-<script setup lang="ts">
-import { ref, watch } from 'vue';
-import { PtPinInput } from '@pacer-ui/vue';
-
-const pin = ref('');
-
-// Reaksi saat nilai berubah
-watch(pin, (newVal) => {
-  if (newVal.length === 4) {
-    console.log('OTP submitted:', newVal);
-  }
-});
-</script>
-
-<template>
-  <PtPinInput
-    v-model="pin"
-    title="Kode OTP"
-    description="Masukkan 4 digit dari email/SMS."
-  />
-</template>
-```
-
-Tanpa watch: `<PtPinInput v-model="pin" title="Kode OTP" />` — nilai tetap tersimpan di `pin`.
-
-### Blazor
-
-Gunakan **@bind-Value** atau `Value` + `ValueChanged`. Callback menerima `string` nilai terbaru.
-
-```razor
-@using Pertamina.DesignSystem.Blazor
-
-<PtPinInput @bind-Value="pin" Title="Kode OTP" Description="Masukkan 4 digit dari email/SMS." />
-
-@code {
-    private string pin = "";
-
-    // Bila pakai Value + ValueChanged untuk logika tambahan:
-    // <PtPinInput Value="@pin" ValueChanged="OnPinChanged" ... />
-    // private void OnPinChanged(string newValue) {
-    //     pin = newValue;
-    //     if (pin.Length == 4) { /* submit */ }
-    // }
-}
-```
-
----
-
 ## Visual Preview
+
+### Default
 
 <ComponentDemo>
   <div class="w-full max-w-md space-y-6">
@@ -202,7 +122,7 @@ const pin3 = ref('');
 </template>
 </ComponentDemo>
 
-## Size
+## All Sizes
 
 <ComponentDemo>
   <div class="flex flex-col gap-4 w-full max-w-md">
@@ -244,7 +164,7 @@ const pin3 = ref('');
 
 ## Error state
 
-Saat `error` dan `errorMessage` diisi, **description tetap ditampilkan** di atas; pesan error ditampilkan **di bawah description**.
+Saat `error` dan `errorMessage` diisi, **description label** tetap ditampilkan di atas; **error message label** ditampilkan di bawah description label.
 
 <ComponentDemo>
   <div class="w-full max-w-md">
@@ -333,25 +253,133 @@ Saat `error` dan `errorMessage` diisi, **description tetap ditampilkan** di atas
 </template>
 </ComponentDemo>
 
+## Cara pakai (value & onChange)
+
+Pin Input bersifat **controlled**: nilai disimpan di state, dan setiap perubahan dilaporkan lewat callback. Berikut cara pakai per framework.
+
+### React
+
+Gunakan `value` dan `onChange`. `onChange(newValue: string)` dipanggil setiap nilai pin berubah (ketik, paste, backspace).
+
+```tsx
+import { useState } from 'react';
+import { PinInput } from '@pacer-ui/react';
+
+function MyForm() {
+  const [pin, setPin] = useState('');
+
+  const handleChange = (newValue: string) => {
+    setPin(newValue);
+    if (newValue.length === 4) {
+      // OTP lengkap, bisa kirim ke backend
+      console.log('OTP submitted:', newValue);
+    }
+  };
+
+  return (
+    <PinInput
+      value={pin}
+      onChange={handleChange}
+      title="Kode OTP"
+      description="Masukkan 4 digit dari email/SMS."
+    />
+  );
+}
+```
+
+Atau singkat: `<PinInput value={pin} onChange={setPin} />`.
+
+### Vue
+
+Gunakan **v-model** (sama dengan `:modelValue` + `@update:modelValue`). Setiap perubahan nilai memicu `@update:modelValue`.
+
+```vue
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { PtPinInput } from '@pacer-ui/vue';
+
+const pin = ref('');
+
+// Reaksi saat nilai berubah
+watch(pin, (newVal) => {
+  if (newVal.length === 4) {
+    console.log('OTP submitted:', newVal);
+  }
+});
+</script>
+
+<template>
+  <PtPinInput
+    v-model="pin"
+    title="Kode OTP"
+    description="Masukkan 4 digit dari email/SMS."
+  />
+</template>
+```
+
+Tanpa watch: `<PtPinInput v-model="pin" title="Kode OTP" />` — nilai tetap tersimpan di `pin`.
+
+### Blazor
+
+Gunakan **@bind-Value** atau `Value` + `ValueChanged`. Callback menerima `string` nilai terbaru.
+
+```razor
+@using Pertamina.DesignSystem.Blazor
+
+<PtPinInput @bind-Value="pin" Title="Kode OTP" Description="Masukkan 4 digit dari email/SMS." />
+
+@code {
+    private string pin = "";
+
+    // Bila pakai Value + ValueChanged untuk logika tambahan:
+    // <PtPinInput Value="@pin" ValueChanged="OnPinChanged" ... />
+    // private void OnPinChanged(string newValue) {
+    //     pin = newValue;
+    //     if (pin.Length == 4) { /* submit */ }
+    // }
+}
+```
+
 ## API Reference
 
 ### Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `modelValue` / `value` | `string` | `''` | Nilai pin (digit saja). **React:** gunakan dengan `onChange`. **Vue:** gunakan dengan `v-model`. **Blazor:** gunakan dengan `@bind-Value` atau `ValueChanged`. |
+| `modelValue` / `value` | `string` | `''` | Nilai pin berbasis posisi: string selalu sepanjang `length`; sel kosong = spasi (mis. `"1 35"` = kotak 2 kosong). Saat kotak di-backspace, hanya sel itu yang dikosongkan, tidak menggeser digit lain. **React:** `onChange`. **Vue:** `v-model`. **Blazor:** `@bind-Value` / `ValueChanged`. |
 | `onChange` (React) / `@update:modelValue` (Vue) / `ValueChanged` (Blazor) | `(value: string) => void` | - | Callback saat nilai berubah. Lihat [Cara pakai (value & onChange)](#cara-pakai-value--onchange) di atas. |
 | `length` | `number` | `4` | Jumlah kotak digit |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Ukuran kotak |
 | `mask` | `boolean` | `true` | Digit terlihat 0,5 detik lalu di-mask (•). Logika mask/unmask di API; tombol tidak ditampilkan. |
 | `position` | `'left' \| 'center'` | `'left'` | Posisi deretan kotak: kiri atau tengah |
 | `title` | `string` | - | Label di atas |
-| `description` | `string` | - | Teks bantuan di bawah (tetap tampil saat error) |
+| `description` | `string` | - | Label teks bantuan di bawah (tetap tampil saat error) |
 | `disabled` | `boolean` | `false` | Nonaktif |
 | `error` | `boolean` | `false` | State error |
-| `errorMessage` | `string` | - | Pesan saat error |
+| `errorMessage` | `string` | - | Label pesan error |
 
 Di Blazor: gunakan `Value` + `ValueChanged` (atau `@bind-Value`), `Size="PinInputSize.Medium"`, `Position="PinInputPosition.Left"` atau `PinInputPosition.Center`.
+
+## Design Specifications
+
+### Size Dimensions
+
+| Size | Box (Width × Height) | Text |
+|------|----------------------|------|
+| `sm` | 36px × 36px (w-9 h-9) | text-sm |
+| `md` | 40px × 40px (w-10 h-10) | text-base |
+| `lg` | 48px × 48px (w-12 h-12) | text-lg |
+
+### Border & Spacing
+
+- **Border**: border default per token (outline saat focus)
+- **Gap antar kotak**: sesuai spacing token (gap-2 untuk sm, gap-2 / gap-3 untuk md/lg)
+
+### Colors
+
+- **Normal**: Border dan teks mengikuti token input default
+- **Error**: Border dan teks mengikuti state error (mis. red-500 / red-600)
+- **Disabled**: Background dan teks mengikuti state disabled
 
 </template>
 

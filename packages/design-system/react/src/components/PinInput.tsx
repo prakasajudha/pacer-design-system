@@ -83,12 +83,20 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
     const revealTimersRef = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map());
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-    const sanitized = (v: string) => v.replace(/\D/g, '').slice(0, length);
-    const digits = sanitized(value || '').padEnd(length, ' ').slice(0, length).split('');
+    const EMPTY_CHAR = ' ';
+
+    const getValueStr = useCallback((): string => {
+      const s = (value || '').replace(/[^\d\s]/g, '').slice(0, length);
+      return s.padEnd(length, EMPTY_CHAR);
+    }, [value, length]);
+
+    const digits = getValueStr()
+      .split('')
+      .map((c) => (c === EMPTY_CHAR ? '' : c));
 
     const setValue = useCallback(
       (val: string) => {
-        const next = sanitized(val);
+        const next = val.replace(/[^\d\s]/g, '').slice(0, length).padEnd(length, EMPTY_CHAR);
         onChange?.(next);
       },
       [length, onChange]
@@ -122,47 +130,54 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
     const displayValue = useCallback(
       (idx: number) => {
         const d = digits[idx];
-        if (mask && !maskVisible && !revealingIndices.has(idx) && d && d !== ' ') return '•';
-        return d === ' ' ? '' : d;
+        if (mask && !maskVisible && !revealingIndices.has(idx) && d) return '•';
+        return d || '';
       },
       [digits, mask, maskVisible, revealingIndices]
     );
 
-    useEffect(() => {
-      const next = sanitized(value || '');
-      if (next !== (value || '')) onChange?.(next);
-    }, []);
-
     const handleInput = (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
       const v = (e.target.value || '').replace(/\D/g, '');
       if (v.length > 1) {
-        const cur = digits.join('').replace(/\s/g, '');
+        const cur = getValueStr();
         const merged = cur.slice(0, idx) + v.slice(-1) + cur.slice(idx + 1);
         setValue(merged);
         if (mask) startRevealTimeout(idx);
         inputRefs.current[Math.min(idx + 1, length - 1)]?.focus();
         return;
       }
-      const arr = [...digits];
-      arr[idx] = v;
-      setValue(arr.join(''));
+      const cur = getValueStr();
+      const ch = v ? v.slice(-1) : EMPTY_CHAR;
+      const next = cur.slice(0, idx) + ch + cur.slice(idx + 1);
+      setValue(next);
       if (mask) startRevealTimeout(idx);
       if (v && idx < length - 1) inputRefs.current[idx + 1]?.focus();
     };
 
     const handleKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Backspace' && !digits[idx] && idx > 0) {
+      if (e.key !== 'Backspace') return;
+      const cur = getValueStr();
+      const hasDigit = cur[idx] !== EMPTY_CHAR && cur[idx] !== undefined;
+      if (hasDigit) {
+        const next = cur.slice(0, idx) + EMPTY_CHAR + cur.slice(idx + 1);
+        setValue(next);
+        e.preventDefault();
+        return;
+      }
+      if (idx > 0) {
         inputRefs.current[idx - 1]?.focus();
-        const arr = [...digits];
-        arr[idx - 1] = '';
-        setValue(arr.join(''));
+        const next = cur.slice(0, idx - 1) + EMPTY_CHAR + cur.slice(idx);
+        setValue(next);
+        e.preventDefault();
       }
     };
 
     const handlePaste = (e: React.ClipboardEvent) => {
       e.preventDefault();
       const pasted = (e.clipboardData?.getData('text') || '').replace(/\D/g, '').slice(0, length);
-      setValue(pasted);
+      const cur = getValueStr();
+      const next = (pasted + cur.slice(pasted.length)).slice(0, length).padEnd(length, EMPTY_CHAR);
+      setValue(next);
       if (mask && pasted.length > 0) {
         for (let i = 0; i < pasted.length; i++) startRevealTimeout(i);
       }
@@ -171,16 +186,16 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
 
     const styles = sizeStyles[size];
     const boxClass = cn(
-      'inline-flex items-center justify-center rounded-md border bg-white text-center font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400',
+      'inline-flex items-center justify-center rounded-md border bg-white text-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400',
       styles.box,
-      error ? 'border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500' : 'border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300'
+      error ? 'border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500' : 'border-solid border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300'
     );
 
     const isCenter = position === 'center';
     const rootClass = cn('flex flex-col gap-1.5', isCenter && 'items-center');
     const labelClass = cn('block text-sm font-medium text-slate-700 w-full', isCenter && 'text-center');
-    const errorClass = cn('text-sm text-error-600 w-full', isCenter && 'text-center');
-    const descClass = cn('text-sm font-normal leading-5 text-slate-500 w-full', isCenter && 'text-center');
+    const errorClass = cn('block text-sm text-error-600 w-full', isCenter && 'text-center');
+    const descClass = cn('block text-sm font-normal leading-5 text-slate-500 w-full', isCenter && 'text-center');
 
     return (
       <div ref={ref} className={rootClass}>
@@ -212,11 +227,11 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
           </div>
         </div>
 
-        {description && <p className={descClass}>{description}</p>}
+        {description && <label className={descClass}>{description}</label>}
         {error && errorMessage && (
-          <p className={errorClass} role="alert">
+          <label className={errorClass} role="alert">
             {errorMessage}
-          </p>
+          </label>
         )}
       </div>
     );

@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 <ComponentHero title="Information" description="Information component digunakan untuk menampilkan informasi, peringatan, atau notifikasi dengan berbagai variant (info, slate, success, warning, danger)." />
 
 <script setup lang="ts">
@@ -105,7 +109,7 @@ export default function App() {
 }
 ```
 
-</template>
+  </template>
 
 <template #vue>
 
@@ -115,7 +119,7 @@ import { PtInformation } from '@pacer-ui/vue';
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 w-full">
+  <div class="flex flex-col gap-4 w-full max-w-md">
     <PtInformation variant="info">
       Silakan upload data terlebih dahulu untuk melanjutkan proses.
     </PtInformation>
@@ -132,7 +136,7 @@ import { PtInformation } from '@pacer-ui/vue';
 </template>
 ```
 
-</template>
+  </template>
 
 <template #blazor>
 
@@ -155,7 +159,7 @@ import { PtInformation } from '@pacer-ui/vue';
 </div>
 ```
 
-</template>
+  </template>
 </ComponentDemo>
 
 ## With Title and Description
@@ -187,7 +191,7 @@ export default function App() {
 }
 ```
 
-</template>
+  </template>
 
 <template #vue>
 
@@ -207,7 +211,7 @@ import { PtInformation } from '@pacer-ui/vue';
 </template>
 ```
 
-</template>
+  </template>
 
 <template #blazor>
 
@@ -223,7 +227,7 @@ import { PtInformation } from '@pacer-ui/vue';
 </div>
 ```
 
-</template>
+  </template>
 </ComponentDemo>
 
 ## Custom Icon
@@ -258,7 +262,7 @@ export default function App() {
 }
 ```
 
-</template>
+  </template>
 
 <template #vue>
 
@@ -293,7 +297,7 @@ const customIcon = h('svg', {
 </template>
 ```
 
-</template>
+  </template>
 
 <template #blazor>
 
@@ -346,7 +350,7 @@ export default function App() {
 }
 ```
 
-</template>
+  </template>
 
 <template #vue>
 
@@ -366,7 +370,7 @@ import { PtInformation } from '@pacer-ui/vue';
 </template>
 ```
 
-</template>
+  </template>
 
 <template #blazor>
 
@@ -382,7 +386,7 @@ import { PtInformation } from '@pacer-ui/vue';
 />
 ```
 
-</template>
+  </template>
 </ComponentDemo>
 
 ## API Reference
