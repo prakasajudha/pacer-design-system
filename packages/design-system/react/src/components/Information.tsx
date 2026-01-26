@@ -147,6 +147,8 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
   ) => {
     const baseStyles = 'flex rounded-lg';
     const hasChildren = React.Children.count(children) > 0;
+    const descriptionOnly = !title && !!description;
+    const iconNeedsMarginTop = hasChildren || descriptionOnly;
 
     const variantBackgroundStyles = {
       info: 'bg-brand-50',
@@ -215,7 +217,7 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
           className={cn(
             currentSizeStyles.icon,
             iconColorStyles[variant],
-            hasChildren && 'mt-[4.5px]',
+            iconNeedsMarginTop && 'mt-[4.5px]',
             iconClassName
           )}
           style={iconStyle}
@@ -233,7 +235,7 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
                 </div>
               )}
               {description && (
-                <div className={cn(currentSizeStyles.description, variantTextStyles[variant], descriptionClassName, title ? '' : 'mb-1')}>
+                <div className={cn(currentSizeStyles.description, variantTextStyles[variant], descriptionClassName)}>
                   {description}
                 </div>
               )}

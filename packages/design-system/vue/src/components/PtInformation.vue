@@ -202,19 +202,6 @@ const informationStyles = computed(() => {
   return attrs.style || {};
 });
 
-const iconClasses = computed(() => {
-  return cn(
-    currentSizeStyles.value.icon,
-    iconColorStyles[props.variant],
-    hasChildren.value && 'mt-[4.5px]',
-    props.iconClassName
-  );
-});
-
-const iconStyles = computed(() => {
-  return props.iconStyle || {};
-});
-
 const hasChildren = computed(() => {
   if (!slots.default) return false;
   const defaultSlots = slots.default();
@@ -226,6 +213,24 @@ const hasChildren = computed(() => {
     // children bisa berupa array VNode / object slots; yang penting ada isinya
     return slot.children != null;
   });
+});
+
+/** Icon dapat margin-top 4.5px bila pakai children atau description-only (tanpa title). */
+const iconNeedsMarginTop = computed(
+  () => hasChildren.value || (!!props.description && !props.title)
+);
+
+const iconClasses = computed(() => {
+  return cn(
+    currentSizeStyles.value.icon,
+    iconColorStyles[props.variant],
+    iconNeedsMarginTop.value && 'mt-[4.5px]',
+    props.iconClassName
+  );
+});
+
+const iconStyles = computed(() => {
+  return props.iconStyle || {};
 });
 </script>
 
@@ -245,7 +250,7 @@ const hasChildren = computed(() => {
         <div v-if="title" :class="cn(currentSizeStyles.title, variantTextStyles[props.variant], props.titleClassName, 'mb-1')">{{ title }}</div>
         <div
           v-if="description"
-          :class="cn(currentSizeStyles.description, variantTextStyles[props.variant], props.descriptionClassName, props.title ? '' : 'mb-1')"
+          :class="cn(currentSizeStyles.description, variantTextStyles[props.variant], props.descriptionClassName)"
         >
           {{ description }}
         </div>
