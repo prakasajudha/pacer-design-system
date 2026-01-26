@@ -52,16 +52,16 @@ const props = withDefaults(defineProps<DividerProps>(), {
 });
 
 const COLOR_PALETTE_CLASSES: Record<DividerColorPalette, string> = {
-    gray: 'border border-gray-300',
-    red: 'border-red-300',
-  orange: 'border border-orange-300',
-  yellow: 'border border-yellow-300',
-  green: 'border border-green-300',
-  teal: 'border border-teal-300',
-  blue: 'border border-blue-300',
-  cyan: 'border border-cyan-300',
-  purple: 'border border-purple-300',
-  pink: 'border border-pink-300',
+  gray: 'border-gray-300',
+  red: 'border-red-300',
+  orange: 'border-orange-300',
+  yellow: 'border-yellow-300',
+  green: 'border-green-300',
+  teal: 'border-teal-300',
+  blue: 'border-blue-300',
+  cyan: 'border-cyan-300',
+  purple: 'border-purple-300',
+  pink: 'border-pink-300',
 };
 
 const VARIANT_CLASSES: Record<DividerVariant, string> = {
@@ -82,6 +82,28 @@ const VERTICAL_SIZE_CLASSES: Record<DividerSize, string> = {
   sm: 'border-l-2',
   md: 'border-l-4',
   lg: 'border-l-8',
+};
+
+/** Ketebalan border per size (px). */
+const SIZE_TO_BORDER_WIDTH: Record<DividerSize, string> = {
+  xs: '1px',
+  sm: '2px',
+  md: '4px',
+  lg: '8px',
+};
+
+/** Warna border per palette (hex), supaya garis tetap muncul di web-docs tanpa class Tailwind. Nilai setara Tailwind *-300. */
+const COLOR_PALETTE_TO_CSS: Record<DividerColorPalette, string> = {
+  gray: '#d1d5db',
+  red: '#fca5a5',
+  orange: '#fdba74',
+  yellow: '#fde047',
+  green: '#86efac',
+  teal: '#5eead4',
+  blue: '#93c5fd',
+  cyan: '#67e8f9',
+  purple: '#d8b4fe',
+  pink: '#f9a8d4',
 };
 
 const dividerClasses = computed(() => {
@@ -106,14 +128,29 @@ const dividerClasses = computed(() => {
   );
 });
 
-const dividerSizeStyle = computed<Record<string, string>>(() => {
+/** Garis divider digambar pakai background + height/width (bukan border) agar pasti muncul di web-docs; preflight/reset border tidak memengaruhi. */
+const dividerSizeStyle = computed((): Record<string, string> => {
+  const w = SIZE_TO_BORDER_WIDTH[props.size];
+  const color = COLOR_PALETTE_TO_CSS[props.colorPalette];
+
   if (props.orientation === 'horizontal') {
-    return { width: props.width ?? '100%' };
+    return {
+      width: props.width ?? '100%',
+      height: w,
+      minHeight: w,
+      backgroundColor: color,
+    };
   }
-  return {
+  const style: Record<string, string> = {
+    width: w,
+    minWidth: w,
     height: props.height ?? '100%',
-    ...(props.height == null ? { minHeight: '1em' } : {}),
+    backgroundColor: color,
   };
+  if (props.height == null) {
+    style.minHeight = '1em';
+  }
+  return style;
 });
 
 const mergedStyle = computed(() => [
@@ -125,6 +162,8 @@ const restAttrs = computed(() => {
   const { class: _c, style: _s, ...rest } = attrs;
   return rest;
 });
+
+const classFromAttrs = computed(() => attrs?.class as string | undefined);
 </script>
 
 <template>
@@ -132,7 +171,7 @@ const restAttrs = computed(() => {
     :is="as"
     role="separator"
     :aria-orientation="orientation"
-    :class="cn(dividerClasses, attrs?.class)"
+    :class="cn(dividerClasses, classFromAttrs)"
     :style="mergedStyle"
     v-bind="restAttrs"
   />

@@ -1,0 +1,150 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+
+<div
+    class="@GetDividerClasses()"
+    style="@GetDividerStyle()"
+    role="separator"
+    aria-orientation="@(Orientation == DividerOrientation.Horizontal ? "horizontal" : "vertical")"
+    @attributes="AdditionalAttributes">
+</div>
+
+@code {
+    /// <summary>
+    /// Color palette of the divider. Sama dengan React/Vue (gray, red, orange, ...).
+    /// </summary>
+    [Parameter]
+    public DividerColorPalette ColorPalette { get; set; } = DividerColorPalette.Gray;
+
+    /// <summary>
+    /// Variant (line style): solid, dashed, dotted.
+    /// </summary>
+    [Parameter]
+    public DividerVariant Variant { get; set; } = DividerVariant.Solid;
+
+    /// <summary>
+    /// Orientation: horizontal or vertical.
+    /// </summary>
+    [Parameter]
+    public DividerOrientation Orientation { get; set; } = DividerOrientation.Horizontal;
+
+    /// <summary>
+    /// Size (thickness): xs, sm, md, lg. Ketebalan garis (1px, 2px, 4px, 8px).
+    /// </summary>
+    [Parameter]
+    public DividerSize Size { get; set; } = DividerSize.Sm;
+
+    /// <summary>
+    /// Width (nilai CSS), dipakai saat orientation horizontal. Default "100%". Contoh: "200px", "100%", "12rem".
+    /// </summary>
+    [Parameter]
+    public string? Width { get; set; }
+
+    /// <summary>
+    /// Height (nilai CSS), dipakai saat orientation vertical. Default "100%" dengan min-height 1em. Contoh: "32px", "100%", "2rem".
+    /// </summary>
+    [Parameter]
+    public string? Height { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private static string GetBorderWidth(DividerSize size) => size switch
+    {
+        DividerSize.Xs => "1px",
+        DividerSize.Sm => "2px",
+        DividerSize.Md => "4px",
+        DividerSize.Lg => "8px",
+        _ => "2px",
+    };
+
+    private static string GetColorHex(DividerColorPalette palette) => palette switch
+    {
+        DividerColorPalette.Gray => "#d1d5db",
+        DividerColorPalette.Red => "#fca5a5",
+        DividerColorPalette.Orange => "#fdba74",
+        DividerColorPalette.Yellow => "#fde047",
+        DividerColorPalette.Green => "#86efac",
+        DividerColorPalette.Teal => "#5eead4",
+        DividerColorPalette.Blue => "#93c5fd",
+        DividerColorPalette.Cyan => "#67e8f9",
+        DividerColorPalette.Purple => "#d8b4fe",
+        DividerColorPalette.Pink => "#f9a8d4",
+        _ => "#d1d5db",
+    };
+
+    private string GetDividerStyle()
+    {
+        var w = GetBorderWidth(Size);
+        var color = GetColorHex(ColorPalette);
+
+        if (Orientation == DividerOrientation.Horizontal)
+        {
+            var width = Width ?? "100%";
+            return $"width: {width}; height: {w}; min-height: {w}; background-color: {color};";
+        }
+
+        var height = Height ?? "100%";
+        var minHeight = Height == null ? "min-height: 1em;" : "";
+        return $"width: {w}; min-width: {w}; height: {height}; {minHeight} background-color: {color};";
+    }
+
+    private string GetDividerClasses()
+    {
+        var list = new List<string>
+        {
+            "shrink-0",
+            "border-0",
+            "bg-transparent",
+        };
+
+        if (Orientation == DividerOrientation.Horizontal)
+        {
+            list.Add("border-t min-h-0");
+            list.Add(Size switch
+            {
+                DividerSize.Xs => "border-t",
+                DividerSize.Sm => "border-t-2",
+                DividerSize.Md => "border-t-4",
+                DividerSize.Lg => "border-t-8",
+                _ => "border-t-2",
+            });
+        }
+        else
+        {
+            list.Add("border-l min-w-0 self-stretch");
+            list.Add(Size switch
+            {
+                DividerSize.Xs => "border-l",
+                DividerSize.Sm => "border-l-2",
+                DividerSize.Md => "border-l-4",
+                DividerSize.Lg => "border-l-8",
+                _ => "border-l-2",
+            });
+        }
+
+        list.Add(ColorPalette switch
+        {
+            DividerColorPalette.Gray => "border-gray-300",
+            DividerColorPalette.Red => "border-red-300",
+            DividerColorPalette.Orange => "border-orange-300",
+            DividerColorPalette.Yellow => "border-yellow-300",
+            DividerColorPalette.Green => "border-green-300",
+            DividerColorPalette.Teal => "border-teal-300",
+            DividerColorPalette.Blue => "border-blue-300",
+            DividerColorPalette.Cyan => "border-cyan-300",
+            DividerColorPalette.Purple => "border-purple-300",
+            DividerColorPalette.Pink => "border-pink-300",
+            _ => "border-gray-300",
+        });
+
+        list.Add(Variant switch
+        {
+            DividerVariant.Dashed => "border-dashed",
+            DividerVariant.Dotted => "border-dotted",
+            _ => "border-solid",
+        });
+
+        return string.Join(" ", list);
+    }
+}

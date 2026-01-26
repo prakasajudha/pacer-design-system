@@ -52,6 +52,28 @@ const VERTICAL_SIZE_CLASSES: Record<DividerSize, string> = {
   lg: 'border-l-8',
 };
 
+/** Ketebalan border per size (px). Dipakai untuk menggambar garis lewat background agar tampil tanpa Tailwind. */
+const SIZE_TO_BORDER_WIDTH: Record<DividerSize, string> = {
+  xs: '1px',
+  sm: '2px',
+  md: '4px',
+  lg: '8px',
+};
+
+/** Warna per palette (hex), setara Tailwind *-300. Garis digambar pakai background supaya tetap muncul di env tanpa Tailwind. */
+const COLOR_PALETTE_TO_CSS: Record<DividerColorPalette, string> = {
+  gray: '#d1d5db',
+  red: '#fca5a5',
+  orange: '#fdba74',
+  yellow: '#fde047',
+  green: '#86efac',
+  teal: '#5eead4',
+  blue: '#93c5fd',
+  cyan: '#67e8f9',
+  purple: '#d8b4fe',
+  pink: '#f9a8d4',
+};
+
 export interface DividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Color palette of the divider. */
   colorPalette?: DividerColorPalette;
@@ -101,10 +123,18 @@ const DividerComponent = React.forwardRef<HTMLDivElement, DividerProps>(
         ? 'border-0 border-t min-h-0'
         : 'border-0 border-l min-w-0 self-stretch';
 
+    const w = SIZE_TO_BORDER_WIDTH[size];
+    const color = COLOR_PALETTE_TO_CSS[colorPalette];
     const sizeStyle: React.CSSProperties =
       orientation === 'horizontal'
-        ? { width: width ?? '100%' }
-        : { height: height ?? '100%', minHeight: height == null ? '1em' : undefined };
+        ? { width: width ?? '100%', height: w, minHeight: w, backgroundColor: color }
+        : {
+            width: w,
+            minWidth: w,
+            height: height ?? '100%',
+            ...(height == null ? { minHeight: '1em' } : {}),
+            backgroundColor: color,
+          };
 
     const mergedStyle: React.CSSProperties = { ...sizeStyle, ...(style && typeof style === 'object' ? style : {}) };
 
