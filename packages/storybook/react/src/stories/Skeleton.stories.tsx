@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Skeleton } from '@pacer-ui/react';
 
 const meta = {
-  title: 'Components/Skeleton',
+  id: 'components-skeleton',
+  title: 'Components/Basic/Skeleton',
   component: Skeleton,
   parameters: {
     layout: 'centered',

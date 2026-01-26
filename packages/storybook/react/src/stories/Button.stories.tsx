@@ -3,7 +3,8 @@ import { Button } from '@pacer-ui/react';
 import { useEffect, useRef } from 'react';
 
 const meta = {
-  title: 'Components/Button',
+  id: 'components-button',
+  title: 'Components/Basic/Button',
   component: Button,
   parameters: {
     layout: 'centered',

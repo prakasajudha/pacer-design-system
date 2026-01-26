@@ -3,7 +3,8 @@ import { PtProgress } from '@pacer-ui/vue';
 import { computed, ref } from 'vue';
 
 const meta = {
-  title: 'Components/Progress',
+  id: 'components-progress',
+  title: 'Components/Disclosure/Progress',
   component: PtProgress,
   parameters: {
     layout: 'centered',

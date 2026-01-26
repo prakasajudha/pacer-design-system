@@ -3,7 +3,8 @@ import { Progress } from '@pacer-ui/react';
 import { useMemo, useState } from 'react';
 
 const meta = {
-  title: 'Components/Progress',
+  id: 'components-progress',
+  title: 'Components/Disclosure/Progress',
   component: Progress,
   parameters: {
     layout: 'centered',

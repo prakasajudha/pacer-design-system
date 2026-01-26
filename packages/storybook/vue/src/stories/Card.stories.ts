@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtButton, PtCard } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/Card',
+  id: 'components-card',
+  title: 'Components/Basic/Card',
   component: PtCard,
   parameters: {
     layout: 'centered',

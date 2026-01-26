@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, Card } from '@pacer-ui/react';
 
 const meta = {
-  title: 'Components/Card',
+  id: 'components-card',
+  title: 'Components/Basic/Card',
   component: Card,
   parameters: {
     layout: 'centered',

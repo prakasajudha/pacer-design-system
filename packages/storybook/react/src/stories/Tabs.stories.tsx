@@ -3,7 +3,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@pacer-ui/react';
 import { useState, useEffect } from 'react';
 
 const meta = {
-  title: 'Components/Tabs',
+  id: 'components-tabs',
+  title: 'Components/Basic/Tabs',
   component: Tabs,
   parameters: {
     layout: 'centered',

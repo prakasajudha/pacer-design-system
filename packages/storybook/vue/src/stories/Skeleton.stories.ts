@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtSkeleton } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/Skeleton',
+  id: 'components-skeleton',
+  title: 'Components/Basic/Skeleton',
   component: PtSkeleton,
   parameters: {
     layout: 'centered',

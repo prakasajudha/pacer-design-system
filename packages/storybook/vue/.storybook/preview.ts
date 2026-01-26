@@ -6,6 +6,11 @@ import '../src/styles.css';
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: ['Components', ['Basic', 'Disclosure', 'Form']],
+      },
+    },
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {

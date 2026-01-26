@@ -3,11 +3,11 @@
     <!-- Custom Navbar for all pages -->
     <CustomNavbar :sidebar-open="sidebarOpen" @toggle-sidebar="toggleSidebar" />
     
-    <!-- Custom Sidebar - only for non-home pages -->
-    <CustomSidebar v-if="!isHomePage" :is-open="sidebarOpen" />
+    <!-- Custom Sidebar - tampil di semua halaman termasuk homepage -->
+    <CustomSidebar :is-open="sidebarOpen" />
     
     <!-- Content Area -->
-    <div class="layout-content" :class="{ 'is-home': isHomePage, 'has-sidebar': !isHomePage }">
+    <div class="layout-content" :class="{ 'is-home': isHomePage, 'has-sidebar': true }">
       <Home v-if="isHomePage" />
       <div v-else class="default-layout-wrapper">
         <DefaultLayout />

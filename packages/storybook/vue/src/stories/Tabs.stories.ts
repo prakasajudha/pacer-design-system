@@ -3,7 +3,8 @@ import { PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent } from '@pacer-ui/vue'
 import { ref, watch, h } from 'vue';
 
 const meta = {
-  title: 'Components/Tabs',
+  id: 'components-tabs',
+  title: 'Components/Basic/Tabs',
   component: PtTabs,
   parameters: {
     layout: 'centered',

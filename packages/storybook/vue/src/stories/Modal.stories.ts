@@ -3,7 +3,8 @@ import { PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtButton } from '@p
 import { ref, h, watch } from 'vue';
 
 const meta = {
-  title: 'Components/Modal',
+  id: 'components-modal',
+  title: 'Components/Disclosure/Modal',
   component: PtModal,
   parameters: {
     layout: 'centered',

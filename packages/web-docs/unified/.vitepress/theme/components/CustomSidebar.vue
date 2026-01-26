@@ -11,13 +11,63 @@
             {{ group.text }}
           </div>
           <div class="vp-sidebar-group-items">
-            <template v-for="item in group.items" :key="item.link || item.text">
+            <template v-for="(item, itemIndex) in group.items" :key="item.link || `${item.text}-${itemIndex}`">
+              <!-- Subgroup (punya items): expand/collapse on click -->
+              <template v-if="item.items?.length">
+                <div class="vp-sidebar-group-sub">
+                  <button
+                    type="button"
+                    class="vp-sidebar-item vp-sidebar-trigger"
+                    :class="{ 'vp-sidebar-trigger-open': getExpanded(groupIndex, item) }"
+                    :aria-expanded="getExpanded(groupIndex, item)"
+                    :aria-controls="`sidebar-group-${groupIndex}-${itemIndex}`"
+                    :id="`sidebar-trigger-${groupIndex}-${itemIndex}`"
+                    @click="handleToggleGroup(groupIndex, item)"
+                  >
+                    <span class="vp-sidebar-item-text">{{ item.text }}</span>
+                    <svg
+                      class="vp-sidebar-item-chevron"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 18l6-6-6-6" />
+                    </svg>
+                  </button>
+                  <div
+                    :id="`sidebar-group-${groupIndex}-${itemIndex}`"
+                    class="vp-sidebar-subitems"
+                    :class="{ 'vp-sidebar-subitems-open': getExpanded(groupIndex, item) }"
+                    role="region"
+                    :aria-labelledby="`sidebar-trigger-${groupIndex}-${itemIndex}`"
+                  >
+                    <a
+                      v-for="sub in item.items"
+                      :key="sub.link"
+                      :href="sub.link"
+                      class="vp-sidebar-subitem"
+                      :class="{
+                        'active': isExactActive(sub.link),
+                        'parent-active': isParentActive(sub.link),
+                      }"
+                    >
+                      {{ sub.text }}
+                    </a>
+                  </div>
+                </div>
+              </template>
+              <!-- Link langsung -->
               <a
+                v-else-if="item.link"
                 :href="item.link"
                 class="vp-sidebar-item"
-                :class="{ 
+                :class="{
                   'active': isExactActive(item.link),
-                  'parent-active': isParentActive(item.link)
+                  'parent-active': isParentActive(item.link),
                 }"
               >
                 <span class="vp-sidebar-item-text">{{ item.text }}</span>
@@ -31,19 +81,51 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute, useData } from 'vitepress';
+
+type SidebarItem = { text: string; link?: string; collapsed?: boolean; items?: { text: string; link: string }[] };
 
 const route = useRoute();
 const { site } = useData();
 
-const props = defineProps<{
+defineProps<{
   isOpen?: boolean;
 }>();
 
 const sidebarGroups = computed(() => {
-  return site.value.themeConfig?.sidebar || [];
+  return (site.value.themeConfig?.sidebar || []) as { text: string; items: SidebarItem[] }[];
 });
+
+const expandedGroups = ref<Record<string, boolean>>({});
+
+const normalizePath = (path: string) => {
+  if (!path) return '';
+  let normalized = path;
+  if (normalized.endsWith('.html')) normalized = normalized.slice(0, -5);
+  if (normalized !== '/' && normalized.endsWith('/')) normalized = normalized.slice(0, -1);
+  if (normalized && !normalized.startsWith('/')) normalized = '/' + normalized;
+  return normalized || '/';
+};
+
+const routePath = computed(() => normalizePath(route.path).split('#')[0]);
+
+const getGroupKey = (groupIndex: number, item: SidebarItem) => `${groupIndex}-${item.text}`;
+
+const getExpanded = (groupIndex: number, item: SidebarItem): boolean => {
+  const key = getGroupKey(groupIndex, item);
+  if (key in expandedGroups.value) return expandedGroups.value[key];
+  if (item.items?.length && routePath.value) {
+    const isActiveGroup = item.items.some((c) => c?.link && normalizePath(c.link).split('#')[0] === routePath.value);
+    if (isActiveGroup) return true;
+  }
+  return !(item.collapsed ?? true);
+};
+
+const handleToggleGroup = (groupIndex: number, item: SidebarItem) => {
+  const key = getGroupKey(groupIndex, item);
+  expandedGroups.value[key] = !getExpanded(groupIndex, item);
+};
 
 // Check if this is the exact active page
 const isExactActive = (link?: string) => {
@@ -217,14 +299,47 @@ const isParentActive = (link?: string) => {
   transform: translateX(4px);
 }
 
+.vp-sidebar-group-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vp-sidebar-trigger {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font: inherit;
+}
+
+.vp-sidebar-trigger .vp-sidebar-item-chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.vp-sidebar-trigger-open .vp-sidebar-item-chevron {
+  transform: rotate(90deg);
+}
+
 .vp-sidebar-subitems {
   margin-left: 12px;
-  margin-top: 4px;
   padding-left: 12px;
   border-left: 1px solid var(--vp-c-divider);
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.2s ease, opacity 0.2s ease, margin 0.2s ease;
+}
+
+.vp-sidebar-subitems.vp-sidebar-subitems-open {
+  max-height: 600px;
+  opacity: 1;
+  margin-top: 4px;
 }
 
 .vp-sidebar-subitem {

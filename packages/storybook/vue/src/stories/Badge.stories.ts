@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtBadge } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/Badge',
+  id: 'components-badge',
+  title: 'Components/Basic/Badge',
   component: PtBadge,
   parameters: {
     layout: 'centered',

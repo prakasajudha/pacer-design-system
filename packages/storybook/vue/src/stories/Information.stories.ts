@@ -3,7 +3,8 @@ import { h } from 'vue';
 import { PtInformation } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/Information',
+  id: 'components-information',
+  title: 'Components/Disclosure/Information',
   component: PtInformation,
   parameters: {
     layout: 'centered',

@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtIconButton } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/IconButton',
+  id: 'components-iconbutton',
+  title: 'Components/Basic/IconButton',
   component: PtIconButton,
   parameters: {
     layout: 'centered',

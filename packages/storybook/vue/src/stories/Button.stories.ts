@@ -3,7 +3,8 @@ import { PtButton } from '@pacer-ui/vue';
 import { ref, onMounted, nextTick, h, defineComponent } from 'vue';
 
 const meta = {
-  title: 'Components/Button',
+  id: 'components-button',
+  title: 'Components/Basic/Button',
   component: PtButton,
   parameters: {
     layout: 'centered',

@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import { PtPinInput } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/PinInput',
+  id: 'components-pininput',
+  title: 'Components/Form/PinInput',
   component: PtPinInput,
   parameters: {
     layout: 'centered',

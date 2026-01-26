@@ -3,7 +3,8 @@ import { Checkbox } from '@pacer-ui/react';
 import { useEffect, useState } from 'react';
 
 const meta = {
-  title: 'Components/Checkbox',
+  id: 'components-checkbox',
+  title: 'Components/Form/Checkbox',
   component: Checkbox,
   parameters: {
     layout: 'centered',

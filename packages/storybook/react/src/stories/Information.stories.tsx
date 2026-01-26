@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Information } from '@pacer-ui/react';
 
 const meta = {
-  title: 'Components/Information',
+  id: 'components-information',
+  title: 'Components/Disclosure/Information',
   component: Information,
   parameters: {
     layout: 'centered',

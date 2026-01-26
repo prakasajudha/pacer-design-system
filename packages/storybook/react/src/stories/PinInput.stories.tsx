@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { PinInput } from '@pacer-ui/react';
 
 const meta = {
-  title: 'Components/PinInput',
+  id: 'components-pininput',
+  title: 'Components/Form/PinInput',
   component: PinInput,
   parameters: {
     layout: 'centered',

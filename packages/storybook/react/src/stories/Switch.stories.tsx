@@ -3,7 +3,8 @@ import { Switch } from '@pacer-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 
 const meta = {
-  title: 'Components/Switch',
+  id: 'components-switch',
+  title: 'Components/Form/Switch',
   component: Switch,
   parameters: {
     layout: 'centered',

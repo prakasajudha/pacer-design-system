@@ -15,7 +15,8 @@ const defaultItems: AvatarItem[] = [
 ];
 
 const meta = {
-  title: 'Components/Avatar',
+  id: 'components-avatar',
+  title: 'Components/Basic/Avatar',
   component: Avatar,
   parameters: {
     layout: 'centered',

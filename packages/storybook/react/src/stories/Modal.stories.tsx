@@ -3,7 +3,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from '@pacer-ui/re
 import { useState, useEffect } from 'react';
 
 const meta = {
-  title: 'Components/Modal',
+  id: 'components-modal',
+  title: 'Components/Disclosure/Modal',
   component: Modal,
   parameters: {
     layout: 'centered',

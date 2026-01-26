@@ -3,7 +3,8 @@ import { PtRadio } from '@pacer-ui/vue';
 import { ref, watch } from 'vue';
 
 const meta = {
-  title: 'Components/Radio',
+  id: 'components-radio',
+  title: 'Components/Form/Radio',
   component: PtRadio,
   parameters: {
     layout: 'centered',

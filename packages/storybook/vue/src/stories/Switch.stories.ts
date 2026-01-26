@@ -3,7 +3,8 @@ import { PtSwitch } from '@pacer-ui/vue';
 import { ref, watch } from 'vue';
 
 const meta = {
-  title: 'Components/Switch',
+  id: 'components-switch',
+  title: 'Components/Form/Switch',
   component: PtSwitch,
   parameters: {
     layout: 'centered',

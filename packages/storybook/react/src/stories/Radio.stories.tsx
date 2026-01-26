@@ -3,7 +3,8 @@ import { Radio } from '@pacer-ui/react';
 import { useEffect, useState } from 'react';
 
 const meta = {
-  title: 'Components/Radio',
+  id: 'components-radio',
+  title: 'Components/Form/Radio',
   component: Radio,
   parameters: {
     layout: 'centered',

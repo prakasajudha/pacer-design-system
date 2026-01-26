@@ -3,7 +3,8 @@ import { PtCheckbox } from '@pacer-ui/vue';
 import { ref, watch } from 'vue';
 
 const meta = {
-  title: 'Components/Checkbox',
+  id: 'components-checkbox',
+  title: 'Components/Form/Checkbox',
   component: PtCheckbox,
   parameters: {
     layout: 'centered',

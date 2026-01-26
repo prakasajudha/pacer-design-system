@@ -18,7 +18,8 @@ const CloseIcon = () => (
 );
 
 const meta = {
-  title: 'Components/IconButton',
+  id: 'components-iconbutton',
+  title: 'Components/Basic/IconButton',
   component: IconButton,
   parameters: {
     layout: 'centered',

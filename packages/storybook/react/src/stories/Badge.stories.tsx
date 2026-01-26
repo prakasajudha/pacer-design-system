@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '@pacer-ui/react';
 
 const meta = {
-  title: 'Components/Badge',
+  id: 'components-badge',
+  title: 'Components/Basic/Badge',
   component: Badge,
   parameters: {
     layout: 'centered',

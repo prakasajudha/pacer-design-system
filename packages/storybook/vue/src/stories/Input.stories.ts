@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtInput } from '@pacer-ui/vue';
 
 const meta = {
-  title: 'Components/Input',
+  id: 'components-input',
+  title: 'Components/Form/Input',
   component: PtInput,
   parameters: {
     layout: 'centered',

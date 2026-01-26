@@ -33,7 +33,8 @@ const Check = () => (
 );
 
 const meta = {
-  title: 'Components/Input',
+  id: 'components-input',
+  title: 'Components/Form/Input',
   component: Input,
   parameters: {
     layout: 'centered',

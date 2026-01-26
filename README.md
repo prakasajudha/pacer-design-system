@@ -22,6 +22,7 @@ pnpm storybook:vue      # Terminal 3: Vue preview (port 6007)
 - **[QUICK_START.md](./QUICK_START.md)** - Mulai dalam 5 menit
 - **[COMPLETE_GUIDE.md](./COMPLETE_GUIDE.md)** - Panduan lengkap (Install, Dev, Deploy, Publish)
 - **[DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md)** - Workflow development detail
+- **[docs/SUPPORTED_VERSIONS.md](./docs/SUPPORTED_VERSIONS.md)** - Rekomendasi versi React, Vue, .NET
 
 ## 🎯 Tujuan
 
@@ -37,14 +38,16 @@ Design system ini dibangun sebagai **produk** yang dapat di-install sebagai libr
 
 ### Design System Libraries (Installable)
 
+Rekomendasi versi: **React 18.x** | **Vue 3.4.x** | **.NET 8** — detail di [docs/SUPPORTED_VERSIONS.md](./docs/SUPPORTED_VERSIONS.md).
+
 ```bash
-# React
+# React (peer: react ^18, react-dom ^18)
 npm install @pacer-ui/react
 
-# Vue
+# Vue (peer: vue ^3)
 npm install @pacer-ui/vue
 
-# Blazor
+# Blazor (.NET 8)
 dotnet add package Pertamina.DesignSystem.Blazor
 ```
 
