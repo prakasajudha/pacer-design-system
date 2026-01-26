@@ -217,7 +217,7 @@ export const Information = React.forwardRef<HTMLDivElement, InformationProps>(
           className={cn(
             currentSizeStyles.icon,
             iconColorStyles[variant],
-            iconNeedsMarginTop && 'mt-[4.5px]',
+            iconNeedsMarginTop && (size === 'sm' ? 'mt-[2.5px]' : 'mt-[4.5px]'),
             iconClassName
           )}
           style={iconStyle}

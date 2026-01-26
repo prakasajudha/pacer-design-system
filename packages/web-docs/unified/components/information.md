@@ -51,7 +51,7 @@ Information supports 5 variants (sesuai desain Figma PACER):
 ## Layout (sesuai Figma node 40000837-1003)
 
 - **Container**: `rounded-lg` (8px), padding sesuai size.
-- **Posisi icon**: Selalu `items-start`. Icon dapat **margin-top 4.5px** bila konten dari **children** (slot) atau **description-only** (ada description, tidak ada title).
+- **Posisi icon**: Selalu `items-start`. Bila tidak ada title (**children** atau **description-only**), icon dapat margin-top: **sm** = 2.5px (`mt-[2.5px]`), **md** = 4.5px (`mt-[4.5px]`).
 - **Jarak icon–teks**: 12px (`gap-3`) untuk md, 8px (`gap-2`) untuk sm.
 - **Jarak title–description**: 4px (`mb-1` pada title). Bila **description-only**, description tidak pakai `mb-1`.
 
@@ -396,7 +396,7 @@ import { PtInformation } from '@pacer-ui/vue';
 | `description` | `string` | `undefined` | Description information |
 | `icon` | `React.ReactNode` (React) / `Component` (Vue) / `RenderFragment` (Blazor) | `undefined` | Icon override |
 | `size` | `'sm' \| 'md'` | `'md'` | Size information (hanya sm dan md) |
-| `children` | `React.ReactNode` (React) / `slot` (Vue) / `RenderFragment` (Blazor) | `null` | Content utama. Container selalu `items-start`; bila diisi atau bila description-only (description tanpa title), icon dapat margin-top 4.5px. |
+| `children` | `React.ReactNode` (React) / `slot` (Vue) / `RenderFragment` (Blazor) | `null` | Content utama. Container selalu `items-start`; bila tidak ada title, icon margin-top: sm = 2.5px, md = 4.5px. |
 | `titleClassName` | `string` | `undefined` | Override class untuk title (termasuk warna teks, tidak ditampilkan di Storybook controls) |
 | `descriptionClassName` | `string` | `undefined` | Override class untuk description (termasuk warna teks, tidak ditampilkan di Storybook controls) |
 
@@ -411,7 +411,7 @@ import { PtInformation } from '@pacer-ui/vue';
 - **Padding sm**: py-2 (8px) px-3 (12px)
 - **Gap md**: 12px (`gap-3`) antara icon dan teks
 - **Gap sm**: 8px (`gap-2`)
-- **Icon alignment**: Selalu `items-start`. Icon dapat **margin-top 4.5px** bila **children** (slot) diisi atau **description-only** (ada description, tidak ada title).
+- **Icon alignment**: Selalu `items-start`. Bila tidak ada title, icon margin-top: **sm** = 2.5px, **md** = 4.5px.
 
 ### Variant Background Colors (sesuai Figma PACER)
 

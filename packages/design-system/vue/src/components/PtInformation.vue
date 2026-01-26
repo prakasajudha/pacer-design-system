@@ -215,16 +215,21 @@ const hasChildren = computed(() => {
   });
 });
 
-/** Icon dapat margin-top 4.5px bila pakai children atau description-only (tanpa title). */
+/** Icon dapat margin-top bila pakai children atau description-only (tanpa title): sm = 2.5px, md = 4.5px. */
 const iconNeedsMarginTop = computed(
   () => hasChildren.value || (!!props.description && !props.title)
 );
+
+const iconMarginTopClass = computed(() => {
+  if (!iconNeedsMarginTop.value) return '';
+  return props.size === 'sm' ? 'mt-[2.5px]' : 'mt-[4.5px]';
+});
 
 const iconClasses = computed(() => {
   return cn(
     currentSizeStyles.value.icon,
     iconColorStyles[props.variant],
-    iconNeedsMarginTop.value && 'mt-[4.5px]',
+    iconMarginTopClass.value,
     props.iconClassName
   );
 });

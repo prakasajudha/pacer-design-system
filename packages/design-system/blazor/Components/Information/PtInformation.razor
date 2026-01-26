@@ -148,7 +148,7 @@
         classes.Add(GetIconColorClasses());
         if (HasChildren || (!string.IsNullOrEmpty(Description) && string.IsNullOrEmpty(Title)))
         {
-            classes.Add("mt-[4.5px]");
+            classes.Add(Size == InformationSize.Small ? "mt-[2.5px]" : "mt-[4.5px]");
         }
 
         if (!string.IsNullOrEmpty(IconClassName))
