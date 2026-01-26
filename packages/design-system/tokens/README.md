@@ -1,13 +1,13 @@
-# @pertamina/tokens
+# @pacer-ui/tokens
 
 Framework-agnostic design tokens untuk PACER (Pertamina Patra Niaga Components & Experience Resources).
 
 ## Installation
 
 ```bash
-npm install @pertamina/tokens
+npm install @pacer-ui/tokens
 # or
-pnpm add @pertamina/tokens
+pnpm add @pacer-ui/tokens
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ pnpm add @pertamina/tokens
 ### TypeScript/JavaScript
 
 ```typescript
-import { tokens, colors, spacing, typography } from '@pertamina/tokens';
+import { tokens, colors, spacing, typography } from '@pacer-ui/tokens';
 
 // Use individual tokens
 const primaryColor = colors.brand.primary[500]; // #0073e6
@@ -28,7 +28,7 @@ console.log(tokens);
 ### JSON
 
 ```javascript
-import tokens from '@pertamina/tokens/json';
+import tokens from '@pacer-ui/tokens/json';
 
 // Raw token data as JSON
 ```
@@ -36,7 +36,7 @@ import tokens from '@pertamina/tokens/json';
 ### CSS Custom Properties
 
 ```css
-@import '@pertamina/tokens/css';
+@import '@pacer-ui/tokens/css';
 
 .my-component {
   color: var(--color-brand-primary-500);

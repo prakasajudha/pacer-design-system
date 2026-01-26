@@ -8,7 +8,7 @@ const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        order: ['Components', ['Basic', 'Disclosure', 'Form']],
+        order: ['Design Tokens', ['Colors', 'Typography', 'Spacing'], 'Components', ['Basic', 'Disclosure', 'Form']],
       },
     },
     actions: { argTypesRegex: '^on[A-Z].*' },

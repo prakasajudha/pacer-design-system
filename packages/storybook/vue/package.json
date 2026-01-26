@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@pacer-ui/vue": "workspace:*",
+    "@pacer-ui/tokens": "workspace:*",
     "vue": "^3.4.15"
   },
   "devDependencies": {
