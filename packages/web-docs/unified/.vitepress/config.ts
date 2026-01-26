@@ -1,8 +1,23 @@
 import { defineConfig } from 'vitepress';
 
+const GA_ID = 'G-7D5Z0KN1W5';
+
 export default defineConfig({
   title: 'PACER Design System',
   description: 'Pertamina Patra Niaga Components & Experience Resources',
+  head: [
+    ['script', { async: true, src: `https://www.googletagmanager.com/gtag/js?id=${GA_ID}` }],
+    [
+      'script',
+      {},
+      `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GA_ID}');
+      `,
+    ],
+  ],
   markdown: {
     html: true,
   },
