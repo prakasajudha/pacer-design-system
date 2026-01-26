@@ -18,6 +18,15 @@ Tooltip terdiri dari:
 - **Description** (opsional): Baris deskripsi — teks atau konten custom. Tooltip tetap tampil jika hanya ada description (tanpa title).
 - **Arrow**: Penunjuk ke arah trigger. Posisi mengikuti prop `position`.
 
+<div class="badge-image-grid">
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Tooltip Anatomy Diagram 1" />
+  </div>
+  <div class="badge-image-item">
+    <ImagePlaceholder label="Tooltip Anatomy Diagram 2" />
+  </div>
+</div>
+
 ## Variants
 
 - **`primary`** (default): Background `#1A1A1A`, teks putih, shadow. Untuk konteks gelap.
