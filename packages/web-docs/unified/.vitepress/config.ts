@@ -6,7 +6,11 @@ export default defineConfig({
   title: 'PACER Design System',
   description: 'Pertamina Patra Niaga Components & Experience Resources',
   head: [
-    ['script', { async: true, src: `https://www.googletagmanager.com/gtag/js?id=${GA_ID}` }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' }],
+    ['script', { src: `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`, defer: '' }],
     [
       'script',
       {},
