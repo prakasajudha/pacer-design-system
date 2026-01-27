@@ -774,15 +774,10 @@ onMounted(() => {
 .feature-card-link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-family: 'Manrope', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
+  color: var(--Main-Blue-Brand, #0037B8);
+  font-size: 16px;
+  font-weight: 500;
   line-height: 20px;
-  color: #2563eb;
-  text-decoration: none;
-  background: none;
-  border: none;
   cursor: pointer;
   padding: 0;
   margin-top: 4px;
@@ -805,6 +800,7 @@ onMounted(() => {
   height: 16px;
   flex-shrink: 0;
   margin-left: 4px;
+  margin-top:5px;
 }
 
 /* Frameworks Section */
