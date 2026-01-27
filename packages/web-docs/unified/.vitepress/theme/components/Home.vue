@@ -685,7 +685,7 @@ onMounted(() => {
 
 /* Features Section */
 .features-section {
-  padding: 72px 0 48px;
+  padding: 72px 0 72px;
 }
 
 .features-grid {
@@ -810,7 +810,7 @@ onMounted(() => {
 /* Frameworks Section */
 .frameworks-section {
   background: #eff8ff;
-  padding: 48px 0;
+  padding: 72px 0;
 }
 
 .frameworks-grid {
@@ -900,7 +900,7 @@ onMounted(() => {
 
 /* Roles Section */
 .roles-section {
-  padding: 48px 0;
+  padding: 72px 0;
 }
 
 .roles-grid {
