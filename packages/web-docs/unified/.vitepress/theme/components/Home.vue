@@ -774,7 +774,7 @@ onMounted(() => {
 .feature-card-link {
   display: inline-flex;
   align-items: center;
-  color: var(--Main-Blue-Brand, #0037B8);
+  color: #0037B8;
   font-size: 16px;
   font-weight: 500;
   line-height: 20px;
@@ -800,7 +800,7 @@ onMounted(() => {
   height: 16px;
   flex-shrink: 0;
   margin-left: 4px;
-  margin-top:5px;
+  margin-top:4px;
 }
 
 /* Frameworks Section */
