@@ -220,7 +220,7 @@ const isParentActive = (link?: string) => {
 }
 
 .vp-sidebar-group {
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 .vp-sidebar-group:last-child {
