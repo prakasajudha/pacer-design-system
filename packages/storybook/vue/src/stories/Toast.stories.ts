@@ -162,7 +162,7 @@ export const InteractiveExample: Story = {
     },
     setup() {
       const toast = useToast();
-      const position = ref('top-right' as const);
+      const position = ref('top' as const);
 
       const updatePosition = (newPosition: string) => {
         position.value = newPosition as any;

@@ -83,7 +83,6 @@ const navigateTo = (path: string) => {
 .site-footer {
   background: #EFF8FF;
   padding: 64px 0 32px;
-  margin-top: 72px;
 }
 
 .footer-container {
