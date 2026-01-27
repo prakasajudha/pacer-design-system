@@ -13,6 +13,11 @@
         <DefaultLayout />
       </div>
     </div>
+
+    <!-- Footer - appears on all pages -->
+    <div class="layout-footer" :class="{ 'is-home': isHomePage, 'has-sidebar': true }">
+      <Footer />
+    </div>
   </div>
 </template>
 
@@ -23,6 +28,7 @@ import DefaultTheme from 'vitepress/theme';
 import Home from './Home.vue';
 import CustomNavbar from './CustomNavbar.vue';
 import CustomSidebar from './CustomSidebar.vue';
+import Footer from './Footer.vue';
 
 const DefaultLayout = DefaultTheme.Layout;
 const route = useRoute();
@@ -66,8 +72,27 @@ watch(() => route.path, () => {
   width: calc(100% - 256px);
 }
 
+.layout-footer {
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+.layout-footer.is-home {
+  margin-left: 0;
+  width: 100%;
+}
+
+.layout-footer.has-sidebar {
+  margin-left: 256px;
+  width: calc(100% - 256px);
+}
+
 @media (max-width: 768px) {
   .layout-content.has-sidebar {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .layout-footer.has-sidebar {
     margin-left: 0;
     width: 100%;
   }

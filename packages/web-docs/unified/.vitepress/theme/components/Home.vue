@@ -13,11 +13,11 @@
             
             <h1 class="hero-title">
               Build Faster <br/>with 
-              <span class="gradient-text">PACER</span>
+              <span class="pacer-rose">P</span><span class="pacer-a">A</span><span class="pacer-rose">CER</span>
             </h1>
             
             <p class="hero-description">
-              A unified toolkit for designers and developers
+              Pertamina Patra Niaga Components & Experience Resources. A unified toolkit for designers and developers to create consistent, accessible digital experiences.
             </p>
             
             <div class="hero-actions">
@@ -26,7 +26,7 @@
                 size="sm"
                 :right-icon="RightArrowIcon"
                 @click="navigateTo('/getting-started')"
-                class="cta-primary"
+                class="cta-primary hero-cta-get-started"
               >
                 Get Started
               </PtButton>
@@ -34,11 +34,11 @@
               <PtButton
                 variant="secondary"
                 size="sm"
-                :right-icon="RightArrowIcon"
+                :right-icon="CodeIcon"
                 @click="navigateTo('/components/')"
-                class="cta-secondary"
+                class="cta-secondary hero-cta-view-components"
               >
-                Components
+                View Components
               </PtButton>
             </div>
           </div>
@@ -61,54 +61,59 @@
           
           <div class="features-grid">
             <div class="feature-card">
-              <div class="feature-icon">
-                <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+              <div class="feature-icon feature-icon-img-wrap">
+                <img src="/asset/homepage/design-tokens.png" alt="Design Tokens" class="feature-icon-img" />
               </div>
               <h3 class="feature-title">Design Tokens</h3>
               <p class="feature-description">
-                Unified design language with 50+ tokens covering colors, typography, spacing, shadows, and borders. Synchronized between Figma and code for perfect consistency.
+                25+ reusable UI components built for consistency and scalable development.
               </p>
+              <a href="/tokens" class="feature-card-link" @click.prevent="navigateTo('/tokens')" tabindex="0" aria-label="See more about Design Tokens">
+                See More
+                <component :is="FeatureCardArrowIcon" />
+              </a>
             </div>
             
             <div class="feature-card">
-              <div class="feature-icon">
-                <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <path d="M9 9h6v6H9z" />
-                </svg>
+              <div class="feature-icon feature-icon-img-wrap">
+                <img src="/asset/homepage/25-components.png" alt="25+ Components" class="feature-icon-img" />
               </div>
-              <h3 class="feature-title">45+ Components</h3>
+              <h3 class="feature-title">25+ Components</h3>
               <p class="feature-description">
                 Production-ready React components. Fully typed with TypeScript, and customizable with Tailwind CSS.
               </p>
+              <a href="/components/" class="feature-card-link" @click.prevent="navigateTo('/components/')" tabindex="0" aria-label="See more about Components">
+                See More
+                <component :is="FeatureCardArrowIcon" />
+              </a>
             </div>
             
             <div class="feature-card">
-              <div class="feature-icon">
-                <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" />
-                  <path d="M3 10h18M8 2v4M16 2v4" />
-                </svg>
+              <div class="feature-icon feature-icon-img-wrap">
+                <img src="/asset/homepage/ready-to-use-template.png" alt="6 Templates" class="feature-icon-img" />
               </div>
-              <h3 class="feature-title">6 Templates</h3>
+              <h3 class="feature-title">Ready-to-Use Templates</h3>
               <p class="feature-description">
-                Pre-built responsive templates including Dashboard, Authentication, E-Commerce, and more. Ready to customize and deploy in minutes.
+                Pre-built responsive templates for common layouts—ready to customize and deploy.
               </p>
+              <a href="/getting-started" class="feature-card-link" @click.prevent="navigateTo('/getting-started')" tabindex="0" aria-label="See more about Templates">
+                See More
+                <component :is="FeatureCardArrowIcon" />
+              </a>
             </div>
             
             <div class="feature-card">
-              <div class="feature-icon">
-                <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                </svg>
+              <div class="feature-icon feature-icon-playground">
+                <img src="/asset/homepage/playground.png" alt="Live Playground" class="feature-icon-img" />
               </div>
               <h3 class="feature-title">Live Playground</h3>
               <p class="feature-description">
-                Interactive code editor powered by real-time preview. Experiment with components, copy code snippets, and see changes instantly without setup.
+                Interactive editor with real-time preview to test components and see changes instantly.
               </p>
+              <a href="/components/" class="feature-card-link" @click.prevent="navigateTo('/components/')" tabindex="0" aria-label="See more about Live Playground">
+                See More
+                <component :is="FeatureCardArrowIcon" />
+              </a>
             </div>
           </div>
         </div>
@@ -127,31 +132,23 @@
           <div class="frameworks-grid">
             <div class="framework-card">
               <div class="framework-icon-wrapper">
-                <div class="framework-icon framework-icon-react">
-                  <svg class="react-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="2" fill="#61DAFB" />
-                    <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="#61DAFB" stroke-width="1.5" fill="none" />
-                    <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="#61DAFB" stroke-width="1.5" fill="none" transform="rotate(60 12 12)" />
-                    <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="#61DAFB" stroke-width="1.5" fill="none" transform="rotate(-60 12 12)" />
-                  </svg>
+                <div class="framework-icon framework-icon-img-wrap">
+                  <img src="/asset/homepage/react.png" alt="React Components" class="framework-icon-img" />
                 </div>
               </div>
               <h3 class="framework-title">React Components</h3>
               <p class="framework-description">
-                Production-ready React components built with TypeScript
+                Production-ready React components built with Tailwind CSS and TypeScript.
               </p>
             </div>
             
             <div class="framework-card">
               <div class="framework-icon-wrapper">
-                <div class="framework-icon framework-icon-vue">
-                  <svg class="vue-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 19h5l5-8.5L17 19h5L12 2z" fill="#42b883" />
-                    <path d="M17 19l-5-8.5L7 19h10z" fill="#42b883" opacity="0.5" />
-                  </svg>
+                <div class="framework-icon framework-icon-img-wrap">
+                  <img src="/asset/homepage/vue.png" alt="Vue 3" class="framework-icon-img" />
                 </div>
               </div>
-              <h3 class="framework-title">Vue 3</h3>
+              <h3 class="framework-title">Vue 3 Components</h3>
               <p class="framework-description">
                 Modern Vue 3 components with Composition API and full Typescript support
               </p>
@@ -159,8 +156,8 @@
             
             <div class="framework-card">
               <div class="framework-icon-wrapper">
-                <div class="framework-icon framework-icon-blazor">
-                  <img src="/asset/Blazor.png" alt="Blazor Logo" class="blazor-logo" />
+                <div class="framework-icon framework-icon-img-wrap">
+                  <img src="/asset/homepage/blazor-icon-full.png" alt="Blazor Components" class="framework-icon-img" />
                 </div>
               </div>
               <h3 class="framework-title">Blazor Components</h3>
@@ -176,47 +173,45 @@
       <section class="roles-section animate-section">
         <div class="section-container">
           <div class="section-header">
-            <h2 class="section-title">Start by selecting your role</h2>
+            <h2 class="section-title">Find Your Path</h2>
             <p class="section-description">
-              Choose your role to access tailored resources and tools designed for your workflow.
+              Pick your role and start building with the right tools
             </p>
           </div>
           
           <div class="roles-grid">
             <div class="role-card">
               <div class="role-content">
-                <div class="role-icon-wrapper">
-                  <div class="role-icon gradient-blue">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                      <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-                    </svg>
-                  </div>
+                <div class="role-image-wrapper">
+                  <img src="/asset/homepage/designer.webp" alt="Designer" class="role-image" />
                 </div>
                 <div class="role-text">
                   <h3 class="role-title">Designer</h3>
                   <p class="role-description">
-                    Access design tokens, Figma components, UI kits, and design guidelines
+                    Create beautiful, consistent interfaces with our comprehensive design system and intuitive tools
                   </p>
+                  <a href="/design-principles" @click.prevent="navigateTo('/design-principles')" class="role-cta-link">
+                    Get Started
+                    <component :is="FeatureCardArrowIcon" />
+                  </a>
                 </div>
               </div>
             </div>
             
             <div class="role-card">
               <div class="role-content">
-                <div class="role-icon-wrapper">
-                  <div class="role-icon gradient-green">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="16 18 22 12 16 6" />
-                      <polyline points="8 6 2 12 8 18" />
-                    </svg>
-                  </div>
+                <div class="role-image-wrapper">
+                  <img src="/asset/homepage/developer.webp" alt="Developer" class="role-image" />
                 </div>
                 <div class="role-text">
                   <h3 class="role-title">Developer</h3>
                   <p class="role-description">
-                    Get started with React, Vue, or Blazor components, documentation, and code examples
+                    Build faster with production-ready components, comprehensive docs, and multi-framework support
                   </p>
+                  <a href="/getting-started" @click.prevent="navigateTo('/getting-started')" class="role-cta-link">
+                    Get Started
+                    <component :is="FeatureCardArrowIcon" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -246,9 +241,35 @@ const RightArrowIcon = () => h('svg', {
   'stroke-width': '2',
   'stroke-linecap': 'round',
   'stroke-linejoin': 'round',
-  class: 'w-5 h-5 ml-1',
+  class: 'hero-cta-icon',
 }, [
   h('path', { d: 'M6 12l4-4-4-4' }),
+]);
+
+const FeatureCardArrowIcon = () => h('svg', {
+  'aria-hidden': 'true',
+  viewBox: '0 0 16 16',
+  fill: 'none',
+  stroke: 'currentColor',
+  'stroke-width': '2',
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+  class: 'feature-card-link-icon',
+}, [
+  h('path', { d: 'M6 12l4-4-4-4' }),
+]);
+
+const CodeIcon = () => h('svg', {
+  'aria-hidden': 'true',
+  viewBox: '0 0 20 20',
+  fill: 'none',
+  stroke: 'currentColor',
+  'stroke-width': '2',
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+  class: 'hero-cta-icon hero-cta-code-icon',
+}, [
+  h('path', { d: 'M6.5 6.5L3 10l3.5 3.5M13.5 6.5L17 10l-3.5 3.5M11.5 4l-3 12' }),
 ]);
 
 // Animation on scroll
@@ -387,6 +408,7 @@ onMounted(() => {
 /* Main Content */
 .main-content {
   width: 100%;
+  overflow: hidden;
 }
 
 /* Hero Section */
@@ -401,13 +423,18 @@ onMounted(() => {
   justify-content: space-between;
   width: 100%;
   gap: 60px;
+  position: relative;
+  min-height: 438px;
 }
 
 .hero-image {
+  position: absolute;
+  right: -10%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 673px;  /* 481 × 1.4 */
+  height: 438px; /* 313 × 1.4 */
   flex-shrink: 0;
-  width: 481px;
-  height: 313px;
-  position: relative;
 }
 
 .hero-img {
@@ -450,11 +477,12 @@ onMounted(() => {
   margin: 0;
 }
 
-.gradient-text {
-  background: linear-gradient(166.69deg, #2563eb 0%, #0037b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* PACER hero: P,C,E,R = Tailwind rose-600; A = rgba(202, 65, 57, 1) */
+.pacer-rose {
+  color: #e11d48; /* Tailwind rose-600 */
+}
+.pacer-a {
+  color: rgba(202, 65, 57, 1);
 }
 
 .hero-description {
@@ -473,35 +501,43 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 
+/* Figma Design 1: Get Started — solid blue, rounded-xl, soft shadow */
 .cta-primary :deep(.pt-button) {
-  background: linear-gradient(163.5deg, #2563eb 0%, #0037b8 100%) !important;
-  border: 1px solid #0067ff !important;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.04), 0px 1px 2px 0px rgba(16, 24, 40, 0.04);
+  background: #2563eb !important;
+  border: none !important;
+  border-radius: 0.75rem;
+  color: #fff !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .cta-primary :deep(.pt-button:hover) {
-  background: linear-gradient(163.5deg, #1d4ed8 0%, #002d96 100%) !important;
+  background: #1d4ed8 !important;
   transform: translateY(-1px);
-  box-shadow: 0px 2px 4px 0px rgba(16, 24, 40, 0.08), 0px 2px 4px 0px rgba(16, 24, 40, 0.08);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
+/* Figma Design 2: View Components — white, blue border, blue text, code icon */
 .cta-secondary :deep(.pt-button) {
-  background: white !important;
-  border: 1px solid #0037b8 !important;
-  color: #0037b8 !important;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.04), 0px 1px 2px 0px rgba(16, 24, 40, 0.04);
+  background: #fff !important;
+  border: 1px solid #1d4ed8 !important;
+  border-radius: 0.75rem;
+  color: #1d4ed8 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .cta-secondary :deep(.pt-button:hover) {
   background: #f8fafc !important;
+  border-color: #1d4ed8 !important;
+  color: #1d4ed8 !important;
   transform: translateY(-1px);
-  box-shadow: 0px 2px 4px 0px rgba(16, 24, 40, 0.08), 0px 2px 4px 0px rgba(16, 24, 40, 0.08);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
-.icon-right {
+.hero-actions :deep(.hero-cta-icon) {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  margin-left: 6px;
 }
 
 .hero-actions :deep(.icon-right),
@@ -521,10 +557,10 @@ onMounted(() => {
 .section-header {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
   align-items: center;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 0;
   max-width: 1011px;
   margin-left: auto;
   margin-right: auto;
@@ -546,6 +582,7 @@ onMounted(() => {
   line-height: 29px;
   color: #666;
   margin: 0;
+  margin-bottom: 3em;
 }
 
 /* Animation classes */
@@ -635,10 +672,10 @@ onMounted(() => {
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(-50%) translateY(0);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-50%) translateY(-10px);
   }
 }
 
@@ -679,22 +716,40 @@ onMounted(() => {
 }
 
 .feature-icon {
-  width: 67px;
-  height: 69px;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1a1a1a;
+  flex-shrink: 0;
 }
 
-.feature-icon svg {
+.feature-icon-img-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.feature-icon-playground {
+  border-radius: 8px;
+  background: #D5E7F4;
+  display: flex;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature-icon-img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
-.feature-icon-svg {
-  transition: stroke 0.3s ease;
-  stroke: #1a1a1a;
+.feature-icon-playground .feature-icon-img {
+  max-width: 72px;
+  max-height: 72px;
+  width: auto;
+  height: auto;
 }
 
 .feature-title {
@@ -716,8 +771,45 @@ onMounted(() => {
   margin: 0;
 }
 
+.feature-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: #2563eb;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 4px;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.feature-card-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.feature-card-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.feature-card-link-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
 /* Frameworks Section */
 .frameworks-section {
+  background: #eff8ff;
   padding: 48px 0;
 }
 
@@ -754,24 +846,28 @@ onMounted(() => {
 .framework-icon {
   width: 64px;
   height: 64px;
-  padding: 12px;
-  border-radius: 11.13px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
+  flex-shrink: 0;
 }
 
-.framework-icon-react {
-  background: rgba(97, 218, 251, 0.1);
+/* React, Vue, Blazor: ukuran sama, background dengan border-radius */
+.framework-icon-img-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
 }
 
-.framework-icon-vue {
-  background: rgba(66, 184, 131, 0.1);
-}
-
-.framework-icon-blazor {
-  background: rgba(81, 43, 212, 0.1);
+.framework-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .gradient-blue {
@@ -780,24 +876,6 @@ onMounted(() => {
 
 .gradient-green {
   background: linear-gradient(137.51deg, #4d8c57 13.47%, #54f043 100%);
-}
-
-.framework-icon svg {
-  width: 40px;
-  height: 40px;
-}
-
-.blazor-logo {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
-.react-logo,
-.vue-logo,
-.blazor-logo {
-  width: 40px;
-  height: 40px;
 }
 
 .framework-title {
@@ -822,7 +900,6 @@ onMounted(() => {
 
 /* Roles Section */
 .roles-section {
-  background: #eff8ff;
   padding: 48px 0;
 }
 
@@ -835,9 +912,7 @@ onMounted(() => {
 }
 
 .role-card {
-  backdrop-filter: blur(40px);
-  background: rgba(250, 250, 250, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: #FAFAFA;
   border-radius: 16px;
   padding: 32px 24px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -848,59 +923,118 @@ onMounted(() => {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-
 .role-content {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  gap: 40px;
+  align-items: center;
 }
 
-.role-icon-wrapper {
+.role-image-wrapper {
   flex-shrink: 0;
-}
-
-.role-icon {
-  width: 64px;
-  height: 64px;
-  padding: 12px;
-  border-radius: 11.13px;
+  width: 160px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.role-icon svg {
-  width: 40px;
-  height: 40px;
+.role-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .role-text {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .role-title {
   font-family: 'Manrope', sans-serif;
   font-weight: 700;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 28px;
   letter-spacing: -0.4px;
   color: #1a1a1a;
   margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.4px;
 }
 
 .role-description {
   font-family: 'Manrope', sans-serif;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 28px;
+  font-size: 14px;
+  line-height: 24px;
   color: #666;
   margin: 0;
 }
 
+.role-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: #2563eb;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 8px;
+  transition: color 0.2s ease;
+  width: fit-content;
+}
+
+.role-cta-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.role-cta-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.role-cta-link :deep(.feature-card-link-icon) {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
 /* Responsive */
+@media (max-width: 1279px) {
+  .hero-image {
+    display: none;
+  }
+
+  .hero-container {
+    justify-content: center;
+    min-height: 0;
+  }
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .version-badge {
+    align-self: center;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 1024px) {
   .navbar-container {
     padding-left: 40px;
@@ -940,9 +1074,14 @@ onMounted(() => {
   .hero-container {
     flex-direction: column;
     gap: 32px;
+    min-height: 0;
   }
   
   .hero-image {
+    position: relative;
+    transform: none;
+    right: auto;
+    top: auto;
     width: 100%;
     height: auto;
     max-width: 481px;
@@ -971,6 +1110,55 @@ onMounted(() => {
   .section-title {
     font-size: 28px;
     line-height: 40px;
+  }
+
+  .role-content {
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .role-image-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .role-title {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .role-text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .role-cta-link {
+    align-self: center;
+  }
+
+  .footer-container {
+    padding: 0 24px;
+  }
+
+  .footer-top {
+    gap: 32px;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .footer-corporate-logo {
+    align-self: flex-start;
   }
 }
 </style>
