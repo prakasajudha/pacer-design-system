@@ -378,7 +378,7 @@ const copyToClipboard = async (text: string) => {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 24px 24px;
 }
 
 .section-container {

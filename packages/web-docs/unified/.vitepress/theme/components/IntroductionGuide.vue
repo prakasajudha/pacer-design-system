@@ -8,7 +8,7 @@
             <span>Enterprise Design System</span>
           </div>
           <h1 class="hero-title">
-            Welcome to <span class="pacer-rose">P</span><span class="pacer-a">A</span><span class="pacer-rose">CER</span>
+            Welcome to <span class="pacer-rose">PACER</span>
           </h1>
           <p class="hero-description">
             Consistent UI components across React, Vue, and Blazor

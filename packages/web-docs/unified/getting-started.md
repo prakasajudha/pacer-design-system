@@ -1,9 +1,6 @@
 ---
 layout: doc
 ---
-
-# Getting Started
-
 <InstallationGuide />
 
 ## Design Tokens

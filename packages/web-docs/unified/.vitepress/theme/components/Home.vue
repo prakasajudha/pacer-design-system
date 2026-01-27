@@ -13,7 +13,7 @@
             
             <h1 class="hero-title">
               Build Faster <br/>with 
-              <span class="pacer-rose">P</span><span class="pacer-a">A</span><span class="pacer-rose">CER</span>
+              <span class="pacer-rose">PACER</span>
             </h1>
             
             <p class="hero-description">
