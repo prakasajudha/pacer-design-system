@@ -18,6 +18,9 @@
     <div class="layout-footer" :class="{ 'is-home': isHomePage, 'has-sidebar': true }">
       <Footer />
     </div>
+
+    <!-- Toast Container - untuk demo toast di dokumentasi -->
+    <ToastContainer />
   </div>
 </template>
 
@@ -29,6 +32,7 @@ import Home from './Home.vue';
 import CustomNavbar from './CustomNavbar.vue';
 import CustomSidebar from './CustomSidebar.vue';
 import Footer from './Footer.vue';
+import { ToastContainer } from '@pacer-ui/vue';
 
 const DefaultLayout = DefaultTheme.Layout;
 const route = useRoute();

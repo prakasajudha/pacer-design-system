@@ -113,6 +113,7 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: 'Information', link: '/components/information' },
+              { text: 'Toast', link: '/components/toast' },
               { text: 'Modal', link: '/components/modal' },
               { text: 'Progress', link: '/components/progress' },
               { text: 'Tooltip', link: '/components/tooltip' },
@@ -133,7 +134,7 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Contributing',
+        text: 'Contributing Guide',
         items: [
           { text: 'Add Components & Styles', link: '/contributing' },
           { text: 'Troubleshooting', link: '/troubleshooting' },

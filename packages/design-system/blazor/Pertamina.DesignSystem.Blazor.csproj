@@ -10,18 +10,15 @@
     <Version>1.0.0</Version>
     <Authors>Pertamina Digital Technology Team</Authors>
     <Company>PT Pertamina (Persero)</Company>
-    <Product>PACER — Pertamina Patra Niaga Components & Experience Resources</Product>
-    <Description>Blazor Razor Component Library for PACER (Pertamina Patra Niaga Components & Experience Resources)</Description>
+    <Product>PACER - Pertamina Patra Niaga Components and Experience Resources</Product>
+    <Description>Blazor Razor Component Library for PACER (Pertamina Patra Niaga Components and Experience Resources)</Description>
     <PackageTags>blazor;components;design-system;pertamina;ui;pacer</PackageTags>
     <RepositoryUrl>https://github.com/pertamina/design-system</RepositoryUrl>
     <PackageLicenseExpression>Proprietary</PackageLicenseExpression>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- Tailwind CSS output (compiled) -->
-    <Content Include="wwwroot\**\*.*" />
-  </ItemGroup>
+  <!-- wwwroot content is included automatically by .NET SDK -->
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />

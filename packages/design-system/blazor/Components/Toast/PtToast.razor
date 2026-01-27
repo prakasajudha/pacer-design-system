@@ -1,0 +1,322 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@implements IDisposable
+
+<div id="@Id" role="alert" class="@GetToastClasses()" @attributes="AdditionalAttributes">
+    <div class="@GetIconClasses()" style="@IconStyle">
+        @if (Icon != null)
+        {
+            @Icon
+        }
+        else
+        {
+            @GetDefaultIcon()
+        }
+    </div>
+    <div class="flex-1 min-w-0">
+        @if (!string.IsNullOrEmpty(Title))
+        {
+            <div class="@GetTitleClasses()">@Title</div>
+        }
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <div class="@GetDescriptionClasses()">@Description</div>
+        }
+    </div>
+    <button type="button" @onclick="HandleClose" class="@GetCloseButtonClasses()" aria-label="Close toast">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+    </button>
+</div>
+
+@code {
+    private System.Threading.Timer? _timer;
+
+    /// <summary>
+    /// Variant visual dari toast
+    /// </summary>
+    [Parameter]
+    public ToastVariant Variant { get; set; } = ToastVariant.Neutral;
+
+    /// <summary>
+    /// Title toast
+    /// </summary>
+    [Parameter]
+    public string? Title { get; set; }
+
+    /// <summary>
+    /// Description toast
+    /// </summary>
+    [Parameter]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Custom icon
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
+    /// <summary>
+    /// Custom className untuk icon
+    /// </summary>
+    [Parameter]
+    public string? IconClassName { get; set; }
+
+    /// <summary>
+    /// Custom style untuk icon
+    /// </summary>
+    [Parameter]
+    public string? IconStyle { get; set; }
+
+    /// <summary>
+    /// Duration dalam milliseconds (0 = tidak auto close)
+    /// </summary>
+    [Parameter]
+    public int Duration { get; set; } = 5000;
+
+    /// <summary>
+    /// Callback saat toast di-close
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    /// <summary>
+    /// ID unik untuk toast
+    /// </summary>
+    [Parameter]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && Duration > 0)
+        {
+            _timer = new System.Threading.Timer(async _ =>
+            {
+                await InvokeAsync(async () =>
+                {
+                    await HandleClose();
+                });
+            }, null, Duration, System.Threading.Timeout.Infinite);
+        }
+    }
+
+    private async Task HandleClose()
+    {
+        _timer?.Dispose();
+        _timer = null;
+        await OnClose.InvokeAsync();
+    }
+
+    private string GetToastClasses()
+    {
+        var classes = new List<string>
+        {
+            "flex items-start gap-3 rounded-lg shadow-lg p-4 min-w-[320px] max-w-[400px] border",
+            "animate-toast-in",
+            GetVariantClasses()
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetVariantClasses()
+    {
+        return Variant switch
+        {
+            ToastVariant.Neutral => "bg-white border-slate-200",
+            ToastVariant.Information => "bg-brand-50 border-brand-200",
+            ToastVariant.Success => "bg-green-50 border-green-200",
+            ToastVariant.Warning => "bg-amber-50 border-amber-200",
+            ToastVariant.Error => "bg-red-50 border-red-200",
+            _ => "bg-white border-slate-200"
+        };
+    }
+
+    private string GetIconClasses()
+    {
+        var classes = new List<string> { "w-5 h-5 shrink-0 mt-0.5", GetIconColorClasses() };
+        if (!string.IsNullOrEmpty(IconClassName))
+        {
+            classes.Add(IconClassName);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetIconColorClasses()
+    {
+        return Variant switch
+        {
+            ToastVariant.Neutral => "text-slate-600",
+            ToastVariant.Information => "text-brand-600",
+            ToastVariant.Success => "text-green-600",
+            ToastVariant.Warning => "text-amber-600",
+            ToastVariant.Error => "text-red-600",
+            _ => "text-slate-600"
+        };
+    }
+
+    private string GetTextColorClasses()
+    {
+        return Variant switch
+        {
+            ToastVariant.Neutral => "text-slate-900",
+            ToastVariant.Information => "text-brand-900",
+            ToastVariant.Success => "text-green-900",
+            ToastVariant.Warning => "text-amber-900",
+            ToastVariant.Error => "text-red-900",
+            _ => "text-slate-900"
+        };
+    }
+
+    private string GetTitleClasses()
+    {
+        return $"text-sm font-semibold leading-5 {GetTextColorClasses()}";
+    }
+
+    private string GetDescriptionClasses()
+    {
+        return $"text-sm font-normal leading-5 mt-1 opacity-80 {GetTextColorClasses()}";
+    }
+
+    private string GetCloseButtonClasses()
+    {
+        return $"shrink-0 w-5 h-5 flex items-center justify-center rounded hover:bg-black/5 transition-colors {GetTextColorClasses()}";
+    }
+
+    private const int IconSize = 20;
+
+    private RenderFragment GetDefaultIcon()
+    {
+        var colorClass = GetIconColorClasses();
+
+        return Variant switch
+        {
+            ToastVariant.Neutral or ToastVariant.Information => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", IconSize);
+                builder.AddAttribute(3, "height", IconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "line");
+                builder.AddAttribute(16, "x1", "12");
+                builder.AddAttribute(17, "y1", "16");
+                builder.AddAttribute(18, "x2", "12");
+                builder.AddAttribute(19, "y2", "12");
+                builder.CloseElement();
+                builder.OpenElement(20, "line");
+                builder.AddAttribute(21, "x1", "12");
+                builder.AddAttribute(22, "y1", "8");
+                builder.AddAttribute(23, "x2", "12.01");
+                builder.AddAttribute(24, "y2", "8");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            ToastVariant.Success => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", IconSize);
+                builder.AddAttribute(3, "height", IconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "path");
+                builder.AddAttribute(16, "d", "m9 12 2 2 4-4");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            ToastVariant.Warning => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", IconSize);
+                builder.AddAttribute(3, "height", IconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "path");
+                builder.AddAttribute(12, "d", "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z");
+                builder.CloseElement();
+                builder.OpenElement(13, "path");
+                builder.AddAttribute(14, "d", "M12 9v4");
+                builder.CloseElement();
+                builder.OpenElement(15, "path");
+                builder.AddAttribute(16, "d", "M12 17h.01");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            ToastVariant.Error => builder =>
+            {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "xmlns", "http://www.w3.org/2000/svg");
+                builder.AddAttribute(2, "width", IconSize);
+                builder.AddAttribute(3, "height", IconSize);
+                builder.AddAttribute(4, "viewBox", "0 0 24 24");
+                builder.AddAttribute(5, "fill", "none");
+                builder.AddAttribute(6, "stroke", "currentColor");
+                builder.AddAttribute(7, "stroke-width", "2");
+                builder.AddAttribute(8, "stroke-linecap", "round");
+                builder.AddAttribute(9, "stroke-linejoin", "round");
+                builder.AddAttribute(10, "class", colorClass);
+                builder.OpenElement(11, "circle");
+                builder.AddAttribute(12, "cx", "12");
+                builder.AddAttribute(13, "cy", "12");
+                builder.AddAttribute(14, "r", "10");
+                builder.CloseElement();
+                builder.OpenElement(15, "line");
+                builder.AddAttribute(16, "x1", "12");
+                builder.AddAttribute(17, "y1", "8");
+                builder.AddAttribute(18, "x2", "12");
+                builder.AddAttribute(19, "y2", "12");
+                builder.CloseElement();
+                builder.OpenElement(20, "line");
+                builder.AddAttribute(21, "x1", "12");
+                builder.AddAttribute(22, "y1", "16");
+                builder.AddAttribute(23, "x2", "12.01");
+                builder.AddAttribute(24, "y2", "16");
+                builder.CloseElement();
+                builder.CloseElement();
+            },
+            _ => builder => { }
+        };
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+}

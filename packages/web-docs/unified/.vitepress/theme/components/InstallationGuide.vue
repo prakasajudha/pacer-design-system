@@ -122,17 +122,13 @@
               </div>
 
               <!-- Additional Info -->
-              <div v-if="step.info" class="step-info">
-                <div class="info-icon">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="8" cy="8" r="7" />
-                    <path d="M8 12V8M8 4h.01" />
-                  </svg>
-                </div>
-                <div class="info-content">
-                  <p v-html="step.info"></p>
-                </div>
-              </div>
+              <PtInformation 
+                v-if="step.info" 
+                variant="info" 
+                size="md"
+                :title="stripHtmlTags(step.info)"
+                class="step-info"
+              />
             </div>
           </div>
         </div>
@@ -339,6 +335,13 @@ const decodeHtmlEntities = (text: string) => {
   const textarea = document.createElement('textarea');
   textarea.innerHTML = text;
   return textarea.value;
+};
+
+const stripHtmlTags = (html: string) => {
+  if (typeof document === 'undefined') return html;
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
 };
 
 const copyStepCode = async (text: string, index: number) => {
@@ -717,51 +720,24 @@ const copyToClipboard = async (text: string) => {
 }
 
 .step-info {
-  display: flex;
-  gap: 12px;
-  padding: 12px;
-  background: #f0f7ff;
-  border-radius: 8px;
-  border-left: 3px solid #0156C6;
   margin-top: 8px;
 }
 
-.info-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  color: #0156C6;
-}
-
-.info-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.info-content {
-  flex: 1;
-}
-
-.info-content p {
+.step-info :deep(.pt-information) {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  color: #1a1a1a;
-  margin: 0;
 }
 
-.info-content a {
+.step-info :deep(a) {
   color: #0156C6;
   text-decoration: none;
   font-weight: 500;
 }
 
-.info-content a:hover {
+.step-info :deep(a:hover) {
   text-decoration: underline;
 }
 
-.info-content code {
+.step-info :deep(code) {
   background: rgba(1, 86, 198, 0.1);
   padding: 2px 6px;
   border-radius: 4px;

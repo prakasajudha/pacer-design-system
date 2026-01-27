@@ -25,9 +25,14 @@ import PtPinInput from './components/PtPinInput.vue';
 import PtTooltip from './components/PtTooltip.vue';
 import PtDivider from './components/PtDivider.vue';
 import PtTextarea from './components/PtTextarea.vue';
+import PtToast from './components/PtToast.vue';
+import ToastContainer from './components/ToastContainer.vue';
+
+// Composables
+export { useToast, toast } from './composables/useToast';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider, PtTextarea };
+export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider, PtTextarea, PtToast, ToastContainer };
 
 // Plugin untuk install semua components
 export default {
@@ -56,6 +61,8 @@ export default {
     app.component('PtTooltip', PtTooltip);
     app.component('PtDivider', PtDivider);
     app.component('PtTextarea', PtTextarea);
+    app.component('PtToast', PtToast);
+    app.component('ToastContainer', ToastContainer);
   },
 };
 
@@ -83,3 +90,5 @@ export type { PinInputProps } from './components/PtPinInput.vue';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/PtTooltip.vue';
 export type { DividerProps, DividerColorPalette, DividerVariant, DividerOrientation, DividerSize } from './components/PtDivider.vue';
 export type { TextareaProps, TextareaSize, TextareaVariant } from './components/PtTextarea.vue';
+export type { ToastProps } from './components/PtToast.vue';
+export type { ToastOptions, ToastItem, ToastPosition } from './composables/useToast';

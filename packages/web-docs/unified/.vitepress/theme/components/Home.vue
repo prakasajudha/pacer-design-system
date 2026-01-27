@@ -38,7 +38,7 @@
                 @click="navigateTo('/components/')"
                 class="cta-secondary hero-cta-view-components"
               >
-                View Components
+                Live Playground
               </PtButton>
             </div>
           </div>
@@ -66,7 +66,7 @@
               </div>
               <h3 class="feature-title">Design Tokens</h3>
               <p class="feature-description">
-                25+ reusable UI components built for consistency and scalable development.
+                A unified design language with 5+ token categories, fully synchronized between Figma and code
               </p>
               <a href="/tokens" class="feature-card-link" @click.prevent="navigateTo('/tokens')" tabindex="0" aria-label="See more about Design Tokens">
                 See More
@@ -80,7 +80,7 @@
               </div>
               <h3 class="feature-title">25+ Components</h3>
               <p class="feature-description">
-                Production-ready React components. Fully typed with TypeScript, and customizable with Tailwind CSS.
+                A unified design language with 5+ token categories, fully synchronized between Figma and code
               </p>
               <a href="/components/" class="feature-card-link" @click.prevent="navigateTo('/components/')" tabindex="0" aria-label="See more about Components">
                 See More
@@ -95,7 +95,7 @@
               <h3 class="feature-title">Ready-to-Use Templates</h3>
               <p class="feature-description">
                 Pre-built responsive templates for common layouts—ready to customize and deploy.
-              </p>
+               </p>
               <a href="/getting-started" class="feature-card-link" @click.prevent="navigateTo('/getting-started')" tabindex="0" aria-label="See more about Templates">
                 See More
                 <component :is="FeatureCardArrowIcon" />
@@ -138,8 +138,7 @@
               </div>
               <h3 class="framework-title">React Components</h3>
               <p class="framework-description">
-                Production-ready React components built with Tailwind CSS and TypeScript.
-              </p>
+                Production-ready React components built with Tailwind CSS and TypeScript. </p>
             </div>
             
             <div class="framework-card">
@@ -150,7 +149,7 @@
               </div>
               <h3 class="framework-title">Vue 3 Components</h3>
               <p class="framework-description">
-                Modern Vue 3 components with Composition API and full Typescript support
+                Modern Vue 3 components using the Composition API with full TypeScript support.
               </p>
             </div>
             
@@ -162,7 +161,7 @@
               </div>
               <h3 class="framework-title">Blazor Components</h3>
               <p class="framework-description">
-                Native .NET 8 Blazor Razor components for enterprise applications
+                Native .NET 8 Blazor Razor components built for enterprise-grade applications.
               </p>
             </div>
           </div>

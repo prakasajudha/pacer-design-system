@@ -60,6 +60,18 @@ Information, warning, and notification messages.
 - ✅ ReactNode/VNode/RenderFragment children support
 - ✅ Icon customization (iconClassName, iconStyle)
 
+#### [Toast](/components/toast)
+
+Toast notification component untuk menampilkan notifikasi sementara di aplikasi.
+
+- ✅ 5 variants (Neutral, Information, Success, Warning, Error)
+- ✅ 8 positions (top-left, top, top-right, right, bottom-right, bottom, bottom-left, left)
+- ✅ Title dan Description support
+- ✅ Custom icon support
+- ✅ Auto close dengan delay (configurable)
+- ✅ Manual close button
+- ✅ API seperti toastify (useToast composable)
+
 #### [Input](/components/input)
 
 Text input fields with validation states.
@@ -326,6 +338,7 @@ Learn more about [Design Tokens](/tokens).
 | Badge         |  ✅   | ✅  |   ✅   | Stable      |
 | Skeleton      |  ✅   | ✅  |   ✅   | Stable      |
 | Information   |  ✅   | ✅  |   ✅   | Stable      |
+| Toast         |  ✅   | ✅  |   ✅   | Stable      |
 | Input         |  ✅   | ✅  |   ✅   | Stable      |
 | Pin Input     |  ✅   | ✅  |   ✅   | Stable      |
 | Card          |  ✅   | ✅  |   ✅   | Stable      |

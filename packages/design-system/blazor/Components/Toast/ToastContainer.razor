@@ -1,0 +1,70 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@implements IDisposable
+@inject ToastService ToastService
+
+@if (ToastService.Toasts.Any())
+{
+    <div class="@GetPositionClasses()">
+        @foreach (var toast in ToastService.Toasts)
+        {
+            <div class="pointer-events-auto" @key="toast.Id">
+                <PtToast
+                    Id="@toast.Id"
+                    Variant="@toast.Variant"
+                    Title="@toast.Title"
+                    Description="@toast.Description"
+                    Icon="@toast.Icon"
+                    IconClassName="@toast.IconClassName"
+                    IconStyle="@toast.IconStyle"
+                    Duration="@toast.Duration"
+                    OnClose="@(() => HandleClose(toast.Id))" />
+            </div>
+        }
+    </div>
+}
+
+@code {
+    /// <summary>
+    /// Override position untuk container
+    /// </summary>
+    [Parameter]
+    public ToastPosition? Position { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ToastService.OnChange += StateHasChanged;
+    }
+
+    private void HandleClose(string id)
+    {
+        ToastService.Remove(id);
+    }
+
+    private string GetPositionClasses()
+    {
+        var position = Position ?? ToastService.Position;
+        var baseClasses = "fixed z-[9999] flex flex-col gap-2 pointer-events-none";
+
+        var positionClass = position switch
+        {
+            ToastPosition.TopLeft => "top-4 left-4",
+            ToastPosition.Top => "top-4 left-1/2 -translate-x-1/2",
+            ToastPosition.TopRight => "top-4 right-4",
+            ToastPosition.Right => "right-4 top-1/2 -translate-y-1/2",
+            ToastPosition.BottomRight => "bottom-4 right-4",
+            ToastPosition.Bottom => "bottom-4 left-1/2 -translate-x-1/2",
+            ToastPosition.BottomLeft => "bottom-4 left-4",
+            ToastPosition.Left => "left-4 top-1/2 -translate-y-1/2",
+            _ => "top-4 right-4"
+        };
+
+        return $"{baseClasses} {positionClass}";
+    }
+
+    public void Dispose()
+    {
+        ToastService.OnChange -= StateHasChanged;
+        GC.SuppressFinalize(this);
+    }
+}

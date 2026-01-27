@@ -45,6 +45,10 @@ import {
   PtTooltip,
   PtDivider,
   PtTextarea,
+  PtToast,
+  ToastContainer,
+  useToast,
+  toast,
 } from '@pacer-ui/vue';
 
 export default {
@@ -89,5 +93,7 @@ export default {
     app.component('PtTooltip', PtTooltip);
     app.component('PtDivider', PtDivider);
     app.component('PtTextarea', PtTextarea);
+    app.component('PtToast', PtToast);
+    app.component('ToastContainer', ToastContainer);
   },
 };

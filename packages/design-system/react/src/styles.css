@@ -118,3 +118,19 @@
       'calt' 1;
   }
 }
+
+/* Toast animations */
+@keyframes toast-slide-in {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-toast-in {
+  animation: toast-slide-in 0.3s ease-out;
+}
