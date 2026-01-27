@@ -503,7 +503,7 @@ onMounted(() => {
 
 /* Figma Design 1: Get Started — solid blue, rounded-xl, soft shadow */
 .cta-primary :deep(.pt-button) {
-  background: #2563eb !important;
+  background: #0037B8 !important;
   border: none !important;
   border-radius: 0.75rem;
   color: #fff !important;
@@ -511,7 +511,7 @@ onMounted(() => {
 }
 
 .cta-primary :deep(.pt-button:hover) {
-  background: #1d4ed8 !important;
+  background: #0037B8!important;
   transform: translateY(-1px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }

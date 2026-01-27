@@ -69,9 +69,8 @@ export default defineConfig({
       {
         text: 'Getting Started',
         items: [
-          { text: 'Introduction', link: '/introduction' },
+          { text: 'Home', link: '/' },
           { text: 'Installation', link: '/getting-started' },
-          { text: 'Design Principles', link: '/design-principles' },
         ],
       },
       {
@@ -85,10 +84,10 @@ export default defineConfig({
       {
         text: 'Design Tokens',
         items: [
-          { text: 'Colors', link: '/tokens#color-tokens' },
           { text: 'Overview', link: '/tokens' },
-          { text: 'Spacing', link: '/tokens#spacing-tokens' },
           { text: 'Typography', link: '/tokens#typography-tokens' },
+          { text: 'Colors', link: '/tokens#color-tokens' },
+          { text: 'Spacing', link: '/tokens#spacing-tokens' },
         ],
       },
       {

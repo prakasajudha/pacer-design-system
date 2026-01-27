@@ -312,6 +312,42 @@ const isParentActive = (link?: string) => {
   border: none;
   background: transparent;
   font: inherit;
+  padding: 8px 12px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--vp-c-text-1);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.vp-sidebar-trigger:hover {
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-brand);
+}
+
+/* Ensure trigger with active state has same styling as regular item */
+.vp-sidebar-trigger.active {
+  background: #f0f7ff;
+  color: #0156C6;
+  font-weight: 600;
+  border-left: 3px solid #0156C6;
+  padding-left: 9px;
+}
+
+.dark .vp-sidebar-trigger.active {
+  background: rgba(1, 86, 198, 0.15);
+  color: #60a5fa;
+}
+
+.vp-sidebar-trigger.parent-active {
+  color: #0156C6;
+  font-weight: 500;
+}
+
+.dark .vp-sidebar-trigger.parent-active {
+  color: #60a5fa;
 }
 
 .vp-sidebar-trigger .vp-sidebar-item-chevron {

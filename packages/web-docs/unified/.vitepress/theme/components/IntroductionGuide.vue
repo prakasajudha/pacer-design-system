@@ -8,22 +8,10 @@
             <span>Enterprise Design System</span>
           </div>
           <h1 class="hero-title">
-            Welcome to <span class="gradient-text">PACER</span>
+            Welcome to <span class="pacer-rose">P</span><span class="pacer-a">A</span><span class="pacer-rose">CER</span>
           </h1>
           <p class="hero-description">
             Consistent UI components across React, Vue, and Blazor
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- What is PACER Section -->
-    <section class="what-is-section">
-      <div class="section-container">
-        <div class="section-header">
-          <h2 class="section-title">What is PACER?</h2>
-          <p class="section-description">
-            Enterprise-grade design system ensuring consistency, accessibility, and quality across all applications
           </p>
         </div>
       </div>
@@ -484,11 +472,12 @@ const techStacks = [
   margin: 0 0 24px 0;
 }
 
-.gradient-text {
-  background: linear-gradient(166.69deg, #2563eb 0%, #0037b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* PACER hero: P,C,E,R = Tailwind rose-600; A = rgba(202, 65, 57, 1) */
+.pacer-rose {
+  color: #e11d48; /* Tailwind rose-600 */
+}
+.pacer-a {
+  color: rgba(202, 65, 57, 1);
 }
 
 .hero-description {
