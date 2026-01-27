@@ -200,11 +200,11 @@ const isParentActive = (link?: string) => {
 <style scoped>
 .vp-sidebar {
   position: fixed;
-  top: 64px;
+  top: 80px;
   left: 0;
   bottom: 0;
   width: 256px;
-  background: white;
+  background: #FEFEFF;
   border-right: 1px solid var(--vp-c-divider);
   overflow-y: auto;
   transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
@@ -216,7 +216,7 @@ const isParentActive = (link?: string) => {
 }
 
 .vp-sidebar-nav {
-  padding: 0 12px;
+  padding: 0 8px;
 }
 
 .vp-sidebar-group {
@@ -228,13 +228,17 @@ const isParentActive = (link?: string) => {
 }
 
 .vp-sidebar-group-title {
-  padding: 8px 12px;
+  padding: 8px 8px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--vp-c-text-2);
-  margin-bottom: 8px;
+  letter-spacing: 0.4px;
+  color: #5c5e64;
+  margin-bottom: 4px;
+}
+
+.dark .vp-sidebar-group-title {
+  color: #71717a;
 }
 
 .vp-sidebar-group-items {
@@ -247,30 +251,31 @@ const isParentActive = (link?: string) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  color: var(--vp-c-text-1);
+  gap: 8px;
+  min-width: 128px;
+  padding: 6px 8px;
+  color: #334155;
   text-decoration: none;
   font-size: 14px;
-  border-radius: 6px;
-  transition: all 0.2s;
+  line-height: 20px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
 .vp-sidebar-item:hover {
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-brand);
+  background: #f1f5f9;
+  color: #0156C6;
 }
 
-/* Exact active page - full highlight */
+/* Exact active page - Figma design: light blue background, no border */
 .vp-sidebar-item.active {
-  background: #f0f7ff;
+  background: #E3F0FF;
   color: #0156C6;
-  font-weight: 600;
-  border-left: 3px solid #0156C6;
-  padding-left: 9px;
+  font-weight: 500;
 }
 
 .dark .vp-sidebar-item.active {
-  background: rgba(1, 86, 198, 0.15);
+  background: rgba(1, 86, 198, 0.2);
   color: #60a5fa;
 }
 
@@ -281,6 +286,15 @@ const isParentActive = (link?: string) => {
 }
 
 .dark .vp-sidebar-item.parent-active {
+  color: #60a5fa;
+}
+
+.dark .vp-sidebar-item {
+  color: #94a3b8;
+}
+
+.dark .vp-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
   color: #60a5fa;
 }
 
@@ -312,32 +326,33 @@ const isParentActive = (link?: string) => {
   border: none;
   background: transparent;
   font: inherit;
-  padding: 8px 12px;
+  gap: 8px;
+  min-width: 128px;
+  padding: 6px 8px;
   font-size: 14px;
+  line-height: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--vp-c-text-1);
-  border-radius: 6px;
-  transition: all 0.2s;
+  color: #334155;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
 .vp-sidebar-trigger:hover {
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-brand);
+  background: #f1f5f9;
+  color: #0156C6;
 }
 
 /* Ensure trigger with active state has same styling as regular item */
 .vp-sidebar-trigger.active {
-  background: #f0f7ff;
+  background: #E3F0FF;
   color: #0156C6;
-  font-weight: 600;
-  border-left: 3px solid #0156C6;
-  padding-left: 9px;
+  font-weight: 500;
 }
 
 .dark .vp-sidebar-trigger.active {
-  background: rgba(1, 86, 198, 0.15);
+  background: rgba(1, 86, 198, 0.2);
   color: #60a5fa;
 }
 
@@ -347,6 +362,15 @@ const isParentActive = (link?: string) => {
 }
 
 .dark .vp-sidebar-trigger.parent-active {
+  color: #60a5fa;
+}
+
+.dark .vp-sidebar-trigger {
+  color: #94a3b8;
+}
+
+.dark .vp-sidebar-trigger:hover {
+  background: rgba(255, 255, 255, 0.05);
   color: #60a5fa;
 }
 
@@ -379,22 +403,38 @@ const isParentActive = (link?: string) => {
 }
 
 .vp-sidebar-subitem {
-  padding: 6px 12px;
-  color: var(--vp-c-text-2);
+  padding: 6px 8px;
+  color: #334155;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 20px;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
 }
 
 .vp-sidebar-subitem:hover {
-  color: var(--vp-c-brand);
-  background: var(--vp-c-bg-soft);
+  color: #0156C6;
+  background: #f1f5f9;
 }
 
 .vp-sidebar-subitem.active {
-  color: var(--vp-c-brand);
+  background: #E3F0FF;
+  color: #0156C6;
   font-weight: 500;
+}
+
+.dark .vp-sidebar-subitem {
+  color: #94a3b8;
+}
+
+.dark .vp-sidebar-subitem:hover {
+  color: #60a5fa;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .vp-sidebar-subitem.active {
+  background: rgba(1, 86, 198, 0.2);
+  color: #60a5fa;
 }
 
 /* Dark mode support */

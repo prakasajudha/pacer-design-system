@@ -62,7 +62,7 @@ watch(() => route.path, () => {
 }
 
 .layout-content {
-  margin-top: 64px;
+  margin-top: 81px;
   transition: margin-left 0.3s, width 0.3s;
 }
 

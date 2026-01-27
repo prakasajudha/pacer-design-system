@@ -140,14 +140,13 @@ const isActive = (link?: string) => {
   background: white;
   border-bottom: 1px solid var(--vp-c-divider);
   z-index: 1000;
-  height: 64px;
   transition: background-color 0.3s, border-color 0.3s;
 }
 
 .vp-navbar-container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 20px 32px;
   height: 100%;
   display: flex;
   align-items: center;
