@@ -11,20 +11,20 @@
     else if (ShouldRenderButtons)
     {
         <!-- Default Footer (auto-render buttons) -->
-        @if (OnCancel != null)
+        @if (OnCancel.HasDelegate)
         {
             <PtButton
-                Variant="outline"
-                Size="sm"
+                Variant="ButtonVariant.Outline"
+                Size="ButtonSize.Small"
                 OnClick="HandleCancel">
                 @OnCancelText
             </PtButton>
         }
-        @if (OnConfirm != null)
+        @if (OnConfirm.HasDelegate)
         {
             <PtButton
-                Variant="solid"
-                Size="sm"
+                Variant="ButtonVariant.Solid"
+                Size="ButtonSize.Small"
                 OnClick="HandleConfirm">
                 @OnConfirmText
             </PtButton>

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:css": "tailwindcss -i ./styles/input.css -o ./wwwroot/css/pertamina-design-system.css --minify",
+    "build:css": "tailwindcss -i ./styles/input.css -o ./wwwroot/css/pertamina-design-system.css",
     "watch:css": "tailwindcss -i ./styles/input.css -o ./wwwroot/css/pertamina-design-system.css --watch"
   },
   "devDependencies": {

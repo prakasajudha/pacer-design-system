@@ -115,7 +115,6 @@
         if (Disabled || Tabs == null) return;
         if (e.Key == "Enter" || e.Key == " ")
         {
-            e.PreventDefault();
             await Tabs.SetActiveValue(Value);
         }
     }

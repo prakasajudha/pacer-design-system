@@ -74,7 +74,11 @@
 
     private string GetValueStr()
     {
-        var s = (Value ?? "").Where(c => char.IsDigit(c) || c == EmptyChar).Take(Length);
+        var s = (Value ?? "")
+            .Where(c => char.IsDigit(c) || c == EmptyChar)
+            .Take(Length)
+            .ToArray();
+
         return new string(s).PadRight(Length, EmptyChar);
     }
 

@@ -36,22 +36,16 @@ export default {
 
 ### Blazor
 
-```js
-// tailwind.config.js in your Blazor project
-module.exports = {
-  content: ['./**/*.razor', './**/*.cshtml', './**/*.html'],
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#e6f7f7',
-          // ... PACER color tokens
-        },
-      },
-    },
-  },
-};
+**✨ No Tailwind configuration needed!**
+
+PACER for Blazor includes all styles in a self-contained CSS file. You do **NOT** need to install or configure Tailwind CSS.
+
+```html
+<!-- App.razor or index.html - ONE LINE ONLY -->
+<link href="_content/Pertamina.DesignSystem.Blazor/css/pertamina-design-system.css" rel="stylesheet" />
 ```
+
+All component styles, design tokens, and utilities are included. Zero configuration required!
 
 ## IntelliSense & Type Safety
 
@@ -287,22 +281,16 @@ export default {
 
 ### Blazor
 
-```js
-// tailwind.config.js in your Blazor project
-module.exports = {
-  content: ['./**/*.razor', './**/*.cshtml', './**/*.html'],
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#e6f7f7',
-          // ... PACER color tokens
-        },
-      },
-    },
-  },
-};
+**✨ No Tailwind configuration needed!**
+
+PACER for Blazor includes all styles in a self-contained CSS file. You do **NOT** need to install or configure Tailwind CSS.
+
+```html
+<!-- App.razor or index.html - ONE LINE ONLY -->
+<link href="_content/Pertamina.DesignSystem.Blazor/css/pertamina-design-system.css" rel="stylesheet" />
 ```
+
+All component styles, design tokens, and utilities are included. Zero configuration required!
 
 ## IntelliSense & Type Safety
 

@@ -202,7 +202,6 @@
         if (Disabled) return;
         if (e.Key == "Enter" || e.Key == " ")
         {
-            e.PreventDefault();
             await HandleToggle();
         }
     }
@@ -211,7 +210,6 @@
     {
         if (e.Key == "Enter" || e.Key == " ")
         {
-            e.PreventDefault();
             await HandleToggle();
         }
     }

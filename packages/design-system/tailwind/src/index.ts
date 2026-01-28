@@ -26,6 +26,20 @@ const preset: Partial<Config> = {
    * agar Tailwind selalu generate classes tersebut dan tidak di-flag sebagai dynamic code injection.
    */
   safelist: [
+    // Badge component colors & utilities (generated dynamically in C# code)
+    'bg-slate-900', 'bg-slate-100', 'text-slate-900', 'text-slate-50', 'text-slate-950',
+    'bg-yellow-500', 'bg-yellow-50', 'text-yellow-500', 'text-yellow-700',
+    'bg-green-600', 'bg-green-50', 'bg-green-100', 'text-green-600',
+    'bg-purple-600', 'bg-purple-50', 'text-purple-600',
+    'bg-pink-600', 'bg-pink-50', 'text-pink-600',
+    'bg-orange-600', 'bg-orange-50', 'text-orange-600',
+    'bg-red-50', 'text-red-600', 'bg-red-100',
+    'rounded-full', 'rounded-md',
+    'px-2.5', 'py-0.5', 'px-2', 'py-1',
+    'border-slate-300', 'border-yellow-500', 'border-green-600', 'border-purple-600', 'border-pink-600', 'border-orange-600',
+    'inline-flex', 'items-center', 'justify-center', 'gap-0.5',
+    'text-xs', 'font-semibold',
+    
     // Border radius arbitrary values
     'rounded-[6px]',
     'rounded-[4px]',
@@ -41,7 +55,6 @@ const preset: Partial<Config> = {
     'border',
     'border-1',
     'border-brand-300',
-    'border-slate-300',
     'border-red-600',
     
     // Complex shadow values (focus rings) - ini yang paling sering di-flag

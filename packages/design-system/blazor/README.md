@@ -8,6 +8,15 @@ Blazor Razor Component Library untuk PACER (Pertamina Patra Niaga Components & E
 dotnet add package Pertamina.DesignSystem.Blazor
 ```
 
+## ✅ Zero Dependencies
+
+This package includes **all necessary CSS** (~137KB). You do **NOT** need to:
+- ❌ Install Tailwind CSS
+- ❌ Add Tailwind CDN
+- ❌ Configure Tailwind in your project
+
+Everything is bundled and ready to use!
+
 ## Setup
 
 ### 1. Add CSS Reference
@@ -15,6 +24,7 @@ dotnet add package Pertamina.DesignSystem.Blazor
 Di `App.razor` atau `_Host.cshtml` / `index.html`:
 
 ```html
+<!-- All styles included - no Tailwind installation needed -->
 <link href="_content/Pertamina.DesignSystem.Blazor/css/pertamina-design-system.css" rel="stylesheet" />
 ```
 
@@ -153,15 +163,18 @@ Di `_Imports.razor`:
 # 1. Install Node dependencies (untuk Tailwind)
 pnpm install
 
-# 2. Build CSS
-pnpm build:css
+# 2. Build CSS (unminified untuk browser compatibility)
+npm run build:css
+# Generates: wwwroot/css/pertamina-design-system.css (~137KB)
 
 # 3. Build .NET library
-dotnet build
+dotnet build -c Release
 
 # 4. Create NuGet package
 dotnet pack -c Release
 ```
+
+**Note**: CSS is built **without minification** (`--minify` removed) to ensure proper browser parsing. The ~27KB size difference is negligible when gzipped.
 
 ### Watch Mode (Development)
 

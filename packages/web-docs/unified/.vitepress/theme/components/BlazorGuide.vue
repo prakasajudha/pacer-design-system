@@ -56,13 +56,12 @@
         <div class="fact-card">
           <div class="fact-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
             </svg>
           </div>
-          <h3>Enterprise Ready</h3>
-          <p>Production grade</p>
+          <h3>Zero Dependencies</h3>
+          <p>No Tailwind install needed</p>
         </div>
       </div>
     </section>
@@ -126,10 +125,12 @@
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h3>Include styles in App.razor</h3>
+            <h3>Include styles (that's it!)</h3>
+            <p class="step-note">All styles included. No Tailwind installation needed.</p>
             <div class="code-block">
               <div class="code-content">
-                <pre><code>&lt;link href="_content/Pertamina.DesignSystem.Blazor/styles.css" 
+                <pre><code>&lt;!-- App.razor or index.html --&gt;
+&lt;link href="_content/Pertamina.DesignSystem.Blazor/css/pertamina-design-system.css" 
       rel="stylesheet" /&gt;</code></pre>
                 <button class="copy-btn" @click="handleCopy(stylesCode)">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -357,7 +358,9 @@ const installCommands: Record<string, string> = {
   'PackageReference': '<PackageReference Include="Pertamina.DesignSystem.Blazor" Version="*" />',
 };
 
-const stylesCode = `<link href="_content/Pertamina.DesignSystem.Blazor/styles.css" rel="stylesheet" />`;
+const stylesCode = `<!-- App.razor or index.html -->
+<link href="_content/Pertamina.DesignSystem.Blazor/css/pertamina-design-system.css" 
+      rel="stylesheet" />`;
 
 const usageCode = `@page "/contact"
 
@@ -661,6 +664,13 @@ const navigateToTokens = () => {
   font-weight: 600;
   color: #0f172a;
   margin: 0 0 12px;
+}
+
+.step-note {
+  font-size: 13px;
+  color: #16a34a;
+  margin: 0 0 12px;
+  font-weight: 500;
 }
 
 .code-block {
@@ -1071,6 +1081,10 @@ const navigateToTokens = () => {
 
 .dark .step-content h3 {
   color: #f8fafc;
+}
+
+.dark .step-note {
+  color: #4ade80;
 }
 
 .dark .practice-card {
