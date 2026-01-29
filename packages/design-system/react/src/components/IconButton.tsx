@@ -7,12 +7,12 @@ type ExtractSize = NonNullable<ButtonProps['size']>;
 type ExtractColor = NonNullable<ButtonProps['color']>;
 
 export type IconButtonSize = 'xss' | 'xs' | ExtractSize;
-export type IconButtonShape = 'square' | 'rounded';
 export type IconButtonVariant =
   | Exclude<ExtractVariant, 'link-secondary'>
   | 'link-primary'
   | 'link-secondary';
 export type IconButtonColor = ExtractColor;
+export type IconButtonShape = 'square' | 'rounded';
 
 export type IconButtonProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
