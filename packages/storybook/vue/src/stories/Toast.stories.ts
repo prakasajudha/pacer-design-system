@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { PtToast, ToastContainer, useToast, PtButton } from '@pacer-ui/vue';
-import { h, defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
 const meta = {
   id: 'components-toast',
@@ -107,6 +107,17 @@ export const Error: Story = {
     variant: 'error',
     title: 'Error!',
     description: 'Terjadi kesalahan saat menyimpan data',
+  },
+};
+
+// Long Text (word-break / overflow-wrap)
+export const LongText: Story = {
+  args: {
+    variant: 'information',
+    title: 'IniTitleSengajaDibikinPanjangBangetTanpaSpasiSupayaNgetesWordBreakDanTidakMelebarKeSamping',
+    description:
+      'Contoh description berisi URL panjang: https://example.com/super/long/path/with/reallyreallyreallyreallyreallyreallylongsegment?query=abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    duration: 0,
   },
 };
 

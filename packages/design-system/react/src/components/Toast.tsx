@@ -221,13 +221,21 @@ export const Toast: React.FC<ToastProps> = ({
       </div>
       <div className="flex-1 min-w-0">
         {title && (
-          <div className={cn('text-sm font-semibold leading-5', textColorStyles[variant])}>
+          <div
+            className={cn(
+              'text-sm font-semibold leading-5 whitespace-normal [overflow-wrap:anywhere]',
+              textColorStyles[variant]
+            )}
+          >
             {title}
           </div>
         )}
         {description && (
           <div
-            className={cn('text-sm font-normal leading-5 mt-1 opacity-80', textColorStyles[variant])}
+            className={cn(
+              'text-sm font-normal leading-5 mt-1 opacity-80 whitespace-normal [overflow-wrap:anywhere]',
+              textColorStyles[variant]
+            )}
           >
             {description}
           </div>

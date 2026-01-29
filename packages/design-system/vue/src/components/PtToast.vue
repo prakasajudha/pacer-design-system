@@ -158,14 +158,14 @@ const iconClasses = computed(() => {
 
 const titleClasses = computed(() => {
   return cn(
-    'text-sm font-semibold leading-5',
+    'text-sm font-semibold leading-5 whitespace-normal [overflow-wrap:anywhere]',
     textColorStyles[props.variant]
   );
 });
 
 const descriptionClasses = computed(() => {
   return cn(
-    'text-sm font-normal leading-5 mt-1',
+    'text-sm font-normal leading-5 mt-1 whitespace-normal [overflow-wrap:anywhere]',
     textColorStyles[props.variant],
     'opacity-80'
   );

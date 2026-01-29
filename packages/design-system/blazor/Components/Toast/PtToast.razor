@@ -178,12 +178,12 @@
 
     private string GetTitleClasses()
     {
-        return $"text-sm font-semibold leading-5 {GetTextColorClasses()}";
+        return $"text-sm font-semibold leading-5 whitespace-normal [overflow-wrap:anywhere] {GetTextColorClasses()}";
     }
 
     private string GetDescriptionClasses()
     {
-        return $"text-sm font-normal leading-5 mt-1 opacity-80 {GetTextColorClasses()}";
+        return $"text-sm font-normal leading-5 mt-1 opacity-80 whitespace-normal [overflow-wrap:anywhere] {GetTextColorClasses()}";
     }
 
     private string GetCloseButtonClasses()

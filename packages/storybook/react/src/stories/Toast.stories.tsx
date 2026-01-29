@@ -110,6 +110,17 @@ export const Error: Story = {
   },
 };
 
+// Long Text (word-break / overflow-wrap)
+export const LongText: Story = {
+  args: {
+    variant: 'information',
+    title: 'IniTitleSengajaDibikinPanjangBangetTanpaSpasiSupayaNgetesWordBreakDanTidakMelebarKeSamping',
+    description:
+      'Contoh description berisi URL panjang: https://example.com/super/long/path/with/reallyreallyreallyreallyreallyreallylongsegment?query=abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    duration: 0,
+  },
+};
+
 // Title Only
 export const TitleOnly: Story = {
   args: {

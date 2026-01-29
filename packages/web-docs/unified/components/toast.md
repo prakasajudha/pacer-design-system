@@ -120,6 +120,7 @@ Toast secara default akan auto close setelah 5 detik. Anda dapat:
 - Gunakan toast untuk notifikasi sementara yang tidak memerlukan interaksi user
 - Pilih variant yang sesuai dengan konteks (success untuk aksi berhasil, error untuk kesalahan, dll)
 - Jangan terlalu banyak toast sekaligus (maksimal 3-4 toast)
+- Untuk teks panjang tanpa spasi (mis. URL/token), Toast akan otomatis wrap (word-break) supaya tidak melebar ke samping
 - Untuk notifikasi penting yang memerlukan perhatian user, gunakan `duration: 0` atau Modal
 
 </template>
