@@ -54,6 +54,18 @@ const meta = {
     bgColor: { control: 'text' },
     error: { control: 'boolean' },
     size: { control: 'select', options: ['md', 'sm'] },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string sederhana untuk demo).',
+    },
   },
 } satisfies Meta<typeof Switch>;
 
@@ -124,3 +136,11 @@ export const ErrorOutlined: Story = {
   render: Playground.render,
 };
 
+export const MandatoryWithTooltip: Story = {
+  args: {
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Field ini wajib diaktifkan sebelum melanjutkan.',
+  },
+  render: Playground.render,
+};

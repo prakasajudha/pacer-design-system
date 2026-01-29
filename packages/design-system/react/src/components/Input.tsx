@@ -1,11 +1,24 @@
 import React from 'react';
 import { cn } from '../utils/cn';
+import { FormFieldLabel } from './FormFieldLabel';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /**
    * Label untuk input
    */
   label?: string;
+  /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. Komponen/ReactNode.
+   */
+  tooltipInformation?: React.ReactNode;
   /**
    * State error
    */
@@ -18,17 +31,14 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
    * Pesan helper text (ditampilkan ketika tidak error)
    */
   helperText?: string;
-  
   /**
    * Icon sebelum input
    */
   startIcon?: React.ReactNode;
-  
   /**
    * Icon setelah input
    */
   endIcon?: React.ReactNode;
-  
   /**
    * Full width input
    */
@@ -54,6 +64,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       label,
+      isMandatory = false,
+      showTooltip = false,
+      tooltipInformation,
       error = false,
       errorMessage,
       helperText,
@@ -76,14 +89,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     
     return (
       <div className={cn('space-y-1', fullWidth && 'w-full')}>
-        {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-medium text-neutral-700"
-          >
-            {label}
-          </label>
-        )}
+        <FormFieldLabel
+          label={label}
+          isMandatory={isMandatory}
+          showTooltip={showTooltip}
+          tooltipInformation={tooltipInformation}
+          htmlFor={inputId}
+        />
         
         <div className="relative">
           {startIcon && (

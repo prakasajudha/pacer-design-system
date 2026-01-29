@@ -25,6 +25,9 @@ const meta = {
     modelValue: '',
     error: false,
     errorMessage: '',
+    isMandatory: false,
+    showTooltip: false,
+    tooltipInformation: '',
   },
   argTypes: {
     type: {
@@ -43,6 +46,18 @@ const meta = {
     helperText: {
       control: 'text',
       description: 'Pesan pendukung ketika tidak ada error.',
+    },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string; untuk komponen gunakan slot #tooltip-information).',
     },
     error: {
       control: 'text',
@@ -168,5 +183,35 @@ export const WithoutLabel: Story = {
     label: undefined,
     helperText: undefined,
     placeholder: 'Placeholder tanpa label',
+  },
+};
+
+export const Mandatory: Story = {
+  render: baseRender(),
+  args: {
+    label: 'Email',
+    isMandatory: true,
+    helperText: undefined,
+  },
+};
+
+export const WithTooltip: Story = {
+  render: baseRender(),
+  args: {
+    label: 'Email',
+    showTooltip: true,
+    tooltipInformation: 'Gunakan email aktif yang sudah terdaftar di sistem.',
+    helperText: undefined,
+  },
+};
+
+export const MandatoryWithTooltip: Story = {
+  render: baseRender(),
+  args: {
+    label: 'Email',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Field ini wajib diisi untuk melanjutkan proses.',
+    helperText: undefined,
   },
 };

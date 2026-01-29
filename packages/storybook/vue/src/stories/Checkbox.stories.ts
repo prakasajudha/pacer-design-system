@@ -48,6 +48,9 @@ const meta = {
     position: 'left',
     outlined: false,
     error: false,
+    isMandatory: false,
+    showTooltip: false,
+    tooltipInformation: '',
   },
   argTypes: {
     modelValue: {
@@ -66,6 +69,18 @@ const meta = {
     position: { control: 'select', options: ['left', 'right'] },
     outlined: { control: 'boolean' },
     error: { control: 'boolean' },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string; untuk konten kompleks gunakan slot #tooltip-information).',
+    },
   },
 } satisfies Meta<typeof PtCheckbox>;
 
@@ -287,6 +302,69 @@ export const States: Story = {
         <PtCheckbox v-model="unchecked" label="Unchecked" />
         <PtCheckbox v-model="checked" label="Checked" />
         <PtCheckbox v-model="intermediate" :indeterminate="indeterminate" label="Intermediate" />
+      </div>
+    `,
+  }),
+};
+
+export const Mandatory: Story = {
+  render: () => ({
+    components: { PtCheckbox },
+    setup() {
+      const checked = ref(false);
+      return { checked };
+    },
+    template: `
+      <div class="w-[428px]">
+        <PtCheckbox
+          v-model="checked"
+          label="Accept terms and conditions"
+          description="You must accept the terms to continue."
+          :is-mandatory="true"
+        />
+      </div>
+    `,
+  }),
+};
+
+export const WithTooltip: Story = {
+  render: () => ({
+    components: { PtCheckbox },
+    setup() {
+      const checked = ref(false);
+      return { checked };
+    },
+    template: `
+      <div class="w-[428px]">
+        <PtCheckbox
+          v-model="checked"
+          label="Accept terms and conditions"
+          description="You must accept the terms to continue."
+          :show-tooltip="true"
+          tooltip-information="Centang untuk menyetujui syarat dan ketentuan."
+        />
+      </div>
+    `,
+  }),
+};
+
+export const MandatoryWithTooltip: Story = {
+  render: () => ({
+    components: { PtCheckbox },
+    setup() {
+      const checked = ref(false);
+      return { checked };
+    },
+    template: `
+      <div class="w-[428px]">
+        <PtCheckbox
+          v-model="checked"
+          label="Accept terms and conditions"
+          description="You must accept the terms to continue."
+          :is-mandatory="true"
+          :show-tooltip="true"
+          tooltip-information="Field ini wajib di-cek untuk melanjutkan proses."
+        />
       </div>
     `,
   }),

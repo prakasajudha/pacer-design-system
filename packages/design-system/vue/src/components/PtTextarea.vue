@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, useAttrs, useSlots } from 'vue';
 import { cn } from '../lib/utils';
+import PtFormFieldLabel from './PtFormFieldLabel.vue';
 
 defineOptions({ inheritAttrs: false });
 
@@ -27,6 +28,18 @@ export interface TextareaProps {
    * Teks bantuan di bawah. String atau isi slot #description. Tidak ditampilkan saat error.
    */
   description?: string;
+  /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. String; untuk komponen gunakan slot #tooltip-information.
+   */
+  tooltipInformation?: string;
   /**
    * Nonaktif
    */
@@ -56,6 +69,8 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   error: false,
   rows: 4,
   resize: 'vertical',
+  isMandatory: false,
+  showTooltip: false,
 });
 
 const hasTitle = computed(() => !!slots.title || (props.title != null && props.title !== ''));
@@ -128,9 +143,21 @@ const describedByIds = computed(() => {
 
 <template>
   <div class="flex flex-col gap-1.5">
-    <label v-if="hasTitle" :for="textareaId" :class="labelClass">
-      <slot name="title">{{ props.title }}</slot>
-    </label>
+    <PtFormFieldLabel
+      :label="props.title"
+      :is-mandatory="props.isMandatory"
+      :show-tooltip="props.showTooltip"
+      :tooltip-information="props.tooltipInformation"
+      :html-for="textareaId"
+      :class="labelClass"
+    >
+      <template #label>
+        <slot name="title">{{ props.title }}</slot>
+      </template>
+      <template v-if="$slots['tooltip-information']" #tooltip-information>
+        <slot name="tooltip-information" />
+      </template>
+    </PtFormFieldLabel>
 
     <textarea
       :id="textareaId"

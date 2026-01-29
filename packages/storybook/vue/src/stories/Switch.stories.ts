@@ -41,6 +41,9 @@ const meta = {
     bgColor: '#016BF8',
     error: false,
     size: 'md',
+    isMandatory: false,
+    showTooltip: false,
+    tooltipInformation: '',
   },
   argTypes: {
     modelValue: { control: 'boolean', description: 'v-model (checked state)' },
@@ -54,6 +57,18 @@ const meta = {
     bgColor: { control: 'text' },
     error: { control: 'boolean' },
     size: { control: 'select', options: ['md', 'sm'] },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string; untuk konten kompleks gunakan slot #tooltip-information).',
+    },
   },
 } satisfies Meta<typeof PtSwitch>;
 
@@ -121,3 +136,32 @@ export const ErrorOutlined: Story = {
   render: Playground.render,
 };
 
+export const Mandatory: Story = {
+  args: {
+    label: 'Accept terms and conditions',
+    isMandatory: true,
+    description: 'You agree to our Terms of Service and Privacy Policy.',
+  },
+  render: Playground.render,
+};
+
+export const WithTooltip: Story = {
+  args: {
+    label: 'Accept terms and conditions',
+    showTooltip: true,
+    tooltipInformation: 'Centang untuk menyetujui syarat dan ketentuan.',
+    description: 'You agree to our Terms of Service and Privacy Policy.',
+  },
+  render: Playground.render,
+};
+
+export const MandatoryWithTooltip: Story = {
+  args: {
+    label: 'Accept terms and conditions',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Field ini wajib dicentang untuk melanjutkan.',
+    description: 'You agree to our Terms of Service and Privacy Policy.',
+  },
+  render: Playground.render,
+};

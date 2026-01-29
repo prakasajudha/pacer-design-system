@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useSlots, watch, onUnmounted } from 'vue';
 import { cn } from '../lib/utils';
+import PtFormFieldLabel from './PtFormFieldLabel.vue';
 
 const REVEAL_MS = 500;
 
@@ -42,6 +43,18 @@ export interface PinInputProps {
    * Alignment posisi group input di dalam container.
    */
   align?: 'left' | 'center' | 'right';
+  /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. String; untuk komponen gunakan slot #tooltip-information.
+   */
+  tooltipInformation?: string;
 }
 
 const props = withDefaults(defineProps<PinInputProps>(), {
@@ -51,6 +64,8 @@ const props = withDefaults(defineProps<PinInputProps>(), {
   disabled: false,
   error: false,
   align: 'left',
+  isMandatory: false,
+  showTooltip: false,
 });
 
 const slots = useSlots();
@@ -210,10 +225,21 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5">
-    <label v-if="hasTitle" class="block text-sm font-medium text-slate-700 w-full" :class="textAlignClass">
-      <slot name="title">{{ props.title }}</slot>
-    </label>
+  <div class="flex w-full flex-col gap-1.5">
+    <PtFormFieldLabel
+      :label="props.title"
+      :is-mandatory="props.isMandatory"
+      :show-tooltip="props.showTooltip"
+      :tooltip-information="props.tooltipInformation"
+      :class="['w-full', textAlignClass, alignClass]"
+    >
+      <template #label>
+        <slot name="title">{{ props.title }}</slot>
+      </template>
+      <template v-if="$slots['tooltip-information']" #tooltip-information>
+        <slot name="tooltip-information" />
+      </template>
+    </PtFormFieldLabel>
 
     <div class="flex w-full items-center" :class="[sizeStyles.gap, alignClass]">
       <div class="flex items-center" :class="[sizeStyles.gap]">

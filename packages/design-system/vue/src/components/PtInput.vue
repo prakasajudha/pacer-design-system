@@ -1,17 +1,28 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
+import { computed, useSlots, useId } from 'vue';
+import PtFormFieldLabel from './PtFormFieldLabel.vue';
 
 export interface InputProps {
   /**
    * Model value
    */
   modelValue?: string | number;
-  
   /**
    * Label untuk input
    */
   label?: string;
-  
+  /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. String; untuk komponen gunakan slot #tooltip-information.
+   */
+  tooltipInformation?: string;
   /**
    * State error
    */
@@ -24,22 +35,18 @@ export interface InputProps {
    * Pesan helper text (ditampilkan ketika tidak error)
    */
   helperText?: string;
-  
   /**
    * Full width input
    */
   fullWidth?: boolean;
-  
   /**
    * Input type
    */
   type?: string;
-  
   /**
    * Placeholder
    */
   placeholder?: string;
-  
   /**
    * Disabled state
    */
@@ -52,7 +59,11 @@ const props = withDefaults(defineProps<InputProps>(), {
   type: 'text',
   disabled: false,
   error: false,
+  isMandatory: false,
+  showTooltip: false,
 });
+
+const inputId = useId();
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | number];
@@ -86,13 +97,18 @@ const handleInput = (event: Event) => {
 
 <template>
   <div :class="['space-y-1', fullWidth && 'w-full']">
-    <label
-      v-if="label"
-      class="block text-sm font-medium text-neutral-700"
+    <PtFormFieldLabel
+      :label="label"
+      :is-mandatory="isMandatory"
+      :show-tooltip="showTooltip"
+      :tooltip-information="tooltipInformation"
+      :html-for="inputId"
     >
-      {{ label }}
-    </label>
-    
+      <template v-if="$slots['tooltip-information']" #tooltip-information>
+        <slot name="tooltip-information" />
+      </template>
+    </PtFormFieldLabel>
+
     <div class="relative">
       <div
         v-if="hasStartIcon"
@@ -102,6 +118,7 @@ const handleInput = (event: Event) => {
       </div>
       
       <input
+        :id="inputId"
         :class="inputClasses"
         :type="type"
         :value="modelValue"

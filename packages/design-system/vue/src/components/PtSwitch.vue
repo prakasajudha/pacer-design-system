@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue';
+import { computed, useAttrs, useSlots } from 'vue';
 import { cn } from '../lib/utils';
+import PtFormFieldLabel from './PtFormFieldLabel.vue';
 
 export type SwitchPosition = 'left' | 'right';
 export type SwitchSize = 'md' | 'sm';
@@ -47,6 +48,21 @@ export interface SwitchProps {
   outlined?: boolean;
 
   /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+
+  /**
+   * Isi tooltip saat showTooltip true. String; untuk komponen gunakan slot #tooltip-information.
+   */
+  tooltipInformation?: string;
+
+  /**
    * Active background color (hex/rgb/rgba/var). Default sesuai Figma (hex).
    */
   bgColor?: string;
@@ -71,6 +87,8 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   description: '',
   position: 'left',
   outlined: false,
+  isMandatory: false,
+  showTooltip: false,
   bgColor: '#016BF8',
   error: false,
   size: 'md',
@@ -84,7 +102,14 @@ const emit = defineEmits<{
 const attrs = useAttrs();
 
 const isChecked = computed(() => !!props.modelValue);
-const hasContent = computed(() => !!props.label || !!props.description);
+const slots = useSlots();
+const hasContent = computed(
+  () =>
+    !!props.label ||
+    !!props.description ||
+    props.isMandatory ||
+    (props.showTooltip && (!!slots['tooltip-information'] || (props.tooltipInformation != null && props.tooltipInformation !== '')))
+);
 
 const labelId = computed(() => (props.id ? `${props.id}-label` : undefined));
 const descId = computed(() => (props.id ? `${props.id}-description` : undefined));
@@ -208,8 +233,19 @@ const onKeyDown = (e: KeyboardEvent) => {
       <span :class="thumbClasses" />
     </button>
 
-    <div v-if="label || description" :class="contentClasses">
-      <div v-if="label" :id="labelId" :class="labelClasses" style="overflow-wrap: anywhere; word-break: break-word;">{{ label }}</div>
+    <div v-if="hasContent" :class="contentClasses">
+      <PtFormFieldLabel
+        :label="label"
+        :is-mandatory="isMandatory"
+        :show-tooltip="showTooltip"
+        :tooltip-information="tooltipInformation"
+        :id="labelId"
+        :class="cn(labelClasses, '[overflow-wrap:anywhere]')"
+      >
+        <template v-if="$slots['tooltip-information']" #tooltip-information>
+          <slot name="tooltip-information" />
+        </template>
+      </PtFormFieldLabel>
       <div v-if="description" :id="descId" :class="descriptionClasses" style="overflow-wrap: anywhere; word-break: break-word;">{{ description }}</div>
     </div>
   </div>

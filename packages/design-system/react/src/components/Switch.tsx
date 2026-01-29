@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../utils/cn';
+import { FormFieldLabel } from './FormFieldLabel';
 
 export type SwitchPosition = 'left' | 'right';
 export type SwitchSize = 'md' | 'sm';
@@ -41,6 +42,18 @@ export interface SwitchProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
   position?: SwitchPosition;
   outlined?: boolean;
   /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. Komponen/ReactNode.
+   */
+  tooltipInformation?: React.ReactNode;
+  /**
    * Active background color (hex/rgb/rgba/var). Default sesuai Figma (hex).
    */
   bgColor?: string;
@@ -73,6 +86,9 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       description = '',
       position = 'left',
       outlined = false,
+      isMandatory = false,
+      showTooltip = false,
+      tooltipInformation,
       bgColor = '#016BF8',
       error = false,
       size = 'md',
@@ -101,7 +117,11 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       }
     };
 
-    const hasContent = Boolean(label) || Boolean(description);
+    const hasContent =
+      Boolean(label) ||
+      Boolean(description) ||
+      isMandatory ||
+      (showTooltip && tooltipInformation != null && tooltipInformation !== '');
     const labelId = id ? `${id}-label` : undefined;
     const descId = id ? `${id}-description` : undefined;
 
@@ -162,11 +182,14 @@ export const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
 
         {hasContent ? (
           <div className="flex flex-col gap-1 min-w-0 flex-1">
-            {label ? (
-              <div id={labelId} className={labelClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
-                {label}
-              </div>
-            ) : null}
+            <FormFieldLabel
+              label={label}
+              isMandatory={isMandatory}
+              showTooltip={showTooltip}
+              tooltipInformation={tooltipInformation}
+              id={labelId}
+              className={cn(labelClasses, '[overflow-wrap:anywhere]')}
+            />
             {description ? (
               <div id={descId} className={descriptionClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                 {description}

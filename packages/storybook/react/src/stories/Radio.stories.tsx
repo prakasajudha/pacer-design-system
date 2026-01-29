@@ -55,6 +55,18 @@ const meta = {
     position: { control: 'select', options: ['left', 'right'] },
     outlined: { control: 'boolean' },
     error: { control: 'boolean' },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string sederhana untuk demo).',
+    },
   },
 } satisfies Meta<typeof Radio>;
 
@@ -263,6 +275,27 @@ export const States: Story = {
           <div className="text-sm font-medium text-slate-700 mb-2">Checked</div>
           <Radio checked={selectedValue1 === 'option1'} value="option1" name="group9" label="Checked option" onCheckedChange={setSelectedValue1} />
         </div>
+      </div>
+    );
+  },
+};
+
+export const MandatoryWithTooltip: Story = {
+  render: () => {
+    const [selectedValue, setSelectedValue] = useState<string | number>('option1');
+    return (
+      <div className="w-[428px] space-y-2">
+        <Radio
+          checked={selectedValue === 'option1'}
+          value="option1"
+          name="mandatory-radio"
+          label="Option 1"
+          description="Pilih salah satu opsi untuk melanjutkan."
+          isMandatory
+          showTooltip
+          tooltipInformation="Field ini wajib diisi; pilih salah satu opsi yang sesuai."
+          onCheckedChange={setSelectedValue}
+        />
       </div>
     );
   },

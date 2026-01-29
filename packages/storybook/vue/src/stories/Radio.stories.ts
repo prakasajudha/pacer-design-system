@@ -43,6 +43,9 @@ const meta = {
     position: 'left',
     outlined: false,
     error: false,
+    isMandatory: false,
+    showTooltip: false,
+    tooltipInformation: '',
   },
   argTypes: {
     modelValue: {
@@ -61,6 +64,18 @@ const meta = {
     position: { control: 'select', options: ['left', 'right'] },
     outlined: { control: 'boolean' },
     error: { control: 'boolean' },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string; untuk konten kompleks gunakan slot #tooltip-information).',
+    },
   },
 } satisfies Meta<typeof PtRadio>;
 
@@ -297,6 +312,75 @@ export const States: Story = {
             <div class="text-sm font-medium text-slate-700 mb-2">Checked</div>
             <PtRadio v-model="selectedValue1" value="option1" name="group9" label="Checked option" />
           </div>
+        </div>
+      `,
+    };
+  },
+};
+
+export const Mandatory: Story = {
+  render: () => {
+    const selectedValue = ref('option1');
+    return {
+      components: { PtRadio },
+      setup: () => ({ selectedValue }),
+      template: `
+        <div class="w-[428px] space-y-2">
+          <PtRadio
+            v-model="selectedValue"
+            value="option1"
+            name="mandatory-radio"
+            label="Option 1"
+            description="Pilih salah satu opsi untuk melanjutkan."
+            :is-mandatory="true"
+          />
+        </div>
+      `,
+    };
+  },
+};
+
+export const WithTooltip: Story = {
+  render: () => {
+    const selectedValue = ref('option1');
+    return {
+      components: { PtRadio },
+      setup: () => ({ selectedValue }),
+      template: `
+        <div class="w-[428px] space-y-2">
+          <PtRadio
+            v-model="selectedValue"
+            value="option1"
+            name="tooltip-radio"
+            label="Option 1"
+            description="Pilih salah satu opsi."
+            :show-tooltip="true"
+            tooltip-information="Pilih opsi yang sesuai dengan kebutuhan Anda."
+          />
+        </div>
+      `,
+    };
+  },
+};
+
+export const MandatoryWithTooltip: Story = {
+  render: () => {
+    const selectedValue = ref('option1');
+    return {
+      components: { PtRadio },
+      setup: () => ({ selectedValue }),
+      template: `
+        <div class="w-[428px] space-y-2">
+          <PtRadio
+            v-model="selectedValue"
+            value="option1"
+            name="mandatory-radio"
+            label="Option 1"
+            description="Pilih salah satu opsi untuk melanjutkan."
+            :is-mandatory="true"
+            :show-tooltip="true"
+            tooltip-information="Field ini wajib diisi; pilih salah satu opsi yang sesuai."
+          />
         </div>
       `,
     };

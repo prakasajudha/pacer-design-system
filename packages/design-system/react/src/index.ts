@@ -6,6 +6,8 @@ export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './compo
 
 export { Input } from './components/Input';
 export type { InputProps } from './components/Input';
+export { FormFieldLabel } from './components/FormFieldLabel';
+export type { FormFieldLabelProps } from './components/FormFieldLabel';
 
 export { Card } from './components/Card';
 export type { CardProps } from './components/Card';
@@ -53,7 +55,7 @@ export { ModalFooter } from './components/ModalFooter';
 export type { ModalFooterProps } from './components/ModalFooter';
 
 export { PinInput } from './components/PinInput';
-export type { PinInputProps, PinInputSize } from './components/PinInput';
+export type { PinInputProps, PinInputSize, PinInputAlign } from './components/PinInput';
 
 export { Textarea } from './components/Textarea';
 export type { TextareaProps, TextareaSize, TextareaVariant } from './components/Textarea';

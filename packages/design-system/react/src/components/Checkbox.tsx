@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../utils/cn';
+import { FormFieldLabel } from './FormFieldLabel';
 
 export type CheckboxPosition = 'left' | 'right';
 
@@ -45,6 +46,18 @@ export interface CheckboxProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   position?: CheckboxPosition;
   outlined?: boolean;
   /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. Komponen/ReactNode.
+   */
+  tooltipInformation?: React.ReactNode;
+  /**
    * Error state: text merah; jika outlined maka border merah.
    */
   error?: boolean;
@@ -65,6 +78,9 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       description = '',
       position = 'left',
       outlined = false,
+      isMandatory = false,
+      showTooltip = false,
+      tooltipInformation,
       error = false,
       className,
       ...props
@@ -95,7 +111,11 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       }
     };
 
-    const hasContent = Boolean(label) || Boolean(description);
+    const hasContent =
+      Boolean(label) ||
+      Boolean(description) ||
+      isMandatory ||
+      (showTooltip && tooltipInformation != null && tooltipInformation !== '');
     const labelId = id ? `${id}-label` : undefined;
     const descId = id ? `${id}-description` : undefined;
 
@@ -207,11 +227,14 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
             role="button"
             aria-label={label || 'Toggle checkbox'}
           >
-            {label ? (
-              <div id={labelId} className={labelClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
-                {label}
-              </div>
-            ) : null}
+            <FormFieldLabel
+              label={label}
+              isMandatory={isMandatory}
+              showTooltip={showTooltip}
+              tooltipInformation={tooltipInformation}
+              id={labelId}
+              className={cn(labelClasses, '[overflow-wrap:anywhere]')}
+            />
             {description ? (
               <div id={descId} className={descriptionClasses} style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                 {description}

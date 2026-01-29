@@ -25,6 +25,9 @@ const meta = {
     disabled: false,
     error: false,
     errorMessage: '',
+    isMandatory: false,
+    showTooltip: false,
+    tooltipInformation: '',
   },
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
@@ -36,6 +39,18 @@ const meta = {
     disabled: { control: 'boolean' },
     error: { control: 'boolean' },
     errorMessage: { control: 'text' },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah title.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping title.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string; untuk komponen gunakan slot #tooltip-information).',
+    },
   },
 } satisfies Meta<typeof PtTextarea>;
 
@@ -196,6 +211,57 @@ export const ResizeNone: Story = {
   args: {
     resize: 'none',
     title: 'No resize',
+  },
+  render: (args) => ({
+    components: { PtTextarea },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<div class="w-[672px]"><PtTextarea v-model="value" v-bind="args" /></div>',
+  }),
+};
+
+export const Mandatory: Story = {
+  args: {
+    title: 'Komentar',
+    description: 'Masukkan komentar atau catatan (opsional).',
+    isMandatory: true,
+  },
+  render: (args) => ({
+    components: { PtTextarea },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<div class="w-[672px]"><PtTextarea v-model="value" v-bind="args" /></div>',
+  }),
+};
+
+export const WithTooltip: Story = {
+  args: {
+    title: 'Komentar',
+    description: 'Masukkan komentar atau catatan (opsional).',
+    showTooltip: true,
+    tooltipInformation: 'Field ini digunakan untuk menambahkan catatan tambahan.',
+  },
+  render: (args) => ({
+    components: { PtTextarea },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<div class="w-[672px]"><PtTextarea v-model="value" v-bind="args" /></div>',
+  }),
+};
+
+export const MandatoryWithTooltip: Story = {
+  args: {
+    title: 'Komentar',
+    description: 'Masukkan komentar atau catatan (opsional).',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Field wajib diisi jika ada informasi tambahan yang penting.',
   },
   render: (args) => ({
     components: { PtTextarea },

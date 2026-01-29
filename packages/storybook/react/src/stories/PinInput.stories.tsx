@@ -114,3 +114,14 @@ export const Disabled: Story = {
     return <PinInput {...args} value={value} onChange={setValue} />;
   },
 };
+
+export const MandatoryWithTooltip: Story = {
+  args: {
+    title: 'Kode OTP',
+    description: 'Masukkan 4 digit kode yang dikirim ke email Anda.',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Kode OTP ini digunakan untuk verifikasi satu kali (one-time password).',
+  },
+  render: (args) => <Controlled {...args} />,
+};

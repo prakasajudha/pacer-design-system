@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { cn } from '../utils/cn';
+import { FormFieldLabel } from './FormFieldLabel';
 
 const REVEAL_MS = 500;
 
@@ -52,6 +53,18 @@ export interface PinInputProps {
    * Alignment posisi group input di dalam container.
    */
   align?: PinInputAlign;
+  /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. Komponen/ReactNode.
+   */
+  tooltipInformation?: React.ReactNode;
 }
 
 const sizeStyles: Record<PinInputSize, { box: string; gap: string; icon: string }> = {
@@ -74,6 +87,9 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
       error = false,
       errorMessage,
       align = 'left',
+      isMandatory = false,
+      showTooltip = false,
+      tooltipInformation,
     },
     ref
   ) => {
@@ -192,12 +208,14 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
       error ? 'border-solid border-error-500 focus:border-error-500 focus:ring-error-500 focus-visible:ring-error-500' : 'border-solid border-slate-300 focus:ring-brand-300 focus-visible:ring-brand-300'
     );
 
-    const rootClass = 'flex flex-col gap-1.5';
+    const rootClass = 'flex w-full flex-col gap-1.5';
     const alignClass =
       align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start';
     const textAlignClass =
       align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
-    const labelClass = cn('block text-sm font-medium text-slate-700 w-full', textAlignClass);
+    const labelJustifyClass =
+      align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start';
+    const labelClass = cn('w-full', textAlignClass, labelJustifyClass);
     const errorClass = cn('block text-sm text-error-600 w-full', textAlignClass);
     const descClass = cn(
       'block text-sm font-normal leading-5 text-slate-500 w-full',
@@ -206,9 +224,13 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
 
     return (
       <div ref={ref} className={rootClass}>
-        {title != null && title !== '' && (
-          <label className={labelClass}>{title}</label>
-        )}
+        <FormFieldLabel
+          label={title}
+          isMandatory={isMandatory}
+          showTooltip={showTooltip}
+          tooltipInformation={tooltipInformation}
+          className={labelClass}
+        />
 
         <div className={cn('flex w-full items-center', alignClass, styles.gap)}>
           <div className={cn('flex items-center', styles.gap)}>

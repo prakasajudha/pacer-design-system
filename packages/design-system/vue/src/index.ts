@@ -4,6 +4,7 @@ import type { App } from 'vue';
 import PtButton from './components/PtButton.vue';
 import PtIconButton from './components/PtIconButton.vue';
 import PtInput from './components/PtInput.vue';
+import PtFormFieldLabel from './components/PtFormFieldLabel.vue';
 import PtCard from './components/PtCard.vue';
 import PtBadge from './components/PtBadge.vue';
 import PtSkeleton from './components/PtSkeleton.vue';
@@ -32,7 +33,7 @@ import ToastContainer from './components/ToastContainer.vue';
 export { useToast, toast } from './composables/useToast';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider, PtTextarea, PtToast, ToastContainer };
+export { PtButton, PtIconButton, PtInput, PtFormFieldLabel, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider, PtTextarea, PtToast, ToastContainer };
 
 // Plugin untuk install semua components
 export default {
@@ -40,6 +41,7 @@ export default {
     app.component('PtButton', PtButton);
     app.component('PtIconButton', PtIconButton);
     app.component('PtInput', PtInput);
+    app.component('PtFormFieldLabel', PtFormFieldLabel);
     app.component('PtCard', PtCard);
     app.component('PtBadge', PtBadge);
     app.component('PtSkeleton', PtSkeleton);
@@ -70,6 +72,7 @@ export default {
 export type { ButtonProps } from './components/PtButton.vue';
 export type { IconButtonProps } from './components/PtIconButton.vue';
 export type { InputProps } from './components/PtInput.vue';
+export type { FormFieldLabelProps } from './components/PtFormFieldLabel.vue';
 export type { CardProps } from './components/PtCard.vue';
 export type { BadgeProps } from './components/PtBadge.vue';
 export type { SkeletonProps } from './components/PtSkeleton.vue';

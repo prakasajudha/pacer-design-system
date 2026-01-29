@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../utils/cn';
+import { FormFieldLabel } from './FormFieldLabel';
 
 export type TextareaSize = 'sm' | 'md' | 'lg';
 export type TextareaVariant = 'border' | 'background';
@@ -30,6 +31,18 @@ export interface TextareaProps
    * Teks bantuan di bawah. String atau ReactNode (komponen/JSX). Tidak ditampilkan saat error.
    */
   description?: React.ReactNode;
+  /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+  /**
+   * Isi tooltip saat showTooltip true. Komponen/ReactNode.
+   */
+  tooltipInformation?: React.ReactNode;
   /**
    * Nonaktif
    */
@@ -67,6 +80,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       variant = 'border',
       title,
       description,
+      isMandatory = false,
+      showTooltip = false,
+      tooltipInformation,
       disabled = false,
       error = false,
       errorMessage,
@@ -120,11 +136,14 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     return (
       <div className={rootClass}>
-        {title != null && title !== '' && (
-          <label htmlFor={id} className={labelClass}>
-            {title}
-          </label>
-        )}
+        <FormFieldLabel
+          label={title}
+          isMandatory={isMandatory}
+          showTooltip={showTooltip}
+          tooltipInformation={tooltipInformation}
+          htmlFor={id}
+          className={labelClass}
+        />
 
         <textarea
           ref={ref}

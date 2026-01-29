@@ -24,6 +24,9 @@ const meta = {
     disabled: false,
     error: false,
     errorMessage: '',
+    isMandatory: false,
+    showTooltip: false,
+    tooltipInformation: '',
   },
   argTypes: {
     size: {
@@ -41,6 +44,18 @@ const meta = {
     error: { control: 'boolean' },
     errorMessage: { control: 'text' },
     length: { control: 'number', min: 4, max: 8 },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah title.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping title.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string; untuk komponen gunakan slot #tooltip-information).',
+    },
   },
 } satisfies Meta<typeof PtPinInput>;
 
@@ -151,6 +166,57 @@ export const Disabled: Story = {
     components: { PtPinInput },
     setup() {
       const value = ref('5678');
+      return { args, value };
+    },
+    template: '<PtPinInput v-model="value" v-bind="args" />',
+  }),
+};
+
+export const Mandatory: Story = {
+  args: {
+    title: 'Kode OTP',
+    description: 'Masukkan 4 digit kode yang dikirim ke email Anda.',
+    isMandatory: true,
+  },
+  render: (args) => ({
+    components: { PtPinInput },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<PtPinInput v-model="value" v-bind="args" />',
+  }),
+};
+
+export const WithTooltip: Story = {
+  args: {
+    title: 'Kode OTP',
+    description: 'Masukkan 4 digit kode yang dikirim ke email Anda.',
+    showTooltip: true,
+    tooltipInformation: 'Kode OTP ini digunakan untuk verifikasi satu kali (one-time password).',
+  },
+  render: (args) => ({
+    components: { PtPinInput },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<PtPinInput v-model="value" v-bind="args" />',
+  }),
+};
+
+export const MandatoryWithTooltip: Story = {
+  args: {
+    title: 'Kode OTP',
+    description: 'Masukkan 4 digit kode yang dikirim ke email Anda.',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Kode OTP ini digunakan untuk verifikasi satu kali (one-time password).',
+  },
+  render: (args) => ({
+    components: { PtPinInput },
+    setup() {
+      const value = ref('');
       return { args, value };
     },
     template: '<PtPinInput v-model="value" v-bind="args" />',

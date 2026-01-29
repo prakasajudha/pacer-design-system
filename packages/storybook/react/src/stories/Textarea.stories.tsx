@@ -182,3 +182,45 @@ export const ResizeNone: Story = {
     </div>
   ),
 };
+
+export const Mandatory: Story = {
+  args: {
+    title: 'Komentar',
+    description: 'Masukkan komentar atau catatan (opsional).',
+    isMandatory: true,
+  },
+  render: (args) => (
+    <div className={containerClass}>
+      <Controlled {...args} />
+    </div>
+  ),
+};
+
+export const WithTooltip: Story = {
+  args: {
+    title: 'Komentar',
+    description: 'Masukkan komentar atau catatan (opsional).',
+    showTooltip: true,
+    tooltipInformation: 'Field ini digunakan untuk menambahkan catatan tambahan.',
+  },
+  render: (args) => (
+    <div className={containerClass}>
+      <Controlled {...args} />
+    </div>
+  ),
+};
+
+export const MandatoryWithTooltip: Story = {
+  args: {
+    title: 'Komentar',
+    description: 'Masukkan komentar atau catatan (opsional).',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Field wajib diisi jika ada informasi tambahan yang penting.',
+  },
+  render: (args) => (
+    <div className={containerClass}>
+      <Controlled {...args} />
+    </div>
+  ),
+};

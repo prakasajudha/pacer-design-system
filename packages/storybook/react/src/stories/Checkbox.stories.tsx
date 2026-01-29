@@ -61,6 +61,18 @@ const meta = {
     position: { control: 'select', options: ['left', 'right'] },
     outlined: { control: 'boolean' },
     error: { control: 'boolean' },
+    isMandatory: {
+      control: 'boolean',
+      description: 'Tampilkan indikator wajib (*) setelah label.',
+    },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Tampilkan icon informasi bulat di samping label.',
+    },
+    tooltipInformation: {
+      control: 'text',
+      description: 'Isi tooltip informasi (string sederhana untuk demo).',
+    },
   },
 } satisfies Meta<typeof Checkbox>;
 
@@ -252,6 +264,25 @@ export const States: Story = {
             }
           }}
           label="Intermediate"
+        />
+      </div>
+    );
+  },
+};
+
+export const MandatoryWithTooltip: Story = {
+  render: () => {
+    const [checked, setChecked] = useState(false);
+    return (
+      <div className="w-[428px]">
+        <Checkbox
+          checked={checked}
+          onCheckedChange={setChecked}
+          label="Accept terms and conditions"
+          description="You must accept the terms to continue."
+          isMandatory
+          showTooltip
+          tooltipInformation="Field ini wajib di-cek untuk melanjutkan proses."
         />
       </div>
     );

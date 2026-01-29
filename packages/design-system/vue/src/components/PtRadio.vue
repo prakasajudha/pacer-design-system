@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, useAttrs, ref } from 'vue';
+import { computed, useAttrs, ref, useSlots } from 'vue';
 import { cn } from '../lib/utils';
+import PtFormFieldLabel from './PtFormFieldLabel.vue';
 
 export type RadioPosition = 'left' | 'right';
 
@@ -52,6 +53,21 @@ export interface RadioProps {
   outlined?: boolean;
 
   /**
+   * Jika true, tampilkan asterisk merah (*) setelah label (wajib).
+   */
+  isMandatory?: boolean;
+
+  /**
+   * Jika true, tampilkan icon informasi dengan tooltip di samping label.
+   */
+  showTooltip?: boolean;
+
+  /**
+   * Isi tooltip saat showTooltip true. String; untuk komponen gunakan slot #tooltip-information.
+   */
+  tooltipInformation?: string;
+
+  /**
    * Error/destructive state: text merah; jika outlined maka border merah.
    */
   error?: boolean;
@@ -66,6 +82,8 @@ const props = withDefaults(defineProps<RadioProps>(), {
   description: '',
   position: 'left',
   outlined: false,
+  isMandatory: false,
+  showTooltip: false,
   error: false,
 });
 
@@ -78,7 +96,14 @@ const attrs = useAttrs();
 const isFocused = ref(false);
 
 const isChecked = computed(() => props.modelValue === props.value);
-const hasContent = computed(() => !!props.label || !!props.description);
+const slots = useSlots();
+const hasContent = computed(
+  () =>
+    !!props.label ||
+    !!props.description ||
+    props.isMandatory ||
+    (props.showTooltip && (!!slots['tooltip-information'] || (props.tooltipInformation != null && props.tooltipInformation !== '')))
+);
 
 const labelId = computed(() => (props.id ? `${props.id}-label` : undefined));
 const descId = computed(() => (props.id ? `${props.id}-description` : undefined));
@@ -201,8 +226,19 @@ const onBlur = () => {
       />
     </button>
 
-    <div v-if="label || description" :class="contentClasses" @click="onToggle" @keydown.enter="onToggle" @keydown.space.prevent="onToggle" tabindex="0" role="button" :aria-label="label || 'Toggle radio'">
-      <div v-if="label" :id="labelId" :class="labelClasses" style="overflow-wrap: anywhere; word-break: break-word;">{{ label }}</div>
+    <div v-if="hasContent" :class="contentClasses" @click="onToggle" @keydown.enter="onToggle" @keydown.space.prevent="onToggle" tabindex="0" role="button" :aria-label="label || 'Toggle radio'">
+      <PtFormFieldLabel
+        :label="label"
+        :is-mandatory="isMandatory"
+        :show-tooltip="showTooltip"
+        :tooltip-information="tooltipInformation"
+        :id="labelId"
+        :class="cn(labelClasses, '[overflow-wrap:anywhere]')"
+      >
+        <template v-if="$slots['tooltip-information']" #tooltip-information>
+          <slot name="tooltip-information" />
+        </template>
+      </PtFormFieldLabel>
       <div v-if="description" :id="descId" :class="descriptionClasses" style="overflow-wrap: anywhere; word-break: break-word;">{{ description }}</div>
     </div>
   </div>

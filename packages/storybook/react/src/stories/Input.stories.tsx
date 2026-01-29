@@ -163,3 +163,30 @@ export const WithoutLabel: Story = {
     placeholder: 'Placeholder tanpa label',
   },
 };
+
+export const Mandatory: Story = {
+  args: {
+    label: 'Email',
+    isMandatory: true,
+    helperText: undefined,
+  },
+};
+
+export const WithTooltip: Story = {
+  args: {
+    label: 'Email',
+    showTooltip: true,
+    tooltipInformation: 'Gunakan email aktif yang sudah terdaftar di sistem.',
+    helperText: undefined,
+  },
+};
+
+export const MandatoryWithTooltip: Story = {
+  args: {
+    label: 'Email',
+    isMandatory: true,
+    showTooltip: true,
+    tooltipInformation: 'Field ini wajib diisi untuk melanjutkan proses.',
+    helperText: undefined,
+  },
+};
