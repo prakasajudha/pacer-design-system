@@ -18,9 +18,9 @@ export interface ButtonProps {
   loading?: boolean;
 
   /**
-   * Color button (Primary (default) / Danger)
+   * Color button (Primary / Danger / Success / Warning / Neutral)
    */
-  color?: 'primary' | 'danger';
+  color?: 'primary' | 'danger' | 'success' | 'warning' | 'neutral';
 
   /**
    * Selected/toggled state
@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
 const buttonClasses = computed(() => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium text-sm leading-6 transition-colors select-none disabled:pointer-events-none disabled:opacity-50';
+    'inline-flex items-center justify-center font-medium text-sm leading-6 transition-colors select-none disabled:pointer-events-none disabled:opacity-50 active:opacity-90 disabled:active:opacity-50';
 
   const isLinkVariant = props.variant === 'link-primary' || props.variant === 'link-secondary';
 
@@ -70,20 +70,40 @@ const buttonClasses = computed(() => {
     const linkColor =
       props.color === 'danger'
         ? 'text-red-600'
-        : props.variant === 'link-primary'
-          ? 'text-brand-300'
-          : 'text-slate-900';
+        : props.color === 'success'
+          ? 'text-green-600'
+          : props.color === 'warning'
+            ? 'text-amber-600'
+            : props.color === 'neutral'
+              ? 'text-slate-600'
+              : props.variant === 'link-primary'
+                ? 'text-brand-300'
+                : 'text-slate-900';
     const focusRing =
       props.color === 'danger'
-        ? 'focus-visible:ring-red-200'
-        : props.variant === 'link-primary'
-          ? 'focus-visible:ring-brand-200'
-          : 'focus-visible:ring-slate-200';
+        ? 'focus-ring-danger'
+        : props.color === 'success'
+          ? 'focus-ring-success'
+          : props.color === 'warning'
+            ? 'focus-ring-warning'
+            : props.variant === 'link-primary'
+              ? 'focus-ring-primary'
+              : 'focus-ring-slate';
+    const hoverLink =
+      props.color === 'danger'
+        ? 'hover:text-red-700 hover:underline'
+        : props.color === 'success'
+          ? 'hover:text-green-700 hover:underline'
+          : props.color === 'warning'
+            ? 'hover:text-amber-700 hover:underline'
+            : props.color === 'neutral'
+              ? 'hover:text-slate-700 hover:underline'
+              : 'hover:underline';
 
     return [
       baseStyles,
       'h-6 px-0 py-0 rounded-none underline-offset-4',
-      props.color === 'danger' ? 'hover:text-red-700 hover:underline' : 'hover:underline',
+      hoverLink,
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
       focusRing,
       linkColor,
@@ -93,25 +113,20 @@ const buttonClasses = computed(() => {
       .join(' ');
   }
 
-  // Menggunakan theme values untuk menghindari arbitrary values (SAST/DAST safe)
+  // Menggunakan theme values sesuai Figma PACER (sm: 36px, md: 40px)
   const sizeStyles = {
-    sm: 'min-w-button-sm py-1.5 px-2 gap-0 rounded-button',
-    md: 'min-w-button-md py-2 px-3 gap-1 rounded-button',
+    sm: 'min-w-button-sm h-9 py-1.5 px-2 gap-0 rounded-button text-sm',
+    md: 'min-w-button-md h-10 py-2 px-3 gap-1 rounded-button text-sm',
   } as const;
 
   // Helper untuk double ring focus effect (outer + inner ring)
   // Menggunakan utility classes dari theme untuk menghindari arbitrary shadow values
   const getFocusRing = (ringColor: string) => {
-    // Menggunakan utility classes yang sudah didefinisikan di Tailwind preset
-    if (ringColor === 'brand-300') {
-      return 'focus-ring-primary';
-    }
-    if (ringColor === 'slate-200') {
-      return 'focus-ring-slate';
-    }
-    if (ringColor === 'red-200') {
-      return 'focus-ring-danger';
-    }
+    if (ringColor === 'brand-300') return 'focus-ring-primary';
+    if (ringColor === 'slate-200') return 'focus-ring-slate';
+    if (ringColor === 'red-200') return 'focus-ring-danger';
+    if (ringColor === 'green-200') return 'focus-ring-success';
+    if (ringColor === 'amber-200') return 'focus-ring-warning';
     return 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
   };
 
@@ -119,21 +134,21 @@ const buttonClasses = computed(() => {
     if (props.color === 'danger') {
       if (props.variant === 'secondary') {
         return [
-          'bg-white text-red-600 border border-solid border-red-600',
-          'hover:bg-red-50 hover:text-red-700',
+          'bg-red-50 text-red-600',
+          'hover:bg-red-100 hover:text-red-700',
           getFocusRing('red-200'),
           'focus-visible:text-red-700',
-          props.selected && 'bg-red-50 text-red-700',
+          props.selected && 'bg-red-200 text-red-800',
         ];
       }
 
       if (props.variant === 'outline') {
         return [
-          'bg-white text-red-600 border border-solid border-red-600',
-          'hover:bg-red-50 hover:text-red-700',
+          'btn-outline-no-bg bg-transparent text-red-600 border border-red-600',
+          'hover:bg-red-50 hover:text-red-700 hover:border-red-700',
           getFocusRing('red-200'),
-          'focus-visible:text-red-700',
-          props.selected && 'bg-red-50 text-red-700',
+          'focus-visible:text-red-700 focus-visible:border-red-700',
+          props.selected && 'bg-red-100 text-red-800 border-red-800',
         ];
       }
 
@@ -143,7 +158,7 @@ const buttonClasses = computed(() => {
           'hover:bg-red-50 hover:text-red-700',
           getFocusRing('red-200'),
           'focus-visible:text-red-700',
-          props.selected && 'bg-red-50 text-red-700',
+          props.selected && 'bg-red-100 text-red-800',
         ];
       }
 
@@ -152,8 +167,122 @@ const buttonClasses = computed(() => {
         'bg-red-600 text-white',
         'hover:bg-red-700',
         getFocusRing('red-200'),
-        props.selected && 'bg-red-700',
+        props.selected && 'bg-red-800',
       ];
+    }
+
+    if (props.color === 'success') {
+      if (props.variant === 'solid') {
+        return [
+          'bg-green-600 text-white',
+          'hover:bg-green-700',
+          getFocusRing('green-200'),
+          props.selected && 'bg-green-800',
+        ];
+      }
+      if (props.variant === 'secondary') {
+        return [
+          'bg-green-50 text-green-600',
+          'hover:bg-green-100 hover:text-green-700',
+          getFocusRing('green-200'),
+          'focus-visible:text-green-700',
+          props.selected && 'bg-green-200 text-green-800',
+        ];
+      }
+      if (props.variant === 'outline') {
+        return [
+          'text-green-600 border border-green-600',
+          'hover:bg-green-50 hover:text-green-700 hover:border-green-700',
+          getFocusRing('green-200'),
+          'focus-visible:text-green-700 focus-visible:border-green-700',
+          props.selected && 'bg-green-100 text-green-800 border-green-800',
+        ];
+      }
+      if (props.variant === 'ghost') {
+        return [
+          'bg-transparent text-green-600',
+          'hover:bg-green-50 hover:text-green-700',
+          getFocusRing('green-200'),
+          'focus-visible:text-green-700',
+          props.selected && 'bg-green-100 text-green-800',
+        ];
+      }
+    }
+
+    if (props.color === 'warning') {
+      if (props.variant === 'solid') {
+        return [
+          'bg-amber-600 text-white',
+          'hover:bg-amber-700',
+          getFocusRing('amber-200'),
+          props.selected && 'bg-amber-800',
+        ];
+      }
+      if (props.variant === 'secondary') {
+        return [
+          'bg-amber-50 text-amber-600',
+          'hover:bg-amber-100 hover:text-amber-700',
+          getFocusRing('amber-200'),
+          'focus-visible:text-amber-700',
+          props.selected && 'bg-amber-200 text-amber-800',
+        ];
+      }
+      if (props.variant === 'outline') {
+        return [
+          'btn-outline-no-bg bg-transparent text-amber-600 border border-amber-600',
+          'hover:bg-amber-50 hover:text-amber-700 hover:border-amber-700',
+          getFocusRing('amber-200'),
+          'focus-visible:text-amber-700 focus-visible:border-amber-700',
+          props.selected && 'bg-amber-100 text-amber-800 border-amber-800',
+        ];
+      }
+      if (props.variant === 'ghost') {
+        return [
+          'bg-transparent text-amber-600',
+          'hover:bg-amber-50 hover:text-amber-700',
+          getFocusRing('amber-200'),
+          'focus-visible:text-amber-700',
+          props.selected && 'bg-amber-100 text-amber-800',
+        ];
+      }
+    }
+
+    if (props.color === 'neutral') {
+      if (props.variant === 'solid') {
+        return [
+          'bg-slate-600 text-white',
+          'hover:bg-slate-700',
+          getFocusRing('slate-200'),
+          props.selected && 'bg-slate-800',
+        ];
+      }
+      if (props.variant === 'secondary') {
+        return [
+          'bg-slate-100 text-slate-600',
+          'hover:bg-slate-200 hover:text-slate-700',
+          getFocusRing('slate-200'),
+          'focus-visible:text-slate-700',
+          props.selected && 'bg-slate-300 text-slate-800',
+        ];
+      }
+      if (props.variant === 'outline') {
+        return [
+          'text-slate-600 border border-slate-600',
+          'hover:bg-slate-50 hover:text-slate-700 hover:border-slate-700',
+          getFocusRing('slate-200'),
+          'focus-visible:text-slate-700 focus-visible:border-slate-700',
+          props.selected && 'bg-slate-100 text-slate-800 border-slate-800',
+        ];
+      }
+      if (props.variant === 'ghost') {
+        return [
+          'bg-transparent text-slate-600',
+          'hover:bg-slate-50 hover:text-slate-700',
+          getFocusRing('slate-200'),
+          'focus-visible:text-slate-700',
+          props.selected && 'bg-slate-100 text-slate-800',
+        ];
+      }
     }
 
     if (props.variant === 'solid') {
@@ -161,26 +290,27 @@ const buttonClasses = computed(() => {
         'bg-brand-300 text-white',
         'hover:bg-brand-400',
         getFocusRing('brand-300'),
-        props.selected && 'bg-brand-400',
+        props.selected && 'bg-brand-500',
       ];
     }
 
     if (props.variant === 'secondary') {
       return [
-        'bg-white text-brand-300 border border-solid border-brand-300',
-        'hover:bg-brand-50 hover:text-brand-400',
+        'bg-brand-50 text-brand-600',
+        'hover:bg-brand-100 hover:text-brand-700',
         getFocusRing('brand-300'),
-        'focus-visible:text-brand-400',
-        props.selected && 'bg-brand-50 text-brand-500',
+        'focus-visible:text-brand-700',
+        props.selected && 'bg-brand-200 text-brand-800',
       ];
     }
 
     if (props.variant === 'outline') {
       return [
-        'bg-transparent text-slate-900 border border-solid border-slate-300',
-        'hover:bg-slate-50',
+        'text-slate-900 border border-slate-300',
+        'hover:bg-slate-50 hover:border-slate-400',
         getFocusRing('slate-200'),
-        props.selected && 'bg-slate-100',
+        'focus-visible:border-slate-400',
+        props.selected && 'bg-brand-50 text-brand-700 border-brand-500',
       ];
     }
 
@@ -189,7 +319,7 @@ const buttonClasses = computed(() => {
         'bg-transparent text-slate-900',
         'hover:bg-slate-100',
         getFocusRing('slate-200'),
-        props.selected && 'bg-slate-100',
+        props.selected && 'bg-brand-50 text-brand-700',
       ];
     }
 
@@ -198,7 +328,7 @@ const buttonClasses = computed(() => {
       'bg-brand-300 text-white',
       'hover:bg-brand-400',
       getFocusRing('brand-300'),
-      props.selected && 'bg-brand-400',
+      props.selected && 'bg-brand-500',
     ];
   };
 

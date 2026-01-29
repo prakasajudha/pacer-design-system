@@ -14,7 +14,7 @@ const meta = {
           'Komponen tombol PACER sesuai guideline Figma.',
           '',
           'Ringkasan guideline:',
-          '- md: h-10 (40px), sm: h-9 (36px)',
+          '- sm: h-9 (36px), md: h-10 (40px)',
           '- gap antar item: 4px (gap-1)',
           '- radius: 6px (rounded-[6px])',
           '- typography: text-sm (14px) + leading-6 (24px)',
@@ -46,7 +46,7 @@ const meta = {
     size: {
       control: 'inline-radio',
       options: ['sm', 'md'],
-      description: 'Ukuran tombol (non-link).',
+      description: 'Ukuran tombol (non-link). sm: 36px, md: 40px.',
       table: {
         type: { summary: 'string' },
       },
@@ -67,8 +67,8 @@ const meta = {
     },
     color: {
       control: 'select',
-      options: ['primary', 'danger'],
-      description: 'Color button: primary (default) / danger.',
+      options: ['primary', 'danger', 'success', 'warning', 'neutral'],
+      description: 'Color button: primary / danger / success / warning / neutral.',
       table: {
         type: { summary: 'string' },
       },
@@ -236,7 +236,7 @@ export const Small: Story = {
   },
 };
 
-export const Large: Story = {
+export const Medium: Story = {
   args: {
     size: 'md',
     children: 'Medium (md)',
@@ -377,5 +377,351 @@ export const WithIcons: Story = {
     <Button {...args} leftIcon={<PlusIcon />} rightIcon={<CheckIcon />}>
       {args.children}
     </Button>
+  ),
+};
+
+// Matriks varian sesuai Figma PACER (84 designs): variant × color × size × state
+const VARIANTS: Array<{ variant: typeof meta.args.variant; label: string }> = [
+  { variant: 'solid', label: 'Solid' },
+  { variant: 'secondary', label: 'Secondary' },
+  { variant: 'outline', label: 'Outline' },
+  { variant: 'ghost', label: 'Ghost' },
+  { variant: 'link-primary', label: 'Link Primary' },
+  { variant: 'link-secondary', label: 'Link Secondary' },
+];
+const SIZES: Array<'sm' | 'md'> = ['sm', 'md'];
+
+export const VariantMatrixPrimary: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Semua varian Primary (brand) × size. Sesuai design Figma PACER.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {VARIANTS.filter((v) => v.variant !== 'link-primary' && v.variant !== 'link-secondary').map(
+        ({ variant, label }) => (
+          <div key={variant}>
+            <p className="text-sm font-medium text-slate-700 mb-2">{label}</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {SIZES.map((size) => (
+                <Button key={size} variant={variant} size={size} color="primary">
+                  Button {size}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+      <div>
+        <p className="text-sm font-medium text-slate-700 mb-2">Link Primary / Link Secondary</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="link-primary" color="primary">
+            Link Primary
+          </Button>
+          <Button variant="link-secondary" color="primary">
+            Link Secondary
+          </Button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const VariantMatrixDanger: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Semua varian Danger × size. Sesuai design Figma PACER.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {VARIANTS.filter((v) => v.variant !== 'link-primary' && v.variant !== 'link-secondary').map(
+        ({ variant, label }) => (
+          <div key={variant}>
+            <p className="text-sm font-medium text-slate-700 mb-2">{label} (Danger)</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {SIZES.map((size) => (
+                <Button key={size} variant={variant} size={size} color="danger">
+                  Delete {size}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+      <div>
+        <p className="text-sm font-medium text-slate-700 mb-2">Link Danger</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="link-primary" color="danger">
+            Link Danger
+          </Button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+/** 33 designs Figma PACER – Success: solid, secondary, outline, ghost × sm/md + states + icon */
+export const VariantMatrixSuccess: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Semua varian Success × size. Sesuai 33 design Figma PACER.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {VARIANTS.filter((v) => v.variant !== 'link-primary' && v.variant !== 'link-secondary').map(
+        ({ variant, label }) => (
+          <div key={variant}>
+            <p className="text-sm font-medium text-slate-700 mb-2">{label} (Success)</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {SIZES.map((size) => (
+                <Button key={size} variant={variant} size={size} color="success">
+                  Confirm {size}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+      <div>
+        <p className="text-sm font-medium text-slate-700 mb-2">Link Success</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="link-primary" color="success">
+            Link Success
+          </Button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const VariantMatrixWarning: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Semua varian Warning × size. Sesuai design Figma PACER.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {VARIANTS.filter((v) => v.variant !== 'link-primary' && v.variant !== 'link-secondary').map(
+        ({ variant, label }) => (
+          <div key={variant}>
+            <p className="text-sm font-medium text-slate-700 mb-2">{label} (Warning)</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {SIZES.map((size) => (
+                <Button key={size} variant={variant} size={size} color="warning">
+                  Warning {size}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+      <div>
+        <p className="text-sm font-medium text-slate-700 mb-2">Link Warning</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="link-primary" color="warning">
+            Link Warning
+          </Button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const VariantMatrixNeutral: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Semua varian Neutral × size. Sesuai design Figma PACER.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-8">
+      {VARIANTS.filter((v) => v.variant !== 'link-primary' && v.variant !== 'link-secondary').map(
+        ({ variant, label }) => (
+          <div key={variant}>
+            <p className="text-sm font-medium text-slate-700 mb-2">{label} (Neutral)</p>
+            <div className="flex flex-wrap items-center gap-3">
+              {SIZES.map((size) => (
+                <Button key={size} variant={variant} size={size} color="neutral">
+                  Cancel {size}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+      <div>
+        <p className="text-sm font-medium text-slate-700 mb-2">Link Neutral</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="link-primary" color="neutral">
+            Link Neutral
+          </Button>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const VariantMatrixStates: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Default, Disabled, Loading, Selected untuk Solid Primary.',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap items-center gap-4">
+      <Button variant="solid" color="primary" size="md">
+        Default
+      </Button>
+      <Button variant="solid" color="primary" size="md" disabled>
+        Disabled
+      </Button>
+      <Button variant="solid" color="primary" size="md" loading>
+        Loading
+      </Button>
+      <Button variant="solid" color="primary" size="md" selected>
+        Selected
+      </Button>
+    </div>
+  ),
+};
+
+export const VariantMatrixWithIcon: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Primary Solid dengan left icon per size (sesuai Figma).',
+      },
+    },
+  },
+  render: () => (
+    <div className="flex flex-wrap items-center gap-4">
+      {SIZES.map((size) => (
+        <Button key={size} variant="solid" color="primary" size={size} leftIcon={<PlusIcon />}>
+          Button
+        </Button>
+      ))}
+    </div>
+  ),
+};
+
+export const Success: Story = {
+  args: {
+    color: 'success',
+    children: 'Confirm',
+  },
+};
+
+export const Warning: Story = {
+  args: {
+    color: 'warning',
+    children: 'Warning',
+  },
+};
+
+export const Neutral: Story = {
+  args: {
+    color: 'neutral',
+    children: 'Cancel',
+  },
+};
+
+/** 148 designs Figma PACER: semua variant × color × size + states (default, disabled, loading, selected). */
+const COLORS_148: Array<{ color: 'primary' | 'danger' | 'success' | 'warning' | 'neutral'; label: string }> = [
+  { color: 'primary', label: 'Primary' },
+  { color: 'danger', label: 'Danger' },
+  { color: 'success', label: 'Success' },
+  { color: 'warning', label: 'Warning' },
+  { color: 'neutral', label: 'Neutral' },
+];
+
+export const All148Designs: Story = {
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'Grid lengkap 148 design Figma PACER: variant × color × size (sm/md) + states (default, disabled, loading, selected). Verifikasi warna dan state sesuai Figma.',
+      },
+    },
+  },
+  render: () => (
+    <div className="p-6 space-y-10 max-w-6xl mx-auto">
+      <h2 className="text-lg font-semibold text-slate-900">Variant × Color × Size</h2>
+      {COLORS_148.map(({ color, label }) => (
+        <div key={color}>
+          <h3 className="text-sm font-medium text-slate-600 mb-3">{label}</h3>
+          <div className="flex flex-col gap-3">
+            {(['solid', 'secondary', 'outline', 'ghost'] as const).map((variant) => (
+              <div key={variant} className="flex flex-wrap items-center gap-2">
+                <span className="w-20 text-xs text-slate-500 capitalize">{variant}</span>
+                <Button variant={variant} color={color} size="sm">
+                  {label} sm
+                </Button>
+                <Button variant={variant} color={color} size="md">
+                  {label} md
+                </Button>
+              </div>
+            ))}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="w-20 text-xs text-slate-500">link</span>
+              <Button variant="link-primary" color={color}>
+                Link Primary
+              </Button>
+              {color === 'primary' && (
+                <Button variant="link-secondary" color={color}>
+                  Link Secondary
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <h2 className="text-lg font-semibold text-slate-900 mt-10">States (Default, Disabled, Loading, Selected)</h2>
+      {COLORS_148.map(({ color, label }) => (
+        <div key={color}>
+          <h3 className="text-sm font-medium text-slate-600 mb-2">{label}</h3>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button variant="solid" color={color} size="md">
+              Default
+            </Button>
+            <Button variant="solid" color={color} size="md" disabled>
+              Disabled
+            </Button>
+            <Button variant="solid" color={color} size="md" loading>
+              Loading
+            </Button>
+            <Button variant="solid" color={color} size="md" selected>
+              Selected
+            </Button>
+          </div>
+        </div>
+      ))}
+
+      <h2 className="text-lg font-semibold text-slate-900 mt-10">With icon (Solid × Color × Size)</h2>
+      <div className="flex flex-wrap gap-3">
+        {COLORS_148.map(({ color }) => (
+          <Button key={color} variant="solid" color={color} size="md" leftIcon={<PlusIcon />}>
+            Button
+          </Button>
+        ))}
+      </div>
+    </div>
   ),
 };

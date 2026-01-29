@@ -56,7 +56,7 @@ const preset: Partial<Config> = {
     'border-1',
     'border-brand-300',
     'border-red-600',
-    
+
     // Complex shadow values (focus rings) - ini yang paling sering di-flag
     'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(1_107_248)]',
     'focus-visible:shadow-[0_0_0_2px_white,0_0_0_4px_rgb(226_232_240)]',
@@ -154,10 +154,10 @@ const preset: Partial<Config> = {
         '8': '8px',
       },
 
-      // Min Width - untuk button sizes
+      // Min Width - untuk button sizes (sesuai Figma PACER: sm, md only)
       minWidth: {
-        'button-sm': '64px',  // untuk min-w-[64px]
-        'button-md': '80px',  // untuk min-w-[80px]
+        'button-sm': '64px',  // sm: 36px height
+        'button-md': '80px',  // md: 40px height
       },
 
       // Opacity
@@ -173,6 +173,8 @@ const preset: Partial<Config> = {
         'focus-ring-primary': '0 0 0 2px white, 0 0 0 4px rgb(1 107 248)', // brand-300 focus
         'focus-ring-slate': '0 0 0 2px white, 0 0 0 4px rgb(226 232 240)',   // slate-200 focus
         'focus-ring-danger': '0 0 0 2px white, 0 0 0 4px rgb(254 202 202)',  // red-200 focus
+        'focus-ring-success': '0 0 0 2px white, 0 0 0 4px rgb(187 247 208)', // green-200 focus
+        'focus-ring-warning': '0 0 0 2px white, 0 0 0 4px rgb(253 230 138)', // amber-200 focus (sesuai Figma PACER warning)
       },
 
       // Animation Duration
@@ -210,6 +212,18 @@ const preset: Partial<Config> = {
           '&:focus-visible': {
             outline: 'none',
             boxShadow: theme('boxShadow.focus-ring-danger'),
+          },
+        },
+        '.focus-ring-success': {
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: theme('boxShadow.focus-ring-success'),
+          },
+        },
+        '.focus-ring-warning': {
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: theme('boxShadow.focus-ring-warning'),
           },
         },
       });

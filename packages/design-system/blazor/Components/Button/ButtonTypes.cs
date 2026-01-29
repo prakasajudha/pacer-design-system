@@ -14,6 +14,19 @@ public enum ButtonSize
 {
     Small,
     Medium,
-    // Backward compatibility
+    /// <summary>Obsolete: Figma PACER hanya sm/md. Map ke Medium.</summary>
+    [Obsolete("Use Medium. Size lg tidak ada di design PACER.")]
     Large
+}
+
+/// <summary>
+/// Button color (primary / danger / success / warning / neutral).
+/// </summary>
+public enum ButtonColor
+{
+    Primary,
+    Danger,
+    Success,
+    Warning,
+    Neutral
 }
