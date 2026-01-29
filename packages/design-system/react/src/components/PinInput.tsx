@@ -4,6 +4,7 @@ import { cn } from '../utils/cn';
 const REVEAL_MS = 500;
 
 export type PinInputSize = 'sm' | 'md' | 'lg';
+export type PinInputAlign = 'left' | 'center' | 'right';
 
 export interface PinInputProps {
   /**
@@ -46,6 +47,11 @@ export interface PinInputProps {
    * Pesan saat error
    */
   errorMessage?: string;
+
+  /**
+   * Alignment posisi group input di dalam container.
+   */
+  align?: PinInputAlign;
 }
 
 const sizeStyles: Record<PinInputSize, { box: string; gap: string; icon: string }> = {
@@ -67,6 +73,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
       disabled = false,
       error = false,
       errorMessage,
+      align = 'left',
     },
     ref
   ) => {
@@ -186,9 +193,16 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
     );
 
     const rootClass = 'flex flex-col gap-1.5';
-    const labelClass = 'block text-sm font-medium text-slate-700 w-full';
-    const errorClass = 'block text-sm text-error-600 w-full';
-    const descClass = 'block text-sm font-normal leading-5 text-slate-500 w-full';
+    const alignClass =
+      align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start';
+    const textAlignClass =
+      align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left';
+    const labelClass = cn('block text-sm font-medium text-slate-700 w-full', textAlignClass);
+    const errorClass = cn('block text-sm text-error-600 w-full', textAlignClass);
+    const descClass = cn(
+      'block text-sm font-normal leading-5 text-slate-500 w-full',
+      textAlignClass
+    );
 
     return (
       <div ref={ref} className={rootClass}>
@@ -196,7 +210,7 @@ export const PinInput = React.forwardRef<HTMLDivElement, PinInputProps>(
           <label className={labelClass}>{title}</label>
         )}
 
-        <div className={cn('flex w-full items-center justify-start', styles.gap)}>
+        <div className={cn('flex w-full items-center', alignClass, styles.gap)}>
           <div className={cn('flex items-center', styles.gap)}>
             {Array.from({ length }, (_, idx) => (
               <input

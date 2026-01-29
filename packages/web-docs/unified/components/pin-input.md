@@ -1,4 +1,4 @@
-<ComponentHero title="Pin Input" description="Pin Input dipakai untuk memasukkan kode OTP atau PIN dengan kotak per digit. Saat mask aktif, digit yang baru diketik terlihat 0,5 detik lalu otomatis di-mask (•). Tombol show/hide tidak ditampilkan di UI; opsi mask/position tetap di API. Mendukung title, description, dan state error." />
+<ComponentHero title="Pin Input" description="Pin Input dipakai untuk memasukkan kode OTP atau PIN dengan kotak per digit. Saat mask aktif, digit yang baru diketik terlihat 0,5 detik lalu otomatis di-mask (•). Tombol show/hide tidak ditampilkan di UI; opsi mask/alignment tetap di API. Mendukung title, description, dan state error." />
 
 <PageTabs :tabs="['Guideline', 'Implementation']" default-tab="Guideline">
 
@@ -22,12 +22,15 @@ Pin Input component terdiri dari:
   </div>
 </div>
 
-## Position
+## Alignment
 
-Pin Input supports two positions:
+Pin Input supports 3 alignments:
 
 - `left` (default): Deretan kotak rata kiri
 - `center`: Deretan kotak rata tengah
+- `right`: Deretan kotak rata kanan
+
+Alignment ini tidak hanya memengaruhi deretan kotak, tetapi juga **title**, **description**, dan **error message label** sehingga seluruh blok Pin Input terasa konsisten secara visual.
 
 ## Mask
 
@@ -53,7 +56,7 @@ Pin Input supports 3 sizes:
   <div class="w-full max-w-md space-y-6">
     <PtPinInput v-model="pin1" title="Kode OTP" description="Masukkan 4 digit dari email/SMS." />
     <PtPinInput v-model="pin2" :mask="false" title="PIN tanpa mask" />
-    <PtPinInput v-model="pin3" position="center" title="Posisi center" />
+    <PtPinInput v-model="pin3" align="center" title="Align center" />
   </div>
 
 <template #react>
@@ -70,7 +73,7 @@ export default function App() {
     <div className="w-full max-w-md space-y-6">
       <PinInput value={pin1} onChange={setPin1} title="Kode OTP" description="Masukkan 4 digit dari email/SMS." />
       <PinInput value={pin2} onChange={setPin2} mask={false} title="PIN tanpa mask" />
-      <PinInput value={pin3} onChange={setPin3} position="center" title="Posisi center" />
+      <PinInput value={pin3} onChange={setPin3} align="center" title="Align center" />
     </div>
   );
 }
@@ -94,7 +97,7 @@ const pin3 = ref('');
   <div class="w-full max-w-md space-y-6">
     <PtPinInput v-model="pin1" title="Kode OTP" description="Masukkan 4 digit dari email/SMS." />
     <PtPinInput v-model="pin2" :mask="false" title="PIN tanpa mask" />
-    <PtPinInput v-model="pin3" position="center" title="Posisi center" />
+    <PtPinInput v-model="pin3" align="center" title="Align center" />
   </div>
 </template>
 ```
@@ -109,7 +112,7 @@ const pin3 = ref('');
 <div class="w-full max-w-md space-y-6">
     <PtPinInput @bind-Value="pin1" Title="Kode OTP" Description="Masukkan 4 digit dari email/SMS." />
     <PtPinInput @bind-Value="pin2" Mask="false" Title="PIN tanpa mask" />
-    <PtPinInput @bind-Value="pin3" Position="PinInputPosition.Center" Title="Posisi center" />
+    <PtPinInput @bind-Value="pin3" Align="PinInputAlign.Center" Title="Align center" />
 </div>
 
 @code {
@@ -351,14 +354,14 @@ Gunakan **@bind-Value** atau `Value` + `ValueChanged`. Callback menerima `string
 | `length` | `number` | `4` | Jumlah kotak digit |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Ukuran kotak |
 | `mask` | `boolean` | `true` | Digit terlihat 0,5 detik lalu di-mask (•). Logika mask/unmask di API; tombol tidak ditampilkan. |
-| `position` | `'left' \| 'center'` | `'left'` | Posisi deretan kotak: kiri atau tengah |
+| `align` | `'left' \| 'center' \| 'right'` | `'left'` | Alignment deretan kotak: kiri, tengah, atau kanan |
 | `title` | `string` | - | Label di atas |
 | `description` | `string` | - | Label teks bantuan di bawah (tetap tampil saat error) |
 | `disabled` | `boolean` | `false` | Nonaktif |
 | `error` | `boolean` | `false` | State error |
 | `errorMessage` | `string` | - | Label pesan error |
 
-Di Blazor: gunakan `Value` + `ValueChanged` (atau `@bind-Value`), `Size="PinInputSize.Medium"`, `Position="PinInputPosition.Left"` atau `PinInputPosition.Center`.
+Di Blazor: gunakan `Value` + `ValueChanged` (atau `@bind-Value`), `Size="PinInputSize.Medium"`, `Align="PinInputAlign.Left"` / `PinInputAlign.Center` / `PinInputAlign.Right`.
 
 ## Design Specifications
 

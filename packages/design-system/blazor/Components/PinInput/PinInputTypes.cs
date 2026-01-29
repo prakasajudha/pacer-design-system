@@ -9,3 +9,13 @@ public enum PinInputSize
     Medium,
     Large
 }
+
+/// <summary>
+/// Alignment posisi group input di dalam container.
+/// </summary>
+public enum PinInputAlign
+{
+    Left,
+    Center,
+    Right
+}

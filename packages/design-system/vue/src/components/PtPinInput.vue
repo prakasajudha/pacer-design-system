@@ -37,6 +37,11 @@ export interface PinInputProps {
    * Pesan saat error
    */
   errorMessage?: string;
+
+  /**
+   * Alignment posisi group input di dalam container.
+   */
+  align?: 'left' | 'center' | 'right';
 }
 
 const props = withDefaults(defineProps<PinInputProps>(), {
@@ -45,6 +50,7 @@ const props = withDefaults(defineProps<PinInputProps>(), {
   mask: true,
   disabled: false,
   error: false,
+  align: 'left',
 });
 
 const slots = useSlots();
@@ -108,6 +114,18 @@ const sizeStyles = computed(() => {
     lg: { box: 'w-12 h-12 text-lg', gap: 'gap-3', icon: 'w-6 h-6' },
   };
   return map[props.size];
+});
+
+const alignClass = computed(() => {
+  if (props.align === 'center') return 'justify-center';
+  if (props.align === 'right') return 'justify-end';
+  return 'justify-start';
+});
+
+const textAlignClass = computed(() => {
+  if (props.align === 'center') return 'text-center';
+  if (props.align === 'right') return 'text-right';
+  return 'text-left';
 });
 
 const boxClasses = (idx: number) =>
@@ -193,11 +211,11 @@ watch(
 
 <template>
   <div class="flex flex-col gap-1.5">
-    <label v-if="hasTitle" class="block text-sm font-medium text-slate-700 w-full">
+    <label v-if="hasTitle" class="block text-sm font-medium text-slate-700 w-full" :class="textAlignClass">
       <slot name="title">{{ props.title }}</slot>
     </label>
 
-    <div class="flex w-full items-center justify-start" :class="[sizeStyles.gap]">
+    <div class="flex w-full items-center" :class="[sizeStyles.gap, alignClass]">
       <div class="flex items-center" :class="[sizeStyles.gap]">
         <template v-for="idx in indices" :key="idx">
           <input
@@ -218,10 +236,19 @@ watch(
       </div>
     </div>
 
-    <label v-if="hasDescription && !props.error" class="block w-full text-sm font-normal leading-5 text-slate-500">
+    <label
+      v-if="hasDescription && !props.error"
+      class="block w-full text-sm font-normal leading-5 text-slate-500"
+      :class="textAlignClass"
+    >
       <slot name="description">{{ props.description }}</slot>
     </label>
-    <label v-if="props.error && props.errorMessage" class="block w-full text-sm text-error-600" role="alert">
+    <label
+      v-if="props.error && props.errorMessage"
+      class="block w-full text-sm text-error-600"
+      :class="textAlignClass"
+      role="alert"
+    >
       {{ props.errorMessage }}
     </label>
   </div>

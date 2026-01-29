@@ -30,6 +30,10 @@ const meta = {
       control: 'select',
       options: ['sm', 'md', 'lg'],
     },
+    align: {
+      control: 'select',
+      options: ['left', 'center', 'right'],
+    },
     mask: { control: 'boolean' },
     title: { control: 'text' },
     description: { control: 'text' },
@@ -65,8 +69,13 @@ export const NoMask: Story = {
   render: (args) => <Controlled {...args} />,
 };
 
-export const PositionCenter: Story = {
-  args: { position: 'center', title: 'OTP', description: 'Posisi center.' },
+export const AlignCenter: Story = {
+  args: { align: 'center', title: 'OTP', description: 'Alignment center.' },
+  render: (args) => <Controlled {...args} />,
+};
+
+export const AlignRight: Story = {
+  args: { align: 'right', title: 'OTP', description: 'Alignment right.' },
   render: (args) => <Controlled {...args} />,
 };
 

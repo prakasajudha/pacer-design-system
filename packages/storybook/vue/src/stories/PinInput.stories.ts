@@ -30,6 +30,10 @@ const meta = {
       control: 'select',
       options: ['sm', 'md', 'lg'],
     },
+    align: {
+      control: 'select',
+      options: ['left', 'center', 'right'],
+    },
     mask: { control: 'boolean' },
     title: { control: 'text' },
     description: { control: 'text' },
@@ -71,6 +75,30 @@ export const Default: Story = {
 
 export const NoMask: Story = {
   args: { mask: false, title: 'PIN' },
+  render: (args) => ({
+    components: { PtPinInput },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<PtPinInput v-model="value" v-bind="args" />',
+  }),
+};
+
+export const AlignCenter: Story = {
+  args: { align: 'center', title: 'OTP', description: 'Alignment center.' },
+  render: (args) => ({
+    components: { PtPinInput },
+    setup() {
+      const value = ref('');
+      return { args, value };
+    },
+    template: '<PtPinInput v-model="value" v-bind="args" />',
+  }),
+};
+
+export const AlignRight: Story = {
+  args: { align: 'right', title: 'OTP', description: 'Alignment right.' },
   render: (args) => ({
     components: { PtPinInput },
     setup() {
