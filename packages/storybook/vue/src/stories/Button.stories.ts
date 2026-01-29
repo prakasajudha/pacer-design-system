@@ -28,11 +28,18 @@ const meta = {
   args: {
     variant: 'solid',
     size: 'md',
+    shape: 'square',
     loading: false,
     color: 'primary',
     selected: false,
   },
   argTypes: {
+    shape: {
+      control: 'inline-radio',
+      options: ['square', 'rounded'],
+      description: 'Square = rounded-lg + border 1px #000; rounded = rounded-full.',
+      table: { type: { summary: 'string' }, defaultValue: { summary: "'square'" } },
+    },
     variant: {
       control: 'select',
       options: ['solid', 'secondary', 'outline', 'ghost', 'link-primary', 'link-secondary'],

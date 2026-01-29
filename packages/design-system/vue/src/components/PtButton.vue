@@ -13,6 +13,11 @@ export interface ButtonProps {
   size?: 'sm' | 'md';
 
   /**
+   * Bentuk: square (tanpa radius) atau rounded (radius 6px). Default square sesuai Figma PACER.
+   */
+  shape?: 'square' | 'rounded';
+
+  /**
    * Loading state
    */
   loading?: boolean;
@@ -51,6 +56,7 @@ export interface ButtonProps {
 const props = withDefaults(defineProps<ButtonProps>(), {
   variant: 'solid',
   size: 'md',
+  shape: 'square',
   loading: false,
   color: 'primary',
   selected: false,
@@ -113,10 +119,16 @@ const buttonClasses = computed(() => {
       .join(' ');
   }
 
-  // Menggunakan theme values sesuai Figma PACER (sm: 36px, md: 40px)
+  // Shape: square = rounded-lg + border 1px #000; rounded = rounded-full (Figma PACER).
+  const radiusClass = props.shape === 'rounded' ? 'rounded-full' : 'rounded-lg';
+  const squareBorderClass =
+    props.shape === 'square' &&
+    (props.variant === 'solid' || props.variant === 'secondary' || props.variant === 'ghost')
+      ? 'border border-black'
+      : '';
   const sizeStyles = {
-    sm: 'min-w-button-sm h-9 py-1.5 px-2 gap-0 rounded-button text-sm',
-    md: 'min-w-button-md h-10 py-2 px-3 gap-1 rounded-button text-sm',
+    sm: `min-w-button-sm h-9 py-1.5 px-2 gap-0 ${radiusClass} text-sm`,
+    md: `min-w-button-md h-10 py-2 px-3 gap-1 ${radiusClass} text-sm`,
   } as const;
 
   // Helper untuk double ring focus effect (outer + inner ring)
@@ -144,7 +156,7 @@ const buttonClasses = computed(() => {
 
       if (props.variant === 'outline') {
         return [
-          'btn-outline-no-bg bg-transparent text-red-600 border border-red-600',
+          'text-red-600 border border-red-600',
           'hover:bg-red-50 hover:text-red-700 hover:border-red-700',
           getFocusRing('red-200'),
           'focus-visible:text-red-700 focus-visible:border-red-700',
@@ -332,7 +344,7 @@ const buttonClasses = computed(() => {
     ];
   };
 
-  return [baseStyles, sizeStyles[props.size], ...getVariantStyles()].filter(Boolean).join(' ');
+  return [baseStyles, sizeStyles[props.size], squareBorderClass, ...getVariantStyles()].filter(Boolean).join(' ');
 });
 </script>
 

@@ -12,6 +12,8 @@ export type ButtonVariant =
 
 export type ButtonSize = 'sm' | 'md';
 
+export type ButtonShape = 'square' | 'rounded';
+
 export type ButtonColor = 'primary' | 'danger' | 'success' | 'warning' | 'neutral';
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -26,6 +28,12 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
    * @type {ButtonSize}
    */
   size?: ButtonSize;
+
+  /**
+   * Bentuk: square (tanpa radius) atau rounded (radius 6px). Default square sesuai Figma PACER.
+   * @type {ButtonShape}
+   */
+  shape?: ButtonShape;
 
   /**
    * Loading state
@@ -165,10 +173,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
-    // Menggunakan theme values sesuai Figma PACER (sm: 36px, md: 40px)
+    // Shape: square = rounded-lg + border 1px #000; rounded = rounded-full (Figma PACER).
+    const radiusClass = shape === 'rounded' ? 'rounded-full' : 'rounded-lg';
+    const squareBorderClass =
+      shape === 'square' && (variant === 'solid' || variant === 'secondary' || variant === 'ghost')
+        ? 'border border-black'
+        : '';
     const sizeStyles = {
-      sm: 'min-w-button-sm h-9 py-1.5 px-2 gap-0 rounded-button text-sm',
-      md: 'min-w-button-md h-10 py-2 px-3 gap-1 rounded-button text-sm',
+      sm: `min-w-button-sm h-9 py-1.5 px-2 gap-0 ${radiusClass} text-sm`,
+      md: `min-w-button-md h-10 py-2 px-3 gap-1 ${radiusClass} text-sm`,
     } as const;
 
     // Helper untuk double ring focus effect (outer + inner ring)
@@ -388,7 +401,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(baseStyles, sizeStyles[size], getVariantStyles(), className)}
+        className={cn(baseStyles, sizeStyles[size], squareBorderClass, getVariantStyles(), className)}
         disabled={disabled || loading}
         aria-pressed={selected || undefined}
         {...props}

@@ -46,6 +46,12 @@
     public ButtonSize Size { get; set; } = ButtonSize.Medium;
 
     /// <summary>
+    /// Bentuk: square (tanpa radius) atau rounded (radius 6px). Default square sesuai Figma PACER.
+    /// </summary>
+    [Parameter]
+    public string Shape { get; set; } = "square";
+
+    /// <summary>
     /// Loading state
     /// </summary>
     [Parameter]
@@ -154,10 +160,13 @@
             return string.Join(" ", classes);
         }
 
-        // Size styles (sm/md) - Figma PACER: sm 36px, md 40px
+        // Shape: square = rounded-lg + border 1px #000; rounded = rounded-full (Figma PACER).
+        var radiusClass = Shape == "rounded" ? "rounded-full" : "rounded-lg";
         classes.Add(Size == ButtonSize.Small
-            ? "min-w-button-sm h-9 py-1.5 px-2 gap-0 rounded-button text-sm"
-            : "min-w-button-md h-10 py-2 px-3 gap-1 rounded-button text-sm");
+            ? $"min-w-button-sm h-9 py-1.5 px-2 gap-0 {radiusClass} text-sm"
+            : $"min-w-button-md h-10 py-2 px-3 gap-1 {radiusClass} text-sm");
+        if (Shape == "square" && (Variant == ButtonVariant.Solid || Variant == ButtonVariant.Secondary || Variant == ButtonVariant.Ghost))
+            classes.Add("border border-black");
 
         // Helper untuk double ring focus effect
         // Menggunakan utility classes dari theme untuk menghindari arbitrary shadow values
