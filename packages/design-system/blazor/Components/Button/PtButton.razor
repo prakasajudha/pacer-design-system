@@ -160,13 +160,11 @@
             return string.Join(" ", classes);
         }
 
-        // Shape: square = rounded-lg + border 1px #000; rounded = rounded-full (Figma PACER).
+        // Shape: square = rounded-lg; rounded = rounded-full (Figma PACER).
         var radiusClass = Shape == "rounded" ? "rounded-full" : "rounded-lg";
         classes.Add(Size == ButtonSize.Small
             ? $"min-w-button-sm h-9 py-1.5 px-2 gap-0 {radiusClass} text-sm"
             : $"min-w-button-md h-10 py-2 px-3 gap-1 {radiusClass} text-sm");
-        if (Shape == "square" && (Variant == ButtonVariant.Solid || Variant == ButtonVariant.Secondary || Variant == ButtonVariant.Ghost))
-            classes.Add("border border-black");
 
         // Helper untuk double ring focus effect
         // Menggunakan utility classes dari theme untuk menghindari arbitrary shadow values
@@ -237,7 +235,7 @@
             {
                 ButtonVariant.Solid => $"bg-brand-300 text-white hover:bg-brand-400 {GetFocusRing("brand-300")}",
                 ButtonVariant.Secondary => $"bg-brand-50 text-brand-600 hover:bg-brand-100 hover:text-brand-700 {GetFocusRing("brand-300")} focus-visible:text-brand-700",
-                ButtonVariant.Outline => $"text-slate-900 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 {GetFocusRing("slate-200")} focus-visible:border-slate-400",
+                ButtonVariant.Outline => $"text-brand-600 border border-brand-600 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-700 {GetFocusRing("brand-300")} focus-visible:text-brand-700 focus-visible:border-brand-700",
                 ButtonVariant.Ghost => $"bg-transparent text-slate-900 hover:bg-slate-100 {GetFocusRing("slate-200")}",
                 _ => $"bg-brand-300 text-white hover:bg-brand-400 {GetFocusRing("brand-300")}"
             });

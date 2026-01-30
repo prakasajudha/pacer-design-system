@@ -166,7 +166,7 @@ const getIconButtonVariantClasses = ({ variant, color, selected }: VariantOpts) 
     }
     if (variant === 'outline') {
       return cn(
-        'text-green-600 border border-green-600',
+        'btn-outline-no-bg bg-transparent text-green-600 border border-green-600',
         'hover:bg-green-50 hover:text-green-700 hover:border-green-700',
         getFocusRing('green-200'),
         'focus-visible:text-green-700 focus-visible:border-green-700',
@@ -246,7 +246,7 @@ const getIconButtonVariantClasses = ({ variant, color, selected }: VariantOpts) 
     }
     if (variant === 'outline') {
       return cn(
-        'text-slate-600 border border-slate-600',
+        'btn-outline-no-bg bg-transparent text-slate-600 border border-slate-600',
         'hover:bg-slate-50 hover:text-slate-700 hover:border-slate-700',
         getFocusRing('slate-200'),
         'focus-visible:text-slate-700 focus-visible:border-slate-700',
@@ -285,10 +285,10 @@ const getIconButtonVariantClasses = ({ variant, color, selected }: VariantOpts) 
   }
   if (variant === 'outline') {
     return cn(
-      'text-slate-900 border border-slate-300',
-      'hover:bg-slate-50 hover:border-slate-400',
-      getFocusRing('slate-200'),
-      'focus-visible:border-slate-400',
+      'text-brand-600 border border-brand-600',
+      'hover:bg-brand-50 hover:text-brand-700 hover:border-brand-700',
+      getFocusRing('brand-300'),
+      'focus-visible:text-brand-700 focus-visible:border-brand-700',
       selected && 'bg-brand-50 text-brand-700 border-brand-500'
     );
   }

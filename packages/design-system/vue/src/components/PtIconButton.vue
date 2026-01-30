@@ -297,10 +297,10 @@ const variantClasses = computed(() => {
   }
   if (props.variant === 'outline') {
     return [
-      'text-slate-900 border border-slate-300',
-      'hover:bg-slate-50 hover:border-slate-400',
-      getFocusRing('slate-200'),
-      'focus-visible:border-slate-400',
+      'text-brand-600 border border-brand-600',
+      'hover:bg-brand-50 hover:text-brand-700 hover:border-brand-700',
+      getFocusRing('brand-300'),
+      'focus-visible:text-brand-700 focus-visible:border-brand-700',
       props.selected && 'bg-brand-50 text-brand-700 border-brand-500',
     ]
       .filter(Boolean)

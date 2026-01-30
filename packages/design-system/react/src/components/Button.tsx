@@ -173,12 +173,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
-    // Shape: square = rounded-lg + border 1px #000; rounded = rounded-full (Figma PACER).
+    // Shape: square = rounded-lg; rounded = rounded-full (Figma PACER).
     const radiusClass = shape === 'rounded' ? 'rounded-full' : 'rounded-lg';
-    const squareBorderClass =
-      shape === 'square' && (variant === 'solid' || variant === 'secondary' || variant === 'ghost')
-        ? 'border border-black'
-        : '';
     const sizeStyles = {
       sm: `min-w-button-sm h-9 py-1.5 px-2 gap-0 ${radiusClass} text-sm`,
       md: `min-w-button-md h-10 py-2 px-3 gap-1 ${radiusClass} text-sm`,
@@ -371,10 +367,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       if (variant === 'outline') {
         return cn(
-          'text-slate-900 border border-slate-300',
-          'hover:bg-slate-50 hover:border-slate-400',
-          getFocusRing('slate-200'),
-          'focus-visible:border-slate-400',
+          'text-brand-600 border border-brand-600',
+          'hover:bg-brand-50 hover:text-brand-700 hover:border-brand-700',
+          getFocusRing('brand-300'),
+          'focus-visible:text-brand-700 focus-visible:border-brand-700',
           selected && 'bg-brand-50 text-brand-700 border-brand-500'
         );
       }
@@ -401,7 +397,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(baseStyles, sizeStyles[size], squareBorderClass, getVariantStyles(), className)}
+        className={cn(baseStyles, sizeStyles[size], getVariantStyles(), className)}
         disabled={disabled || loading}
         aria-pressed={selected || undefined}
         {...props}
