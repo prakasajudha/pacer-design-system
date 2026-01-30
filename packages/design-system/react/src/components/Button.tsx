@@ -96,6 +96,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     {
       variant = 'solid',
       size = 'md',
+      shape = 'square',
       loading = false,
       color = 'primary',
       selected = false,
