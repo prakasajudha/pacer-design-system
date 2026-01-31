@@ -3,31 +3,36 @@ import { test, expect } from '@playwright/test';
 test.describe('Storybook React', () => {
   test.use({ baseURL: 'http://127.0.0.1:6006' });
 
+  const getPreview = (page: { frameLocator: (s: string) => unknown }) =>
+    page.frameLocator('#storybook-preview-iframe');
+
   test('Button story loads and renders', async ({ page }) => {
-    await page.goto('/iframe.html?id=components-button--playground');
-    await expect(page.locator('body')).toBeVisible({ timeout: 15_000 });
-    const button = page.getByRole('button', { name: /primary action/i });
-    await expect(button).toBeVisible({ timeout: 10_000 });
+    await page.goto('/?path=/story/components-button--playground', { waitUntil: 'networkidle' });
+    const preview = getPreview(page);
+    const button = preview.getByRole('button', { name: /primary action/i });
+    await expect(button).toBeVisible({ timeout: 20_000 });
   });
 
   test('Button can be clicked', async ({ page }) => {
-    await page.goto('/iframe.html?id=components-button--playground');
-    const button = page.getByRole('button', { name: /primary action/i });
-    await expect(button).toBeVisible({ timeout: 10_000 });
+    await page.goto('/?path=/story/components-button--playground', { waitUntil: 'networkidle' });
+    const preview = getPreview(page);
+    const button = preview.getByRole('button', { name: /primary action/i });
+    await expect(button).toBeVisible({ timeout: 20_000 });
     await button.click();
     await expect(button).toBeVisible();
   });
 
   test('Button Solid story renders', async ({ page }) => {
-    await page.goto('/iframe.html?id=components-button--solid');
-    const button = page.getByRole('button', { name: /solid button/i });
-    await expect(button).toBeVisible({ timeout: 10_000 });
+    await page.goto('/?path=/story/components-button--solid', { waitUntil: 'networkidle' });
+    const preview = getPreview(page);
+    const button = preview.getByRole('button', { name: /solid button/i });
+    await expect(button).toBeVisible({ timeout: 20_000 });
   });
 
   test('IconButton story loads', async ({ page }) => {
-    await page.goto('/iframe.html?id=components-iconbutton--playground');
-    await expect(page.locator('body')).toBeVisible({ timeout: 15_000 });
-    const iconButton = page.getByRole('button', { name: /close/i }).first();
-    await expect(iconButton).toBeVisible({ timeout: 10_000 });
+    await page.goto('/?path=/story/components-iconbutton--playground', { waitUntil: 'networkidle' });
+    const preview = getPreview(page);
+    const iconButton = preview.getByRole('button', { name: /close/i }).first();
+    await expect(iconButton).toBeVisible({ timeout: 20_000 });
   });
 });
