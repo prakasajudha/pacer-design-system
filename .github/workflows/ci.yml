@@ -102,5 +102,7 @@ jobs:
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run Playwright smoke tests
-        run: pnpm run test:smoke
+      - name: Run Playwright smoke tests (React)
+        run: pnpm exec playwright test --project=storybook-react
+      - name: Run Playwright smoke tests (Vue)
+        run: pnpm exec playwright test --project=storybook-vue
