@@ -38,9 +38,7 @@ const emit = defineEmits<{
 const slots = useSlots();
 
 // Inject modal context
-const modalContext = inject<{
-  close: () => void;
-}>('modalContext', null);
+const modalContext = inject<{ close: () => void } | null>('modalContext', null);
 
 if (!modalContext) {
   throw new Error('PtModalHeader must be used inside PtModal');
@@ -99,7 +97,7 @@ const CloseIcon = () => h('svg', {
         <!-- Close Button -->
         <PtIconButton
           v-if="showCloseButton"
-          :aria-label="'Close dialog'"
+          :ariaLabel="'Close dialog'"
           :icon="CloseIcon"
           variant="ghost"
           size="xss"

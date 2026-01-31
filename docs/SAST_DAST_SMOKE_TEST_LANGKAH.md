@@ -299,10 +299,57 @@ Dengan demikian, smoke test menjadi gate sebelum SAST/DAST; SAST memeriksa kode 
 
 ---
 
-## 7. Referensi
+## 7. Alternatif Gratis: SAST, DAST, OWASP (Tanpa CodeQL / Tanpa Code Scanning)
+
+**CodeQL** gratis untuk repo **publik** GitHub. Untuk repo **privat** ada batas (mis. 1x per minggu per repo pada tier gratis). Selain itu, hasil CodeQL hanya muncul di **Security → Code scanning**, yang harus **diaktifkan** di Settings repo.
+
+Berikut cara tetap dapat **hasil SAST dan DAST** (dan konteks OWASP) tanpa bergantung pada CodeQL atau fitur berbayar:
+
+### 7.1 Hasil SAST (tanpa CodeQL)
+
+| Tool | Gratis? | Cara dapat hasil | Catatan |
+|------|--------|-------------------|--------|
+| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact JSON/SARIF di GitHub Actions, atau job summary | Tidak perlu token; jalankan `semgrep scan --config auto` di CI. Workflow contoh: `.github/workflows/semgrep.yml`. |
+| **Trivy** | Ya | Artifact / job summary / SARIF | Scan kode + dependency. `trivy fs . --format json`. |
+| **ESLint** + `eslint-plugin-security` | Ya | Output lint di log CI, atau artifact | Sudah ada di pipeline (lint); bisa tambah rule keamanan. |
+| **SonarQube** (Community Edition) | Ya (self-hosted) | Dashboard SonarQube sendiri | Perlu deploy server; integrasi CI dengan SonarScanner. |
+| **CodeQL** | Gratis (repo publik); terbatas (repo privat) | Security → Code scanning (harus diaktifkan) | Butuh “Code scanning” enabled di repo. |
+
+**Rekomendasi:** Jika tidak pakai CodeQL atau Code scanning tidak diaktifkan, gunakan **Semgrep** di CI dan simpan hasil sebagai **artifact** (JSON/SARIF) atau tampilkan di **job summary**. Itu sumber “informasi hasil SAST” yang gratis.
+
+### 7.2 Hasil DAST (sudah gratis)
+
+| Tool | Gratis? | Cara dapat hasil |
+|------|--------|-------------------|
+| **OWASP ZAP** (baseline scan) | Ya | Artifact laporan HTML di GitHub Actions (**zap-baseline-report**). Workflow: `.github/workflows/dast-zap.yml`. |
+
+DAST tidak bergantung pada CodeQL; hasil ZAP bisa selalu diambil dari artifact setelah job DAST selesai.
+
+### 7.3 OWASP dan “WASP”
+
+- **OWASP** = Open Web Application Security Project. Banyak tool keamanan (ZAP, Dependency-Check, dll.) dari ekosistem OWASP.
+- **ZAP** = DAST dari OWASP (sudah dipakai di repo ini).
+- **Dependency-Check** (OWASP) = scan dependency; mirip `pnpm audit` (yang sudah ada di CI).
+- Jika yang dimaksud “WASP” = **OWASP**, maka informasi SAST + DAST + OWASP bisa didapat dari: Semgrep (SAST) + ZAP (DAST) + dokumentasi OWASP / daftar tool OWASP.
+
+### 7.4 Ringkas: di mana lihat hasil?
+
+| Jenis | Sumber hasil (gratis) |
+|-------|------------------------|
+| **SAST** | Artifact workflow Semgrep (mis. `semgrep-results.sarif` / JSON), atau log CI Trivy/ESLint. Jika pakai CodeQL + Code scanning: Security → Code scanning. |
+| **DAST** | Artifact **zap-baseline-report** (HTML) dari job DAST ZAP. |
+| **Dependency** | Log CI `pnpm audit`; atau artifact dari Trivy / OWASP Dependency-Check. |
+
+Workflow **Semgrep** (`.github/workflows/semgrep.yml`) ditambahkan sebagai opsi SAST yang tidak memerlukan CodeQL maupun aktivasi Code scanning.
+
+---
+
+## 8. Referensi
 
 - [GitHub CodeQL](https://codeql.github.com/)
 - [GitHub: Configuring advanced setup for code scanning](https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/configuring-advanced-setup-for-code-scanning)
+- [Semgrep](https://semgrep.dev/) — SAST gratis (CE), rule auto, output JSON/SARIF
+- [Semgrep: Add to CI](https://semgrep.dev/docs/deployment/add-semgrep-to-ci)
 - [OWASP ZAP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/)
 - [zaproxy/action-baseline](https://github.com/zaproxy/action-baseline)
 - [Playwright Documentation](https://playwright.dev/docs/intro)

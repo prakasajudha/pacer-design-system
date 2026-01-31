@@ -73,7 +73,6 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   showTooltip: false,
 });
 
-const _hasTitle = computed(() => !!slots.title || (props.title != null && props.title !== ''));
 const hasDescription = computed(() => !!slots.description || (props.description != null && props.description !== ''));
 
 const emit = defineEmits<{

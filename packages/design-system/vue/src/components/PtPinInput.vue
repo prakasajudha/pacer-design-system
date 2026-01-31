@@ -69,7 +69,6 @@ const props = withDefaults(defineProps<PinInputProps>(), {
 });
 
 const slots = useSlots();
-const _hasTitle = computed(() => !!slots.title || (props.title != null && props.title !== ''));
 const hasDescription = computed(() => !!slots.description || (props.description != null && props.description !== ''));
 
 const emit = defineEmits<{

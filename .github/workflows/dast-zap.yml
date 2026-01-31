@@ -77,12 +77,23 @@ jobs:
 
       - name: List ZAP output (debug)
         if: always()
-        run: ls -la zap-output/ || true
+        run: ls -la zap-output/ 2>/dev/null || true
+
+      - name: Check for ZAP report
+        id: zap-report
+        if: always()
+        run: |
+          if [ -f zap-output/zap-baseline-report.html ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Upload ZAP report
         uses: actions/upload-artifact@v4
-        if: always() && hashFiles('zap-output/zap-baseline-report.html') != ''
+        if: always() && steps.zap-report.outputs.exists == 'true'
         with:
           name: zap-baseline-report
           path: zap-output/zap-baseline-report.html
           retention-days: 30
+          if-no-files-found: ignore

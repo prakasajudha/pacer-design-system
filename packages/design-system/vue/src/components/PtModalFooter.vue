@@ -47,8 +47,11 @@ const hasChildren = computed(() => {
 
 // Check if should render default buttons
 const shouldRenderButtons = computed(() => {
-  return !hasChildren.value && (props.onCancel || props.onConfirm);
+  return !hasChildren.value && (props.onCancel != null || props.onConfirm != null);
 });
+
+const showCancelButton = computed(() => typeof props.onCancel === 'function');
+const showConfirmButton = computed(() => typeof props.onConfirm === 'function');
 
 const handleCancel = () => {
   if (props.onCancel) {
@@ -73,7 +76,7 @@ const handleConfirm = () => {
     <!-- Default Footer (auto-render buttons) -->
     <template v-else-if="shouldRenderButtons">
       <PtButton
-        v-if="onCancel"
+        v-if="showCancelButton"
         variant="outline"
         size="sm"
         @click="handleCancel"
@@ -81,7 +84,7 @@ const handleConfirm = () => {
         {{ onCancelText }}
       </PtButton>
       <PtButton
-        v-if="onConfirm"
+        v-if="showConfirmButton"
         variant="solid"
         size="sm"
         @click="handleConfirm"

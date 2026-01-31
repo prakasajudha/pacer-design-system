@@ -1,0 +1,51 @@
+# SAST — Semgrep (gratis, tanpa CodeQL / tanpa Code scanning)
+# Hasil: artifact JSON + SARIF; tidak perlu SEMGREP_APP_TOKEN
+name: Semgrep SAST
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * 2'  # Selasa 02:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  semgrep:
+    name: Semgrep Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/src" \
+            -w /src \
+            semgrep/semgrep semgrep scan \
+            --config auto \
+            --metrics=off \
+            --json --json-output=semgrep-results.json \
+            --sarif --sarif-output=semgrep-results.sarif \
+            --error
+        continue-on-error: true
+        # --config auto = rule dari Registry (JS/TS/Vue). Tanpa token = gratis.
+        # --error = exit 1 jika ada finding; continue-on-error agar job tidak fail.
+
+      - name: Upload Semgrep results (JSON)
+        uses: actions/upload-artifact@v4
+        if: always() && hashFiles('semgrep-results.json') != ''
+        with:
+          name: semgrep-results-json
+          path: semgrep-results.json
+          retention-days: 30
+
+      - name: Upload Semgrep results (SARIF)
+        uses: actions/upload-artifact@v4
+        if: always() && hashFiles('semgrep-results.sarif') != ''
+        with:
+          name: semgrep-results-sarif
+          path: semgrep-results.sarif
+          retention-days: 30
