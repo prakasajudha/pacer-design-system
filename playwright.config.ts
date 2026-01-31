@@ -6,11 +6,13 @@ const reactStaticDir = path.join(rootDir, 'packages/storybook/react/storybook-st
 const vueStaticDir = path.join(rootDir, 'packages/storybook/vue/storybook-static');
 const serveBin = path.join(rootDir, 'node_modules/serve/build/main.js');
 
+const isCI = !!process.env.CI;
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: false,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  forbidOnly: isCI,
+  retries: isCI ? 1 : 0,
   workers: 1,
   reporter: 'list',
   use: {
@@ -23,32 +25,32 @@ export default defineConfig({
       testMatch: /storybook-react\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:6006',
+        baseURL: 'http://127.0.0.1:6006',
       },
-      webServer: {
-        command: `node "${serveBin}" "${reactStaticDir}" -l 6006`,
-        url: 'http://127.0.0.1:6006',
-        reuseExistingServer: !process.env.CI,
-        timeout: 90_000,
-        stdout: 'pipe',
-        stderr: 'pipe',
-      },
+      webServer: isCI
+        ? undefined
+        : {
+            command: `node "${serveBin}" "${reactStaticDir}" -l 6006`,
+            url: 'http://127.0.0.1:6006',
+            reuseExistingServer: true,
+            timeout: 90_000,
+          },
     },
     {
       name: 'storybook-vue',
       testMatch: /storybook-vue\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:6007',
+        baseURL: 'http://127.0.0.1:6007',
       },
-      webServer: {
-        command: `node "${serveBin}" "${vueStaticDir}" -l 6007`,
-        url: 'http://127.0.0.1:6007',
-        reuseExistingServer: !process.env.CI,
-        timeout: 90_000,
-        stdout: 'pipe',
-        stderr: 'pipe',
-      },
+      webServer: isCI
+        ? undefined
+        : {
+            command: `node "${serveBin}" "${vueStaticDir}" -l 6007`,
+            url: 'http://127.0.0.1:6007',
+            reuseExistingServer: true,
+            timeout: 90_000,
+          },
     },
   ],
 });

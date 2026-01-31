@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Storybook Vue', () => {
-  test.use({ baseURL: 'http://localhost:6007' });
+  test.use({ baseURL: 'http://127.0.0.1:6007' });
 
   test('Button story loads and renders', async ({ page }) => {
     await page.goto('/iframe.html?id=components-button--playground');

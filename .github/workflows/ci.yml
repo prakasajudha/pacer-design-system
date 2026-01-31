@@ -103,6 +103,12 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run Playwright smoke tests (React)
-        run: pnpm exec playwright test --project=storybook-react
+        run: |
+          pnpm exec serve packages/storybook/react/storybook-static -l 6006 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:6006 >/dev/null && break; sleep 1; done
+          pnpm exec playwright test --project=storybook-react
       - name: Run Playwright smoke tests (Vue)
-        run: pnpm exec playwright test --project=storybook-vue
+        run: |
+          pnpm exec serve packages/storybook/vue/storybook-static -l 6007 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:6007 >/dev/null && break; sleep 1; done
+          pnpm exec playwright test --project=storybook-vue
