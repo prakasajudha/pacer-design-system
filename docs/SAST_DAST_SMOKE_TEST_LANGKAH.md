@@ -10,7 +10,7 @@ Dalam pengembangan perangkat lunak, pengecekan keamanan dan kualitas dapat dilak
 
 | Jenis Pengecekan | Fase | Objek yang Diperiksa | Contoh Tool |
 |------------------|------|----------------------|-------------|
-| **SAST** | Sebelum eksekusi (static) | Source code | CodeQL, SonarQube |
+| **SAST** | Sebelum eksekusi (static) | Source code | Semgrep, SonarQube |
 | **DAST** | Saat/runtime (dynamic) | Aplikasi yang berjalan | OWASP ZAP |
 | **Smoke Test** | Setelah build/deploy | Perilaku dasar aplikasi | Playwright, Cypress |
 
@@ -31,37 +31,31 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
 - Dapat diotomasi di pipeline CI (misalnya GitHub Actions).
 - Cakupan: seluruh kode yang dianalisis oleh tool (JavaScript/TypeScript untuk React & Vue, C# untuk Blazor).
 
-### 2.3 Tool yang Digunakan: CodeQL
+### 2.3 Tool yang Digunakan: Semgrep
 
-**CodeQL** (GitHub) dipilih karena:
+**Semgrep** (Community Edition) dipilih karena:
 
-- Gratis untuk repository publik dan penggunaan standar.
-- Mendukung multi-bahasa: **JavaScript/TypeScript** (React, Vue) dan **C#** (Blazor) dalam satu monorepo.
-- Terintegrasi dengan GitHub Actions dan laporan Code Scanning.
+- Gratis, open source (LGPL); tidak perlu Code scanning atau token.
+- Mendukung **JavaScript/TypeScript** (React, Vue); rule `--config auto` dari Registry.
+- Dijalankan dalam satu workflow CI (job **sast-semgrep**); hasil ke artifact JSON.
 
-### 2.4 Langkah-Langkah Penerapan SAST dengan CodeQL
+### 2.4 Langkah-Langkah Penerapan SAST dengan Semgrep (dalam ci.yml)
 
-1. **Aktivasi Code Scanning**
-   - Di repository GitHub: **Settings → Security → Code security and analysis → Code scanning**.
-   - Pilih **Set up** untuk CodeQL analysis, lalu pilih **Advanced** agar workflow dapat dikustomisasi.
+1. **Satu workflow**
+   - Semua dalam **`.github/workflows/ci.yml`**. Tidak ada workflow terpisah untuk SAST.
 
-2. **Workflow GitHub Actions**
-   - Buat file `.github/workflows/codeql.yml`.
-   - Definisikan trigger (misalnya `push` ke `main`/`develop`, dan `pull_request`).
-   - Gunakan **matrix** untuk bahasa: `javascript-typescript` dan `csharp` agar React, Vue, dan Blazor tercakup.
+2. **Urutan job**
+   - **lint-build-test** (CI) → **sast-semgrep** (SAST) → **dast-zap** (DAST). Jika CI gagal, SAST dan DAST tidak jalan.
 
-3. **Inisialisasi dan Analisis**
-   - **Init:** gunakan action `github/codeql-action/init@v4` dengan `languages: ${{ matrix.language }}`.
-   - **Build (jika diperlukan):** untuk C#, jalankan `dotnet build` pada proyek Blazor agar CodeQL dapat menganalisis hasil kompilasi.
-   - **Analyze:** gunakan `github/codeql-action/analyze@v4` untuk menjalankan analisis dan mengunggah hasil ke tab Security.
+3. **Job sast-semgrep**
+   - `needs: lint-build-test`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config auto --json --json-output=semgrep-results.json`.
+   - Upload artifact **semgrep-results** (retensi 30 hari).
 
-4. **Scope per Framework**
-   - **React & Vue:** kode di `packages/design-system/react` dan `packages/design-system/vue` dianalisis sebagai JavaScript/TypeScript.
-   - **Blazor:** kode di `packages/design-system/blazor` (`.razor`, `.cs`) dianalisis sebagai C#.
+4. **Scope**
+   - Kode di repo (React, Vue, JS/TS) dianalisis oleh rule auto Semgrep. Blazor (C#) tidak di-scan oleh Semgrep di set-up ini; bila perlu bisa ditambah job terpisah atau tool lain.
 
 5. **Tindak Lanjut**
-   - Periksa alert di **Security → Code scanning alerts**.
-   - Perbaiki atau triage (dismiss dengan alasan) agar baseline keamanan tetap terjaga.
+   - Unduh artifact **semgrep-results** dari run GitHub Actions; periksa findings di file JSON. Perbaiki atau triage sesuai kebijakan tim.
 
 ---
 
@@ -222,11 +216,11 @@ flowchart TB
     SM[Build Storybook → Serve → Playwright<br/>App hidup? Halaman & komponen render?]
   end
 
-  subgraph phase3["3️⃣ SAST"]
-    SAST[CodeQL: analisis kode statis<br/>JS/TS + C# → Code scanning alerts]
+  subgraph phase3["3️⃣ SAST (hanya jika CI lulus)"]
+    SAST[Semgrep: analisis kode statis<br/>→ artifact semgrep-results.json]
   end
 
-  subgraph phase4["4️⃣ DAST (hanya jika app sudah valid)"]
+  subgraph phase4["4️⃣ DAST (hanya jika SAST job selesai)"]
     direction TB
     D1[Build Storybook → Serve]
     D2[Smoke check<br/>validasi app hidup]
@@ -238,11 +232,11 @@ flowchart TB
   T --> phase1
   phase1 --> phase2
   phase2 --> phase3
-  phase2 --> phase4
+  phase3 --> phase4
 
   subgraph hasil["📋 Hasil"]
-    H1[Code scanning alerts]
-    H2[ZAP report artifact]
+    H1[Artifact semgrep-results]
+    H2[Artifact zap-baseline-report]
     H3[CI pass/fail]
   end
 
@@ -251,7 +245,7 @@ flowchart TB
   phase2 --> H3
 ```
 
-**Ringkas:** Build dulu, lalu smoke test sebagai gate; baru setelah itu SAST dan DAST. DAST selalu didahului smoke check (di workflow DAST: serve → smoke check → ZAP).
+**Ringkas:** Semua dalam **satu workflow** (`.github/workflows/ci.yml`). Urutan: CI (lint, build, test, smoke) → SAST (Semgrep) → DAST (ZAP). Jika CI gagal, SAST dan DAST tidak jalan. Jika SAST gagal, DAST tidak jalan.
 
 ### 5.3 Urutan cek di dalam CI (ci.yml)
 
@@ -264,12 +258,14 @@ flowchart TB
 | 5 | Blazor build | dotnet build | Kode C#/Razor |
 | 6 | **Smoke test** | Playwright | Storybook hidup & render (gate sebelum security scan berat) |
 
-### 5.4 SAST & DAST (setelah konsep “app valid”)
+### 5.4 SAST & DAST (dalam satu workflow ci.yml)
 
-| Workflow | Urutan di dalam workflow | Hasil |
-|----------|--------------------------|--------|
-| **CodeQL** | Build → Analyze | Security → Code scanning alerts |
-| **DAST ZAP** | Build → Serve → **Smoke check** → ZAP scan | Artifact laporan HTML (ZAP hanya jalan kalau smoke check lulus) |
+| Job | Needs | Isi | Hasil |
+|-----|-------|-----|--------|
+| **sast-semgrep** | lint-build-test | Semgrep scan (--config auto) | Artifact **semgrep-results** (JSON) |
+| **dast-zap** | sast-semgrep | Build Storybook → Serve → Smoke check → ZAP | Artifact **zap-baseline-report** (HTML) |
+
+CodeQL tidak dipakai; SAST memakai Semgrep (gratis, tanpa Code scanning).
 
 ---
 
@@ -287,15 +283,15 @@ flowchart TB
    Restore dan build proyek Blazor (`dotnet build`) untuk memastikan kode C#/Razor valid.
 
 4. **Smoke Test (Playwright)**  
-   Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah sebelum security scan berat;** memastikan app hidup dan render.
+   Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah;** memastikan app hidup dan render.
 
-5. **SAST (CodeQL)**  
-   Workflow terpisah: **`.github/workflows/codeql.yml`**. Inisialisasi CodeQL untuk JavaScript/TypeScript dan C# (matrix), analisis, unggah hasil ke **GitHub → Security → Code scanning alerts**. Dijalankan setelah konsep “build & validasi dasar” (smoke di CI memvalidasi app yang di-build di CI).
+5. **SAST (Semgrep)**  
+   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: lint-build-test`. Jika CI gagal, job ini tidak jalan. Semgrep scan (--config auto), hasil ke artifact **semgrep-results** (JSON). Tidak pakai CodeQL.
 
 6. **DAST (OWASP ZAP)**  
-   Workflow terpisah: **`.github/workflows/dast-zap.yml`**. Urutan di dalam workflow: Build Storybook → Serve → **Smoke check** (validasi app hidup & preview load) → baru ZAP baseline scan. **Never scan a dead app:** ZAP hanya dijalankan jika smoke check lulus. Laporan HTML diunggah sebagai artifact (**zap-baseline-report**).
+   Job **dast-zap** dalam **`.github/workflows/ci.yml`**, `needs: sast-semgrep`. Jika SAST gagal atau belum selesai, DAST tidak jalan. Urutan di dalam job: Build Storybook → Serve → **Smoke check** → ZAP baseline scan. Laporan HTML ke artifact **zap-baseline-report**.
 
-Dengan demikian, smoke test menjadi gate sebelum SAST/DAST; SAST memeriksa kode statis (React, Vue, Blazor), DAST memeriksa aplikasi yang berjalan (Storybook) hanya setelah app divalidasi hidup.
+**Satu workflow saja:** CI → SAST → DAST. Gagal di CI maka SAST dan DAST tidak dijalankan; gagal di SAST maka DAST tidak dijalankan.
 
 ---
 
@@ -309,7 +305,7 @@ Berikut cara tetap dapat **hasil SAST dan DAST** (dan konteks OWASP) tanpa berga
 
 | Tool | Gratis? | Cara dapat hasil | Catatan |
 |------|--------|-------------------|--------|
-| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact JSON/SARIF di GitHub Actions, atau job summary | Tidak perlu token; jalankan `semgrep scan --config auto` di CI. Workflow contoh: `.github/workflows/semgrep.yml`. |
+| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). Tidak perlu token; `semgrep scan --config auto`. |
 | **Trivy** | Ya | Artifact / job summary / SARIF | Scan kode + dependency. `trivy fs . --format json`. |
 | **ESLint** + `eslint-plugin-security` | Ya | Output lint di log CI, atau artifact | Sudah ada di pipeline (lint); bisa tambah rule keamanan. |
 | **SonarQube** (Community Edition) | Ya (self-hosted) | Dashboard SonarQube sendiri | Perlu deploy server; integrasi CI dengan SonarScanner. |
@@ -321,7 +317,7 @@ Berikut cara tetap dapat **hasil SAST dan DAST** (dan konteks OWASP) tanpa berga
 
 | Tool | Gratis? | Cara dapat hasil |
 |------|--------|-------------------|
-| **OWASP ZAP** (baseline scan) | Ya | Artifact laporan HTML di GitHub Actions (**zap-baseline-report**). Workflow: `.github/workflows/dast-zap.yml`. |
+| **OWASP ZAP** (baseline scan) | Ya | Artifact **zap-baseline-report** (HTML) di GitHub Actions. Job **dast-zap** dalam **ci.yml**. |
 
 DAST tidak bergantung pada CodeQL; hasil ZAP bisa selalu diambil dari artifact setelah job DAST selesai.
 
@@ -340,7 +336,7 @@ DAST tidak bergantung pada CodeQL; hasil ZAP bisa selalu diambil dari artifact s
 | **DAST** | Artifact **zap-baseline-report** (HTML) dari job DAST ZAP. |
 | **Dependency** | Log CI `pnpm audit`; atau artifact dari Trivy / OWASP Dependency-Check. |
 
-Workflow **Semgrep** (`.github/workflows/semgrep.yml`) ditambahkan sebagai opsi SAST yang tidak memerlukan CodeQL maupun aktivasi Code scanning.
+SAST (Semgrep) dan DAST (ZAP) digabung ke **satu workflow** (`.github/workflows/ci.yml`) dengan urutan CI → SAST → DAST; CodeQL tidak dipakai.
 
 ---
 
