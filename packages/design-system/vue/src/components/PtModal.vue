@@ -1,6 +1,6 @@
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-unused-vars -- Teleport used in template */
 import { provide, ref, computed, watch, onMounted, onUnmounted, Teleport } from 'vue';
-import { useSlots } from 'vue';
 
 export type ModalSize = 'sm' | 'md' | 'lg';
 
@@ -43,8 +43,6 @@ const emit = defineEmits<{
   'update:open': [value: boolean];
   close: [];
 }>();
-
-const slots = useSlots();
 
 // Internal state untuk uncontrolled mode
 const internalOpen = ref(props.defaultOpen);

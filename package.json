@@ -39,6 +39,8 @@
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@changesets/cli": "^2.27.1",
+    "eslint-plugin-storybook": "^0.6.0",
+    "vue-eslint-parser": "^9.4.3",
     "@types/node": "^20.11.0",
     "concurrently": "^8.2.2",
     "prettier": "^3.2.4",

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-unused-vars -- Teleport used in template */
 import { ref, computed, watch, onMounted, onUnmounted, useSlots } from 'vue';
 import { Teleport } from 'vue';
 import { cn } from '../lib/utils';

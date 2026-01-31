@@ -69,7 +69,7 @@ const props = withDefaults(defineProps<PinInputProps>(), {
 });
 
 const slots = useSlots();
-const hasTitle = computed(() => !!slots.title || (props.title != null && props.title !== ''));
+const _hasTitle = computed(() => !!slots.title || (props.title != null && props.title !== ''));
 const hasDescription = computed(() => !!slots.description || (props.description != null && props.description !== ''));
 
 const emit = defineEmits<{
@@ -143,7 +143,7 @@ const textAlignClass = computed(() => {
   return 'text-left';
 });
 
-const boxClasses = (idx: number) =>
+const boxClasses = (_idx: number) =>
   cn(
     'inline-flex items-center justify-center rounded-md border bg-white text-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400',
     sizeStyles.value.box,
