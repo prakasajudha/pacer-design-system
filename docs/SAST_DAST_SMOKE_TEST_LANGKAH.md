@@ -149,7 +149,8 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
 4. **Integrasi ke CI**
    - Di workflow CI (misalnya `.github/workflows/ci.yml`):
      - Setelah build Storybook React dan Vue, jalankan `pnpm exec playwright install --with-deps chromium` (atau browser yang dipilih).
-     - Jalankan `pnpm run test:smoke` (yang memanggil `playwright test`).
+     - Jalankan `playwright test` (React & Vue dalam satu run).
+     - Laporan HTML Playwright di-upload sebagai artifact **smoke-test-report**; unduh dan buka **index.html** untuk melihat hasil per test (pass/fail, durasi, trace jika gagal). Lolos = job hijau; gagal = lihat log atau laporan HTML.
 
 5. **Scope per Framework**
    - **React:** Smoke test terhadap Storybook React (build → serve → buka URL → assert).
@@ -394,6 +395,7 @@ Hasil **tidak dikirim ke sistem eksternal**; hanya disimpan di **GitHub Actions*
 
 | Jenis | Artifact name | Lokasi di GitHub |
 |-------|----------------|------------------|
+| **Smoke test** | `smoke-test-report` (HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **smoke-test-report**. Buka **index.html** di browser untuk lihat hasil per test (pass/fail, durasi, trace on failure). |
 | **SAST (JSON)** | `semgrep-results` (file JSON) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-results**. |
 | **SAST (HTML)** | `semgrep-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-report**. |
 | **DAST** | `zap-baseline-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **zap-baseline-report**. |
@@ -404,6 +406,8 @@ Hasil **tidak dikirim ke sistem eksternal**; hanya disimpan di **GitHub Actions*
 1. **Laporan HTML (paling mudah):** Unduh artifact **semgrep-report**, buka **semgrep-report.html** di browser. Isi laporan: **(1) Findings** — tabel security/code smell (Severity, Rule, File, Line, Message, CWE/OWASP); **(2) Scan errors** — tabel error scan (Code, Level, Type, Path, Message, Help) agar terlihat parse error, rule error, atau runtime error yang membuat sebagian file tidak ter-scan; **(3) Paths scanned** — daftar file yang di-scan; **(4) Skipped rules** — rule yang di-skip. Di CI, JSON dikonversi ke HTML oleh `.github/scripts/semgrep-json-to-html.mjs`.
 2. **JSON mentah:** Unduh artifact **semgrep-results**, buka **semgrep-results.json** dengan editor/JSON viewer atau olah dengan `jq` / script sendiri.
 3. **Lokal (tanpa CI):** Jalankan Semgrep lalu generate HTML: `node .github/scripts/semgrep-json-to-html.mjs semgrep-results.json semgrep-report.html`, lalu buka `semgrep-report.html` di browser.
+
+**Cara melihat hasil Smoke test:** Unduh artifact **smoke-test-report**, buka **index.html** di browser. Laporan berisi daftar test (Storybook React & Vue), status pass/fail, durasi, dan trace/screenshot jika ada yang gagal. Jika job **Smoke Test (Playwright)** hijau = semua test lolos; jika merah = lihat log CI atau buka laporan HTML untuk detail.
 
 **Cara ambil laporan DAST:** Buka run workflow **CI** di tab **Actions**, gulir ke **Artifacts**. Unduh **zap-baseline-report**, buka `zap-baseline-report.html` di browser. Retensi artifact 30 hari (konfigurasi di `ci.yml`).
 

@@ -102,16 +102,20 @@ jobs:
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run Playwright smoke tests (React)
+      - name: Run Playwright smoke tests
         run: |
           pnpm exec serve packages/storybook/react/storybook-static -l 6006 &
-          for i in $(seq 1 60); do curl -sf http://127.0.0.1:6006 >/dev/null && break; sleep 1; done
-          pnpm exec playwright test --project=storybook-react
-      - name: Run Playwright smoke tests (Vue)
-        run: |
           pnpm exec serve packages/storybook/vue/storybook-static -l 6007 &
-          for i in $(seq 1 60); do curl -sf http://127.0.0.1:6007 >/dev/null && break; sleep 1; done
-          pnpm exec playwright test --project=storybook-vue
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:6006 >/dev/null && curl -sf http://127.0.0.1:6007 >/dev/null && break; sleep 1; done
+          pnpm exec playwright test
+      - name: Upload Smoke Test report (HTML)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-test-report
+          path: playwright-report/
+          retention-days: 30
+          if-no-files-found: ignore
 
   sast-semgrep:
     name: SAST (Semgrep)

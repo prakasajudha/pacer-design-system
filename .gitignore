@@ -8,6 +8,10 @@ coverage/
 *.lcov
 .nyc_output
 
+# Playwright (smoke test report & results, CI or locally)
+playwright-report/
+test-results/
+
 # DAST (ZAP reports)
 zap-output/
 
