@@ -58,25 +58,31 @@ jobs:
           echo "Smoke check passed: app is alive, proceeding to ZAP."
 
       - name: Run OWASP ZAP Baseline Scan
+        id: zap
         run: |
           mkdir -p zap-output
           docker run --rm \
             --network host \
             -v "${{ github.workspace }}/zap-output:/zap/wrk:rw" \
+            -w /zap/wrk \
             -e JAVA_OPTS="-Xmx2g" \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://127.0.0.1:3000 \
-            -r /zap/wrk/zap-baseline-report.html \
+            -r zap-baseline-report.html \
             -I
         continue-on-error: true
-        # Image: ghcr.io/zaproxy/zaproxy (resmi, GHCR). owasp/zap2docker-stable sudah tidak tersedia.
+        # Image: ghcr.io/zaproxy/zaproxy (resmi, GHCR). -w /zap/wrk agar report ke mount.
         # -I = ignore warning rules (reduce false positives). Hapus -I untuk fail on findings.
+
+      - name: List ZAP output (debug)
+        if: always()
+        run: ls -la zap-output/ || true
 
       - name: Upload ZAP report
         uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && hashFiles('zap-output/zap-baseline-report.html') != ''
         with:
           name: zap-baseline-report
-          path: zap-output/
+          path: zap-output/zap-baseline-report.html
           retention-days: 30
