@@ -1,0 +1,73 @@
+# SAST — CodeQL (JavaScript/TypeScript + C#)
+# Analisis statis keamanan kode untuk React, Vue, dan Blazor
+name: CodeQL SAST
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Jalan mingguan (Senin 00:00 UTC)
+    - cron: '0 0 * * 1'
+
+jobs:
+  analyze:
+    name: CodeQL Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript-typescript', 'csharp']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Setup pnpm (JavaScript/TypeScript)
+        if: matrix.language == 'javascript-typescript'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.0
+
+      - name: Setup Node.js (JavaScript/TypeScript)
+        if: matrix.language == 'javascript-typescript'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install deps & Build (JavaScript/TypeScript)
+        if: matrix.language == 'javascript-typescript'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+        continue-on-error: true
+
+      - name: Setup .NET (C#)
+        if: matrix.language == 'csharp'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build (C#)
+        if: matrix.language == 'csharp'
+        run: |
+          dotnet restore packages/design-system/blazor/Pertamina.DesignSystem.Blazor.csproj
+          dotnet build packages/design-system/blazor/Pertamina.DesignSystem.Blazor.csproj --configuration Release --no-restore
+        working-directory: ${{ github.workspace }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: '/language:${{ matrix.language }}'

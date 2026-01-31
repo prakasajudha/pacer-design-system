@@ -201,10 +201,10 @@ Alur yang diterapkan dalam repository Design System:
    Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve.
 
 5. **SAST (CodeQL)**  
-   Workflow terpisah: inisialisasi CodeQL untuk JavaScript/TypeScript dan C#, analisis, unggah hasil ke GitHub Code Scanning.
+   Workflow terpisah: **`.github/workflows/codeql.yml`**. Inisialisasi CodeQL untuk JavaScript/TypeScript dan C# (matrix), analisis, unggah hasil ke **GitHub → Security → Code scanning alerts**.
 
 6. **DAST (OWASP ZAP)**  
-   Workflow terpisah (jika diaktifkan): build Storybook, serve, jalankan ZAP baseline terhadap URL target, lampirkan laporan.
+   Workflow terpisah: **`.github/workflows/dast-zap.yml`**. Build Storybook React, serve di port 3000, jalankan ZAP baseline scan terhadap `http://127.0.0.1:3000`, lampirkan laporan HTML sebagai artifact (**zap-baseline-report**).
 
 Dengan demikian, SAST memeriksa kode statis (React, Vue, Blazor), DAST memeriksa aplikasi yang berjalan (Storybook), dan Smoke Test memastikan build serta tampilan dasar Storybook tetap berfungsi setelah setiap perubahan.
 
