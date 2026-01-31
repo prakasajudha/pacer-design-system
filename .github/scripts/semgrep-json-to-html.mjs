@@ -40,6 +40,21 @@ try {
 
 const results = Array.isArray(data.results) ? data.results : [];
 const errors = Array.isArray(data.errors) ? data.errors : [];
+const paths = data.paths || {};
+const scanned = Array.isArray(paths.scanned) ? paths.scanned : [];
+const skippedRules = Array.isArray(data.skipped_rules) ? data.skipped_rules : [];
+
+const errorRows = errors.map((e) => {
+  const msg = e.long_msg ?? e.message ?? e.short_msg ?? "";
+  return {
+    code: e.code ?? "-",
+    level: e.level ?? "-",
+    type: e.type_ ?? e.type ?? "-",
+    path: e.path ?? "-",
+    message: msg,
+    help: e.help ?? "",
+  };
+});
 
 const rows = results.map((r) => {
   const start = r.start || {};
@@ -87,15 +102,20 @@ const html = `<!DOCTYPE html>
     .refs { font-size: 0.75rem; color: #555; margin-top: 0.25rem; }
     .refs a { color: #0a6ed1; }
     .empty { color: #888; font-style: italic; }
+    h2 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+    .path-list { font-size: 0.8rem; max-height: 12em; overflow-y: auto; }
+    .path-list li { margin: 0.2rem 0; }
   </style>
 </head>
 <body>
   <h1>Semgrep SAST Report</h1>
-  <p class="meta">Total findings: ${results.length} | Errors (scan): ${errors.length} | Generated: ${new Date().toISOString()}</p>
+  <p class="meta">Findings: ${results.length} | Scan errors: ${errors.length} | Files scanned: ${scanned.length} | Skipped rules: ${skippedRules.length} | Generated: ${new Date().toISOString()}</p>
+
   ${
     results.length === 0
-      ? '<p class="empty">No findings.</p>'
+      ? '<p class="empty">No security/code-smell findings.</p>'
       : `
+  <h2>Findings (security / code smell)</h2>
   <table>
     <thead>
       <tr>
@@ -128,6 +148,50 @@ const html = `<!DOCTYPE html>
     </tbody>
   </table>
   `
+  }
+
+  ${
+    errors.length > 0
+      ? `
+  <h2>Scan errors (parse / rule / runtime)</h2>
+  <p class="meta">Ini penyebab scan tidak sempurna atau ada file/rule yang di-skip. Perbaiki agar semua file ter-scan.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Level</th>
+        <th>Type</th>
+        <th>Path</th>
+        <th>Message</th>
+        <th>Help</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${errorRows
+        .map(
+          (row) => `
+      <tr>
+        <td>${escapeHtml(String(row.code))}</td>
+        <td class="${severityClass(row.level)}">${escapeHtml(String(row.level))}</td>
+        <td><code>${escapeHtml(String(row.type))}</code></td>
+        <td><code>${escapeHtml(String(row.path))}</code></td>
+        <td class="message">${escapeHtml(String(row.message))}</td>
+        <td class="refs">${escapeHtml(String(row.help))}</td>
+      </tr>`
+        )
+        .join("")}
+    </tbody>
+  </table>
+  `
+      : ""
+  }
+
+  ${scanned.length > 0 ? `<h2>Paths scanned</h2><ul class="path-list">${scanned.slice(0, 200).map((p) => `<li><code>${escapeHtml(p)}</code></li>`).join("")}${scanned.length > 200 ? `<li class="empty">… dan ${scanned.length - 200} file lainnya</li>` : ""}</ul>` : ""}
+
+  ${
+    skippedRules.length > 0
+      ? `<h2>Skipped rules</h2><ul class="path-list">${skippedRules.map((r) => `<li><code>${escapeHtml(r.rule_id || r)}</code>${r.details ? ": " + escapeHtml(r.details) : ""}</li>`).join("")}</ul>`
+      : ""
   }
 </body>
 </html>`;

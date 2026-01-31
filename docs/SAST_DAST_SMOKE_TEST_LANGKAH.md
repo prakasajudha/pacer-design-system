@@ -401,7 +401,7 @@ Hasil **tidak dikirim ke sistem eksternal**; hanya disimpan di **GitHub Actions*
 
 **Cara menampilkan hasil SAST (Semgrep):**
 
-1. **Laporan HTML (paling mudah):** Unduh artifact **semgrep-report**, buka file **semgrep-report.html** di browser. Laporan berisi tabel: Severity, Rule, File, Line, Message, CWE/OWASP. Di CI, JSON Semgrep otomatis dikonversi ke HTML oleh skrip `.github/scripts/semgrep-json-to-html.mjs`.
+1. **Laporan HTML (paling mudah):** Unduh artifact **semgrep-report**, buka **semgrep-report.html** di browser. Isi laporan: **(1) Findings** — tabel security/code smell (Severity, Rule, File, Line, Message, CWE/OWASP); **(2) Scan errors** — tabel error scan (Code, Level, Type, Path, Message, Help) agar terlihat parse error, rule error, atau runtime error yang membuat sebagian file tidak ter-scan; **(3) Paths scanned** — daftar file yang di-scan; **(4) Skipped rules** — rule yang di-skip. Di CI, JSON dikonversi ke HTML oleh `.github/scripts/semgrep-json-to-html.mjs`.
 2. **JSON mentah:** Unduh artifact **semgrep-results**, buka **semgrep-results.json** dengan editor/JSON viewer atau olah dengan `jq` / script sendiri.
 3. **Lokal (tanpa CI):** Jalankan Semgrep lalu generate HTML: `node .github/scripts/semgrep-json-to-html.mjs semgrep-results.json semgrep-report.html`, lalu buka `semgrep-report.html` di browser.
 
