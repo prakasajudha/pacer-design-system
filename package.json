@@ -19,6 +19,7 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
+    "test:smoke": "playwright test",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
@@ -36,6 +37,7 @@
     "docs:unified": "concurrently \"pnpm --filter @pacer-ui/tokens dev\" \"pnpm --filter @pacer-ui/tailwind-preset dev\" \"pnpm --filter @pacer-ui/vue dev\" \"pnpm --filter @pacer-ui/react dev\" \"pnpm --filter @pacer-ui/docs dev\" --names \"tokens,tailwind,vue,react,docs\" --prefix-colors \"blue,green,yellow,cyan,magenta\""
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.0",
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.11.0",
     "concurrently": "^8.2.2",

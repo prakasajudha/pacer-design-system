@@ -1,0 +1,99 @@
+# CI Pipeline — PACER Design System (React, Vue, Blazor)
+# Lint, build, unit test, Blazor build, smoke test
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-build-test:
+    name: Lint, Build & Test (Node)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Security audit (dependency check)
+        run: pnpm audit
+        # Fails the pipeline if any vulnerability is found (moderate/high/critical)
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Build (React, Vue, Tailwind, Tokens, Storybook)
+        run: pnpm run build
+
+      - name: Unit test (React, Vue)
+        run: pnpm run test
+
+  blazor-build:
+    name: Build Blazor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore & Build Blazor
+        run: |
+          dotnet restore packages/design-system/blazor/Pertamina.DesignSystem.Blazor.csproj
+          dotnet build packages/design-system/blazor/Pertamina.DesignSystem.Blazor.csproj --configuration Release
+        working-directory: ${{ github.workspace }}
+
+  smoke-playwright:
+    name: Smoke Test (Playwright)
+    runs-on: ubuntu-latest
+    needs: lint-build-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook (React & Vue)
+        run: |
+          pnpm --filter @pacer-ui/storybook-react build
+          pnpm --filter @pacer-ui/storybook-vue build
+
+      - name: Install Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Playwright smoke tests
+        run: pnpm run test:smoke
