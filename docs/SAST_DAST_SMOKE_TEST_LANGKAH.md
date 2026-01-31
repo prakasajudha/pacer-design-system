@@ -184,9 +184,98 @@ Smoke test membuka **URL preview langsung** (bukan halaman manager), yaitu `/ifr
 
 ---
 
-## 5. Ringkasan Alur di CI Pipeline
+## 5. Diagram Alur Security (Pertama hingga Akhir)
 
-Alur yang diterapkan dalam repository Design System:
+**Konsensus (paper + praktisi senior):** Smoke test **harus** sebelum DAST, dan biasanya sebelum SAST berat. Urutan yang benar:
+
+**Build → Smoke Test → SAST → DAST**
+
+Bukan: SAST/DAST dulu baru Smoke Test.
+
+### 5.1 Kenapa urutan ini?
+
+| Alasan | Penjelasan |
+|--------|------------|
+| **DAST butuh aplikasi hidup** | ZAP/Burp/OWASP scanner butuh endpoint aktif. Kalau app gagal start, config error, atau port tidak kebuka → DAST error, hasil invalid, waktu CI terbuang. **Rule keras: never scan a dead app.** |
+| **Smoke test = gate paling murah** | Smoke (start app, hit homepage/preview): detik–menit. SAST/DAST: menit–puluhan menit. Secara ekonomi engineering: cek yang paling murah dulu. |
+| **False positive explosion** | Kalau app gagal start atau dependency missing, SAST/DAST bisa laporkan error aneh, noise tinggi, hasil sulit dipercaya. Senior engineer menghindari pipeline yang noisy. |
+| **Paper & industry** | Model seperti Google Testing Pyramid, Microsoft SDL, OWASP SAMM menempatkan **basic validation** dulu, baru security scanning. |
+
+### 5.2 Diagram urutan yang benar
+
+```mermaid
+flowchart TB
+  subgraph trigger["⏱ Trigger"]
+    T[Push / PR ke main atau develop]
+  end
+
+  subgraph phase1["1️⃣ Build & Validasi Dasar"]
+    direction TB
+    B1[Checkout & Install]
+    B2[Dependency audit<br/>pnpm audit]
+    B3[Lint → Build → Unit test]
+    B4[Blazor build]
+    B1 --> B2 --> B3 --> B4
+  end
+
+  subgraph phase2["2️⃣ Smoke Test (gate murah)"]
+    SM[Build Storybook → Serve → Playwright<br/>App hidup? Halaman & komponen render?]
+  end
+
+  subgraph phase3["3️⃣ SAST"]
+    SAST[CodeQL: analisis kode statis<br/>JS/TS + C# → Code scanning alerts]
+  end
+
+  subgraph phase4["4️⃣ DAST (hanya jika app sudah valid)"]
+    direction TB
+    D1[Build Storybook → Serve]
+    D2[Smoke check<br/>validasi app hidup]
+    D3[ZAP baseline scan]
+    D4[Upload laporan HTML]
+    D1 --> D2 --> D3 --> D4
+  end
+
+  T --> phase1
+  phase1 --> phase2
+  phase2 --> phase3
+  phase2 --> phase4
+
+  subgraph hasil["📋 Hasil"]
+    H1[Code scanning alerts]
+    H2[ZAP report artifact]
+    H3[CI pass/fail]
+  end
+
+  phase3 --> H1
+  phase4 --> H2
+  phase2 --> H3
+```
+
+**Ringkas:** Build dulu, lalu smoke test sebagai gate; baru setelah itu SAST dan DAST. DAST selalu didahului smoke check (di workflow DAST: serve → smoke check → ZAP).
+
+### 5.3 Urutan cek di dalam CI (ci.yml)
+
+| No | Cek | Tool / Aksi | Yang dicek |
+|----|-----|-------------|------------|
+| 1 | Dependency vulnerability | `pnpm audit` | Dependency high/critical |
+| 2 | Lint | ESLint | Kode JS/TS/Vue |
+| 3 | Build | Turbo (Vite, tsc, dll.) | Compile & bundle |
+| 4 | Unit test | Vitest | React & Vue tests |
+| 5 | Blazor build | dotnet build | Kode C#/Razor |
+| 6 | **Smoke test** | Playwright | Storybook hidup & render (gate sebelum security scan berat) |
+
+### 5.4 SAST & DAST (setelah konsep “app valid”)
+
+| Workflow | Urutan di dalam workflow | Hasil |
+|----------|--------------------------|--------|
+| **CodeQL** | Build → Analyze | Security → Code scanning alerts |
+| **DAST ZAP** | Build → Serve → **Smoke check** → ZAP scan | Artifact laporan HTML (ZAP hanya jalan kalau smoke check lulus) |
+
+---
+
+## 6. Ringkasan Alur di CI Pipeline
+
+**Urutan yang diterapkan (konsisten dengan konsensus): Build → Smoke Test → SAST → DAST.**
 
 1. **Checkout & Install**  
    Checkout kode, install dependensi (pnpm), dan jalankan **pnpm audit** (dependency check).
@@ -198,19 +287,19 @@ Alur yang diterapkan dalam repository Design System:
    Restore dan build proyek Blazor (`dotnet build`) untuk memastikan kode C#/Razor valid.
 
 4. **Smoke Test (Playwright)**  
-   Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve.
+   Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah sebelum security scan berat;** memastikan app hidup dan render.
 
 5. **SAST (CodeQL)**  
-   Workflow terpisah: **`.github/workflows/codeql.yml`**. Inisialisasi CodeQL untuk JavaScript/TypeScript dan C# (matrix), analisis, unggah hasil ke **GitHub → Security → Code scanning alerts**.
+   Workflow terpisah: **`.github/workflows/codeql.yml`**. Inisialisasi CodeQL untuk JavaScript/TypeScript dan C# (matrix), analisis, unggah hasil ke **GitHub → Security → Code scanning alerts**. Dijalankan setelah konsep “build & validasi dasar” (smoke di CI memvalidasi app yang di-build di CI).
 
 6. **DAST (OWASP ZAP)**  
-   Workflow terpisah: **`.github/workflows/dast-zap.yml`**. Build Storybook React, serve di port 3000, jalankan ZAP baseline scan terhadap `http://127.0.0.1:3000`, lampirkan laporan HTML sebagai artifact (**zap-baseline-report**).
+   Workflow terpisah: **`.github/workflows/dast-zap.yml`**. Urutan di dalam workflow: Build Storybook → Serve → **Smoke check** (validasi app hidup & preview load) → baru ZAP baseline scan. **Never scan a dead app:** ZAP hanya dijalankan jika smoke check lulus. Laporan HTML diunggah sebagai artifact (**zap-baseline-report**).
 
-Dengan demikian, SAST memeriksa kode statis (React, Vue, Blazor), DAST memeriksa aplikasi yang berjalan (Storybook), dan Smoke Test memastikan build serta tampilan dasar Storybook tetap berfungsi setelah setiap perubahan.
+Dengan demikian, smoke test menjadi gate sebelum SAST/DAST; SAST memeriksa kode statis (React, Vue, Blazor), DAST memeriksa aplikasi yang berjalan (Storybook) hanya setelah app divalidasi hidup.
 
 ---
 
-## 6. Referensi
+## 7. Referensi
 
 - [GitHub CodeQL](https://codeql.github.com/)
 - [GitHub: Configuring advanced setup for code scanning](https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/configuring-advanced-setup-for-code-scanning)
