@@ -87,6 +87,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build dependencies (tokens, tailwind-preset, react, vue)
+        run: |
+          pnpm --filter @pacer-ui/tokens build
+          pnpm --filter @pacer-ui/tailwind-preset build
+          pnpm --filter @pacer-ui/react build
+          pnpm --filter @pacer-ui/vue build
+
       - name: Build Storybook (React & Vue)
         run: |
           pnpm --filter @pacer-ui/storybook-react build
