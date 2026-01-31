@@ -45,10 +45,10 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
    - Semua dalam **`.github/workflows/ci.yml`**. Tidak ada workflow terpisah untuk SAST.
 
 2. **Urutan job**
-   - **lint-build-test** (CI) → **sast-semgrep** (SAST) → **dast-zap** (DAST). Jika CI gagal, SAST dan DAST tidak jalan.
+   - **lint-build-test** (CI) → **smoke-playwright** (Smoke test) → **sast-semgrep** (SAST) → **dast-zap** (DAST, `needs: [smoke-playwright, sast-semgrep]`). Jika CI, smoke, atau SAST gagal, DAST tidak jalan.
 
 3. **Job sast-semgrep**
-   - `needs: lint-build-test`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config auto --json --json-output=semgrep-results.json`.
+   - `needs: smoke-playwright`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config auto --json --json-output=semgrep-results.json`.
    - Upload artifact **semgrep-results** (retensi 30 hari).
 
 4. **Scope**
@@ -245,7 +245,7 @@ flowchart TB
   phase2 --> H3
 ```
 
-**Ringkas:** Semua dalam **satu workflow** (`.github/workflows/ci.yml`). Urutan: CI (lint, build, test, smoke) → SAST (Semgrep) → DAST (ZAP). Jika CI gagal, SAST dan DAST tidak jalan. Jika SAST gagal, DAST tidak jalan.
+**Ringkas:** Semua dalam **satu workflow** (`.github/workflows/ci.yml`). Urutan: **CI** (lint, build, test) → **Smoke test** → **SAST** → **DAST** (Semgrep dulu, lalu ZAP; DAST `needs: [smoke-playwright, sast-semgrep]`). Jika CI, smoke, atau SAST gagal, DAST tidak jalan.
 
 ### 5.3 Urutan cek di dalam CI (ci.yml)
 
@@ -262,10 +262,10 @@ flowchart TB
 
 | Job | Needs | Isi | Hasil |
 |-----|-------|-----|--------|
-| **sast-semgrep** | lint-build-test | Semgrep scan (--config auto) | Artifact **semgrep-results** (JSON) |
-| **dast-zap** | sast-semgrep | Build Storybook → Serve → Smoke check → ZAP | Artifact **zap-baseline-report** (HTML) |
+| **sast-semgrep** | smoke-playwright | Semgrep scan (--config auto) | Artifact **semgrep-results** (JSON) |
+| **dast-zap** | smoke-playwright, sast-semgrep | Build Storybook → Serve → Smoke check → ZAP | Artifact **zap-baseline-report** (HTML) |
 
-CodeQL tidak dipakai; SAST memakai Semgrep (gratis, tanpa Code scanning).
+Urutan: **CI → Smoke test → SAST → DAST** (SAST dulu, DAST hanya jalan setelah SAST selesai). CodeQL tidak dipakai; SAST memakai Semgrep (gratis, tanpa Code scanning).
 
 ---
 
@@ -286,12 +286,12 @@ CodeQL tidak dipakai; SAST memakai Semgrep (gratis, tanpa Code scanning).
    Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah;** memastikan app hidup dan render.
 
 5. **SAST (Semgrep)**  
-   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: lint-build-test`. Jika CI gagal, job ini tidak jalan. Semgrep scan (--config auto), hasil ke artifact **semgrep-results** (JSON). Tidak pakai CodeQL.
+   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Jika CI atau smoke gagal, job ini tidak jalan. Semgrep scan (--config auto), hasil ke artifact **semgrep-results** (JSON). Tidak pakai CodeQL.
 
 6. **DAST (OWASP ZAP)**  
-   Job **dast-zap** dalam **`.github/workflows/ci.yml`**, `needs: sast-semgrep`. Jika SAST gagal atau belum selesai, DAST tidak jalan. Urutan di dalam job: Build Storybook → Serve → **Smoke check** → ZAP baseline scan. Laporan HTML ke artifact **zap-baseline-report**.
+   Job **dast-zap** dalam **`.github/workflows/ci.yml`**, `needs: [smoke-playwright, sast-semgrep]`. DAST hanya jalan setelah smoke dan SAST lulus. Urutan di dalam job: Build Storybook → Serve → **Smoke check** → ZAP baseline scan. Laporan HTML ke artifact **zap-baseline-report**.
 
-**Satu workflow saja:** CI → SAST → DAST. Gagal di CI maka SAST dan DAST tidak dijalankan; gagal di SAST maka DAST tidak dijalankan.
+**Satu workflow saja:** **CI → Smoke test → SAST → DAST**. Gagal di CI, smoke, atau SAST maka DAST tidak dijalankan. SAST dulu, baru DAST.
 
 ---
 
@@ -336,7 +336,7 @@ DAST tidak bergantung pada CodeQL; hasil ZAP bisa selalu diambil dari artifact s
 | **DAST** | Artifact **zap-baseline-report** (HTML) dari job DAST ZAP. |
 | **Dependency** | Log CI `pnpm audit`; atau artifact dari Trivy / OWASP Dependency-Check. |
 
-SAST (Semgrep) dan DAST (ZAP) digabung ke **satu workflow** (`.github/workflows/ci.yml`) dengan urutan CI → SAST → DAST; CodeQL tidak dipakai.
+SAST (Semgrep) dan DAST (ZAP) digabung ke **satu workflow** (`.github/workflows/ci.yml`) dengan urutan CI → Smoke test → SAST → DAST; CodeQL tidak dipakai.
 
 ---
 
