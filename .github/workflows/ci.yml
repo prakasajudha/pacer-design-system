@@ -135,12 +135,31 @@ jobs:
             --error
         continue-on-error: true
 
-      - name: Upload Semgrep results
+      - name: Setup Node (untuk generate report HTML)
+        uses: actions/setup-node@v4
+        if: always() && hashFiles('semgrep-results.json') != ''
+        with:
+          node-version: "20"
+
+      - name: Generate Semgrep HTML report
+        if: always() && hashFiles('semgrep-results.json') != ''
+        run: node .github/scripts/semgrep-json-to-html.mjs
+
+      - name: Upload Semgrep results (JSON)
         uses: actions/upload-artifact@v4
         if: always() && hashFiles('semgrep-results.json') != ''
         with:
           name: semgrep-results
           path: semgrep-results.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload Semgrep report (HTML)
+        uses: actions/upload-artifact@v4
+        if: always() && hashFiles('semgrep-report.html') != ''
+        with:
+          name: semgrep-report
+          path: semgrep-report.html
           retention-days: 30
           if-no-files-found: ignore
 

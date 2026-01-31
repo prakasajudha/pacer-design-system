@@ -247,7 +247,67 @@ flowchart TB
 
 **Ringkas:** Semua dalam **satu workflow** (`.github/workflows/ci.yml`). Urutan: **CI** (lint, build, test) → **Smoke test** → **SAST** → **DAST** (Semgrep dulu, lalu ZAP; DAST `needs: [smoke-playwright, sast-semgrep]`). Jika CI, smoke, atau SAST gagal, DAST tidak jalan.
 
-### 5.3 Urutan cek di dalam CI (ci.yml)
+---
+
+### 5.3 Skema untuk Paper
+
+Bagian ini menyediakan skema alur yang siap dituangkan ke dalam paper (tesis, jurnal, atau laporan). Gunakan **Gambar 1** sebagai diagram utama; **Gambar 2** adalah versi ringkas. Hasil Mermaid dapat diekspor ke PNG/SVG via [Mermaid Live Editor](https://mermaid.live) lalu disisipkan sebagai figure.
+
+#### Gambar 1. Alur pipeline CI dengan Smoke Test, SAST, dan DAST (urutan berjenjang)
+
+*Caption untuk paper:* Pipeline keamanan dan kualitas dalam satu workflow CI. Trigger: push/PR ke main atau develop. Fase 1: Build dan validasi dasar (checkout, dependency audit, lint, build, unit test, build Blazor). Fase 2: Smoke test (Storybook di-build dan di-serve, Playwright memastikan aplikasi hidup dan komponen ter-render). Fase 3: SAST dengan Semgrep (analisis kode statis; hasil ke artifact JSON). Fase 4: DAST dengan OWASP ZAP (serve Storybook, smoke check, baseline scan; laporan HTML). Urutan kritis: Build → Smoke Test → SAST → DAST; DAST hanya dijalankan jika smoke test dan SAST berhasil.
+
+```mermaid
+flowchart LR
+  subgraph P1["1. Build & Validasi"]
+    A[Checkout, Install]
+    B[Audit, Lint, Build, Test]
+    C[Blazor Build]
+    A --> B --> C
+  end
+
+  subgraph P2["2. Smoke Test"]
+    D[Storybook Build & Serve]
+    E[Playwright: app hidup?]
+    D --> E
+  end
+
+  subgraph P3["3. SAST"]
+    F[Semgrep: analisis kode]
+    G[Artifact JSON]
+    F --> G
+  end
+
+  subgraph P4["4. DAST"]
+    H[Storybook Serve]
+    I[ZAP baseline scan]
+    J[Laporan HTML]
+    H --> I --> J
+  end
+
+  P1 --> P2
+  P2 --> P3
+  P3 --> P4
+```
+
+#### Gambar 2. Urutan berjenjang (ringkas)
+
+*Caption untuk paper:* Urutan eksekusi pipeline: Build & Validasi Dasar → Smoke Test → SAST → DAST. Setiap fase bergantung pada keberhasilan fase sebelumnya; DAST hanya dijalankan apabila aplikasi telah lulus smoke test dan SAST.
+
+| Fase | Nama | Tool utama | Keluaran |
+|------|------|------------|----------|
+| 1 | Build & Validasi Dasar | pnpm, ESLint, Turbo, Vitest, dotnet | CI pass/fail |
+| 2 | Smoke Test | Playwright | Gate: app hidup & render |
+| 3 | SAST | Semgrep (p/javascript, p/typescript, p/vue) | semgrep-results (JSON) |
+| 4 | DAST | OWASP ZAP (baseline) | zap-baseline-report (HTML) |
+
+#### Penggunaan dalam paper
+
+- **Kutip dokumen:** *"Alur pipeline mengikuti urutan Build → Smoke Test → SAST → DAST (lihat dokumentasi SAST/DAST/Smoke Test, repository Design System PACER)."*
+- **Ekspor diagram:** Salin blok kode Mermaid di atas ke [mermaid.live](https://mermaid.live), lalu ekspor sebagai PNG atau SVG dan sisipkan sebagai Gambar 1 / Gambar 2.
+- **Tabel:** Tabel Fase (Gambar 2) dapat disalin langsung ke LaTeX/Word sebagai Tabel 1.
+
+### 5.4 Urutan cek di dalam CI (ci.yml)
 
 | No | Cek | Tool / Aksi | Yang dicek |
 |----|-----|-------------|------------|
@@ -258,11 +318,11 @@ flowchart TB
 | 5 | Blazor build | dotnet build | Kode C#/Razor |
 | 6 | **Smoke test** | Playwright | Storybook hidup & render (gate sebelum security scan berat) |
 
-### 5.4 SAST & DAST (dalam satu workflow ci.yml)
+### 5.5 SAST & DAST (dalam satu workflow ci.yml)
 
 | Job | Needs | Isi | Hasil |
 |-----|-------|-----|--------|
-| **sast-semgrep** | smoke-playwright | Semgrep scan (p/javascript, p/typescript, p/vue; metrics=off) | Artifact **semgrep-results** (JSON) |
+| **sast-semgrep** | smoke-playwright | Semgrep scan + generate HTML report | Artifact **semgrep-results** (JSON), **semgrep-report** (HTML) |
 | **dast-zap** | smoke-playwright, sast-semgrep | Build Storybook → Serve → Smoke check → ZAP | Artifact **zap-baseline-report** (HTML) |
 
 Urutan: **CI → Smoke test → SAST → DAST** (SAST dulu, DAST hanya jalan setelah SAST selesai). CodeQL tidak dipakai; SAST memakai Semgrep (gratis, tanpa Code scanning).
@@ -286,7 +346,7 @@ Urutan: **CI → Smoke test → SAST → DAST** (SAST dulu, DAST hanya jalan set
    Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah;** memastikan app hidup dan render.
 
 5. **SAST (Semgrep)**  
-   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Jika CI atau smoke gagal, job ini tidak jalan. Semgrep scan dengan config eksplisit (p/javascript, p/typescript, p/vue; metrics=off), hasil ke artifact **semgrep-results** (JSON). Tidak pakai CodeQL.
+   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Semgrep scan (p/javascript, p/typescript, p/vue; metrics=off). Hasil: artifact **semgrep-results** (JSON) dan **semgrep-report** (HTML); HTML dihasilkan oleh `.github/scripts/semgrep-json-to-html.mjs` agar hasil bisa ditampilkan di browser. Tidak pakai CodeQL.
 
 6. **DAST (OWASP ZAP)**  
    Job **dast-zap** dalam **`.github/workflows/ci.yml`**, `needs: [smoke-playwright, sast-semgrep]`. DAST hanya jalan setelah smoke dan SAST lulus. Urutan di dalam job: Build Storybook → Serve → **Smoke check** → ZAP baseline scan. Laporan HTML ke artifact **zap-baseline-report**.
@@ -305,7 +365,7 @@ Berikut cara tetap dapat **hasil SAST dan DAST** (dan konteks OWASP) tanpa berga
 
 | Tool | Gratis? | Cara dapat hasil | Catatan |
 |------|--------|-------------------|--------|
-| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). Tidak perlu token; config eksplisit `p/javascript`, `p/typescript`, `p/vue` (karena `--config auto` butuh metrics). |
+| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) dan **semgrep-report** (HTML) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). JSON dikonversi ke HTML oleh `.github/scripts/semgrep-json-to-html.mjs` agar bisa ditampilkan di browser. Config eksplisit `p/javascript`, `p/typescript`, `p/vue`. |
 | **Trivy** | Ya | Artifact / job summary / SARIF | Scan kode + dependency. `trivy fs . --format json`. |
 | **ESLint** + `eslint-plugin-security` | Ya | Output lint di log CI, atau artifact | Sudah ada di pipeline (lint); bisa tambah rule keamanan. |
 | **SonarQube** (Community Edition) | Ya (self-hosted) | Dashboard SonarQube sendiri | Perlu deploy server; integrasi CI dengan SonarScanner. |
@@ -334,11 +394,18 @@ Hasil **tidak dikirim ke sistem eksternal**; hanya disimpan di **GitHub Actions*
 
 | Jenis | Artifact name | Lokasi di GitHub |
 |-------|----------------|------------------|
-| **SAST** | `semgrep-results` (file JSON) | Repo → **Actions** → pilih run workflow **CI** → scroll ke **Artifacts** → unduh **semgrep-results**. |
-| **DAST** | `zap-baseline-report` (file HTML) | Repo → **Actions** → pilih run workflow **CI** → scroll ke **Artifacts** → unduh **zap-baseline-report**. |
+| **SAST (JSON)** | `semgrep-results` (file JSON) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-results**. |
+| **SAST (HTML)** | `semgrep-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-report**. |
+| **DAST** | `zap-baseline-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **zap-baseline-report**. |
 | **Dependency** | — | Log job **Lint, Build & Test** (pnpm audit); tidak di-upload artifact. |
 
-**Cara ambil laporan DAST:** Buka run terakhir workflow **CI** di tab **Actions**, gulir ke bawah ke bagian **Artifacts**. Jika job **DAST (OWASP ZAP)** selesai (meski `continue-on-error`), artifact **zap-baseline-report** akan muncul; unduh ZIP lalu buka `zap-baseline-report.html` di browser. Retensi artifact 30 hari (konfigurasi di `ci.yml`).
+**Cara menampilkan hasil SAST (Semgrep):**
+
+1. **Laporan HTML (paling mudah):** Unduh artifact **semgrep-report**, buka file **semgrep-report.html** di browser. Laporan berisi tabel: Severity, Rule, File, Line, Message, CWE/OWASP. Di CI, JSON Semgrep otomatis dikonversi ke HTML oleh skrip `.github/scripts/semgrep-json-to-html.mjs`.
+2. **JSON mentah:** Unduh artifact **semgrep-results**, buka **semgrep-results.json** dengan editor/JSON viewer atau olah dengan `jq` / script sendiri.
+3. **Lokal (tanpa CI):** Jalankan Semgrep lalu generate HTML: `node .github/scripts/semgrep-json-to-html.mjs semgrep-results.json semgrep-report.html`, lalu buka `semgrep-report.html` di browser.
+
+**Cara ambil laporan DAST:** Buka run workflow **CI** di tab **Actions**, gulir ke **Artifacts**. Unduh **zap-baseline-report**, buka `zap-baseline-report.html` di browser. Retensi artifact 30 hari (konfigurasi di `ci.yml`).
 
 SAST (Semgrep) dan DAST (ZAP) digabung ke **satu workflow** (`.github/workflows/ci.yml`) dengan urutan CI → Smoke test → SAST → DAST; CodeQL tidak dipakai.
 
@@ -356,4 +423,4 @@ SAST (Semgrep) dan DAST (ZAP) digabung ke **satu workflow** (`.github/workflows/
 
 ---
 
-*Dokumen ini dapat dikutip atau disesuaikan untuk keperluan lembar ilmiah dengan menyebutkan sumber (repository Design System PACER dan dokumen ini).*
+*Dokumen ini dapat dikutip atau disesuaikan untuk keperluan lembar ilmiah dengan menyebutkan sumber (repository Design System PACER dan dokumen ini). Untuk skema alur pipeline siap paper (diagram dan tabel bernomor), lihat **§5.3 Skema untuk Paper**.*
