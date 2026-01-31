@@ -102,8 +102,8 @@
 
     private bool _isFocused = false;
 
-    private string LabelId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-label";
-    private string DescId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-description";
+    private string? LabelId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-label";
+    private string? DescId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-description";
 
     private string GetWrapperClasses()
     {

@@ -91,11 +91,11 @@
         StateHasChanged();
     }
 
-    private void HandleOverlayClick()
+    private async Task HandleOverlayClick()
     {
         if (CloseOnOverlayClick)
         {
-            Close();
+            await Close();
         }
     }
 

@@ -51,7 +51,6 @@
 
 @code {
     private const int RevealMs = 500;
-    private bool _maskVisible;
     private readonly HashSet<int> _revealingIndices = new();
     private readonly Dictionary<int, CancellationTokenSource> _revealCtsByIndex = new();
 
@@ -87,7 +86,7 @@
     {
         var cur = GetValueStr();
         var c = idx < cur.Length ? cur[idx] : EmptyChar;
-        if (Mask && !_maskVisible && !_revealingIndices.Contains(idx) && c != EmptyChar) return "•";
+        if (Mask && !_revealingIndices.Contains(idx) && c != EmptyChar) return "•";
         return c == EmptyChar ? "" : c.ToString();
     }
 
