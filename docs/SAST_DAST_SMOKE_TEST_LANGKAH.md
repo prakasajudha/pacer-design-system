@@ -162,25 +162,25 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
    - **Vue:** Smoke test terhadap Storybook Vue (build → serve → buka URL → assert).
    - **Blazor:** Smoke test dapat berupa build proyek Blazor (`dotnet build`) untuk memastikan tidak ada error kompilasi; jika ada aplikasi host/demo yang di-serve, dapat ditambah skrip Playwright untuk membuka halaman utama.
 
-### 4.5 Penting: Storybook Static Serve dan Iframe Preview
+### 4.5 Penting: Storybook Static Serve dan URL Preview
 
-Smoke test membuka halaman manager Storybook (misalnya `/?path=/story/components-button--playground`). Manager memuat **preview iframe** dengan URL seperti `/iframe.html?viewMode=story&id=components-button--playground`. Jika server static (misalnya `serve`) melakukan **redirect 301** dari `/iframe.html?...` ke `/iframe` **tanpa mempertahankan query string**, iframe akan load tanpa `id` cerita sehingga **preview kosong** dan test gagal (element seperti tombol "Primary Action" tidak ditemukan).
+Smoke test membuka **URL preview langsung** (bukan halaman manager), yaitu `/iframe.html?viewMode=story&id=<storyId>`. Dengan begitu test tidak bergantung pada halaman manager atau elemen iframe `#storybook-preview-iframe`. Jika server static (misalnya `serve`) melakukan **redirect 301** dari `/iframe.html?...` ke `/iframe` **tanpa mempertahankan query string**, halaman preview akan load tanpa `id` cerita sehingga **preview kosong** dan test gagal (element seperti tombol "Primary Action" tidak ditemukan).
 
 **Solusi yang diterapkan:**
 
 - **`serve.json` dengan `cleanUrls: false`**  
   File `packages/storybook/react/serve.json` dan `packages/storybook/vue/serve.json` berisi `{ "cleanUrls": false }`. Ini mencegah redirect yang membuang query string.
 - **Copy setelah build**  
-  Script `build` di package Storybook React/Vue menyalin `serve.json` ke `storybook-static/` setelah `storybook build`, sehingga saat CI menjalankan `serve packages/storybook/react/storybook-static -l 6006`, server membaca config tersebut dan tidak melakukan clean-url redirect.
+  Script `build` di package Storybook React/Vue menyalin `serve.json` ke `storybook-static/` setelah `storybook build`. **Wajib jalankan build ulang** sebelum serve agar `storybook-static/serve.json` ada; tanpa itu smoke test akan gagal.
 - **Pastikan Storybook sudah di-build sebelum serve**  
-  Di CI, langkah "Build Storybook (React & Vue)" harus dijalankan sebelum serve dan Playwright; build inilah yang menghasilkan `storybook-static/` beserta `serve.json`.
+  Di CI, langkah "Build Storybook (React & Vue)" dijalankan sebelum serve dan Playwright. Secara lokal: `pnpm --filter @pacer-ui/storybook-react build` (dan Vue) lalu `pnpm exec serve packages/storybook/react/storybook-static -l 6006`.
 
 **Jika test masih gagal (element tidak ditemukan):**
 
+- Pastikan **build Storybook baru** telah dijalankan (agar `storybook-static/serve.json` tercopy), lalu serve dan jalankan Playwright.
 - Pastikan server Storybook sudah up di `http://127.0.0.1:6006` (atau 6007 untuk Vue) sebelum test dijalankan.
 - Pastikan story ID dan teks tombol di story (misalnya "Primary Action", "Solid Button", "Close") sesuai dengan query di `e2e/smoke/storybook-react.spec.ts` (atau storybook-vue). Jika label di story berubah, sesuaikan test atau story.
-- Jika CI lambat, pertimbangkan menaikkan timeout di `toBeVisible({ timeout: 20_000 })`.
-- Pastikan selector iframe masih benar: `#storybook-preview-iframe` (default Storybook 8).
+- Jika CI lambat, pertimbangkan menaikkan timeout di `toBeVisible({ timeout: 25_000 })`.
 
 ---
 
