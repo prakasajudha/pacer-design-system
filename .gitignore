@@ -17,6 +17,7 @@ zap-output/
 
 # SAST (Semgrep output, generated in CI or locally)
 semgrep-results.json
+semgrep-results.sarif
 semgrep-report.html
 
 # Production builds

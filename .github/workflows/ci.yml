@@ -133,9 +133,11 @@ jobs:
             semgrep/semgrep semgrep scan \
             --config p/javascript \
             --config p/typescript \
-            --config p/vue \
             --metrics=off \
+            --verbose \
+            --time \
             --json --json-output=semgrep-results.json \
+            --sarif --sarif-output=semgrep-results.sarif \
             --error
         continue-on-error: true
 
@@ -164,6 +166,15 @@ jobs:
         with:
           name: semgrep-report
           path: semgrep-report.html
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload Semgrep SARIF (referensi / Code Scanning)
+        uses: actions/upload-artifact@v4
+        if: always() && hashFiles('semgrep-results.sarif') != ''
+        with:
+          name: semgrep-results-sarif
+          path: semgrep-results.sarif
           retention-days: 30
           if-no-files-found: ignore
 

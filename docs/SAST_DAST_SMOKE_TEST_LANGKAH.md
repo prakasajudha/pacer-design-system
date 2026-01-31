@@ -48,7 +48,7 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
    - **lint-build-test** (CI) → **smoke-playwright** (Smoke test) → **sast-semgrep** (SAST) → **dast-zap** (DAST, `needs: [smoke-playwright, sast-semgrep]`). Jika CI, smoke, atau SAST gagal, DAST tidak jalan.
 
 3. **Job sast-semgrep**
-   - `needs: smoke-playwright`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config p/javascript --config p/typescript --config p/vue --metrics=off --json --json-output=semgrep-results.json` (config eksplisit karena `--config auto` tidak bisa dipakai dengan `--metrics=off`).
+   - `needs: smoke-playwright`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config p/javascript --config p/typescript --metrics=off --json --json-output=semgrep-results.json` (config eksplisit karena `--config auto` tidak bisa dipakai dengan `--metrics=off`; `p/vue` tidak ada di registry Semgrep sehingga tidak dipakai; file `.vue` tetap ter-scan oleh rule JS/TS).
    - Upload artifact **semgrep-results** (retensi 30 hari).
 
 4. **Scope**
@@ -56,6 +56,22 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
 
 5. **Tindak Lanjut**
    - Unduh artifact **semgrep-results** dari run GitHub Actions; periksa findings di file JSON. Perbaiki atau triage sesuai kebijakan tim.
+
+### 2.5 Bagian tambahan Semgrep untuk analisis / referensi
+
+Selain **findings** (security/code smell), Semgrep di CI menghasilkan data berikut; semuanya berguna untuk **referensi analisis** (paper, laporan, atau audit):
+
+| Bagian | Sumber | Kegunaan untuk analisis |
+|--------|--------|--------------------------|
+| **Findings** | Laporan HTML / JSON `results` | Daftar temuan keamanan & code smell; Severity, Rule, File, Line, Message, CWE/OWASP. Referensi utama untuk perbaikan. |
+| **Scan errors** | Laporan HTML / JSON `errors` | Parse error, rule error, runtime error. Referensi: kenapa scan tidak sempurna; perbaiki config atau file. |
+| **Paths scanned** | Laporan HTML / JSON `paths.scanned` | Daftar file yang berhasil di-scan. Referensi: cakupan SAST (berapa banyak file masuk analisis). |
+| **Paths skipped** | Laporan HTML / JSON `paths.skipped` (dengan `--verbose`) | File yang tidak di-scan beserta **reason** (mis. wrong language, minified, size). Referensi: kenapa file X tidak masuk; untuk analisis cakupan & gap. |
+| **Scan time** | Laporan HTML / JSON `time` (dengan `--time`) | Profiling waktu scan (total, per-fase). Referensi: performa SAST; untuk analisis biaya CI. |
+| **Skipped rules** | Laporan HTML / JSON `skipped_rules` | Rule yang di-skip beserta detail. Referensi: rule mana tidak dipakai dan alasannya. |
+| **SARIF** | Artifact **semgrep-results-sarif** | Format standar OASIS SARIF; bisa di-upload ke GitHub Code Scanning (Security tab) atau dipakai tool lain. Referensi: integrasi dengan ekosistem SAST; untuk paper/laporan standar. |
+
+**Di CI:** Semgrep dijalankan dengan `--verbose` dan `--time` agar **paths.skipped** dan **time** terisi; output **SARIF** di-upload sebagai artifact **semgrep-results-sarif**. Laporan HTML menggabungkan findings, errors, paths scanned, paths skipped, scan time, dan skipped rules dalam satu file untuk analisis.
 
 ---
 
@@ -299,7 +315,7 @@ flowchart LR
 |------|------|------------|----------|
 | 1 | Build & Validasi Dasar | pnpm, ESLint, Turbo, Vitest, dotnet | CI pass/fail |
 | 2 | Smoke Test | Playwright | Gate: app hidup & render |
-| 3 | SAST | Semgrep (p/javascript, p/typescript, p/vue) | semgrep-results (JSON) |
+| 3 | SAST | Semgrep (p/javascript, p/typescript) | semgrep-results (JSON) |
 | 4 | DAST | OWASP ZAP (baseline) | zap-baseline-report (HTML) |
 
 #### Penggunaan dalam paper
@@ -347,7 +363,7 @@ Urutan: **CI → Smoke test → SAST → DAST** (SAST dulu, DAST hanya jalan set
    Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah;** memastikan app hidup dan render.
 
 5. **SAST (Semgrep)**  
-   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Semgrep scan (p/javascript, p/typescript, p/vue; metrics=off). Hasil: artifact **semgrep-results** (JSON) dan **semgrep-report** (HTML); HTML dihasilkan oleh `.github/scripts/semgrep-json-to-html.mjs` agar hasil bisa ditampilkan di browser. Tidak pakai CodeQL.
+   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Semgrep scan (p/javascript, p/typescript; metrics=off). File Vue (.vue) tetap ter-scan oleh rule JS/TS. Hasil: artifact **semgrep-results** (JSON) dan **semgrep-report** (HTML); HTML dihasilkan oleh `.github/scripts/semgrep-json-to-html.mjs`. Tidak pakai CodeQL.
 
 6. **DAST (OWASP ZAP)**  
    Job **dast-zap** dalam **`.github/workflows/ci.yml`**, `needs: [smoke-playwright, sast-semgrep]`. DAST hanya jalan setelah smoke dan SAST lulus. Urutan di dalam job: Build Storybook → Serve → **Smoke check** → ZAP baseline scan. Laporan HTML ke artifact **zap-baseline-report**.
@@ -366,7 +382,7 @@ Berikut cara tetap dapat **hasil SAST dan DAST** (dan konteks OWASP) tanpa berga
 
 | Tool | Gratis? | Cara dapat hasil | Catatan |
 |------|--------|-------------------|--------|
-| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) dan **semgrep-report** (HTML) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). JSON dikonversi ke HTML oleh `.github/scripts/semgrep-json-to-html.mjs` agar bisa ditampilkan di browser. Config eksplisit `p/javascript`, `p/typescript`, `p/vue`. |
+| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) dan **semgrep-report** (HTML) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). Config eksplisit `p/javascript`, `p/typescript` (p/vue tidak ada di registry; file .vue tetap ter-scan oleh rule JS/TS). |
 | **Trivy** | Ya | Artifact / job summary / SARIF | Scan kode + dependency. `trivy fs . --format json`. |
 | **ESLint** + `eslint-plugin-security` | Ya | Output lint di log CI, atau artifact | Sudah ada di pipeline (lint); bisa tambah rule keamanan. |
 | **SonarQube** (Community Edition) | Ya (self-hosted) | Dashboard SonarQube sendiri | Perlu deploy server; integrasi CI dengan SonarScanner. |
@@ -397,15 +413,17 @@ Hasil **tidak dikirim ke sistem eksternal**; hanya disimpan di **GitHub Actions*
 |-------|----------------|------------------|
 | **Smoke test** | `smoke-test-report` (HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **smoke-test-report**. Buka **index.html** di browser untuk lihat hasil per test (pass/fail, durasi, trace on failure). |
 | **SAST (JSON)** | `semgrep-results` (file JSON) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-results**. |
-| **SAST (HTML)** | `semgrep-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-report**. |
+| **SAST (HTML)** | `semgrep-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **semgrep-report** (findings, errors, paths scanned/skipped, scan time, skipped rules). |
+| **SAST (SARIF)** | `semgrep-results-sarif` (file SARIF) | Repo → **Actions** → **Artifacts** → unduh **semgrep-results-sarif**; format standar untuk Code Scanning / tool lain. |
 | **DAST** | `zap-baseline-report` (file HTML) | Repo → **Actions** → run workflow **CI** → **Artifacts** → unduh **zap-baseline-report**. |
 | **Dependency** | — | Log job **Lint, Build & Test** (pnpm audit); tidak di-upload artifact. |
 
 **Cara menampilkan hasil SAST (Semgrep):**
 
-1. **Laporan HTML (paling mudah):** Unduh artifact **semgrep-report**, buka **semgrep-report.html** di browser. Isi laporan: **(1) Findings** — tabel security/code smell (Severity, Rule, File, Line, Message, CWE/OWASP); **(2) Scan errors** — tabel error scan (Code, Level, Type, Path, Message, Help) agar terlihat parse error, rule error, atau runtime error yang membuat sebagian file tidak ter-scan; **(3) Paths scanned** — daftar file yang di-scan; **(4) Skipped rules** — rule yang di-skip. Di CI, JSON dikonversi ke HTML oleh `.github/scripts/semgrep-json-to-html.mjs`.
+1. **Laporan HTML (paling mudah):** Unduh artifact **semgrep-report**, buka **semgrep-report.html** di browser. Isi laporan: **(1) Findings** — security/code smell; **(2) Scan errors** — parse/rule/runtime error; **(3) Scan time** — waktu scan (referensi performa); **(4) Paths scanned** — file yang di-scan; **(5) Paths skipped** — file yang tidak di-scan + alasan (referensi cakupan); **(6) Skipped rules** — rule yang di-skip. Di CI, Semgrep dijalankan dengan `--verbose` dan `--time` agar paths.skipped dan time terisi; JSON dikonversi ke HTML oleh `.github/scripts/semgrep-json-to-html.mjs`.
 2. **JSON mentah:** Unduh artifact **semgrep-results**, buka **semgrep-results.json** dengan editor/JSON viewer atau olah dengan `jq` / script sendiri.
-3. **Lokal (tanpa CI):** Jalankan Semgrep lalu generate HTML: `node .github/scripts/semgrep-json-to-html.mjs semgrep-results.json semgrep-report.html`, lalu buka `semgrep-report.html` di browser.
+3. **SARIF (referensi / Code Scanning):** Unduh artifact **semgrep-results-sarif**; format standar OASIS SARIF, bisa di-upload ke GitHub Security → Code scanning atau dipakai tool lain untuk analisis.
+4. **Lokal (tanpa CI):** Jalankan Semgrep dengan `--verbose --time --json --json-output=semgrep-results.json` lalu generate HTML: `node .github/scripts/semgrep-json-to-html.mjs semgrep-results.json semgrep-report.html`, buka `semgrep-report.html` di browser.
 
 **Cara melihat hasil Smoke test:** Unduh artifact **smoke-test-report**, buka **index.html** di browser. Laporan berisi daftar test (Storybook React & Vue), status pass/fail, durasi, dan trace/screenshot jika ada yang gagal. Jika job **Smoke Test (Playwright)** hijau = semua test lolos; jika merah = lihat log CI atau buka laporan HTML untuk detail.
 

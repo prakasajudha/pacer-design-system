@@ -42,7 +42,15 @@ const results = Array.isArray(data.results) ? data.results : [];
 const errors = Array.isArray(data.errors) ? data.errors : [];
 const paths = data.paths || {};
 const scanned = Array.isArray(paths.scanned) ? paths.scanned : [];
+const skipped = Array.isArray(paths.skipped) ? paths.skipped : [];
 const skippedRules = Array.isArray(data.skipped_rules) ? data.skipped_rules : [];
+const timeProfile = data.time || null;
+
+const skippedRows = skipped.map((s) => ({
+  path: s.path ?? "-",
+  reason: s.reason ?? "-",
+  details: s.details ?? "",
+}));
 
 const errorRows = errors.map((e) => {
   const msg = e.long_msg ?? e.message ?? e.short_msg ?? "";
@@ -55,6 +63,20 @@ const errorRows = errors.map((e) => {
     help: e.help ?? "",
   };
 });
+
+const timeSummary = (() => {
+  if (!timeProfile || typeof timeProfile !== "object") return [];
+  const pt = timeProfile.profiling_times;
+  if (Array.isArray(pt))
+    return pt.map((entry) => {
+      const [k, v] = Array.isArray(entry) ? entry : [entry, null];
+      return `${k}: ${typeof v === "number" ? v.toFixed(2) + "s" : v ?? ""}`;
+    });
+  if (pt && typeof pt === "object")
+    return Object.entries(pt).map(([k, v]) => `${k}: ${typeof v === "number" ? v.toFixed(2) + "s" : v}`);
+  if (timeProfile.total_time != null) return [`Total: ${Number(timeProfile.total_time).toFixed(2)}s`];
+  return [];
+})();
 
 const rows = results.map((r) => {
   const start = r.start || {};
@@ -109,7 +131,7 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
   <h1>Semgrep SAST Report</h1>
-  <p class="meta">Findings: ${results.length} | Scan errors: ${errors.length} | Files scanned: ${scanned.length} | Skipped rules: ${skippedRules.length} | Generated: ${new Date().toISOString()}</p>
+  <p class="meta">Findings: ${results.length} | Scan errors: ${errors.length} | Files scanned: ${scanned.length} | Paths skipped: ${skipped.length} | Skipped rules: ${skippedRules.length} | Generated: ${new Date().toISOString()}</p>
 
   ${
     results.length === 0
@@ -186,7 +208,39 @@ const html = `<!DOCTYPE html>
       : ""
   }
 
+  ${timeSummary.length > 0 ? `<h2>Scan time (referensi performa)</h2><ul class="path-list">${timeSummary.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>` : ""}
+
   ${scanned.length > 0 ? `<h2>Paths scanned</h2><ul class="path-list">${scanned.slice(0, 200).map((p) => `<li><code>${escapeHtml(p)}</code></li>`).join("")}${scanned.length > 200 ? `<li class="empty">… dan ${scanned.length - 200} file lainnya</li>` : ""}</ul>` : ""}
+
+  ${
+    skipped.length > 0
+      ? `
+  <h2>Paths skipped (referensi cakupan)</h2>
+  <p class="meta">File yang tidak di-scan beserta alasan (mis. wrong language, minified, size). Berguna untuk analisis: kenapa file X tidak masuk SAST.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Path</th>
+        <th>Reason</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${skippedRows
+        .map(
+          (row) => `
+      <tr>
+        <td><code>${escapeHtml(String(row.path))}</code></td>
+        <td><code>${escapeHtml(String(row.reason))}</code></td>
+        <td class="refs">${escapeHtml(String(row.details))}</td>
+      </tr>`
+        )
+        .join("")}
+    </tbody>
+  </table>
+  `
+      : ""
+  }
 
   ${
     skippedRules.length > 0
