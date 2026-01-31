@@ -71,9 +71,12 @@ Semua component sudah:
 
 ### Dependency Security
 
-- Regular dependency audits
-- Automated Dependabot updates
-- Snyk scanning in CI/CD
+- Regular dependency audits (`pnpm audit`); CI fails on **high/critical** only (`pnpm audit --audit-level high`).
+- **pnpm.overrides** in root `package.json` force patched versions: `preact`, `esbuild`, `lodash`.
+- Two **moderate** advisories are tolerated until migration:
+  - **eslint** (GHSA-p5wg-g6qr-c7cg): requires upgrade to ESLint 9 + @typescript-eslint v8 + flat config.
+  - **vue-template-compiler** (GHSA-g3ch-rx76-35fx): transitive from @vue/language-core; no patched 2.x; Vue 3 runtime does not use it.
+- Automated Dependabot updates; Snyk scanning in CI/CD optional.
 
 ### Supply Chain Security
 

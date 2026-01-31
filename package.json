@@ -49,5 +49,12 @@
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
-  "packageManager": "pnpm@8.15.0"
+  "packageManager": "pnpm@8.15.0",
+  "pnpm": {
+    "overrides": {
+      "preact": ">=10.28.2",
+      "esbuild": ">=0.25.0",
+      "lodash": ">=4.17.23"
+    }
+  }
 }
