@@ -48,7 +48,7 @@ Ketiganya saling melengkapi: SAST mendeteksi kerentanan di kode sumber, DAST mem
    - **lint-build-test** (CI) → **smoke-playwright** (Smoke test) → **sast-semgrep** (SAST) → **dast-zap** (DAST, `needs: [smoke-playwright, sast-semgrep]`). Jika CI, smoke, atau SAST gagal, DAST tidak jalan.
 
 3. **Job sast-semgrep**
-   - `needs: smoke-playwright`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config auto --json --json-output=semgrep-results.json`.
+   - `needs: smoke-playwright`. Checkout, lalu `docker run semgrep/semgrep semgrep scan --config p/javascript --config p/typescript --config p/vue --metrics=off --json --json-output=semgrep-results.json` (config eksplisit karena `--config auto` tidak bisa dipakai dengan `--metrics=off`).
    - Upload artifact **semgrep-results** (retensi 30 hari).
 
 4. **Scope**
@@ -262,7 +262,7 @@ flowchart TB
 
 | Job | Needs | Isi | Hasil |
 |-----|-------|-----|--------|
-| **sast-semgrep** | smoke-playwright | Semgrep scan (--config auto) | Artifact **semgrep-results** (JSON) |
+| **sast-semgrep** | smoke-playwright | Semgrep scan (p/javascript, p/typescript, p/vue; metrics=off) | Artifact **semgrep-results** (JSON) |
 | **dast-zap** | smoke-playwright, sast-semgrep | Build Storybook → Serve → Smoke check → ZAP | Artifact **zap-baseline-report** (HTML) |
 
 Urutan: **CI → Smoke test → SAST → DAST** (SAST dulu, DAST hanya jalan setelah SAST selesai). CodeQL tidak dipakai; SAST memakai Semgrep (gratis, tanpa Code scanning).
@@ -286,7 +286,7 @@ Urutan: **CI → Smoke test → SAST → DAST** (SAST dulu, DAST hanya jalan set
    Build Storybook React & Vue, install browser Playwright, jalankan smoke test terhadap Storybook yang di-serve. **Gate murah;** memastikan app hidup dan render.
 
 5. **SAST (Semgrep)**  
-   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Jika CI atau smoke gagal, job ini tidak jalan. Semgrep scan (--config auto), hasil ke artifact **semgrep-results** (JSON). Tidak pakai CodeQL.
+   Job **sast-semgrep** dalam **`.github/workflows/ci.yml`**, `needs: smoke-playwright`. Jika CI atau smoke gagal, job ini tidak jalan. Semgrep scan dengan config eksplisit (p/javascript, p/typescript, p/vue; metrics=off), hasil ke artifact **semgrep-results** (JSON). Tidak pakai CodeQL.
 
 6. **DAST (OWASP ZAP)**  
    Job **dast-zap** dalam **`.github/workflows/ci.yml`**, `needs: [smoke-playwright, sast-semgrep]`. DAST hanya jalan setelah smoke dan SAST lulus. Urutan di dalam job: Build Storybook → Serve → **Smoke check** → ZAP baseline scan. Laporan HTML ke artifact **zap-baseline-report**.
@@ -305,7 +305,7 @@ Berikut cara tetap dapat **hasil SAST dan DAST** (dan konteks OWASP) tanpa berga
 
 | Tool | Gratis? | Cara dapat hasil | Catatan |
 |------|--------|-------------------|--------|
-| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). Tidak perlu token; `semgrep scan --config auto`. |
+| **Semgrep** (Community / CLI) | Ya (open source, LGPL) | Artifact **semgrep-results** (JSON) di GitHub Actions | Dipakai di **ci.yml** (job sast-semgrep). Tidak perlu token; config eksplisit `p/javascript`, `p/typescript`, `p/vue` (karena `--config auto` butuh metrics). |
 | **Trivy** | Ya | Artifact / job summary / SARIF | Scan kode + dependency. `trivy fs . --format json`. |
 | **ESLint** + `eslint-plugin-security` | Ya | Output lint di log CI, atau artifact | Sudah ada di pipeline (lint); bisa tambah rule keamanan. |
 | **SonarQube** (Community Edition) | Ya (self-hosted) | Dashboard SonarQube sendiri | Perlu deploy server; integrasi CI dengan SonarScanner. |
@@ -328,13 +328,17 @@ DAST tidak bergantung pada CodeQL; hasil ZAP bisa selalu diambil dari artifact s
 - **Dependency-Check** (OWASP) = scan dependency; mirip `pnpm audit` (yang sudah ada di CI).
 - Jika yang dimaksud “WASP” = **OWASP**, maka informasi SAST + DAST + OWASP bisa didapat dari: Semgrep (SAST) + ZAP (DAST) + dokumentasi OWASP / daftar tool OWASP.
 
-### 7.4 Ringkas: di mana lihat hasil?
+### 7.4 Ringkas: di mana hasil SAST & DAST dikirim?
 
-| Jenis | Sumber hasil (gratis) |
-|-------|------------------------|
-| **SAST** | Artifact workflow Semgrep (mis. `semgrep-results.sarif` / JSON), atau log CI Trivy/ESLint. Jika pakai CodeQL + Code scanning: Security → Code scanning. |
-| **DAST** | Artifact **zap-baseline-report** (HTML) dari job DAST ZAP. |
-| **Dependency** | Log CI `pnpm audit`; atau artifact dari Trivy / OWASP Dependency-Check. |
+Hasil **tidak dikirim ke sistem eksternal**; hanya disimpan di **GitHub Actions** sebagai **Artifacts**:
+
+| Jenis | Artifact name | Lokasi di GitHub |
+|-------|----------------|------------------|
+| **SAST** | `semgrep-results` (file JSON) | Repo → **Actions** → pilih run workflow **CI** → scroll ke **Artifacts** → unduh **semgrep-results**. |
+| **DAST** | `zap-baseline-report` (file HTML) | Repo → **Actions** → pilih run workflow **CI** → scroll ke **Artifacts** → unduh **zap-baseline-report**. |
+| **Dependency** | — | Log job **Lint, Build & Test** (pnpm audit); tidak di-upload artifact. |
+
+**Cara ambil laporan DAST:** Buka run terakhir workflow **CI** di tab **Actions**, gulir ke bawah ke bagian **Artifacts**. Jika job **DAST (OWASP ZAP)** selesai (meski `continue-on-error`), artifact **zap-baseline-report** akan muncul; unduh ZIP lalu buka `zap-baseline-report.html` di browser. Retensi artifact 30 hari (konfigurasi di `ci.yml`).
 
 SAST (Semgrep) dan DAST (ZAP) digabung ke **satu workflow** (`.github/workflows/ci.yml`) dengan urutan CI → Smoke test → SAST → DAST; CodeQL tidak dipakai.
 
