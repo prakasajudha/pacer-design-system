@@ -64,12 +64,13 @@ jobs:
             --network host \
             -v "${{ github.workspace }}/zap-output:/zap/wrk:rw" \
             -e JAVA_OPTS="-Xmx2g" \
-            owasp/zap2docker-stable \
+            ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
             -t http://127.0.0.1:3000 \
             -r /zap/wrk/zap-baseline-report.html \
             -I
         continue-on-error: true
+        # Image: ghcr.io/zaproxy/zaproxy (resmi, GHCR). owasp/zap2docker-stable sudah tidak tersedia.
         # -I = ignore warning rules (reduce false positives). Hapus -I untuk fail on findings.
 
       - name: Upload ZAP report
