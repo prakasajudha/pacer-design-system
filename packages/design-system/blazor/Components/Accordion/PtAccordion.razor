@@ -1,0 +1,77 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<CascadingValue Value="this" Name="AccordionContext">
+    <div class="@GetRootClasses()">
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public object? Value { get; set; }
+    [Parameter] public EventCallback<object> ValueChanged { get; set; }
+
+    [Parameter] public object? DefaultValue { get; set; }
+
+    [Parameter] public AccordionType Type { get; set; } = AccordionType.Single;
+
+    [Parameter] public AccordionVariant Variant { get; set; } = AccordionVariant.Line;
+
+    private List<string> _internalValue = new();
+    private bool _isControlled => Value != null;
+
+    public IReadOnlyList<string> OpenValues => _isControlled ? NormalizeToArray(Value) : _internalValue;
+    public AccordionType CurrentType => Type;
+    public AccordionVariant CurrentVariant => Variant;
+
+    protected override void OnInitialized()
+    {
+        if (Value == null && DefaultValue != null)
+        {
+            _internalValue = new List<string>(NormalizeToArray(DefaultValue));
+        }
+    }
+
+    private static List<string> NormalizeToArray(object? v)
+    {
+        if (v == null) return new List<string>();
+        if (v is string s) return string.IsNullOrEmpty(s) ? new List<string>() : new List<string> { s };
+        if (v is IEnumerable<string> arr) return arr.ToList();
+        return new List<string>();
+    }
+
+    public async Task Toggle(string itemValue)
+    {
+        var current = new List<string>(OpenValues);
+        var next = current.Contains(itemValue)
+            ? current.Where(x => x != itemValue).ToList()
+            : Type == AccordionType.Single
+                ? new List<string> { itemValue }
+                : new List<string>(current) { itemValue };
+
+        if (!_isControlled)
+        {
+            _internalValue = next;
+        }
+
+        object toEmit = Type == AccordionType.Single ? (object)(next.FirstOrDefault() ?? "") : next;
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(toEmit);
+        }
+        StateHasChanged();
+    }
+
+    private string GetRootClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (Variant == AccordionVariant.Background)
+        {
+            classes.Add("flex flex-col gap-2");
+        }
+        return string.Join(" ", classes);
+    }
+}

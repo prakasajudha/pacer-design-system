@@ -174,6 +174,16 @@ Radio button untuk memilih satu opsi dari beberapa pilihan dalam sebuah grup. St
 
 ### Navigation Components
 
+#### [Accordion](/components/accordion)
+
+Accordion untuk daftar item yang dapat dibuka/ditutup. Compound components: Accordion > AccordionItem > AccordionTrigger + AccordionContent.
+
+- ✅ 2 variants (Line, Background)
+- ✅ type single / multiple
+- ✅ v-model / value + onValueChange
+- ✅ Title #020617 (T2 14/medium), content #64748B (T2 14/normal)
+- ✅ React, Vue, Blazor
+
 #### [Breadcrumb](/components/breadcrumb)
 
 Breadcrumb menampilkan jalur navigasi hierarkis.
@@ -344,6 +354,7 @@ Learn more about [Design Tokens](/tokens).
 
 | Component     | React | Vue | Blazor | Status      |
 | ------------- | :---: | :-: | :----: | ----------- |
+| Accordion     |  ✅   | ✅  |   ✅   | Stable      |
 | Breadcrumb    |  ✅   | ✅  |   ✅   | Stable      |
 | Button        |  ✅   | ✅  |   ✅   | Stable      |
 | IconButton    |  ✅   | ✅  |   ✅   | Stable      |

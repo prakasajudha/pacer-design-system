@@ -1,0 +1,40 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+@if (AccordionItem?.IsOpen == true)
+{
+    <div
+        id="@($"accordion-content-{AccordionItem?.Value}")"
+        role="region"
+        aria-labelledby="@($"accordion-trigger-{AccordionItem?.Value}")"
+        class="@GetContentClasses()"
+        @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter(Name = "AccordionContext")]
+    public PtAccordion? Accordion { get; set; }
+
+    [CascadingParameter(Name = "AccordionItemContext")]
+    public PtAccordionItem? AccordionItem { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetContentClasses()
+    {
+        var variant = Accordion?.CurrentVariant ?? AccordionVariant.Line;
+        var isBackground = variant == AccordionVariant.Background;
+        var classes = new List<string>
+        {
+            "py-3 px-4 text-sm font-normal leading-5 text-[#64748B]"
+        };
+        classes.Add(isBackground ? "bg-transparent" : "bg-white");
+        return string.Join(" ", classes);
+    }
+}

@@ -69,6 +69,15 @@ export type { PopoverProps, PopoverPosition } from './components/Popover';
 export { Breadcrumb } from './components/Breadcrumb';
 export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbType } from './components/Breadcrumb';
 
+export { Accordion, useAccordionContext } from './components/Accordion';
+export type { AccordionProps, AccordionType, AccordionVariant } from './components/Accordion';
+export { AccordionItem, useAccordionItemContext } from './components/AccordionItem';
+export type { AccordionItemProps } from './components/AccordionItem';
+export { AccordionTrigger } from './components/AccordionTrigger';
+export type { AccordionTriggerProps } from './components/AccordionTrigger';
+export { AccordionContent } from './components/AccordionContent';
+export type { AccordionContentProps } from './components/AccordionContent';
+
 export { Divider } from './components/Divider';
 export type {
   DividerProps,

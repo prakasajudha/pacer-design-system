@@ -26,6 +26,10 @@ import PtPinInput from './components/PtPinInput.vue';
 import PtTooltip from './components/PtTooltip.vue';
 import PtPopover from './components/PtPopover.vue';
 import PtBreadcrumb from './components/PtBreadcrumb.vue';
+import PtAccordion from './components/PtAccordion.vue';
+import PtAccordionItem from './components/PtAccordionItem.vue';
+import PtAccordionTrigger from './components/PtAccordionTrigger.vue';
+import PtAccordionContent from './components/PtAccordionContent.vue';
 import PtDivider from './components/PtDivider.vue';
 import PtTextarea from './components/PtTextarea.vue';
 import PtToast from './components/PtToast.vue';
@@ -35,7 +39,7 @@ import ToastContainer from './components/ToastContainer.vue';
 export { useToast, toast } from './composables/useToast';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtFormFieldLabel, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtPopover, PtBreadcrumb, PtDivider, PtTextarea, PtToast, ToastContainer };
+export { PtButton, PtIconButton, PtInput, PtFormFieldLabel, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtAccordion, PtAccordionItem, PtAccordionTrigger, PtAccordionContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtPopover, PtBreadcrumb, PtDivider, PtTextarea, PtToast, ToastContainer };
 
 // Plugin untuk install semua components
 export default {
@@ -65,6 +69,10 @@ export default {
     app.component('PtTooltip', PtTooltip);
     app.component('PtPopover', PtPopover);
     app.component('PtBreadcrumb', PtBreadcrumb);
+    app.component('PtAccordion', PtAccordion);
+    app.component('PtAccordionItem', PtAccordionItem);
+    app.component('PtAccordionTrigger', PtAccordionTrigger);
+    app.component('PtAccordionContent', PtAccordionContent);
     app.component('PtDivider', PtDivider);
     app.component('PtTextarea', PtTextarea);
     app.component('PtToast', PtToast);
@@ -97,6 +105,8 @@ export type { PinInputProps } from './components/PtPinInput.vue';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/PtTooltip.vue';
 export type { PopoverProps, PopoverPosition } from './components/PtPopover.vue';
 export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbType } from './components/PtBreadcrumb.vue';
+export type { AccordionProps, AccordionType, AccordionVariant } from './components/PtAccordion.vue';
+export type { AccordionItemProps } from './components/PtAccordionItem.vue';
 export type { DividerProps, DividerColorPalette, DividerVariant, DividerOrientation, DividerSize } from './components/PtDivider.vue';
 export type { TextareaProps, TextareaSize, TextareaVariant } from './components/PtTextarea.vue';
 export type { ToastProps } from './components/PtToast.vue';

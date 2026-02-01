@@ -1,0 +1,78 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+<button
+    type="button"
+    class="@GetTriggerClasses()"
+    aria-expanded="@AccordionItem?.IsOpen"
+    aria-controls="@($"accordion-content-{AccordionItem?.Value}")"
+    id="@($"accordion-trigger-{AccordionItem?.Value}")"
+    @onclick="HandleClick"
+    @onkeydown="HandleKeyDown"
+    @attributes="AdditionalAttributes">
+    <span class="flex-1 min-w-0">@ChildContent</span>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="shrink-0 transition-transform duration-200 ease-out @(AccordionItem?.IsOpen == true ? "rotate-180" : "")"
+        aria-hidden="true">
+        <path d="m6 9 6 6 6-6" />
+    </svg>
+</button>
+
+@code {
+    [CascadingParameter(Name = "AccordionContext")]
+    public PtAccordion? Accordion { get; set; }
+
+    [CascadingParameter(Name = "AccordionItemContext")]
+    public PtAccordionItem? AccordionItem { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GetTriggerClasses()
+    {
+        var variant = Accordion?.CurrentVariant ?? AccordionVariant.Line;
+        var isBackground = variant == AccordionVariant.Background;
+        var classes = new List<string>
+        {
+            "flex w-full items-center justify-between gap-2 py-3 px-4 text-left text-sm font-medium leading-6 outline-none transition-colors duration-200",
+            "text-[#020617]"
+        };
+        if (isBackground)
+        {
+            classes.Add("bg-transparent hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-muted rounded-none");
+        }
+        else
+        {
+            classes.Add("bg-white hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-none");
+        }
+        return string.Join(" ", classes);
+    }
+
+    private async Task HandleClick()
+    {
+        if (Accordion == null || AccordionItem == null) return;
+        await Accordion.Toggle(AccordionItem.Value);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Accordion == null || AccordionItem == null) return;
+        if (e.Key == "Enter" || e.Key == " ")
+        {
+            await Accordion.Toggle(AccordionItem.Value);
+        }
+    }
+}

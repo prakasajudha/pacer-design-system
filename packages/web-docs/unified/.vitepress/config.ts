@@ -102,6 +102,7 @@ export default defineConfig({
             text: 'Basic Components',
             collapsed: true,
             items: [
+              { text: 'Accordion', link: '/components/accordion' },
               { text: 'Avatar', link: '/components/avatar' },
               { text: 'Badge', link: '/components/badge' },
               { text: 'Breadcrumb', link: '/components/breadcrumb' },

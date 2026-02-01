@@ -1,0 +1,35 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+
+<CascadingValue Value="this" Name="AccordionItemContext">
+    <div class="@GetItemClasses()" data-state="@(IsOpen ? "open" : "closed")">
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    [CascadingParameter(Name = "AccordionContext")]
+    public PtAccordion? Accordion { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public string Value { get; set; } = null!;
+
+    public bool IsOpen => Accordion?.OpenValues?.Contains(Value) ?? false;
+
+    private string GetItemClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        var variant = Accordion?.CurrentVariant ?? AccordionVariant.Line;
+        if (variant == AccordionVariant.Line)
+        {
+            classes.Add("border-b border-slate-200 last:border-b-0");
+        }
+        else if (variant == AccordionVariant.Background)
+        {
+            classes.Add("overflow-hidden rounded-lg border-b border-[#CBD5E1] bg-[#F8FAFC]");
+        }
+        return string.Join(" ", classes);
+    }
+}
