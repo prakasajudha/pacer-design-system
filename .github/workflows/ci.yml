@@ -125,7 +125,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run Semgrep
+      - name: Run Semgrep (JSON, for HTML report)
         run: |
           docker run --rm \
             -v "${{ github.workspace }}:/src" \
@@ -137,6 +137,18 @@ jobs:
             --verbose \
             --time \
             --json --json-output=semgrep-results.json \
+            --error
+        continue-on-error: true
+
+      - name: Run Semgrep (SARIF, for Code Scanning artifact)
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/src" \
+            -w /src \
+            semgrep/semgrep semgrep scan \
+            --config p/javascript \
+            --config p/typescript \
+            --metrics=off \
             --sarif --sarif-output=semgrep-results.sarif \
             --error
         continue-on-error: true
