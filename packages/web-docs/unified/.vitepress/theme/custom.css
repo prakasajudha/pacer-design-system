@@ -162,11 +162,11 @@
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
-/* Dropdown/ellipsis trigger button area */
+/* Dropdown/ellipsis trigger button area (items-end agar chevron sejajar ke bawah) */
 .demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="More breadcrumbs"],
 .demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="Show more breadcrumbs"] {
   display: inline-flex !important;
-  align-items: center !important;
+  align-items: flex-end !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
   line-height: 1.25rem !important;

@@ -30,7 +30,7 @@ Breadcrumb terdiri dari:
 - **Link (punya `link`, bukan item terakhir)**: `text-brand-300`, hover underline. Font: text-sm, font-normal, leading-5.
 - **Current (item terakhir / tanpa link)**: `text-slate-500`. Font: text-sm, font-normal, leading-5.
 - **Separator**: `text-slate-500`, text-sm, font-normal, leading-5.
-- **Di dalam Popover**: Teks item = `text-primary` (var(--primary)), truncate, text-sm, font-normal, leading-5.
+- **Di dalam Popover**: Teks item = `text-slate-900` (hitam), truncate, text-sm, font-normal, leading-5.
 
 ## Best practice
 
