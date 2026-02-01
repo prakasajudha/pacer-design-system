@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, ref, computed, watch } from 'vue';
+import { provide, ref, computed } from 'vue';
 import { cn } from '../lib/utils';
 
 export type AccordionType = 'single' | 'multiple';

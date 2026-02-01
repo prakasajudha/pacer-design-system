@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Component } from 'vue';
 import { computed, useAttrs, useSlots, h } from 'vue';
 import { cn } from '../lib/utils';
 
@@ -21,7 +22,7 @@ export interface InformationProps {
   /**
    * Icon override (jika tidak ada, akan menggunakan default icon sesuai variant)
    */
-  icon?: any;
+  icon?: Component;
 
   /**
    * Custom className untuk icon container
