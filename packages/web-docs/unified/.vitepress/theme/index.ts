@@ -15,8 +15,8 @@ import DoDontGrid from './components/DoDontGrid.vue';
 import DoDontItem from './components/DoDontItem.vue';
 
 // Import PACER Vue components CSS FIRST (before custom.css)
-// This ensures Tailwind classes from components are available
-import '@pacer-ui/vue/styles.css';
+// Path to Vue package source (avoids alias resolution issues with styles.css)
+import '../../../../design-system/vue/src/styles.css';
 import './custom.css';
 
 // Import PACER Vue components
@@ -43,6 +43,8 @@ import {
   PtModalFooter,
   PtPinInput,
   PtTooltip,
+  PtPopover,
+  PtBreadcrumb,
   PtDivider,
   PtTextarea,
   PtToast,
@@ -91,6 +93,8 @@ export default {
     app.component('PtModalFooter', PtModalFooter);
     app.component('PtPinInput', PtPinInput);
     app.component('PtTooltip', PtTooltip);
+    app.component('PtPopover', PtPopover);
+    app.component('PtBreadcrumb', PtBreadcrumb);
     app.component('PtDivider', PtDivider);
     app.component('PtTextarea', PtTextarea);
     app.component('PtToast', PtToast);

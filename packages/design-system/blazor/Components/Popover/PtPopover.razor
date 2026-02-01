@@ -1,0 +1,79 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="inline-flex items-end relative">
+    <div role="button"
+         tabindex="0"
+         aria-expanded="@_open"
+         aria-haspopup="true"
+         aria-controls="@(_open ? "pt-popover-panel" : null)"
+         class="inline-flex items-end cursor-pointer"
+         @onclick="Toggle"
+         @onkeydown="HandleKeyDown">
+        @if (Trigger != null) { @Trigger }
+    </div>
+    @if (_open)
+    {
+        <div class="fixed inset-0 z-[1059]" @onclick="Close" aria-hidden="true"></div>
+        <div id="pt-popover-panel"
+             role="dialog"
+             aria-label="Menu"
+             class="absolute top-full left-0 mt-2 z-[1060] min-w-[160px] rounded-md border border-border bg-white text-popover-foreground shadow-md py-1 @ContentClassName">
+            @Content
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public RenderFragment? Content { get; set; }
+    [Parameter] public string ContentClassName { get; set; } = "";
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter] public bool CloseOnOutsideClick { get; set; } = true;
+    [Parameter] public bool CloseOnEscape { get; set; } = true;
+
+    private bool _open;
+    private bool _internalOpen = false;
+
+    protected override void OnParametersSet()
+    {
+        if (OpenChanged.HasDelegate)
+            _open = Open;
+        else
+            _open = _internalOpen;
+    }
+
+    private void Toggle()
+    {
+        SetOpen(!_open);
+    }
+
+    private void Close()
+    {
+        SetOpen(false);
+    }
+
+    private void SetOpen(bool value)
+    {
+        if (OpenChanged.HasDelegate)
+            _ = OpenChanged.InvokeAsync(value);
+        else
+            _internalOpen = value;
+        _open = value;
+        StateHasChanged();
+    }
+
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (CloseOnEscape && e.Key == "Escape" && _open)
+            Close();
+        if ((e.Key == "Enter" || e.Key == " ") && _open == false)
+        {
+            e.PreventDefault();
+            Toggle();
+        }
+    }
+}

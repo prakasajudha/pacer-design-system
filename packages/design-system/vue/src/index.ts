@@ -24,6 +24,8 @@ import PtModalBody from './components/PtModalBody.vue';
 import PtModalFooter from './components/PtModalFooter.vue';
 import PtPinInput from './components/PtPinInput.vue';
 import PtTooltip from './components/PtTooltip.vue';
+import PtPopover from './components/PtPopover.vue';
+import PtBreadcrumb from './components/PtBreadcrumb.vue';
 import PtDivider from './components/PtDivider.vue';
 import PtTextarea from './components/PtTextarea.vue';
 import PtToast from './components/PtToast.vue';
@@ -33,7 +35,7 @@ import ToastContainer from './components/ToastContainer.vue';
 export { useToast, toast } from './composables/useToast';
 
 // Export components
-export { PtButton, PtIconButton, PtInput, PtFormFieldLabel, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtDivider, PtTextarea, PtToast, ToastContainer };
+export { PtButton, PtIconButton, PtInput, PtFormFieldLabel, PtCard, PtBadge, PtSkeleton, PtInformation, PtAvatar, PtProgress, PtSwitch, PtCheckbox, PtRadio, PtTabs, PtTabsList, PtTabsTrigger, PtTabsContent, PtModal, PtModalHeader, PtModalBody, PtModalFooter, PtPinInput, PtTooltip, PtPopover, PtBreadcrumb, PtDivider, PtTextarea, PtToast, ToastContainer };
 
 // Plugin untuk install semua components
 export default {
@@ -61,6 +63,8 @@ export default {
     app.component('PtModalFooter', PtModalFooter);
     app.component('PtPinInput', PtPinInput);
     app.component('PtTooltip', PtTooltip);
+    app.component('PtPopover', PtPopover);
+    app.component('PtBreadcrumb', PtBreadcrumb);
     app.component('PtDivider', PtDivider);
     app.component('PtTextarea', PtTextarea);
     app.component('PtToast', PtToast);
@@ -91,6 +95,8 @@ export type { ModalHeaderProps } from './components/PtModalHeader.vue';
 export type { ModalFooterProps } from './components/PtModalFooter.vue';
 export type { PinInputProps } from './components/PtPinInput.vue';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/PtTooltip.vue';
+export type { PopoverProps, PopoverPosition } from './components/PtPopover.vue';
+export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbType } from './components/PtBreadcrumb.vue';
 export type { DividerProps, DividerColorPalette, DividerVariant, DividerOrientation, DividerSize } from './components/PtDivider.vue';
 export type { TextareaProps, TextareaSize, TextareaVariant } from './components/PtTextarea.vue';
 export type { ToastProps } from './components/PtToast.vue';

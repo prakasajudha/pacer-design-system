@@ -78,6 +78,127 @@
   font-family: inherit;
 }
 
+/* Breadcrumb & lists in demos: hide default ol/ul markers so numbers/symbols don't show */
+.demo-preview ol,
+.demo-preview ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+.demo-preview ol li,
+.demo-preview ul li {
+  list-style: none !important;
+}
+
+/* Breadcrumb overrides: all breadcrumb-related CSS with !important so theme/global cannot override */
+.demo-preview nav[aria-label="Breadcrumb"] {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  line-height: 1.25rem !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol li {
+  display: inline-flex !important;
+  align-items: center !important;
+  list-style: none !important;
+  flex-shrink: 0 !important;
+}
+/* Neutralize .vp-doc li + li from VitePress so breadcrumb items don't get extra margin/padding (Home naik sendiri) */
+.demo-preview nav[aria-label="Breadcrumb"] ol li + li {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+/* Separator (direct child span[aria-hidden] in li, not icon inside link) */
+.demo-preview nav[aria-label="Breadcrumb"] ol li > span[aria-hidden] {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+  color: #64748b !important; /* slate-500 */
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25rem !important;
+  user-select: none !important;
+  flex-shrink: 0 !important;
+}
+/* Breadcrumb links (brand) */
+.demo-preview nav[aria-label="Breadcrumb"] ol li a {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25rem !important;
+  text-decoration: none !important;
+  color: #0156C6 !important; /* brand-300 */
+  transition: color 0.2s !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol li a:hover {
+  text-decoration: underline !important;
+}
+/* Current page (no link, span[aria-current="page"]) */
+.demo-preview nav[aria-label="Breadcrumb"] ol li span[aria-current="page"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25rem !important;
+  color: #64748b !important; /* slate-500 */
+  cursor: default !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol li span[aria-current="page"] .truncate {
+  color: inherit !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] .truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+/* Dropdown/ellipsis trigger button area */
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="More breadcrumbs"],
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="Show more breadcrumbs"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25rem !important;
+  color: #0156C6 !important; /* brand-300 */
+  cursor: pointer !important;
+  padding: 2px 4px !important;
+  margin: -2px 0 !important;
+  border-radius: 0.125rem !important;
+  gap: 0.25rem !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="More breadcrumbs"]:hover {
+  color: #014095 !important; /* brand-400 hover */
+}
+/* Chevron SVG inside dropdown trigger – inherit brand color (bukan hitam) */
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="More breadcrumbs"] svg,
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="Show more breadcrumbs"] svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+  width: 1rem !important;
+  height: 1rem !important;
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="Show more breadcrumbs"] {
+  justify-content: center !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  color: #64748b !important; /* ellipsis trigger = slate */
+}
+.demo-preview nav[aria-label="Breadcrumb"] ol li [aria-label="Show more breadcrumbs"] svg {
+  color: inherit !important;
+}
+
 .demo-tabs {
   display: flex;
   gap: 0.5rem;

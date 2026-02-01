@@ -174,6 +174,17 @@ Radio button untuk memilih satu opsi dari beberapa pilihan dalam sebuah grup. St
 
 ### Navigation Components
 
+#### [Breadcrumb](/components/breadcrumb)
+
+Breadcrumb menampilkan jalur navigasi hierarkis.
+
+- ✅ Items: title, icon?, link?, disabled?
+- ✅ Separator kustom (default `>`)
+- ✅ Type: ellipsis (`…`) atau dropdown (item ke-2 + chevron v)
+- ✅ Collapse: item tengah di Popover saat items > 3
+- ✅ Styling: link = brand/300, current = slate/500, separator = slate/500
+- ✅ React, Vue, Blazor
+
 #### [Tabs](/components/tabs)
 
 Tabs untuk mengorganisir konten ke dalam beberapa panel yang dapat diakses melalui tab triggers. Menggunakan compound components pattern untuk fleksibilitas maksimal.
@@ -333,6 +344,7 @@ Learn more about [Design Tokens](/tokens).
 
 | Component     | React | Vue | Blazor | Status      |
 | ------------- | :---: | :-: | :----: | ----------- |
+| Breadcrumb    |  ✅   | ✅  |   ✅   | Stable      |
 | Button        |  ✅   | ✅  |   ✅   | Stable      |
 | IconButton    |  ✅   | ✅  |   ✅   | Stable      |
 | Badge         |  ✅   | ✅  |   ✅   | Stable      |

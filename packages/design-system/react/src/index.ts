@@ -63,6 +63,12 @@ export type { TextareaProps, TextareaSize, TextareaVariant } from './components/
 export { Tooltip } from './components/Tooltip';
 export type { TooltipProps, TooltipPosition, TooltipVariant, TooltipSize } from './components/Tooltip';
 
+export { Popover } from './components/Popover';
+export type { PopoverProps, PopoverPosition } from './components/Popover';
+
+export { Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem, BreadcrumbType } from './components/Breadcrumb';
+
 export { Divider } from './components/Divider';
 export type {
   DividerProps,

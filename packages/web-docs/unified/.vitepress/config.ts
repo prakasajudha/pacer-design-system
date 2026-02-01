@@ -1,4 +1,8 @@
 import { defineConfig } from 'vitepress';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const GA_ID = 'G-7D5Z0KN1W5';
 
@@ -100,6 +104,7 @@ export default defineConfig({
             items: [
               { text: 'Avatar', link: '/components/avatar' },
               { text: 'Badge', link: '/components/badge' },
+              { text: 'Breadcrumb', link: '/components/breadcrumb' },
               { text: 'Button', link: '/components/button' },
               { text: 'Card', link: '/components/card' },
               { text: 'Divider', link: '/components/divider' },
@@ -145,6 +150,17 @@ export default defineConfig({
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025 Pertamina Patra Niaga',
+    },
+  },
+  vite: {
+    resolve: {
+      alias: {
+        // Use Vue package source so docs get latest components (e.g. PtBreadcrumb) without rebuilding dist
+        '@pacer-ui/vue': resolve(__dirname, '../../../design-system/vue/src/index.ts'),
+      },
+    },
+    ssr: {
+      noExternal: ['@pacer-ui/vue'],
     },
   },
 });

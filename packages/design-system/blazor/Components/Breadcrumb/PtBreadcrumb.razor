@@ -1,0 +1,139 @@
+@namespace Pertamina.DesignSystem.Blazor
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+
+<nav aria-label="Breadcrumb" class="flex flex-wrap items-center">
+    <ol class="flex flex-wrap items-center list-none p-0 m-0 gap-0">
+        @if (ShouldCollapse && Items.Count > 0 && Head != null && Tail != null)
+        {
+            <li>@RenderItemLink(Head, false)</li>
+            <li><span aria-hidden="true" class="mx-2 text-slate-500 text-sm font-normal leading-5 select-none shrink-0">@SeparatorDisplay</span></li>
+            <li>
+                <PtPopover ContentClassName="max-h-[min(400px,80vh)] overflow-auto">
+                    <Trigger>
+                        @if (Type == BreadcrumbType.Ellipsis)
+                        {
+                            <span class="inline-flex items-center justify-center w-6 h-6 text-slate-500 text-sm font-normal leading-5 rounded hover:bg-muted hover:text-slate-600 cursor-pointer" aria-label="Show more breadcrumbs">…</span>
+                        }
+                        else if (DropdownTriggerItem != null)
+                        {
+                            <span class="inline-flex items-end gap-1 text-brand-300 text-sm font-normal leading-5 rounded hover:bg-muted hover:text-brand-400 cursor-pointer px-1 py-0.5 -my-0.5" aria-label="More breadcrumbs">
+                                @if (!string.IsNullOrEmpty(DropdownTriggerItem.Icon)) { <span class="shrink-0 inline-flex items-center" aria-hidden="true">@DropdownTriggerItem.Icon</span> }
+                                <span class="truncate">@DropdownTriggerItem.Title</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="inline-flex items-center justify-center w-6 h-6 text-slate-500 rounded hover:bg-muted hover:text-slate-600 cursor-pointer" aria-label="More breadcrumbs">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                            </span>
+                        }
+                    </Trigger>
+                    <Content>
+                        <ul class="py-1 list-none" role="list">
+                            @foreach (var item in HiddenInPopover)
+                            {
+                                <li class="list-none">
+                                    <div class="px-3 py-2">
+                                        @RenderPopoverItem(item)
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </Content>
+                </PtPopover>
+            </li>
+            <li><span aria-hidden="true" class="mx-2 text-slate-500 text-sm font-normal leading-5 select-none shrink-0">@SeparatorDisplay</span></li>
+            <li>@RenderItemLink(Tail, true)</li>
+        }
+        else
+        {
+            @for (var i = 0; i < Items.Count; i++)
+            {
+                var item = Items[i];
+                var isLast = i == Items.Count - 1;
+                <li class="inline-flex items-center">
+                    @if (i > 0) { <span aria-hidden="true" class="mx-2 text-slate-500 text-sm font-normal leading-5 select-none shrink-0">@SeparatorDisplay</span> }
+                    @RenderItemLink(item, isLast)
+                </li>
+            }
+        }
+    </ol>
+</nav>
+
+@code {
+    private const string DefaultSeparator = ">";
+    private const int CollapseThreshold = 3;
+
+    [Parameter] public IReadOnlyList<BreadcrumbItem> Items { get; set; } = Array.Empty<BreadcrumbItem>();
+    [Parameter] public string Separator { get; set; } = DefaultSeparator;
+    [Parameter] public BreadcrumbType Type { get; set; } = BreadcrumbType.Dropdown;
+    [Parameter] public bool Collapse { get; set; } = true;
+
+    private string SeparatorDisplay => string.IsNullOrEmpty(Separator) ? DefaultSeparator : Separator;
+    private bool ShouldCollapse => Collapse && Items.Count > CollapseThreshold;
+    private BreadcrumbItem? Head => ShouldCollapse && Items.Count > 0 ? Items[0] : null;
+    private BreadcrumbItem? Tail => ShouldCollapse && Items.Count > 0 ? Items[Items.Count - 1] : null;
+    private BreadcrumbItem? DropdownTriggerItem => ShouldCollapse && Type == BreadcrumbType.Dropdown && Items.Count > 1 ? Items[1] : null;
+    private IEnumerable<BreadcrumbItem> HiddenInPopover => Type == BreadcrumbType.Dropdown && DropdownTriggerItem != null && Items.Count > 3
+        ? Items.Skip(2).Take(Items.Count - 3)
+        : ShouldCollapse && Items.Count > 2 ? Items.Skip(1).Take(Items.Count - 2) : Enumerable.Empty<BreadcrumbItem>();
+
+    private string GetItemClasses(BreadcrumbItem item, bool isActive)
+    {
+        var parts = new List<string> { "inline-flex items-center text-sm font-normal leading-5 no-underline outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm" };
+        if (isActive) parts.Add("text-slate-500 cursor-default");
+        else if (!string.IsNullOrEmpty(item.Link) && !item.Disabled) parts.Add("text-brand-300 hover:underline transition-colors");
+        if (item.Disabled) parts.Add("opacity-50 pointer-events-none cursor-not-allowed text-slate-500");
+        return string.Join(" ", parts);
+    }
+
+    private RenderFragment RenderItemLink(BreadcrumbItem item, bool isActive) => builder =>
+    {
+        var classes = GetItemClasses(item, isActive);
+        var isLink = !item.Disabled && !string.IsNullOrEmpty(item.Link) && !isActive;
+        if (item.Disabled || isActive || !isLink)
+        {
+            builder.OpenElement(0, "span");
+            builder.AddAttribute(1, "class", classes);
+            if (isActive) builder.AddAttribute(2, "aria-current", "page");
+        }
+        else
+        {
+            builder.OpenElement(0, "a");
+            builder.AddAttribute(1, "href", item.Link);
+            builder.AddAttribute(2, "class", classes);
+        }
+        if (!string.IsNullOrEmpty(item.Icon)) { builder.OpenElement(3, "span"); builder.AddAttribute(4, "class", "shrink-0 mr-1.5 inline-flex items-center"); builder.AddAttribute(5, "aria-hidden", "true"); builder.AddContent(6, item.Icon); builder.CloseElement(); }
+        builder.OpenElement(7, "span");
+        builder.AddAttribute(8, "class", "truncate");
+        builder.AddContent(9, item.Title);
+        builder.CloseElement();
+        builder.CloseElement();
+    };
+
+    private RenderFragment RenderPopoverItem(BreadcrumbItem item) => builder =>
+    {
+        var classes = GetItemClasses(item, false) + " block w-full text-left text-primary text-sm font-normal leading-5 truncate";
+        var isLink = !item.Disabled && !string.IsNullOrEmpty(item.Link);
+        if (isLink)
+        {
+            builder.OpenElement(0, "a");
+            builder.AddAttribute(1, "href", item.Link);
+            builder.AddAttribute(2, "class", classes);
+        }
+        else
+        {
+            builder.OpenElement(0, "span");
+            builder.AddAttribute(1, "class", classes);
+        }
+        if (!string.IsNullOrEmpty(item.Icon)) { builder.OpenElement(3, "span"); builder.AddAttribute(4, "class", "shrink-0 mr-1.5 inline-flex"); builder.AddAttribute(5, "aria-hidden", "true"); builder.AddContent(6, item.Icon); builder.CloseElement(); }
+        builder.OpenElement(7, "span");
+        builder.AddAttribute(8, "class", "truncate");
+        builder.AddContent(9, item.Title);
+        builder.CloseElement();
+        builder.CloseElement();
+    };
+}
