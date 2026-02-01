@@ -1,6 +1,6 @@
 {
   "name": "@pacer-ui/storybook-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Storybook for PACER React components",
   "scripts": {

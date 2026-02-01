@@ -1,7 +1,7 @@
 {
   "name": "@pacer-ui/react",
-  "version": "1.0.0",
-  "description": "React component library for PACER (Pertamina Patra Niaga Components & Experience Resources)",
+  "version": "1.0.1",
+  "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -31,7 +31,7 @@
     "pertamina",
     "ui"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

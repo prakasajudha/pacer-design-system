@@ -1,7 +1,7 @@
 {
   "name": "@pacer-ui/tailwind-preset",
-  "version": "1.0.0",
-  "description": "Shared Tailwind CSS preset for PACER (Pertamina Patra Niaga Components & Experience Resources)",
+  "version": "1.0.1",
+  "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -25,7 +25,7 @@
     "design-system",
     "pertamina"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "@pacer-ui/tokens": "workspace:*"
   },

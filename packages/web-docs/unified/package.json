@@ -1,6 +1,6 @@
 {
   "name": "@pacer-ui/docs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unified documentation for PACER Design System (React, Vue, Blazor)",
   "private": true,
   "type": "module",

@@ -1,7 +1,7 @@
 {
   "name": "@pacer-ui/tokens",
-  "version": "1.0.0",
-  "description": "Framework-agnostic design tokens for PACER (Pertamina Patra Niaga Components & Experience Resources)",
+  "version": "1.0.1",
+  "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -27,7 +27,7 @@
     "design-system",
     "pertamina"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
