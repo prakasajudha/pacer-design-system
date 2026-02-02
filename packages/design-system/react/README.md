@@ -189,4 +189,4 @@ Lihat [CONTRIBUTING.md](../../../CONTRIBUTING.md) untuk guidelines.
 
 - Documentation: https://design-system.pertamina.com
 - Storybook: https://storybook.pertamina.com/react
-- Issues: https://github.com/pertamina/design-system/issues
+- Issues: https://github.com/prakasajudha/pacer-design-system/issues

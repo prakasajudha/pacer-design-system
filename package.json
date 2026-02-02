@@ -5,7 +5,7 @@
   "description": "PACER — Pertamina Patra Niaga Components & Experience Resources - Enterprise-grade design system for React, Vue, and Blazor",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pertamina/design-system.git"
+    "url": "https://github.com/prakasajudha/pacer-design-system.git"
   },
   "license": "UNLICENSED",
   "author": "Pertamina Patra Niaga | IT Division",

@@ -85,8 +85,8 @@ Jika mengubah ke MIT:
 ### 3.3 Repository & homepage (opsional)
 
 - Di setiap `package.json` yang di-publish, bisa tambah:
-  - `"repository": { "type": "git", "url": "https://github.com/pertamina/design-system.git" }`
-  - `"homepage": "https://github.com/pertamina/design-system#readme"`
+  - `"repository": { "type": "git", "url": "https://github.com/prakasajudha/pacer-design-system.git" }`
+  - `"homepage": "https://github.com/prakasajudha/pacer-design-system#readme"`
 
 Root sudah punya; bisa diseragamkan ke tiap package.
 

@@ -435,7 +435,7 @@ pnpm release
 - **Storybook:** https://storybook.pertamina.com (planned)
 - **Slack:** #design-system
 - **Email:** design-system@pertamina.com
-- **GitHub:** https://github.com/pertamina/design-system
+- **GitHub:** https://github.com/prakasajudha/pacer-design-system
 
 ---
 

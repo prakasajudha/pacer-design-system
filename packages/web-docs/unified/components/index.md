@@ -391,5 +391,5 @@ Ready to start building? Check out our [Getting Started](/getting-started) guide
 ## Need Help?
 
 - 📖 Browse [Framework-specific guides](/frameworks/react)
-- 💬 Ask questions in [GitHub Discussions](https://github.com/pertamina/design-system/discussions)
-- 🐛 Report issues in our [Issue Tracker](https://github.com/pertamina/design-system/issues)
+- 💬 Ask questions in [GitHub Discussions](https://github.com/prakasajudha/pacer-design-system/discussions)
+- 🐛 Report issues in our [Issue Tracker](https://github.com/prakasajudha/pacer-design-system/issues)

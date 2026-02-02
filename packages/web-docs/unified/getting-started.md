@@ -86,8 +86,8 @@ Full IntelliSense support in Visual Studio:
 ## Need Help?
 
 - 📖 Check out our [FAQ](/faq)
-- 💬 Join [GitHub Discussions](https://github.com/pertamina/design-system/discussions)
-- 🐛 [Report Issues](https://github.com/pertamina/design-system/issues)
+- 💬 Join [GitHub Discussions](https://github.com/prakasajudha/pacer-design-system/discussions)
+- 🐛 [Report Issues](https://github.com/prakasajudha/pacer-design-system/issues)
 
 ---
 
@@ -331,5 +331,5 @@ Full IntelliSense support in Visual Studio:
 ## Need Help?
 
 - 📖 Check out our [FAQ](/faq)
-- 💬 Join [GitHub Discussions](https://github.com/pertamina/design-system/discussions)
-- 🐛 [Report Issues](https://github.com/pertamina/design-system/issues)
+- 💬 Join [GitHub Discussions](https://github.com/prakasajudha/pacer-design-system/discussions)
+- 🐛 [Report Issues](https://github.com/prakasajudha/pacer-design-system/issues)

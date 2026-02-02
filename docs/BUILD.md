@@ -24,7 +24,7 @@ dotnet --version
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/pertamina/design-system.git
+git clone https://github.com/prakasajudha/pacer-design-system.git
 cd design-system
 
 # 2. Install dependencies

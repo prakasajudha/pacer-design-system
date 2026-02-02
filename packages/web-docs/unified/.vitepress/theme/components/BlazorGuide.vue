@@ -9,7 +9,10 @@
             <path fill="#fff" d="M45.4 77.5L31.6 93.1c-.6.7-.2 1.7.8 1.7h17.2c.4 0 .8-.2 1-.5l10.8-13.3c.3-.4.3-.9 0-1.3L50.6 66.5c-.2-.3-.6-.5-1-.5H32.4c-.9 0-1.4 1.1-.8 1.7l13.8 9.8zM96.4 34.3H72.2c-.4 0-.8.2-1 .5L60.4 48.1c-.3.4-.3.9 0 1.3l10.8 13.3c.2.3.6.5 1 .5h24.2c.9 0 1.4-1.1.8-1.7L83.4 51.6c-.4-.3-.4-.9 0-1.2l13.8-9.9c.6-.7.2-1.7-.8-1.7l-.8-.5z"/>
           </svg>
         </div>
-        <div class="hero-badge">.NET 8</div>
+        <div class="hero-badges">
+          <div class="hero-badge">.NET 8</div>
+          <span class="hero-badge-unstable">Unstable</span>
+        </div>
         <h1 class="hero-title">PACER for Blazor</h1>
         <p class="hero-description">
           Build enterprise-grade .NET applications with type-safe Blazor components. 
@@ -474,7 +477,7 @@ const scrollToInstall = () => {
 };
 
 const openDocs = () => {
-  window.open('https://github.com/pertamina/design-system', '_blank');
+  window.open('https://github.com/prakasajudha/pacer-design-system', '_blank');
 };
 
 const navigateToComponent = (link: string) => {
@@ -516,6 +519,14 @@ const navigateToTokens = () => {
   height: 100%;
 }
 
+.hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
 .hero-badge {
   display: inline-block;
   padding: 4px 12px;
@@ -524,7 +535,20 @@ const navigateToTokens = () => {
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
-  margin-bottom: 16px;
+}
+
+.hero-badge-unstable {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #b45309;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .hero-title {

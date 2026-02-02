@@ -41,19 +41,19 @@ const dropdownRef = ref<HTMLElement | null>(null);
 const menuItems = [
   {
     label: 'Storybook Vue',
-    href: 'http://localhost:6006',
+    href: 'https://pacer-design-system-vue.vercel.app/?path=/docs/components-button--docs',
     target: '_blank',
     external: true,
   },
   {
     label: 'Storybook React',
-    href: 'http://localhost:6007',
+    href: 'https://pacer-design-system-react.vercel.app/',
     target: '_blank',
     external: true,
   },
   {
     label: 'GitHub',
-    href: 'https://github.com/pertamina/design-system',
+    href: 'https://github.com/prakasajudha/pacer-design-system',
     target: '_blank',
     external: true,
   },

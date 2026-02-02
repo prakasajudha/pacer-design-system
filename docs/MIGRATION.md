@@ -273,7 +273,7 @@ Need help migrating?
 Stay updated:
 - Subscribe to [changelog RSS](https://design-system.pertamina.com/changelog.xml)
 - Join [#announcements](slack://channel?id=announcements) on Slack
-- Watch [GitHub releases](https://github.com/pertamina/design-system/releases)
+- Watch [GitHub releases](https://github.com/prakasajudha/pacer-design-system/releases)
 
 ---
 

@@ -53,7 +53,7 @@ Visual Studio Code
 
 ```bash
 # 1. Fork & Clone
-git clone https://github.com/pertamina/design-system.git
+git clone https://github.com/prakasajudha/pacer-design-system.git
 cd design-system
 
 # 2. Install dependencies
@@ -455,7 +455,7 @@ Menggunakan Semantic Versioning:
 
 - **Slack**: #design-system
 - **Email**: design-system@pertamina.com
-- **Issues**: https://github.com/pertamina/design-system/issues
+- **Issues**: https://github.com/prakasajudha/pacer-design-system/issues
 
 ---
 

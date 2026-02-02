@@ -112,7 +112,7 @@ pertamina-design-system/
 
 ```bash
 # Clone repository
-git clone https://github.com/pertamina/design-system.git
+git clone https://github.com/prakasajudha/pacer-design-system.git
 cd design-system
 
 # Install dependencies
@@ -263,7 +263,7 @@ Proprietary and confidential. Unauthorized copying of this software is strictly 
 - [Storybook](https://storybook.pertamina.com)
 - [Changelog](./CHANGELOG.md)
 - [Contributing](./CONTRIBUTING.md)
-- [Issue Tracker](https://github.com/pertamina/design-system/issues)
+- [Issue Tracker](https://github.com/prakasajudha/pacer-design-system/issues)
 
 ## 👥 Team
 

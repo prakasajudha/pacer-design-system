@@ -108,7 +108,7 @@ module.exports = {
 
 - [Component Docs](https://design-system.pertamina.com/react)
 - [Storybook](https://storybook.pertamina.com/react)
-- [Examples](https://github.com/pertamina/design-system/tree/main/examples/react)
+- [Examples](https://github.com/prakasajudha/pacer-design-system/tree/main/examples/react)
 
 ---
 
@@ -191,7 +191,7 @@ module.exports = {
 
 - [Component Docs](https://design-system.pertamina.com/vue)
 - [Storybook](https://storybook.pertamina.com/vue)
-- [Examples](https://github.com/pertamina/design-system/tree/main/examples/vue)
+- [Examples](https://github.com/prakasajudha/pacer-design-system/tree/main/examples/vue)
 
 ---
 
@@ -267,7 +267,7 @@ dotnet add package Pertamina.DesignSystem.Blazor
 
 - [Component Docs](https://design-system.pertamina.com/blazor)
 - [API Reference](https://design-system.pertamina.com/blazor/api)
-- [Examples](https://github.com/pertamina/design-system/tree/main/examples/blazor)
+- [Examples](https://github.com/prakasajudha/pacer-design-system/tree/main/examples/blazor)
 
 ---
 
@@ -468,7 +468,7 @@ watch(isDark, (value) => {
 
 - [Documentation](https://design-system.pertamina.com)
 - [Storybook](https://storybook.pertamina.com)
-- [GitHub Examples](https://github.com/pertamina/design-system/tree/main/examples)
+- [GitHub Examples](https://github.com/prakasajudha/pacer-design-system/tree/main/examples)
 - [Video Tutorials](https://youtube.com/@pertamina-design-system)
 
 ---
@@ -477,8 +477,8 @@ watch(isDark, (value) => {
 
 - **Slack**: #design-system
 - **Email**: design-system@pertamina.com
-- **Issues**: [GitHub Issues](https://github.com/pertamina/design-system/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/pertamina/design-system/discussions)
+- **Issues**: [GitHub Issues](https://github.com/prakasajudha/pacer-design-system/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/prakasajudha/pacer-design-system/discussions)
 
 ---
 

@@ -147,7 +147,7 @@ export default defineConfig({
         ],
       },
     ],
-    socialLinks: [{ icon: 'github', link: 'https://github.com/pertamina/design-system' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/prakasajudha/pacer-design-system' }],
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025 Pertamina Patra Niaga',

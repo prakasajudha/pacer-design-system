@@ -13,7 +13,7 @@
     <Product>PACER - Pertamina Patra Niaga Components and Experience Resources</Product>
     <Description>Blazor Razor Component Library for PACER (Pertamina Patra Niaga Components and Experience Resources)</Description>
     <PackageTags>blazor;components;design-system;pertamina;ui;pacer</PackageTags>
-    <RepositoryUrl>https://github.com/pertamina/design-system</RepositoryUrl>
+    <RepositoryUrl>https://github.com/prakasajudha/pacer-design-system</RepositoryUrl>
     <PackageLicenseExpression>Proprietary</PackageLicenseExpression>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>

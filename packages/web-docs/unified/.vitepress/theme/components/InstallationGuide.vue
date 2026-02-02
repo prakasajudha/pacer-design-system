@@ -49,8 +49,13 @@
             </div>
             <h3 class="framework-title">{{ framework.name }}</h3>
             <p class="framework-description">{{ framework.description }}</p>
-            <div class="framework-badge">
-              <span>{{ framework.version }}</span>
+            <div class="framework-badges">
+              <div class="framework-badge">
+                <span>{{ framework.version }}</span>
+              </div>
+              <span v-if="framework.statusBadge" :class="['framework-status-badge', `framework-status-${(framework.statusBadge || '').toLowerCase()}`]">
+                {{ framework.statusBadge }}
+              </span>
             </div>
           </div>
         </div>
@@ -61,10 +66,32 @@
     <section v-if="selectedFramework" class="installation-steps-section">
       <div class="section-container">
         <div class="steps-header">
-          <h2 class="section-title">Installation</h2>
+          <div class="installation-title-row">
+            <h2 class="section-title">Installation</h2>
+            <span class="badge-on-progress">On progress</span>
+          </div>
           <p class="section-description">
             To manually set up PACER in your {{ getFrameworkName() }} project, follow the steps below.
           </p>
+          <div class="storybook-links">
+            <a
+              href="https://pacer-design-system-react.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="storybook-link"
+            >
+              Storybook React
+            </a>
+            <span class="link-sep">·</span>
+            <a
+              href="https://pacer-design-system-vue.vercel.app/?path=/docs/components-button--docs"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="storybook-link"
+            >
+              Storybook Vue
+            </a>
+          </div>
         </div>
 
         <div class="steps-container">
@@ -204,6 +231,7 @@ const frameworks = [
     name: 'Blazor',
     description: 'Native .NET 8 Blazor components',
     version: '.NET 8',
+    statusBadge: 'Unstable',
     icon: () => h('div', { class: 'blazor-icon' }, '⚡'),
   },
 ];
@@ -559,6 +587,14 @@ const copyToClipboard = async (text: string) => {
   margin: 0;
 }
 
+.framework-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .framework-badge {
   display: inline-block;
   background: #f3f4f6;
@@ -575,6 +611,24 @@ const copyToClipboard = async (text: string) => {
   color: white;
 }
 
+.framework-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.framework-status-unstable {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #b45309;
+}
+
 /* Installation Steps Section */
 .installation-steps-section {
   margin-bottom: 64px;
@@ -583,6 +637,59 @@ const copyToClipboard = async (text: string) => {
 .steps-header {
   text-align: center;
   margin-bottom: 48px;
+}
+
+.installation-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.badge-on-progress {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #b45309;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.storybook-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.storybook-link {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #0156C6;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.storybook-link:hover {
+  color: #003d8f;
+  text-decoration: underline;
+}
+
+.link-sep {
+  color: #9ca3af;
+  font-size: 14px;
+  user-select: none;
 }
 
 .steps-container {

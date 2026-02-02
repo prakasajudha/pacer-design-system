@@ -305,7 +305,7 @@ npm run test:a11y
 4. Test dengan keyboard (Tab, Enter, Escape)
 5. Test dengan screen reader
 
-Jika masih issue, [report bug](https://github.com/pertamina/design-system/issues).
+Jika masih issue, [report bug](https://github.com/prakasajudha/pacer-design-system/issues).
 
 ---
 
@@ -443,7 +443,7 @@ Join via: [Google Meet link]
 ### Bagaimana cara tau ada update?
 
 - Subscribe to [changelog RSS](https://design-system.pertamina.com/changelog.xml)
-- Watch [GitHub releases](https://github.com/pertamina/design-system/releases)
+- Watch [GitHub releases](https://github.com/prakasajudha/pacer-design-system/releases)
 - Join #announcements di Slack
 
 ### Apakah aman langsung update major version?
@@ -464,4 +464,4 @@ Join via: [Google Meet link]
 - 📧 Email: design-system@pertamina.com
 - 💬 Slack: #design-system
 - 📖 Docs: https://design-system.pertamina.com
-- 🐛 Issues: https://github.com/pertamina/design-system/issues
+- 🐛 Issues: https://github.com/prakasajudha/pacer-design-system/issues

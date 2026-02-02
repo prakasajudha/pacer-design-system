@@ -188,7 +188,7 @@ The documentation uses VitePress's default theme with PACER branding:
 
 ## 🔗 Links
 
-- Main Repository: [github.com/pertamina/design-system](https://github.com/pertamina/design-system)
+- Main Repository: [github.com/prakasajudha/pacer-design-system](https://github.com/prakasajudha/pacer-design-system)
 - NPM Organization: [@pacer-ui](https://www.npmjs.com/org/pacer-ui)
 - Storybook (React): [React Storybook](../../storybook/react)
 - Storybook (Vue): [Vue Storybook](../../storybook/vue)
@@ -207,7 +207,7 @@ When adding new component documentation:
 ## 🐛 Issues
 
 If you find issues in the documentation:
-1. Check existing [issues](https://github.com/pertamina/design-system/issues)
+1. Check existing [issues](https://github.com/prakasajudha/pacer-design-system/issues)
 2. Create a new issue with the `documentation` label
 3. Provide the page URL and description of the issue
 

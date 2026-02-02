@@ -26,10 +26,10 @@ Periksa daftar berikut:
 
 ## Bagaimana alur update versi?
 
-1. Lihat [CHANGELOG](https://github.com/pertamina/design-system/blob/main/CHANGELOG.md).
+1. Lihat [CHANGELOG](https://github.com/prakasajudha/pacer-design-system/blob/main/CHANGELOG.md).
 2. Perbarui paket menggunakan npm, pnpm, atau yarn.
 3. Jalankan Storybook dan tes otomatis sebelum deploy.
 
 ## Ingin melaporkan bug atau kontribusi?
 
-Silakan buka issue atau pull request setelah membaca [CONTRIBUTING](https://github.com/pertamina/design-system/blob/main/CONTRIBUTING.md).
+Silakan buka issue atau pull request setelah membaca [CONTRIBUTING](https://github.com/prakasajudha/pacer-design-system/blob/main/CONTRIBUTING.md).

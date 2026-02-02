@@ -535,7 +535,7 @@ dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json
 - **Documentation:** https://design-system.pertamina.com
 - **Slack:** #design-system
 - **Email:** design-system@pertamina.com
-- **GitHub:** https://github.com/pertamina/design-system
+- **GitHub:** https://github.com/prakasajudha/pacer-design-system
 
 ---
 

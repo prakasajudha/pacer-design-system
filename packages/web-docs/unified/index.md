@@ -81,6 +81,6 @@ Every component is designed to work identically across all frameworks:
 ## Community & Support
 
 - 📖 [Documentation](https://pacer-ui.pertamina.com)
-- 💬 [GitHub Discussions](https://github.com/pertamina/design-system/discussions)
-- 🐛 [Issue Tracker](https://github.com/pertamina/design-system/issues)
+- 💬 [GitHub Discussions](https://github.com/prakasajudha/pacer-design-system/discussions)
+- 🐛 [Issue Tracker](https://github.com/prakasajudha/pacer-design-system/issues)
 - 📦 [NPM Packages](https://www.npmjs.com/org/pacer-ui)
