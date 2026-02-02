@@ -11,7 +11,7 @@
         </div>
         <div class="hero-badges">
           <div class="hero-badge">.NET 8</div>
-          <span class="hero-badge-unstable">Unstable</span>
+          <PtBadge color="danger" variant="solid" type="rounded">Unstable</PtBadge>
         </div>
         <h1 class="hero-title">PACER for Blazor</h1>
         <p class="hero-description">
@@ -535,20 +535,6 @@ const navigateToTokens = () => {
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
-}
-
-.hero-badge-unstable {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  background: #fef3c7;
-  border: 1px solid #f59e0b;
-  border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #b45309;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .hero-title {

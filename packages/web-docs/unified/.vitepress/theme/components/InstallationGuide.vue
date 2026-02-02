@@ -53,9 +53,9 @@
               <div class="framework-badge">
                 <span>{{ framework.version }}</span>
               </div>
-              <span v-if="framework.statusBadge" :class="['framework-status-badge', `framework-status-${(framework.statusBadge || '').toLowerCase()}`]">
+              <PtBadge v-if="framework.statusBadge" :color="getStatusBadgeColor(framework.statusBadge)" variant="solid" type="rounded">
                 {{ framework.statusBadge }}
-              </span>
+              </PtBadge>
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@
         <div class="steps-header">
           <div class="installation-title-row">
             <h2 class="section-title">Installation</h2>
-            <span class="badge-on-progress">On progress</span>
+            <PtBadge color="warning" variant="solid" type="rounded">On progress</PtBadge>
           </div>
           <p class="section-description">
             To manually set up PACER in your {{ getFrameworkName() }} project, follow the steps below.
@@ -221,6 +221,7 @@ const frameworks = [
     name: 'Vue',
     description: 'Use PACER with Vue 3',
     version: 'Vue 3.4+',
+    statusBadge: 'Most stable',
     icon: () => h('svg', { viewBox: '0 0 24 24', fill: 'none', xmlns: 'http://www.w3.org/2000/svg', class: 'vue-logo' }, [
       h('path', { d: 'M12 2L2 19h5l5-8.5L17 19h5L12 2z', fill: '#42b883' }),
       h('path', { d: 'M17 19l-5-8.5L7 19h10z', fill: '#42b883', opacity: '0.5' }),
@@ -326,6 +327,12 @@ const blazorSteps = [
     info: 'All properties are strongly typed. IntelliSense works perfectly in Visual Studio!',
   },
 ];
+
+const getStatusBadgeColor = (statusBadge: string): 'success' | 'warning' | 'danger' => {
+  if (statusBadge?.toLowerCase().includes('stable') && !statusBadge?.toLowerCase().includes('unstable')) return 'success';
+  if (statusBadge?.toLowerCase().includes('unstable')) return 'danger';
+  return 'warning';
+};
 
 const selectFramework = (id: string) => {
   selectedFramework.value = id;
@@ -611,23 +618,6 @@ const copyToClipboard = async (text: string) => {
   color: white;
 }
 
-.framework-status-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.framework-status-unstable {
-  background: #fef3c7;
-  border: 1px solid #f59e0b;
-  color: #b45309;
-}
 
 /* Installation Steps Section */
 .installation-steps-section {
@@ -646,21 +636,6 @@ const copyToClipboard = async (text: string) => {
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 8px;
-}
-
-.badge-on-progress {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  background: #fef3c7;
-  border: 1px solid #f59e0b;
-  border-radius: 9999px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 12px;
-  color: #b45309;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .storybook-links {

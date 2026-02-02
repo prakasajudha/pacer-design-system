@@ -9,7 +9,10 @@
             <path fill="#35495e" d="M78.8,10L64,35.4L49.2,10H25.6L64,76l38.4-66H78.8z"/>
           </svg>
         </div>
-        <div class="hero-badge">Vue 3</div>
+        <div class="hero-badges">
+          <div class="hero-badge">Vue 3</div>
+          <PtBadge color="success" variant="solid" type="rounded">Most stable</PtBadge>
+        </div>
         <h1 class="hero-title">PACER for Vue</h1>
         <p class="hero-description">
           Build stunning Vue 3 applications with Composition API-first components. 
@@ -480,6 +483,14 @@ const navigateToTokens = () => {
   height: 100%;
 }
 
+.hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
 .hero-badge {
   display: inline-block;
   padding: 4px 12px;
@@ -488,7 +499,6 @@ const navigateToTokens = () => {
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
-  margin-bottom: 16px;
 }
 
 .hero-title {
