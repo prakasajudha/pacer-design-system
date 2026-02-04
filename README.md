@@ -258,15 +258,5 @@ Copyright © 2025 PT Pertamina Patra Niaga. All rights reserved.
 Proprietary and confidential. Unauthorized copying of this software is strictly prohibited.
 
 ## 🔗 Links
-
-- [Documentation](https://design-system.pertamina.com)
-- [Storybook](https://storybook.pertamina.com)
 - [Changelog](./CHANGELOG.md)
 - [Contributing](./CONTRIBUTING.md)
-- [Issue Tracker](https://github.com/prakasajudha/pacer-design-system/issues)
-
-## 📞 Support
-
-- Email: design-system@pertamina.com
-- Slack: #design-system
-- Documentation: https://design-system.pertamina.com
