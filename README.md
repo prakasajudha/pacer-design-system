@@ -253,7 +253,7 @@ Menggunakan Semantic Versioning (semver):
 
 ## 📄 License
 
-Copyright © 2025 PT Pertamina (Persero). All rights reserved.
+Copyright © 2025 PT Pertamina Patra Niaga. All rights reserved.
 
 Proprietary and confidential. Unauthorized copying of this software is strictly prohibited.
 
@@ -264,15 +264,6 @@ Proprietary and confidential. Unauthorized copying of this software is strictly 
 - [Changelog](./CHANGELOG.md)
 - [Contributing](./CONTRIBUTING.md)
 - [Issue Tracker](https://github.com/prakasajudha/pacer-design-system/issues)
-
-## 👥 Team
-
-Maintained by Pertamina Digital Technology Team
-
-- Design System Lead: [Name]
-- React Lead: [Name]
-- Vue Lead: [Name]
-- Blazor Lead: [Name]
 
 ## 📞 Support
 
