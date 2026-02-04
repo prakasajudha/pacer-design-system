@@ -23,7 +23,16 @@ The Button component consists of several key elements:
 
 ## Variants
 
-Button supports multiple variants: solid (primary), secondary, outline, ghost, link-primary, and link-secondary. Each variant serves different use cases and visual hierarchy.
+Button mendukung enam variant. Setiap variant punya tingkat penekanan (visual hierarchy) dan use case yang berbeda.
+
+| Variant | Deskripsi | Kapan dipakai |
+|--------|-----------|----------------|
+| **Solid (Primary)** | Background warna brand penuh. Paling menonjol. | Action utama dalam halaman (CTA utama), misal: Simpan, Kirim, Daftar. |
+| **Secondary** | Background putih, border & teks warna brand. | Action kedua setelah primary, misal: Batal di samping Simpan. |
+| **Outline** | Background putih, border abu, teks gelap. Tanpa fill. | Action tersier, navigasi sekunder, atau di dalam card/toolbar. |
+| **Ghost** | Background transparan, teks saja. Hover menampilkan background halus. | Toolbar, table actions, atau konteks di mana ruang terbatas. |
+| **Link Primary** | Gaya link, warna brand, tinggi 24px, underline on hover. | Action yang ingin terasa seperti link (misal di dalam paragraf). |
+| **Link Secondary** | Gaya link, warna netral (slate), tinggi 24px, underline on hover. | Link sekunder atau aksi tambahan dalam teks. |
 
 <div class="badge-image-grid">
   <div class="badge-image-item">
@@ -65,140 +74,16 @@ The layout and spacing of the button are crucial for its visual consistency and 
 
 <template #Implementation>
 
-## Visual Preview
+## Semua Variant (Ringkasan)
+
+Berikut tampilan keenam variant dalam satu tempat. Nilai prop: `solid` | `secondary` | `outline` | `ghost` | `link-primary` | `link-secondary`.
 
 <ComponentDemo>
-  <div class="flex gap-4 flex-wrap">
-    <PtButton variant="solid">Primary Button</PtButton>
-    <PtButton variant="secondary">Secondary Button</PtButton>
-    <PtButton variant="outline">Outline Button</PtButton>
-  </div>
-
-<template #react>
-
-```tsx
-import { Button } from '@pacer-ui/react';
-
-export default function App() {
-  return (
-    <div className="flex gap-4">
-      <Button variant="solid">Primary Button</Button>
-      <Button variant="secondary">Secondary Button</Button>
-      <Button variant="outline">Outline Button</Button>
-    </div>
-  );
-}
-```
-
-</template>
-
-<template #vue>
-
-```vue
-<script setup lang="ts">
-import { PtButton } from '@pacer-ui/vue';
-</script>
-
-<template>
-  <div class="flex gap-4">
-    <PtButton variant="solid">Primary Button</PtButton>
-    <PtButton variant="secondary">Secondary Button</PtButton>
-    <PtButton variant="outline">Outline Button</PtButton>
-  </div>
-</template>
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-@using Pertamina.DesignSystem.Blazor
-
-<div class="d-flex gap-3">
-    <PtButton Variant="ButtonVariant.Solid">Primary Button</PtButton>
-    <PtButton Variant="ButtonVariant.Secondary">Secondary Button</PtButton>
-    <PtButton Variant="ButtonVariant.Outline">Outline Button</PtButton>
-</div>
-```
-
-</template>
-</ComponentDemo>
-
-## Variants
-
-### Solid (Primary)
-
-Default variant with solid background.
-
-### Secondary
-
-Button with white background and colored border/text.
-
-### Outline
-
-Button with white background and border.
-
-### Ghost
-
-Button with transparent background.
-
-<ComponentDemo>
-  <div class="flex gap-4 flex-wrap">
-    <PtButton variant="ghost">Ghost Button</PtButton>
-  </div>
-
-<template #react>
-
-```tsx
-import { Button } from '@pacer-ui/react';
-
-export default function App() {
-  return (
-    <div className="flex gap-4">
-      <Button variant="ghost">Ghost Button</Button>
-    </div>
-  );
-}
-```
-
-</template>
-
-<template #vue>
-
-```vue
-<script setup lang="ts">
-import { PtButton } from '@pacer-ui/vue';
-</script>
-
-<template>
-  <div class="flex gap-4">
-    <PtButton variant="ghost">Ghost Button</PtButton>
-  </div>
-</template>
-```
-
-</template>
-
-<template #blazor>
-
-```razor
-@using Pertamina.DesignSystem.Blazor
-
-<div class="d-flex gap-3">
-    <PtButton Variant="ButtonVariant.Ghost">Ghost Button</PtButton>
-</div>
-```
-
-</template>
-</ComponentDemo>
-
-### Link Primary / Link Secondary
-
-Link-style buttons without background (24px height, underline on hover).
-
-<ComponentDemo>
-  <div class="flex gap-4 flex-wrap">
+  <div class="flex gap-4 flex-wrap items-center">
+    <PtButton variant="solid">Solid</PtButton>
+    <PtButton variant="secondary">Secondary</PtButton>
+    <PtButton variant="outline">Outline</PtButton>
+    <PtButton variant="ghost">Ghost</PtButton>
     <PtButton variant="link-primary">Link Primary</PtButton>
     <PtButton variant="link-secondary">Link Secondary</PtButton>
   </div>
@@ -210,7 +95,11 @@ import { Button } from '@pacer-ui/react';
 
 export default function App() {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 flex-wrap items-center">
+      <Button variant="solid">Solid</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
       <Button variant="link-primary">Link Primary</Button>
       <Button variant="link-secondary">Link Secondary</Button>
     </div>
@@ -228,7 +117,11 @@ import { PtButton } from '@pacer-ui/vue';
 </script>
 
 <template>
-  <div class="flex gap-4">
+  <div class="flex gap-4 flex-wrap items-center">
+    <PtButton variant="solid">Solid</PtButton>
+    <PtButton variant="secondary">Secondary</PtButton>
+    <PtButton variant="outline">Outline</PtButton>
+    <PtButton variant="ghost">Ghost</PtButton>
     <PtButton variant="link-primary">Link Primary</PtButton>
     <PtButton variant="link-secondary">Link Secondary</PtButton>
   </div>
@@ -242,10 +135,243 @@ import { PtButton } from '@pacer-ui/vue';
 ```razor
 @using Pertamina.DesignSystem.Blazor
 
-<div class="d-flex gap-3">
+<div class="d-flex gap-3 flex-wrap align-items-center">
+    <PtButton Variant="ButtonVariant.Solid">Solid</PtButton>
+    <PtButton Variant="ButtonVariant.Secondary">Secondary</PtButton>
+    <PtButton Variant="ButtonVariant.Outline">Outline</PtButton>
+    <PtButton Variant="ButtonVariant.Ghost">Ghost</PtButton>
     <PtButton Variant="ButtonVariant.LinkPrimary">Link Primary</PtButton>
     <PtButton Variant="ButtonVariant.LinkSecondary">Link Secondary</PtButton>
 </div>
+```
+
+</template>
+</ComponentDemo>
+
+## Penjelasan per Variant
+
+### Solid (Primary) — `variant="solid"`
+
+- **Tampilan:** Background warna brand (primary) penuh, teks putih.
+- **Kapan dipakai:** Satu CTA utama per konteks (Simpan, Kirim, Daftar, Lanjut).
+- **Default:** Ini variant default jika `variant` tidak diisi.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="solid">Simpan</PtButton>
+    <PtButton variant="solid" color="danger">Hapus</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+<Button variant="solid">Simpan</Button>
+<Button variant="solid" color="danger">Hapus</Button>
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<PtButton variant="solid">Simpan</PtButton>
+<PtButton variant="solid" color="danger">Hapus</PtButton>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+<PtButton Variant="ButtonVariant.Solid">Simpan</PtButton>
+<PtButton Variant="ButtonVariant.Solid" Color="ButtonColor.Danger">Hapus</PtButton>
+```
+
+</template>
+</ComponentDemo>
+
+### Secondary — `variant="secondary"`
+
+- **Tampilan:** Background putih, border dan teks warna brand.
+- **Kapan dipakai:** Action kedua (Batal, Kembali) atau opsi alternatif di samping primary.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="solid">Simpan</PtButton>
+    <PtButton variant="secondary">Batal</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+<Button variant="solid">Simpan</Button>
+<Button variant="secondary">Batal</Button>
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<PtButton variant="solid">Simpan</PtButton>
+<PtButton variant="secondary">Batal</PtButton>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+<PtButton Variant="ButtonVariant.Solid">Simpan</PtButton>
+<PtButton Variant="ButtonVariant.Secondary">Batal</PtButton>
+```
+
+</template>
+</ComponentDemo>
+
+### Outline — `variant="outline"`
+
+- **Tampilan:** Background putih, border abu (slate), teks gelap. Tanpa fill.
+- **Kapan dipakai:** Action tersier, navigasi sekunder, atau di dalam card/toolbar yang butuh emphasis lebih rendah.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="outline">Filter</PtButton>
+    <PtButton variant="outline">Ekspor</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+<Button variant="outline">Filter</Button>
+<Button variant="outline">Ekspor</Button>
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<PtButton variant="outline">Filter</PtButton>
+<PtButton variant="outline">Ekspor</PtButton>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+<PtButton Variant="ButtonVariant.Outline">Filter</PtButton>
+<PtButton Variant="ButtonVariant.Outline">Ekspor</PtButton>
+```
+
+</template>
+</ComponentDemo>
+
+### Ghost — `variant="ghost"`
+
+- **Tampilan:** Background transparan, teks gelap. Hover menampilkan background halus.
+- **Kapan dipakai:** Toolbar, table row actions, atau area padat di mana outline/solid terlalu berat.
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="ghost">Edit</PtButton>
+    <PtButton variant="ghost">Detail</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+<Button variant="ghost">Edit</Button>
+<Button variant="ghost">Detail</Button>
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<PtButton variant="ghost">Edit</PtButton>
+<PtButton variant="ghost">Detail</PtButton>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+<PtButton Variant="ButtonVariant.Ghost">Edit</PtButton>
+<PtButton Variant="ButtonVariant.Ghost">Detail</PtButton>
+```
+
+</template>
+</ComponentDemo>
+
+### Link Primary — `variant="link-primary"`
+
+- **Tampilan:** Seperti link: teks warna brand, tinggi 24px, tanpa padding penuh, underline on hover.
+- **Kapan dipakai:** Action yang ingin terasa seperti link (misal di dalam paragraf atau list).
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="link-primary">Baca selengkapnya</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+<Button variant="link-primary">Baca selengkapnya</Button>
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<PtButton variant="link-primary">Baca selengkapnya</PtButton>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+<PtButton Variant="ButtonVariant.LinkPrimary">Baca selengkapnya</PtButton>
+```
+
+</template>
+</ComponentDemo>
+
+### Link Secondary — `variant="link-secondary"`
+
+- **Tampilan:** Seperti link dengan warna netral (slate), tinggi 24px, underline on hover.
+- **Kapan dipakai:** Link atau aksi sekunder dalam teks, misal "Lewati" atau "Batalkan".
+
+<ComponentDemo>
+  <div class="flex gap-4 flex-wrap">
+    <PtButton variant="link-secondary">Lewati langkah ini</PtButton>
+  </div>
+
+<template #react>
+
+```tsx
+<Button variant="link-secondary">Lewati langkah ini</Button>
+```
+
+</template>
+
+<template #vue>
+
+```vue
+<PtButton variant="link-secondary">Lewati langkah ini</PtButton>
+```
+
+</template>
+
+<template #blazor>
+
+```razor
+<PtButton Variant="ButtonVariant.LinkSecondary">Lewati langkah ini</PtButton>
 ```
 
 </template>
