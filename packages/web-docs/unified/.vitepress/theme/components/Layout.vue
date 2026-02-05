@@ -1,5 +1,6 @@
 <template>
-  <div class="custom-layout">
+  <Maintenance v-if="isMaintenance" />
+  <div v-else class="custom-layout">
     <!-- Custom Navbar for all pages -->
     <CustomNavbar :sidebar-open="sidebarOpen" @toggle-sidebar="toggleSidebar" />
     
@@ -32,7 +33,12 @@ import Home from './Home.vue';
 import CustomNavbar from './CustomNavbar.vue';
 import CustomSidebar from './CustomSidebar.vue';
 import Footer from './Footer.vue';
+import Maintenance from './Maintenance.vue';
 import { ToastContainer } from '@pacer-ui/vue';
+
+// Simple on/off toggle for docs maintenance page
+// Set to true to show maintenance, false for normal docs
+const isMaintenance = true;
 
 const DefaultLayout = DefaultTheme.Layout;
 const route = useRoute();
